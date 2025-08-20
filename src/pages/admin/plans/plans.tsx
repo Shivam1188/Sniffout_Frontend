@@ -181,9 +181,9 @@ const handleDelete = async () => {
   <p className="font-medium">
     {(() => {
       try {
-        return JSON.parse(`"${r.features}"`);
+        return JSON.parse(`"${r.description}"`);
       } catch {
-        return r.features;
+        return r.description;
       }
     })()}
   </p>
@@ -194,7 +194,7 @@ const handleDelete = async () => {
       </td>
       <td className="p-4">
         <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-          {r.duration_unit}
+          {r.duration}
         </span>
       </td>
      <td className="p-4">

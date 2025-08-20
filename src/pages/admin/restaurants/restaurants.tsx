@@ -19,8 +19,6 @@ const Restaurants = () => {
       }
     };
   useEffect(() => {
-    
-
     fetchData();
   }, []);
 
@@ -141,53 +139,65 @@ const Restaurants = () => {
           </div>
 
           <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
-            <table className="min-w-full text-sm text-gray-700">
-              <thead>
-                <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
-                  <th className="p-4">Restaurant Name</th>
-                  <th className="p-4">Owner/Contact</th>
-                  <th className="p-4">Contact Info</th>
-                  <th className="p-4">Plan Type</th>
-                                 </tr>
-              </thead>
-              <tbody>
-                
-              {restaurants.map((r:any, index) => {
-
-  return (
-    <tr key={index} className="border-b border-gray-100 hover:bg-[#fefefe] transition">
-      <td className="p-4">
-        <div className="flex items-center gap-3">
-          <img
-            className="w-10 h-10 rounded-full object-cover border border-gray-200"
-            src={r.profile_image || "/roundchart.svg"}
-            alt="chartpie"
-          />
-          <div>
-            <p className="font-semibold text-gray-800">{r.restaurant_name || "Unnamed"}</p>
-            {/* <p className="text-xs text-gray-500">ID: {r.restaurant_id}</p> */}
-          </div>
-        </div>
-      </td>
-      <td className="p-4">
-        <p className="font-medium">{r.username}</p>
-        <p className="text-xs text-gray-500">{r.owner_role}</p>
-      </td>
-      <td className="p-4">
-        <p>{r.email}</p>
-        <p className="text-xs text-gray-500">{r.phone_number || "N/A"}</p>
-      </td>
-      <td className="p-4">
-        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-          {r.plan_type===null?"NO PLAN ":r.plan_type}
-        </span>
-      </td>
+           <table className="min-w-full text-sm text-gray-700">
+  <thead>
+    <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
+      <th className="p-4">Restaurant Name</th>
+      <th className="p-4">Owner/Contact</th>
+      <th className="p-4">Contact Info</th>
+      <th className="p-4">Plan Type</th>
     </tr>
-  );
-})}
+  </thead>
+  <tbody>
+    {restaurants.map((r: any, index: any) => {
+      const isEmptyRestaurant = !r.restaurant_name;
 
-              </tbody>
-            </table>
+      return (
+        <tr key={index} className="border-b border-gray-100 hover:bg-[#fefefe] transition">
+          <td className="p-4">
+            <div className="flex items-center gap-3">
+              {/* Profile Image or Email Initial */}
+              {r.profile_image ? (
+                <img
+                  className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                  src={r.profile_image}
+                  alt={r.restaurant_name || r.email}
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold border border-gray-200">
+                  {r.email ? r.email.charAt(0).toUpperCase() : "U"}
+                </div>
+              )}
+
+              <div>
+                <p className="font-semibold text-gray-800">
+                  {isEmptyRestaurant ? `NOT UPDATED YET` : r.restaurant_name}
+                </p>
+              </div>
+            </div>
+          </td>
+
+          <td className="p-4">
+            <p className="font-medium">{r.username}</p>
+            <p className="text-xs text-gray-500">{r.owner_role || "N/A"}</p>
+          </td>
+
+          <td className="p-4">
+            <p>{r.email}</p>
+            <p className="text-xs text-gray-500">{r.phone_number || "N/A"}</p>
+          </td>
+
+          <td className="p-4">
+            <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+              {r.plan_type === null ? "NO PLAN" : r.plan_type}
+            </span>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
+
           </div>
           {/* Pagination Section */}
           {/* <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-2 bg-white p-2 rounded-xl shadow-lg mt-4">
@@ -220,9 +230,6 @@ const Restaurants = () => {
             </div>
           </div> */}
         </div>
-
-       
-       
        <Restaurantscharts/>
       </div>
     </div>

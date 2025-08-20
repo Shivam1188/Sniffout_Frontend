@@ -117,7 +117,7 @@ const fetchData = async () => {
                <div className="flex items-center gap-3">
         
           <div>
-            <p className="font-semibold text-gray-800">{r.name || "Unnamed"}</p>
+            <p className="font-semibold text-gray-800">{r.plan_name || "Unnamed"}</p>
           </div>
         </div>
       </td>
@@ -125,9 +125,9 @@ const fetchData = async () => {
     <p className="font-medium">
     {(() => {
       try {
-        return JSON.parse(`"${r.features}"`);
+        return JSON.parse(`"${r.description}"`);
       } catch {
-        return r.features;
+        return r.description;
       }
     })()}
   </p>
@@ -138,7 +138,7 @@ const fetchData = async () => {
       </td>
       <td className="p-4">
         <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-          {r.duration_unit}
+          {r.duration}
         </span>
       </td>
      <td className="p-4">

@@ -173,7 +173,7 @@ const handleDelete = async () => {
         <div className="flex items-center gap-3">
         
           <div>
-            <p className="font-semibold text-gray-800">{r.name || "Unnamed"}</p>
+            <p className="font-semibold text-gray-800">{r.plan_name || "Unnamed"}</p>
           </div>
         </div>
       </td>

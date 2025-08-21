@@ -3,11 +3,7 @@ import {  Bell } from "lucide-react";
 import Sidebar from "../../../components/sidebar";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
-// import { toasterSuccess } from "../../../components/Toaster";
-// import Cookies from "js-cookie";
-
 const PlansDetails= () => {
-// const id = Cookies.get("id");
 
 const [sidebarOpen, setSidebarOpen] = useState(false);
 const [plans, setPlans] = useState([]);
@@ -25,32 +21,6 @@ const fetchData = async () => {
   fetchData();
 }, []);
 
-// const handleBuyPlan = async (name: any, e: any) => {
-//   e.preventDefault();
-
-//   const form = {
-//     plan: name,
-//     subadmin: id, // make sure `id` is defined in this scope
-//   };
-
-//   try {
-//     const response: any = await api.post("superadmin/create-stripe-session/", form);
-
-//     if (response.success) {
-//       toasterSuccess("Successfully added.", 4000, "id");
-
-//       // If API returns Stripe checkout URL
-//       if (response.data?.url) {
-//         window.location.href = response.data.url;
-//       }
-//     }
-//   } catch (err) {
-//     console.error("Add failed", err);
-//   }
-// };
-
-  
-  
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
     <aside

@@ -23,9 +23,7 @@ export default function PlanHistorydetail() {
   return (
     <div className="min-h-screen m-20 flex justify-center items-center bg-gray-50">
       <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full max-w-4xl">
-        
-        {/* Header with Back Button */}
-        <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
           <button
             onClick={handleBack}
             className="cursor-pointer flex items-center text-[#fe6a3c] font-medium hover:text-[#fe6a3c]/80 transition duration-200"
@@ -35,8 +33,6 @@ export default function PlanHistorydetail() {
           </button>
           <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">All Invoices</h2>
         </div>
-
-        {/* Subheading */}
         <p className="cursor-pointer text-sm text-gray-500">View the complete list of your billing history.</p>
 
         {/* Invoice List */}
@@ -81,7 +77,6 @@ export default function PlanHistorydetail() {
           )}
         </div>
 
-        {/* Optional Load More Button */}
         {history.length > 0 && (
           <div className="flex justify-center pt-6">
             <button className="px-6 py-2 bg-[#fe6a3c] text-white font-medium rounded-lg shadow-md hover:bg-[#fe6a3c]/90 transition duration-200">

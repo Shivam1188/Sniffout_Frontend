@@ -17,6 +17,7 @@ export default function PlansDet() {
   const [plans, setPlans] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_STRIPE_URL;
+const [userPlan, setUserPlan] = useState<any>({});
 
    useEffect(() => {
     const fetchPlan = async () => {
@@ -32,7 +33,20 @@ export default function PlansDet() {
     fetchPlan();
    }, [id]);
   
-   const features =plans && plans.description? plans.description.split("\n").map((item:any) => item.trim()).filter(Boolean) : [];
+  const fetchUserPlan = async () => {
+  try {
+    const response = await api.get(`${apiUrl}api/twilio_bot/check-validity/`);
+    setUserPlan(response.data);
+  } catch (error) {
+    console.error("Error fetching user plan", error);
+  }
+};
+
+useEffect(() => {
+  fetchUserPlan();
+}, []);
+  
+  const features = plans && plans.description ? plans.description.split("\n").map((item: any) => item.trim()).filter(Boolean) : [];
 
 const handleBuyPlan = async () => {
   const formData = {
@@ -51,21 +65,15 @@ const handleBuyPlan = async () => {
     });
 
     const data = await response.json();
-console.log(data,"====data==")
     if (response.ok && data.checkout_url) {
-      // Redirect user to the checkout page
       window.location.href = data.checkout_url;
     } else {
       console.error("Failed to create Stripe session:", data);
-      // Optionally show error message to user here
     }
   } catch (err) {
     console.error("Add failed", err);
-    // Optionally show error message to user here
   }
 };
-
-
 
   return (
     <>
@@ -110,44 +118,52 @@ console.log(data,"====data==")
           <div className=" bg-gray-50  text-gray-800 space-y-8 font-inter">
 
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-800">
-                Current Subscription
-              </h2>
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="bg-[#fe6a3c]/20 text-[#fe6a3c] p-3 rounded-full">
-                    <CheckCircle size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg">{plans.plan_name}</h3>
-                    <p className="text-sm text-gray-500">
-                      Unlimited access to all features
-                    </p>
-                  </div>
-                </div>
+              
+            <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
+  <h2 className="text-lg font-semibold text-gray-800">
+    Your Current Subscription
+  </h2>
 
-                <div className="text-right space-y-1">
-                  <p className="text-2xl font-bold text-[#fe6a3c]">
-                    ${plans.price}
-                    <span className="text-base font-medium text-gray-700">
-                      {" "}
-                      /{plans.duration}
-                    </span>
-                  </p>
-                  {/* <span className="text-xs font-semibold text-green-600">
-                    Active
-                  </span>
-                  <p className="text-xs text-gray-500">
-                    Renews on Oct 15, 2023
-                  </p> */}
-                </div>
-              </div>
+  {userPlan.plan_name ? (
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex items-center gap-4">
+        <div className="bg-[#fe6a3c]/20 text-[#fe6a3c] p-3 rounded-full">
+          <CheckCircle size={24} />
+        </div>
+        <div>
+          <h3 className="font-bold text-lg">{userPlan.plan_name}</h3>
+          <p className="text-sm text-gray-500">
+            Expires on: {new Date(userPlan.expiration_date).toLocaleDateString()}
+          </p>
+          <p className="text-sm text-gray-500">
+            Remaining days: {userPlan.remaining_days}
+          </p>
+        </div>
+      </div>
 
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 border-t border-gray-200">
-                <button onClick={handleBuyPlan } className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#fe6a3c]/90 transition w-full sm:w-auto">
-                  BUY PLAN
-                </button>
-              </div>
+      <div className="text-right space-y-1">
+        <p className="text-2xl font-bold text-[#fe6a3c]">
+          Active: {userPlan.active ? "Yes" : "No"}
+        </p>
+      </div>
+    </div>
+  ) : (
+    <p className="text-sm text-gray-500">You do not have an active plan.</p>
+  )}
+</div>
+
+
+           {!userPlan.active && (
+  <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 border-t border-gray-200">
+    <button
+      onClick={handleBuyPlan}
+      className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#fe6a3c]/90 transition w-full sm:w-auto"
+    >
+      BUY PLAN
+    </button>
+  </div>
+)}
+
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">

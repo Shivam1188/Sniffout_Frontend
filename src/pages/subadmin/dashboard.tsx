@@ -21,6 +21,7 @@ const App = () => {
   const navigate = useNavigate();
   const [recentlyRes, setrecentlyRes] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchRecentlyCalls = async () => {
@@ -43,37 +44,25 @@ const App = () => {
     fetchRecentlyCalls();
   }, []);
 
-  const monthlyData = [
-    { month: "January", revenue: 50, expense: 20 },
-    { month: "February", revenue: 80, expense: -20 },
-    { month: "March", revenue: 60, expense: 0 },
-    { month: "April", revenue: 80, expense: 40 },
-    { month: "May", revenue: 60, expense: 20 },
-    { month: "June", revenue: 40, expense: -10 },
-  ];
+ useEffect(() => {
+    const fetchMonthlyData = async () => {
+      try {
+        const response = await api.get("superadmin/earnings/monthly/")
+        // Use only monthly data as returned
+        setChartData(response.data);
+      } catch (error) {
+        console.error("Error fetching monthly earnings:", error);
+      }
+    };
 
-  // Dummy Yearly Data
-  const yearlyData = [
-    { year: "2021", revenue: 500, expense: 200 },
-    { year: "2022", revenue: 800, expense: 400 },
-    { year: "2023", revenue: 650, expense: 300 },
-    { year: "2024", revenue: 900, expense: 500 },
-    { year: "2025", revenue: 700, expense: 350 },
-  ];
+    fetchMonthlyData();
+  }, []);
 
-  // const planData = [
-  //   { name: "Entry Level", value: 742 },
-  //   { name: "Standard", value: 356 },
-  //   { name: "Premium", value: 98 },
-  //   { name: "Enterprise", value: 52 },
-  // ];
-  // const COLORS = ["#1d3faa", "#fe6a3c", "#2ecc71", "#34495e"];
 
   const displayed = recentlyRes.slice(0, 4); // Only first 4 items
   const [view, setView] = useState("monthly"); // monthly | yearly
 
   // Pick data based on selection
-  const chartData = view === "monthly" ? monthlyData : yearlyData;
   const xKey = view === "monthly" ? "month" : "year";
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
@@ -153,32 +142,23 @@ const App = () => {
                 >
                   Monthly
                 </button>
-                <button
-                  onClick={() => setView("yearly")}
-                  className={`cursor-pointer px-3 py-1 rounded-lg text-sm font-medium transition ${view === "yearly"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                    }`}
-                >
-                  Yearly
-                </button>
               </div>
             </div>
 
             {/* Chart */}
-            <div className="p-2 rounded-lg">
-              <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey={xKey} />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="revenue" stroke="#1d3faa" strokeWidth={2} />
-                  <Line type="monotone" dataKey="expense" stroke="#fe6a3c" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+             <div className="p-2 rounded-lg">
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="period" /> {/* month name */}
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="revenue" stroke="#1d3faa" strokeWidth={2} />
+          <Line type="monotone" dataKey="expense" stroke="#fe6a3c" strokeWidth={2} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
           </div>
 
           {/* Pie Chart */}

@@ -1,7 +1,7 @@
 import api from "../../../lib/Api";
 import  { useEffect, useState } from "react";
 import { Menu, X,Bell } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../../components/sidebar";
 import PaymentForm from "../../../components/PaymentForm";
 import { CheckCircle } from "lucide-react";
@@ -35,7 +35,7 @@ const [userPlan, setUserPlan] = useState<any>({});
   
   const fetchUserPlan = async () => {
   try {
-    const response = await api.get(`${apiUrl}api/twilio_bot/check-validity/`);
+    const response = await api.get(`twilio_bot/check-validity/`);
     setUserPlan(response.data);
   } catch (error) {
     console.error("Error fetching user plan", error);
@@ -107,6 +107,17 @@ const handleBuyPlan = async () => {
               <p className="text-sm text-white">
                 Overview of Plans
               </p>
+
+              
+            </div>
+               <div className="flex justify-end">
+    <Link
+  to="/subadmin/plan"
+  className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+>
+  ← BACK TO PLANS
+</Link>
+
             </div>
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -136,14 +147,14 @@ const handleBuyPlan = async () => {
             Expires on: {new Date(userPlan.expiration_date).toLocaleDateString()}
           </p>
           <p className="text-sm text-gray-500">
-            Remaining days: {userPlan.remaining_days}
+            Remaining days: {userPlan.message}
           </p>
         </div>
       </div>
 
       <div className="text-right space-y-1">
         <p className="text-2xl font-bold text-[#fe6a3c]">
-          Active: {userPlan.active ? "Yes" : "No"}
+          Active: {userPlan.has_active_plan ? "Yes" : "No"}
         </p>
       </div>
     </div>
@@ -153,7 +164,7 @@ const handleBuyPlan = async () => {
 </div>
 
 
-           {!userPlan.active && (
+           {!userPlan.has_active_plan && (
   <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 border-t border-gray-200">
     <button
       onClick={handleBuyPlan}
@@ -163,9 +174,7 @@ const handleBuyPlan = async () => {
     </button>
   </div>
 )}
-
             </div>
-
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800">
                 Plan Features
@@ -182,8 +191,8 @@ const handleBuyPlan = async () => {
       </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              <CardDetailsSection/>
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6 md:gap-8">
+              {/* <CardDetailsSection/> */}
               <BillingHistory id={id} />
             </div>
           </div>

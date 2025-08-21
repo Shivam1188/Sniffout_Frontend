@@ -118,7 +118,6 @@ const AuthForm = ({
                     toasterSuccess("Password reset link sent! Check your email.", 4000, "id");
                     navigate("/");
                 } else {
-                    console.log(response.data.data.user,"===responses===")
                     Cookies.set("token", response?.data?.data?.tokens?.access, { expires: 1 });
                     Cookies.set("email", response?.data?.data?.email || response?.data?.data?.user?.email, { expires: 1 });
                     Cookies.set("role", response.data?.data?.role || response.data?.data?.user?.role, { expires: 1 });
@@ -126,8 +125,6 @@ const AuthForm = ({
                     Cookies.set("id", response?.data?.data?.user_id || response?.data?.data?.user?.id, { expires: 7 });
   
                     const role = response.data?.data?.role || response.data?.data?.user?.role;
-
-                    // Redirect based on role
                     if (role === "admin") {
                         navigate("/admin/dashboard");
                     } else if (role === "subdir") {

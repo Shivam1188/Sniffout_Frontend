@@ -145,29 +145,6 @@ const AdminDashboard = () => {
             </div>
 
             <div className="space-y-4">
-              {/* {displayed.map((item: any, index: any) => (
-                console.log(`${apiUrl}${item.profile_image}`),
-                <div
-                  key={index}
-                  className="flex justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      alt={item.restaurant_name}
-                      src={`${apiUrl}${item.profile_image}`}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold text-gray-800">{item.restaurant_name}</p>
-                      <p className="text-sm text-gray-500">{item.plan_name}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs bg-[#fe6a3c]/10 text-[#fe6a3c] px-2.5 py-1 rounded-full font-medium">
-                    New
-                  </span>
-                </div>
-              ))} */}
-
 <div className="space-y-4">
   {displayed.map((item: any, index: any) => {
     const isEmptyRestaurant =

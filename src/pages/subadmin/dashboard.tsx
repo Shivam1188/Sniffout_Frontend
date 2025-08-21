@@ -62,8 +62,6 @@ const App = () => {
   const displayed = recentlyRes.slice(0, 4); // Only first 4 items
   const [view, setView] = useState("monthly"); // monthly | yearly
 
-  // Pick data based on selection
-  const xKey = view === "monthly" ? "month" : "year";
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Sidebar */}

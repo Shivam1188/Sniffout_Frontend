@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../../components/sidebar";
 import PaymentForm from "../../../components/PaymentForm";
 import { CheckCircle } from "lucide-react";
-import CardDetailsSection from "../../../components/CardDetailsSection";
 import BillingHistory from "../../../components/BillingHistory";
 import Cookies from "js-cookie";
 

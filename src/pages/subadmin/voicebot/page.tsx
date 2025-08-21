@@ -5,6 +5,7 @@ import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
 import { Bell } from "lucide-react";
+import LoadingSpinner from "../../../components/Loader";
 
 const VoiceBotDashboard = () => {
   const id = Cookies.get("id");
@@ -83,7 +84,7 @@ const [idUpdate,setId]=useState("")
     }
   };
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading) return <div className="p-4"><LoadingSpinner/></div>;
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">

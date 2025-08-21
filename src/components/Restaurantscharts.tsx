@@ -10,6 +10,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import LoadingSpinner from "./Loader";
 
 export default function Restaurantscharts() {
   const [stats, setStats] = useState<any>(null);
@@ -154,7 +155,7 @@ export default function Restaurantscharts() {
       </BarChart>
     </ResponsiveContainer>
   ) : (
-    <div className="flex items-center justify-center h-full text-gray-400">Loading chart...</div>
+    <div className="flex items-center justify-center h-full text-gray-400"><LoadingSpinner/></div>
   )}
 </div>
 

@@ -5,6 +5,7 @@ import Sidebar from "../../../components/sidebar";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
+import LoadingSpinner from "../../../components/Loader";
 
 const ManageLinks = () => {
   const userid = Cookies.get("id");
@@ -154,7 +155,7 @@ const handleSave = async (e: any) => {
     fetchLinks();
   }, []);
 
-  if (loading) return <p className="p-6">Loading...</p>;
+  if (loading) return <p className="p-6"><LoadingSpinner/></p>;
 
   const renderInput = (label: string, name:any) => (
     <div >

@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import api from "../../../lib/Api";
 import Sidebar from "../../../components/sidebar";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
+import LoadingSpinner from "../../../components/Loader";
 
 export default function BusinessHoursList() {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const handleDelete = async () => {
 
 
   if (loading) {
-    return <p className="text-center py-6 text-gray-500">Loading...</p>;
+    return <p className="text-center py-6 text-gray-500"><LoadingSpinner/></p>;
   }
 
   return (

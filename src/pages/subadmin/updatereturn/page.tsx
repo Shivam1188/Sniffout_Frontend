@@ -4,6 +4,7 @@ import Sidebar from "../../../components/sidebar";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
+import LoadingSpinner from "../../../components/Loader";
 
 const UpdateReturn = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -241,7 +242,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     setProfileImage("");
   };
 
-  if (loading) return <div className="p-8">Loading profile...</div>;
+  if (loading) return <div className="p-8"><LoadingSpinner/></div>;
 
   const anyFieldFilled = Object.values(profile).some(
     (val) => val !== null && val !== ""

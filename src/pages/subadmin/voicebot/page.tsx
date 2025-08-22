@@ -11,11 +11,8 @@ const VoiceBotDashboard = () => {
   const [previewMessage, setPreviewMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [isDataLoaded, setIsDataLoaded] = useState(false); // New state
-const [idUpdate,setId]=useState("")
-  // const handleToggle = (key: any) => {
-  //   setToggles({ ...toggles, [key]: !toggles[key] });
-  // };
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [idUpdate, setId] = useState("");
 
   useEffect(() => {
     const fetchMessage = async () => {
@@ -24,15 +21,15 @@ const [idUpdate,setId]=useState("")
         const data = res.data.results?.[0]; // get the first item from results
         if (data) {
           setPreviewMessage(data.processed_message || data.message || "");
-          setId(data.id)
-          setIsDataLoaded(true); // Mark data as loaded
+          setId(data.id);
+          setIsDataLoaded(true); // Data exists
         } else {
-          setIsDataLoaded(false); // No data found, so disable saving
+          setIsDataLoaded(false); // No data found
         }
       } catch (err) {
         console.error(err);
         toasterError("Failed to load SMS fallback message", 2000, "id");
-        setIsDataLoaded(false); // On error, disable saving
+        setIsDataLoaded(false);
       } finally {
         setLoading(false);
       }
@@ -54,24 +51,25 @@ const [idUpdate,setId]=useState("")
       setSaving(true);
 
       if (isDataLoaded) {
-        // If data is already loaded, use PUT to update
+        // Update existing message
         const res = await api.put(`subadmin/sms-fallback-settings/${idUpdate}/`, {
           message,
           restaurant: id,
         });
         setPreviewMessage(res.data.preview || message);
         toasterSuccess("SMS fallback message updated successfully!", 2000, "id");
-        setMessage("")
-
+        setMessage("");
       } else {
-        // If no data loaded, use POST to create new
+        // Create new message
         const previewRes = await api.post("subadmin/sms-fallback-settings/", {
           message,
           restaurant: id,
         });
         setPreviewMessage(previewRes.data.preview || message);
         toasterSuccess("SMS fallback message created successfully!", 2000, "id");
-        setMessage("")
+        setMessage("");
+        setIsDataLoaded(true); // Now data exists after creation
+        setId(previewRes.data.id); // Save new ID for future updates
       }
     } catch (err) {
       console.error(err);
@@ -81,11 +79,10 @@ const [idUpdate,setId]=useState("")
     }
   };
 
-  if (loading) return <div className="p-4"><LoadingSpinner/></div>;
+  if (loading) return <div className="p-4"><LoadingSpinner /></div>;
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
       <div className="flex-1 p-6">
         <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">
           <h1 className="text-lg sm:text-xl font-bold text-white">Voice Bot Settings</h1>
@@ -128,7 +125,7 @@ const [idUpdate,setId]=useState("")
               <div className="text-right mt-4">
                 <button
                   onClick={handleSave}
-                  disabled={saving || !isDataLoaded}
+                  disabled={saving}
                   className="cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800"
                 >
                   {saving ? "Saving..." : isDataLoaded ? "Save Changes" : "Create Message"}

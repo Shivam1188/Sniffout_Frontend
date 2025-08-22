@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import api from "../../../lib/Api";
-import Sidebar from "../../../components/sidebar";
-import { Bell } from "lucide-react";
+import { toasterSuccess } from "../../../components/Toaster";
 
 export default function EditMenu() {
   const { id } = useParams(); 
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,7 +38,7 @@ export default function EditMenu() {
     setLoading(true);
     try {
       await api.put(`subadmin/menu/${id}/`, formData);
-      alert("Menu updated successfully!");
+      toasterSuccess("Menu updated successfully!",2000,"id");
       navigate("/subadmin/menu");
     } catch (err) {
       console.error("Error updating menu:", err);
@@ -51,28 +49,7 @@ export default function EditMenu() {
 
   return (
   <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <aside
-        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:block`}
-      >
-        <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-          <div className="bg-[#fe6a3c] rounded-full p-2">
-            <Bell size={16} className="text-white" />
-          </div>
-          <div>
-            <p className="font-medium">SniffOut AI</p>
-          </div>
-        </div>
 
-        <Sidebar />
-      </aside>
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
       <div className="flex-1 p-6">
 

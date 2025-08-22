@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../components/sidebar";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
-import { Bell } from "lucide-react";
 import LoadingSpinner from "../../../components/Loader";
 
 const VoiceBotDashboard = () => {
   const id = Cookies.get("id");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [previewMessage, setPreviewMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -88,27 +85,6 @@ const [idUpdate,setId]=useState("")
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <aside
-        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:block`}
-      >
-           {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-[#0000008f] bg-opacity-50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-        <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-          <div className="bg-[#fe6a3c] rounded-full p-2">
-            <Bell size={16} className="text-white" />
-          </div>
-          <div>
-            <p className="font-medium">SniffOut AI</p>
-          </div>
-        </div>
-        <Sidebar />
-      </aside>
 
       <div className="flex-1 p-6">
         <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">

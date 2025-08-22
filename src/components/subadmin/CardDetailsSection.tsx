@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import PaymentForm from "./PaymentForm";
+import PaymentForm from "../PaymentForm";
 import { CreditCard } from "lucide-react";
 
 export default function CardDetailsSection() {

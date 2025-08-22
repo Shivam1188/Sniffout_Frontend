@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
-import { X, Bell, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
+import { X, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../../lib/Api";
-import Sidebar from "../../../components/sidebar";
-
+import { toasterError, toasterSuccess } from "../../../components/Toaster";
 
 function MenuItems() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuList, setMenuList] = useState([]);
-  const [deleteId, setDeleteId] = useState<any>(null); // Store item to delete
+  const [deleteId, setDeleteId] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(true); // ⬅ loader state
 
   useEffect(() => {
     const fetchMenusitems = async () => {
       try {
+        setLoading(true);
         const res = await api.get("subadmin/menu-items/");
         setMenuList(res.data?.results || []);
       } catch (err) {
         console.error("Failed to fetch menus", err);
+      } finally {
+        setLoading(false); // always stop loader
       }
     };
 
@@ -30,46 +33,31 @@ function MenuItems() {
     setShowDeleteModal(true);
   };
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    try {
-      await api.delete(`subadmin/menu-items/${deleteId}/`);
+const handleDelete = async () => {
+  if (!deleteId) return;
+  try {
+    const res = await api.delete(`subadmin/menu-items/${deleteId}/`);
+
+    if (res?.success) {
+      toasterSuccess( "Menu item deleted successfully", "2000", "id");
+
       setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
       setShowDeleteModal(false);
       setDeleteId(null);
-    } catch (err) {
-      console.error("Error deleting menu:", err);
+    } else {
+      toasterError("Failed to delete menu item", "2000", "id");
     }
-  };
+  } catch (err) {
+    console.error("Error deleting menu:", err);
+    toasterError("Something went wrong while deleting menu item", "2000", "id");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Sidebar */}
-      <aside
-        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 md:block`}
-      >
-        {/* Notification */}
-        <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-          <div className="bg-[#fe6a3c] rounded-full p-2">
-            <Bell size={16} className="text-white" />
-          </div>
-          <div>
-            <p className="font-medium">SniffOut AI</p>
-            {/* <p className="text-sm text-gray-500">5 min ago</p> */}
-          </div>
-        </div>
 
-        <Sidebar />
-      </aside>
-
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-[#0000008f] z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
       {/* Main content */}
       <div className="flex-1 p-8">
@@ -78,7 +66,7 @@ function MenuItems() {
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">Menu Items</h1>
           </div>
-           <div className="flex-shrink-0">
+          <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
@@ -101,7 +89,7 @@ function MenuItems() {
               <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
                 Menu Items
               </h1>
-              
+
               <Link
                 to={"/subadmin/menu-items/add-menu-items"}
                 className="text-sm text-white bg-[#fe6a3c] hover:bg-[#fd8f61] px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center"
@@ -117,12 +105,39 @@ function MenuItems() {
                     <th className="py-3 px-4 text-left">Menu Name</th>
                     <th className="py-3 px-4 text-left">Menu Items Name</th>
                     <th className="py-3 px-4 text-left">Description</th>
-                    
                     <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {menuList.length > 0 ? (
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} className="text-center py-10">
+                        <div className="flex flex-col justify-center items-center gap-3 text-gray-500">
+                          <svg
+                            className="animate-spin h-10 w-10 text-[#1d3faa]"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            ></path>
+                          </svg>
+                          <span className="font-medium">Loading menu items...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : menuList.length > 0 ? (
                     menuList.map((menu: any, index: any) => (
                       <tr
                         key={menu.id}
@@ -132,7 +147,6 @@ function MenuItems() {
                         <td className="py-3 px-4 font-medium text-left">{menu.menu_name}</td>
                         <td className="py-3 px-4 font-medium text-left">{menu.name}</td>
                         <td className="py-3 px-4 text-left">{menu.description}</td>
-                                               
                         <td className="py-3 px-4 text-center space-x-4">
                           <button
                             onClick={() => navigate(`/subadmin/edit-menu-items/${menu.id}`)}
@@ -152,7 +166,7 @@ function MenuItems() {
                   ) : (
                     <tr>
                       <td colSpan={6} className="text-center py-6 text-gray-500">
-                        No menu Items available.
+                        No menu items available.
                       </td>
                     </tr>
                   )}
@@ -186,7 +200,6 @@ function MenuItems() {
             </div>
           </div>
         </div>
-
       )}
     </div>
   );

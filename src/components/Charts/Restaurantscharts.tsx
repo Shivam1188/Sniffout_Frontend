@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import api from "../lib/Api";
 import {
   BarChart,
   Bar,
@@ -10,7 +9,8 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import LoadingSpinner from "./Loader";
+import api from "../../lib/Api";
+import LoadingSpinner from "../Loader";
 
 export default function Restaurantscharts() {
   const [stats, setStats] = useState<any>(null);

@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import {  Bell } from "lucide-react";
-import Sidebar from "../../../components/sidebar";
+
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
 
 const Plans = () => {
-
-const [sidebarOpen, setSidebarOpen] = useState(false);
 const [plans, setPlans] = useState([]);
 const [showDeleteModal, setShowDeleteModal] = useState(false);
 const [restaurantToDelete, setRestaurantToDelete] = useState<any>(null);
@@ -104,29 +101,6 @@ const handleDelete = async () => {
 
 )}
 
-      <aside
-        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:block`}
-      >
-        <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-          <div className="bg-[#fe6a3c] rounded-full p-2">
-            <Bell size={16} className="text-white" />
-          </div>
-          <div>
-            <p className="font-medium">SniffOut AI</p>
-            {/* <p className="text-sm text-gray-500">5 min ago</p> */}
-          </div>
-        </div>
-
-        <Sidebar />
-      </aside>
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
 
       <div className="flex-1 p-6">
 

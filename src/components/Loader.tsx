@@ -19,17 +19,17 @@ interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg";
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = "md" }) => {
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = "lg" }) => {
   const sizes = {
-    sm: "w-5 h-5",
-    md: "w-8 h-8",
-    lg: "w-12 h-12",
+    sm: "w-6 h-6",
+    md: "w-12 h-12",
+    lg: "w-16 h-16",
   };
 
   return (
     <div className="flex justify-center items-center">
       <div
-        className={`animate-spin rounded-full border-t-2 border-b-2 border-[#fe6a3c] ${sizes[size]}`}
+        className={`animate-spin ${sizes[size]} rounded-full border-4 border-t-transparent border-b-transparent border-blue-400 border-l-blue-500 border-r-blue-600`}
       ></div>
     </div>
   );

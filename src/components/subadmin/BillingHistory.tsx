@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FileText, ChevronRight } from "lucide-react";
 import {  useNavigate } from "react-router-dom";  // To handle redirection
-import api from "../lib/Api";
+import api from "../../lib/Api";
 
 export default function BillingHistory({id}:any) {
   const [history, setHistory] = useState<any[]>([]);
@@ -9,10 +9,10 @@ export default function BillingHistory({id}:any) {
   
   useEffect(() => {
     api.get("superadmin/billing-history/") 
-      .then((res) => {
+      .then((res:any) => {
         setHistory(res.data); 
       })
-      .catch((err) => console.error(err));
+      .catch((err:any) => console.error(err));
   }, []);
 
   const handleViewAll = () => {

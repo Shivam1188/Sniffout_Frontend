@@ -6,6 +6,7 @@ import ForgotPassword from "./pages/auth/forgotPassword.tsx";
 import ResetPassword from "./pages/auth/reset-password.tsx";
 import ToastProvider from "./components/ToasterProvider.tsx";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Cookies from "js-cookie";
 
 // Admin pages
 import AdminDashboard from "./pages/admin/dashboard.tsx";
@@ -41,6 +42,7 @@ import AddBusinessHour from "./pages/subadmin/business-hour/add-business-hour.ts
 import Unauthorized from "./pages/unauthorized.tsx";
 import PaymentCancel from "./pages/subadmin/paymentCancel/page.tsx";
 import PlanHistorydetail from "./pages/subadmin/plan/planHistorydetail.tsx";
+import Layout from "./components/Layout.tsx";
 
 const AppRouter = () => {
   return (
@@ -49,11 +51,25 @@ const AppRouter = () => {
 
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
+<Route
+  path="/"
+  element={
+    Cookies.get("token") && Cookies.get("role") ? (
+      Cookies.get("role") === "admin" ? (
+        <Navigate to="/admin/dashboard" replace />
+      ) : (
+        <Navigate to="/subadmin/dashboard" replace />
+      )
+    ) : (
+      <Navigate to="/auth/login" replace />
+    )
+  }
+/>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
+  <Route element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}>
 
         {/* Admin Routes */}
         <Route
@@ -112,6 +128,8 @@ const AppRouter = () => {
             <ProtectedRoute allowedRole="admin" element={<EditRestaurant />} />
           }
         />
+  </Route>
+  <Route element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}>
 
         {/* Subadmin Routes */}
         <Route
@@ -247,7 +265,9 @@ const AppRouter = () => {
               element={<PlanHistorydetail />}
             />
           }
-        />
+          />
+            </Route>
+
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </BrowserRouter>

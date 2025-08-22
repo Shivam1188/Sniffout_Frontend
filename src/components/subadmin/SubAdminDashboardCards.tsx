@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../lib/Api";
+import api from "../../lib/Api";
 
 export default function SubadminDashboardCards() {
   const [stats, setStats] = useState<any>({

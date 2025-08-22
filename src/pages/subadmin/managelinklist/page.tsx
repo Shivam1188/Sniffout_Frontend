@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { Bell } from "lucide-react";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../components/sidebar";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
@@ -10,7 +8,6 @@ import LoadingSpinner from "../../../components/Loader";
 const ManageLinks = () => {
   const userid = Cookies.get("id");
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [recordId, setRecordId] = useState<string | null>(null);
   const [hasData, setHasData] = useState(false);
@@ -176,27 +173,7 @@ const handleSave = async (e: any) => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Sidebar */}
-      <aside
-        className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:block`}
-      >
-        <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-          <div className="bg-[#fe6a3c] rounded-full p-2">
-            <Bell size={16} className="text-white" />
-          </div>
-          <div>
-            <p className="font-medium">SniffOut AI</p>
-          </div>
-        </div>
-        <Sidebar />
-      </aside>
-   {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-[#0000008f] bg-opacity-50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+     
       {/* Main */}
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../lib/Api"; // Adjust path as needed
+import { toasterSuccess } from "../../../components/Toaster";
 
 export default function AddMenuItems() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ export default function AddMenuItems() {
         menu: parseInt(formData.menu, 10),
       };
       await api.post("subadmin/menu-items/", payload);
-      alert("Menu Item Added Successfully!");
+      toasterSuccess("Menu Item Added Successfully!",2000,"id");
       navigate("/subadmin/menu-items");
     } catch (error) {
       console.error("Error adding menu item:", error);

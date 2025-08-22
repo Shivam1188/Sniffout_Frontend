@@ -1,12 +1,11 @@
 import api from "../../../lib/Api";
 import  { useEffect, useState } from "react";
-import { Menu, X,Bell } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import Sidebar from "../../../components/sidebar";
 import PaymentForm from "../../../components/PaymentForm";
 import { CheckCircle } from "lucide-react";
-import BillingHistory from "../../../components/BillingHistory";
 import Cookies from "js-cookie";
+import BillingHistory from "../../../components/subadmin/BillingHistory";
 
 export default function PlansDet() {
   const { id } = useParams();
@@ -77,27 +76,7 @@ const handleBuyPlan = async () => {
   return (
     <>
       <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-        <aside
-          className={`fixed md:sticky top-0 left-0 z-40 w-64 h-screen bg-gradient-to-br from-[#1d3faa] to-[#fe6a3c] p-6 transition-transform duration-300 transform md:transform-none ${
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 md:block`}
-        >
-          <div className="flex items-center gap-3 mb-4 mt-4 p-3 bg-gray-50 rounded-lg">
-            <div className="bg-[#fe6a3c] rounded-full p-2">
-              <Bell size={16} className="text-white" />
-            </div>
-            <div>
-              <p className="font-medium">SniffOut AI</p>
-            </div>
-          </div>
-          <Sidebar />        
-        </aside>
-        {sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-[#0000008f] bg-opacity-50 z-30 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
+      
       {isOpen && <PaymentForm onClose={() => setIsOpen(false)} />}  
         <div className="flex-1 p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">

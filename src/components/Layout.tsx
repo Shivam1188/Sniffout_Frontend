@@ -32,7 +32,7 @@ const Layout = () => {
       )}
 
       {/* Main content */}
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
     </div>

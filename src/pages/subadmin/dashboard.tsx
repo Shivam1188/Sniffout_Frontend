@@ -64,7 +64,7 @@ const App = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Sidebar */}
-    
+  
 
       {/* Main Content */}
       <div className="flex-1 p-7">

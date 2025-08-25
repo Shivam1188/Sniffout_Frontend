@@ -339,7 +339,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         type="file"
         accept="image/*"
         onChange={handleImageChange}
-        className="cursor-pointer block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-[#fe6a3c] file:text-white hover:file:bg-[#fd8f61]"
+        className="w-32 h-32 cursor-pointer block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-[#fe6a3c] file:text-white hover:file:bg-[#fd8f61]"
       />
     </>
   )}

@@ -371,7 +371,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-[#fe6a3c]"

@@ -90,12 +90,12 @@ export default function EditMenuItems() {
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
-    <Link
-  to="/subadmin/menu-items"
-  className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
->
-  ← BACK TO Menus
-</Link>
+            <Link
+          to="/subadmin/menu-items"
+          className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+        >
+          ← BACK TO Menus
+        </Link>
 
             </div>
           </div>

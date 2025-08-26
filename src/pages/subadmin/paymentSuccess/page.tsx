@@ -2,8 +2,7 @@ import { useEffect } from "react";
 import {  useNavigate } from "react-router-dom";
 
 export default function PaymentSuccess() {
-  // const [searchParams] = useSearchParams();
-  // const sessionId = searchParams.get("session_id");
+
   const navigate = useNavigate();
 
   useEffect(() => {

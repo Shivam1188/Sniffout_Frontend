@@ -53,7 +53,6 @@ export default function AddBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation
     if (!formData.day) {
       toasterError("Day is required.", 2000, "id");
       return;
@@ -84,8 +83,6 @@ export default function AddBusinessHour() {
       }
     } catch (err: any) {
       console.error("Error adding business hour:", err);
-
-      // Check if the backend returned a response with error
       if (err.response && err.response.data) {
         const errorData = err.response.data;
         if (errorData.error === "Already exist .") {
@@ -102,8 +99,6 @@ export default function AddBusinessHour() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-      {/* Main */}
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">Add Business Hour</h1>

@@ -99,7 +99,7 @@ const handleSave = async (e: any) => {
   try {
     const payload = {
       ...formData,
-      user_id: userid,  // ✅ force user_id to be sent
+      user_id: userid,  
     };
 
     if (recordId) {
@@ -172,9 +172,6 @@ const handleSave = async (e: any) => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Sidebar */}
-     
-      {/* Main */}
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <h1 className="text-2xl font-bold text-white">Manage Restaurant List</h1>

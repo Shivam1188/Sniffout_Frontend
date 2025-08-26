@@ -29,7 +29,6 @@ export default function AddMenuItems() {
     fetchMenus();
   }, []);
 
-  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } :any= e.target;
     setFormData({
@@ -38,12 +37,10 @@ export default function AddMenuItems() {
     });
   };
 
-  // Submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Convert price to number, menu to integer
       const payload = {
         ...formData,
         price: parseFloat(formData.price),
@@ -69,7 +66,6 @@ export default function AddMenuItems() {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Menu Dropdown */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Menu
@@ -90,7 +86,6 @@ export default function AddMenuItems() {
               </select>
             </div>
 
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Name
@@ -106,7 +101,6 @@ export default function AddMenuItems() {
               />
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Description
@@ -121,7 +115,6 @@ export default function AddMenuItems() {
               />
             </div>
 
-            {/* Price */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Price
@@ -138,7 +131,6 @@ export default function AddMenuItems() {
               />
             </div>
 
-            {/* Is Available */}
             <div className="flex items-center space-x-3">
               <input
                 type="checkbox"
@@ -152,7 +144,6 @@ export default function AddMenuItems() {
               </label>
             </div>
 
-            {/* Display Order */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Display Order
@@ -167,7 +158,6 @@ export default function AddMenuItems() {
               />
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}

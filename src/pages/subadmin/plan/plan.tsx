@@ -4,17 +4,17 @@ import api from "../../../lib/Api";
 
 const PlansDetails = () => {
   const [plans, setPlans] = useState([]);
-  const [loading, setLoading] = useState(false); // <-- loader state
+  const [loading, setLoading] = useState(false); 
 
   const fetchData = async () => {
-    setLoading(true); // start loader
+    setLoading(true); 
     try {
       const response = await api.get("superadmin/admin-plans/");
       setPlans(response.data.results);
     } catch (error) {
       console.error("Error fetching restaurant data", error);
     } finally {
-      setLoading(false); // stop loader
+      setLoading(false); 
     }
   };
 
@@ -24,8 +24,6 @@ const PlansDetails = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-   
-
       <div className="flex-1 p-6">
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">

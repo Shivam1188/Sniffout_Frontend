@@ -56,15 +56,9 @@ const handleDelete = async () => {
 };
 
 
-  if (loading) {
-    return <p className="text-center py-6 text-gray-500"><LoadingSpinner/></p>;
-  }
-
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Main Content */}
       <div className="flex-1 p-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">Business Hours</h1>
               <div className="flex-shrink-0">
@@ -82,79 +76,80 @@ const handleDelete = async () => {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
-        {/* Table Container */}
-        <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">Business Hours List</h1>
-         
-            <button
-              onClick={() => navigate("/subadmin/business-hour/add-business-hour")}
-              className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
-            >
-              <Plus size={16} className="inline mr-2" /> Add Business Hours
-            </button>
+        {loading ? (
+          <div className="text-center py-6">
+            <LoadingSpinner />
           </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto rounded-xl border border-gray-100">
-            <table className="min-w-[800px] w-full table-auto text-sm text-gray-700">
-              <thead>
-                <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
-                  <th className="py-3 px-4 text-left">Menu</th>
-                  <th className="py-3 px-4 text-left">Day</th>
-                  <th className="py-3 px-4 text-left">Time</th>
-                  <th className="py-3 px-4 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {hoursList.length > 0 ? (
-                  hoursList.map((item, index) => (
-                    <tr
-                      key={item.id}
-                      className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      }`}
-                    >
-                      <td className="py-3 px-4">
-                        {menuList.find((m) => m.id === item.menu)?.name || "Unknown"}
-                      </td>
-                      <td className="py-3 px-4">{item.day}</td>
-                      <td className="py-3 px-4">
-                        {item.closed_all_day
-                          ? "Closed All Day"
-                          : `${item.opening_time} - ${item.closing_time}`}
-                      </td>
-                      <td className="py-3 px-4 text-center space-x-4">
-                        <button
-                          onClick={() => navigate(`/subadmin/business-hour/edit-business-hour/${item.id}`)}
-                          className="text-blue-600 hover:underline cursor-pointer"
-                        >
-                          <Edit2Icon size={18} />
-                        </button>
-                        <button
-                          onClick={() => confirmDelete(item.id)}
-                          className="text-red-600 hover:underline cursor-pointer"
-                        >
-                          <ArchiveIcon size={18} />
-                        </button>
+        ) : (
+          <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">Business Hours List</h1>
+         
+              <button
+                onClick={() => navigate("/subadmin/business-hour/add-business-hour")}
+                className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
+              >
+                <Plus size={16} className="inline mr-2" /> Add Business Hours
+              </button>
+            </div>
+        
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
+              <table className="min-w-[800px] w-full table-auto text-sm text-gray-700">
+                <thead>
+                  <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
+                    <th className="py-3 px-4 text-left">Menu</th>
+                    <th className="py-3 px-4 text-left">Day</th>
+                    <th className="py-3 px-4 text-left">Time</th>
+                    <th className="py-3 px-4 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {hoursList.length > 0 ? (
+                    hoursList.map((item, index) => (
+                      <tr
+                        key={item.id}
+                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }`}
+                      >
+                        <td className="py-3 px-4">
+                          {menuList.find((m) => m.id === item.menu)?.name || "Unknown"}
+                        </td>
+                        <td className="py-3 px-4">{item.day}</td>
+                        <td className="py-3 px-4">
+                          {item.closed_all_day
+                            ? "Closed All Day"
+                            : `${item.opening_time} - ${item.closing_time}`}
+                        </td>
+                        <td className="py-3 px-4 text-center space-x-4">
+                          <button
+                            onClick={() => navigate(`/subadmin/business-hour/edit-business-hour/${item.id}`)}
+                            className="text-blue-600 hover:underline cursor-pointer"
+                          >
+                            <Edit2Icon size={18} />
+                          </button>
+                          <button
+                            onClick={() => confirmDelete(item.id)}
+                            className="text-red-600 hover:underline cursor-pointer"
+                          >
+                            <ArchiveIcon size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="text-center py-6 text-gray-500">
+                        No business hours added yet.
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="text-center py-6 text-gray-500">
-                      No business hours added yet.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          
+          </div>)}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">

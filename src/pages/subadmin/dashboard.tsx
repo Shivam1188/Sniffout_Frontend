@@ -47,7 +47,6 @@ const App = () => {
     const fetchMonthlyData = async () => {
       try {
         const response = await api.get("superadmin/earnings/monthly/")
-        // Use only monthly data as returned
         setChartData(response.data);
       } catch (error) {
         console.error("Error fetching monthly earnings:", error);
@@ -58,17 +57,12 @@ const App = () => {
   }, []);
 
 
-  const displayed = recentlyRes.slice(0, 4); // Only first 4 items
-  const [view, setView] = useState("monthly"); // monthly | yearly
+  const displayed = recentlyRes.slice(0, 4); 
+  const [view, setView] = useState("monthly"); 
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Sidebar */}
-  
-
-      {/* Main Content */}
       <div className="flex-1 p-7">
-        {/* Header with Mobile Toggle */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
           <div>
             <h1 className="text-2xl font-bold text-white">SubAdmin Dashboard</h1>
@@ -76,9 +70,6 @@ const App = () => {
               Overview of platform statistics and performance
             </p>
           </div>
-
-
-          {/* Mobile Sidebar Toggle Button */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="cursor-pointer absolute top-4 right-4 block md:hidden text-white z-50 transition"
@@ -90,7 +81,6 @@ const App = () => {
         {/* Stats Cards */}
         <SubadminDashboardCards />
 
-        {/* Earnings Section (Hidden by default) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {/* Earning Chart - span 2 columns */}
           <div className="md:col-span-3 bg-white p-4 rounded-lg shadow-sm">

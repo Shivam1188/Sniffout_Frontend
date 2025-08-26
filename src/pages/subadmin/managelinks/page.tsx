@@ -56,8 +56,6 @@ const isValidUrl = (url: string) => {
 
 const handleSave = async (e: any) => {
   e.preventDefault();
-
-  // Check if at least one link is filled (excluding restaurant_name)
   const hasAtLeastOneLink = Object.entries(formData).some(([key, value]) => {
     return key !== "restaurant_name" && value && value.trim() !== "";
   });
@@ -67,7 +65,6 @@ const handleSave = async (e: any) => {
     return;
   }
 
-  // Validate each filled link
   for (const [key, value] of Object.entries(formData)) {
     if (key !== "restaurant_name" && value && !isValidUrl(value)) {
       toasterError(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`, 3000, "id");
@@ -94,10 +91,7 @@ const handleCancel = () => {
 };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-      {/* Main Content */}
       <div className="flex-1 p-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <div>
             <h1 className="text-2xl font-bold text-white">Manage Restaurant Links</h1>
@@ -118,13 +112,11 @@ const handleCancel = () => {
           </button>
         </div>
 
-        {/* Your Existing Design — just added name/value/onChange */}
         <div className=" mx-auto bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] rounded-3xl shadow-xl p-8 border border-gray-200">
           <div className="mb-6">
            
           </div>
 
-          {/* Online Ordering Links */}
           <div className="flex items-center gap-2 mb-6">
             <div className="bg-[#fe6a3c] text-white rounded-full p-1.5">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -178,7 +170,6 @@ const handleCancel = () => {
           </div>
         </div>
 
-        {/* Reservation Links */}
         <div className="mx-auto py-6 space-y-8">
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <div className="space-y-5">
@@ -215,7 +206,6 @@ const handleCancel = () => {
             </div>
           </div>
 
-          {/* Catering Form Links */}
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <div className="space-y-5">
               <div>
@@ -241,7 +231,6 @@ const handleCancel = () => {
             </div>
           </div>
 
-          {/* Buttons */}
           <div className="flex flex-col md:flex-row justify-end gap-3 pt-4">
             <button onClick={handleCancel}  className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
               Cancel Changes

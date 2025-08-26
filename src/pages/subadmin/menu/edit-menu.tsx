@@ -105,7 +105,6 @@ export default function EditMenu() {
           />
         </div>
 
-        {/* Subadmin Profile */}
         <div>
           <input
                       type="hidden"
@@ -118,7 +117,6 @@ export default function EditMenu() {
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}

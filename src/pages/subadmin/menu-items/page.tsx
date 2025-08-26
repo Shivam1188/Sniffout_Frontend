@@ -56,12 +56,7 @@ const handleDelete = async () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Sidebar */}
-
-
-      {/* Main content */}
       <div className="flex-1 p-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">Menu Items</h1>
@@ -82,7 +77,6 @@ const handleDelete = async () => {
           </button>
         </div>
 
-        {/* Table */}
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -177,7 +171,6 @@ const handleDelete = async () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">

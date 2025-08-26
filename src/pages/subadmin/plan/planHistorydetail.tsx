@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../../lib/Api';
 import { FileText, ChevronLeft } from 'lucide-react';
-import {  useNavigate, useParams } from 'react-router-dom'; // To handle back navigation
+import {  useNavigate, useParams } from 'react-router-dom'; 
 
 export default function PlanHistorydetail() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export default function PlanHistorydetail() {
   }, []);
 
   const handleBack = () => {
-  historyAPI(`/subadmin/plan/plandetails/${id}`)// Go back to the previous page
+  historyAPI(`/subadmin/plan/plandetails/${id}`)
   };
 
   return (
@@ -35,7 +35,6 @@ export default function PlanHistorydetail() {
         </div>
         <p className="cursor-pointer text-sm text-gray-500">View the complete list of your billing history.</p>
 
-        {/* Invoice List */}
         <div className="space-y-6">
           {history.length > 0 ? (
             history.map((item: any, index) => (

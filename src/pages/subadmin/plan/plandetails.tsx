@@ -1,21 +1,22 @@
+import Cookies from "js-cookie";
 import api from "../../../lib/Api";
-import  { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+import  { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PaymentForm from "../../../components/PaymentForm";
-import { CheckCircle } from "lucide-react";
-import Cookies from "js-cookie";
 import BillingHistory from "../../../components/subadmin/BillingHistory";
 
 export default function PlansDet() {
   const { id } = useParams();
   const userId = Cookies.get("id")
   const token = Cookies.get("token")
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [plans, setPlans] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userPlan, setUserPlan] = useState<any>({});
+  
   const apiUrl = import.meta.env.VITE_STRIPE_URL;
-const [userPlan, setUserPlan] = useState<any>({});
 
    useEffect(() => {
     const fetchPlan = async () => {
@@ -44,7 +45,7 @@ useEffect(() => {
   fetchUserPlan();
 }, []);
   
-  const features = plans && plans.description ? plans.description.split("\n").map((item: any) => item.trim()).filter(Boolean) : [];
+const features = plans && plans.description ? plans.description.split("\n").map((item: any) => item.trim()).filter(Boolean) : [];
 
 const handleBuyPlan = async () => {
   const formData = {
@@ -76,7 +77,6 @@ const handleBuyPlan = async () => {
   return (
     <>
       <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      
       {isOpen && <PaymentForm onClose={() => setIsOpen(false)} />}  
         <div className="flex-1 p-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
@@ -89,12 +89,12 @@ const handleBuyPlan = async () => {
               
             </div>
                <div className="flex justify-end">
-    <Link
-  to="/subadmin/plan"
-  className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
->
-  ← BACK TO PLANS
-</Link>
+              <Link
+            to="/subadmin/plan"
+            className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+          >
+            ← BACK TO PLANS
+          </Link>
 
             </div>
             <button
@@ -170,7 +170,6 @@ const handleBuyPlan = async () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6 md:gap-8">
-              {/* <CardDetailsSection/> */}
               <BillingHistory id={id} />
             </div>
           </div>

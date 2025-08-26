@@ -80,7 +80,6 @@ useEffect(() => {
           </button>
         </div>
 
-        {/* Table */}
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
@@ -108,8 +107,6 @@ useEffect(() => {
     </span>
   )}
 </div>
-
-
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-gray-100">

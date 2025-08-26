@@ -15,7 +15,6 @@ export default function AddMenu() {
   });
   const [loading, setLoading] = useState(false);
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -23,7 +22,6 @@ export default function AddMenu() {
     });
   };
 
-  // Handle submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -58,17 +56,12 @@ export default function AddMenu() {
      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 animate-fadeIn">
      <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
          <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-
-           {/* Title */}
            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
              Add Menu
            </h2>
 
-           {/* Form */}
            <form onSubmit={handleSubmit} className="space-y-6">
-            
-             {/* Name */}
-             <div>
+                         <div>
                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                  Name
                </label>
@@ -83,7 +76,6 @@ export default function AddMenu() {
                />
              </div>
 
-             {/* Description */}
              <div>
                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                  Description

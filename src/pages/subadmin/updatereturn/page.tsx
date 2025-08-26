@@ -20,8 +20,8 @@ const UpdateReturn = () => {
 console.log(profileImageFile,"profileImageFile==")
   const [profile, setProfile] = useState({
     restaurant_name: "",
-    first_name: "",      // Added firstname
-    last_name: "",       // Added lastname
+    first_name: "",      
+    last_name: "",      
     phone_number: "",
     email_address: "",
     address: "",
@@ -85,12 +85,10 @@ const fetchProfileData = async () => {
   setLoading(true);
   setError(null);
   try {
-    // Fetch profile image and basic data
     const resImage = await api.get(`subadmin/profile/${userId}/`);
     const imageData = resImage.data;
     setProfileImage(imageData.profile_image_url || "");
 
-    // Fetch the saved profile data
     const resProfile = await api.get("auth/profile/subadmin/");
     const profileData = resProfile.data;
 
@@ -126,7 +124,7 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   if (!e.target.files || e.target.files.length === 0) return;
 
   const file = e.target.files[0];
-  setProfileImage(file.name); // optional temporary display
+  setProfileImage(file.name); 
   setProfileImageFile(file);
 
   if (!isEditing) return;
@@ -207,10 +205,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
 
     if (!response.ok) throw new Error("Failed to update profile");
-
     toasterSuccess("Profile updated successfully!", 2000, "id");
-
-    // ✅ Refresh profile data from GET API
     await fetchProfileData();
   } catch (err) {
     console.error(err);
@@ -241,16 +236,12 @@ const handleSubmit = async (e: React.FormEvent) => {
     setProfileImage("");
   };
 
-  if (loading) return <div className="p-8"><LoadingSpinner/></div>;
-
   const anyFieldFilled = Object.values(profile).some(
     (val) => val !== null && val !== ""
   );
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-     
-
       <main className="flex-1 p-8 overflow-auto max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
@@ -278,7 +269,11 @@ const handleSubmit = async (e: React.FormEvent) => {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
+   {loading ? (
+        <div className="p-8 flex justify-center items-center">
+          <LoadingSpinner />
+        </div>
+      ) : (
         <form
           onSubmit={handleSubmit}
           className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8"
@@ -287,7 +282,6 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div className="text-red-600 mb-4 font-semibold">{error}</div>
           )}
 
-          {/* Firstname and Lastname inputs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -427,7 +421,8 @@ const handleSubmit = async (e: React.FormEvent) => {
   )}
 </div>
 
-        </form>
+            </form>
+             )}
       </main>
     </div>
   );

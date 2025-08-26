@@ -52,7 +52,6 @@ export default function EditBusinessHour() {
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  // Validation
   if (!formData.day) {
     toasterError("Day is required.", 2000, "id");
     return;
@@ -83,11 +82,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Sidebar */}
-
-      {/* Main */}
       <div className="flex-1 p-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">Edit Business Hour</h1>
           <button
@@ -98,10 +93,8 @@ const handleSubmit = async (e: React.FormEvent) => {
           </button>
         </div>
 
-        {/* Form */}
         <div className="bg-white p-6 rounded-2xl shadow-lg border-t-8 border-[#fe6a3c] max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Day Dropdown */}
             <div>
               <label className="block text-sm font-medium mb-1">Day</label>
               <select
@@ -119,7 +112,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               </select>
             </div>
 
-            {/* Menu Dropdown */}
             <div>
               <label className="block text-sm font-medium mb-1">Menu</label>
               <select
@@ -137,7 +129,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               </select>
             </div>
 
-            {/* Opening & Closing Time */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Opening Time</label>
@@ -161,7 +152,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            {/* Closed All Day */}
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -172,7 +162,6 @@ const handleSubmit = async (e: React.FormEvent) => {
               <label className="text-sm">Closed All Day</label>
             </div>
 
-            {/* Buttons */}
             <div className="flex justify-end gap-4">
               <button
                 type="button"

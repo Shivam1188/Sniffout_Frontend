@@ -41,19 +41,19 @@ export default function BusinessHoursList() {
     setShowDeleteModal(true);
   };
 
-const handleDelete = async () => {
-  if (!deleteId) return;
-  try {
-    await api.delete(`subadmin/business-hours/${deleteId}/`);
-    setHoursList((prev) => prev.filter((item) => item.id !== deleteId));
-    setShowDeleteModal(false);
-    setDeleteId(null);
-    toasterSuccess("Business hour deleted successfully!", 2000, "id");
-  } catch (err) {
-    console.error("Error deleting:", err);
-    toasterError("Failed to delete business hour", 2000, "id");
-  }
-};
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await api.delete(`subadmin/business-hours/${deleteId}/`);
+      setHoursList((prev) => prev.filter((item) => item.id !== deleteId));
+      setShowDeleteModal(false);
+      setDeleteId(null);
+      toasterSuccess("Business hour deleted successfully!", 2000, "id");
+    } catch (err) {
+      console.error("Error deleting:", err);
+      toasterError("Failed to delete business hour", 2000, "id");
+    }
+  };
 
 
   return (
@@ -61,7 +61,7 @@ const handleDelete = async () => {
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">Business Hours</h1>
-              <div className="flex-shrink-0">
+          <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
@@ -84,7 +84,7 @@ const handleDelete = async () => {
           <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
               <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">Business Hours List</h1>
-         
+
               <button
                 onClick={() => navigate("/subadmin/business-hour/add-business-hour")}
                 className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
@@ -92,7 +92,7 @@ const handleDelete = async () => {
                 <Plus size={16} className="inline mr-2" /> Add Business Hours
               </button>
             </div>
-        
+
             <div className="overflow-x-auto rounded-xl border border-gray-100">
               <table className="min-w-[800px] w-full table-auto text-sm text-gray-700">
                 <thead>
@@ -146,7 +146,7 @@ const handleDelete = async () => {
                 </tbody>
               </table>
             </div>
-          
+
           </div>)}
       </div>
 

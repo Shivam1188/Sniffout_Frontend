@@ -1,6 +1,6 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SubadminDashboardCards from "../../components/subadmin/SubAdminDashboardCards";
 import api from "../../lib/Api";
 import {
@@ -43,7 +43,7 @@ const App = () => {
     fetchRecentlyCalls();
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
         const response = await api.get("superadmin/earnings/monthly/")
@@ -57,8 +57,8 @@ const App = () => {
   }, []);
 
 
-  const displayed = recentlyRes.slice(0, 4); 
-  const [view, setView] = useState("monthly"); 
+  const displayed = recentlyRes.slice(0, 4);
+  const [view, setView] = useState("monthly");
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
@@ -94,8 +94,8 @@ const App = () => {
                 <button
                   onClick={() => setView("monthly")}
                   className={`cursor-pointer px-3 py-1 rounded-lg text-sm font-medium transition ${view === "monthly"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                     }`}
                 >
                   Monthly
@@ -104,19 +104,19 @@ const App = () => {
             </div>
 
             {/* Chart */}
-             <div className="p-2 rounded-lg">
-      <ResponsiveContainer width="100%" height={250}>
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="period" /> {/* month name */}
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="revenue" stroke="#1d3faa" strokeWidth={2} />
-          <Line type="monotone" dataKey="expense" stroke="#fe6a3c" strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+            <div className="p-2 rounded-lg">
+              <ResponsiveContainer width="100%" height={250}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="period" /> {/* month name */}
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="revenue" stroke="#1d3faa" strokeWidth={2} />
+                  <Line type="monotone" dataKey="expense" stroke="#fe6a3c" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Pie Chart */}

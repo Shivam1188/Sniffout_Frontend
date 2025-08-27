@@ -4,17 +4,17 @@ import api from "../../../lib/Api";
 
 const PlansDetails = () => {
   const [plans, setPlans] = useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const response = await api.get("superadmin/admin-plans/");
       setPlans(response.data.results);
     } catch (error) {
       console.error("Error fetching restaurant data", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 

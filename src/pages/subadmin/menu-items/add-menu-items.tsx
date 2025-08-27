@@ -30,7 +30,7 @@ export default function AddMenuItems() {
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } :any= e.target;
+    const { name, value, type, checked }: any = e.target;
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
@@ -47,7 +47,7 @@ export default function AddMenuItems() {
         menu: parseInt(formData.menu, 10),
       };
       await api.post("subadmin/menu-items/", payload);
-      toasterSuccess("Menu Item Added Successfully!",2000,"id");
+      toasterSuccess("Menu Item Added Successfully!", 2000, "id");
       navigate("/subadmin/menu-items");
     } catch (error) {
       console.error("Error adding menu item:", error);

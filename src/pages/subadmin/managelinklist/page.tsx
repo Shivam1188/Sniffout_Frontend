@@ -14,7 +14,7 @@ const ManageLinks = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState<any>({
-      user_id: null,
+    user_id: null,
 
     restaurant_name: "",
     direct_ordering_link: "",
@@ -30,7 +30,7 @@ const ManageLinks = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prev:any) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value,
     }));
@@ -40,15 +40,15 @@ const ManageLinks = () => {
     if (!url) return true;
     const pattern = new RegExp(
       "^(https?:\\/\\/)" +
-        "(?:\\S+(?::\\S*)?@)?" +
-        "(?:" +
-        "localhost" +
-        "|\\d{1,3}(?:\\.\\d{1,3}){3}" +
-        "|\\[[0-9A-Fa-f:.]+\\]" +
-        "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +
-        ")" +
-        "(?::\\d{2,5})?" +
-        "(?:[/?#][^\\s]*)?$",
+      "(?:\\S+(?::\\S*)?@)?" +
+      "(?:" +
+      "localhost" +
+      "|\\d{1,3}(?:\\.\\d{1,3}){3}" +
+      "|\\[[0-9A-Fa-f:.]+\\]" +
+      "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +
+      ")" +
+      "(?::\\d{2,5})?" +
+      "(?:[/?#][^\\s]*)?$",
       "i"
     );
     return pattern.test(url);
@@ -60,7 +60,7 @@ const ManageLinks = () => {
       if (response?.data?.results?.length > 0) {
         const data = response.data.results[0];
         setFormData({
-           user_id: data.user_id, 
+          user_id: data.user_id,
           restaurant_name: data.restaurant_name,
           direct_ordering_link: data.direct_ordering_link || "",
           doordash_link: data.doordash_link || "",
@@ -85,37 +85,37 @@ const ManageLinks = () => {
     }
   };
 
-const handleSave = async (e: any) => {
-  e.preventDefault();
+  const handleSave = async (e: any) => {
+    e.preventDefault();
 
-  for (const [key, value] of Object.entries(formData)) {
-    if (["user_id", "restaurant_name"].includes(key)) continue;
-    if (value && !isValidUrl(value)) {
-      alert(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`);
-      return;
-    }
-  }
-
-  try {
-    const payload = {
-      ...formData,
-      user_id: userid,  
-    };
-
-    if (recordId) {
-      await api.put(`subadmin/restaurant-links/${recordId}/`, payload);
-    } else {
-      await api.post(`subadmin/restaurant-links/`, payload);
+    for (const [key, value] of Object.entries(formData)) {
+      if (["user_id", "restaurant_name"].includes(key)) continue;
+      if (value && !isValidUrl(value)) {
+        alert(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`);
+        return;
+      }
     }
 
-    toasterSuccess("Links saved successfully!", 4000, "id");
-    fetchLinks();
-    setIsEditing(false);
-  } catch (err) {
-    console.error("Save failed", err);
-    toasterError("Failed to save data", 2000, "id");
-  }
-};
+    try {
+      const payload = {
+        ...formData,
+        user_id: userid,
+      };
+
+      if (recordId) {
+        await api.put(`subadmin/restaurant-links/${recordId}/`, payload);
+      } else {
+        await api.post(`subadmin/restaurant-links/`, payload);
+      }
+
+      toasterSuccess("Links saved successfully!", 4000, "id");
+      fetchLinks();
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Save failed", err);
+      toasterError("Failed to save data", 2000, "id");
+    }
+  };
 
   const handleDelete = async () => {
     if (!recordId) {
@@ -127,7 +127,7 @@ const handleSave = async (e: any) => {
       await api.delete(`subadmin/restaurant-links/${recordId}/`);
       toasterSuccess("Links deleted successfully!", 4000, "id");
       setFormData({
-         user_id: userid,
+        user_id: userid,
         restaurant_name: "",
         direct_ordering_link: "",
         doordash_link: "",
@@ -152,9 +152,9 @@ const handleSave = async (e: any) => {
     fetchLinks();
   }, []);
 
-  if (loading) return <p className="p-6"><LoadingSpinner/></p>;
+  if (loading) return <p className="p-6"><LoadingSpinner /></p>;
 
-  const renderInput = (label: string, name:any) => (
+  const renderInput = (label: string, name: any) => (
     <div >
       <label className="text-sm font-semibold text-gray-700 block mb-1">{label}</label>
       <input
@@ -163,9 +163,8 @@ const handleSave = async (e: any) => {
         value={formData[name]}
         onChange={handleChange}
         readOnly={!isEditing}
-        className={`w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm ${
-          !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
-        }`}
+        className={`w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+          }`}
       />
     </div>
   );

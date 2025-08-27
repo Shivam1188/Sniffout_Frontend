@@ -49,35 +49,35 @@ export default function EditBusinessHour() {
     }));
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!formData.day) {
-    toasterError("Day is required.", 2000, "id");
-    return;
-  }
-  if (!formData.menu) {
-    toasterError("Menu is required.", 2000, "id");
-    return;
-  }
-  if (!formData.opening_time) {
-    toasterError("Opening Time is required.", 2000, "id");
-    return;
-  }
-  if (!formData.closing_time) {
-    toasterError("Closing Time is required.", 2000, "id");
-    return;
-  }
+    if (!formData.day) {
+      toasterError("Day is required.", 2000, "id");
+      return;
+    }
+    if (!formData.menu) {
+      toasterError("Menu is required.", 2000, "id");
+      return;
+    }
+    if (!formData.opening_time) {
+      toasterError("Opening Time is required.", 2000, "id");
+      return;
+    }
+    if (!formData.closing_time) {
+      toasterError("Closing Time is required.", 2000, "id");
+      return;
+    }
 
-  try {
-    await api.put(`subadmin/business-hours/${id}/`, formData);
-    toasterSuccess("Business hour updated successfully!", 2000, "id");
-    navigate("/subadmin/business-hour");
-  } catch (err) {
-    console.error("Error updating business hour:", err);
-    toasterError("Failed to update business hour", 2000, "id");
-  }
-};
+    try {
+      await api.put(`subadmin/business-hours/${id}/`, formData);
+      toasterSuccess("Business hour updated successfully!", 2000, "id");
+      navigate("/subadmin/business-hour");
+    } catch (err) {
+      console.error("Error updating business hour:", err);
+      toasterError("Failed to update business hour", 2000, "id");
+    }
+  };
 
 
   return (
@@ -168,7 +168,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 onClick={() => navigate("/subadmin/business-hour")}
                 className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
               >
-               BACK
+                BACK
               </button>
               <button
                 type="submit"

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import api from '../../../lib/Api';
 import { FileText, ChevronLeft } from 'lucide-react';
-import {  useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PlanHistorydetail() {
   const { id } = useParams();
   const [history, setHistory] = useState<any[]>([]);
-  const historyAPI = useNavigate(); 
+  const historyAPI = useNavigate();
 
   useEffect(() => {
     api.get("superadmin/billing-history/")
@@ -17,13 +17,13 @@ export default function PlanHistorydetail() {
   }, []);
 
   const handleBack = () => {
-  historyAPI(`/subadmin/plan/plandetails/${id}`)
+    historyAPI(`/subadmin/plan/plandetails/${id}`)
   };
 
   return (
     <div className="min-h-screen m-20 flex justify-center items-center bg-gray-50">
       <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full max-w-4xl">
-                <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <button
             onClick={handleBack}
             className="cursor-pointer flex items-center text-[#fe6a3c] font-medium hover:text-[#fe6a3c]/80 transition duration-200"
@@ -57,9 +57,8 @@ export default function PlanHistorydetail() {
                   <p className="text-xl font-semibold text-[#1d3faa]">${item.plan_price}</p>
                   <div className="flex items-center justify-end gap-4">
                     <span
-                      className={`text-xs font-medium ${
-                        item.payment_status === "PAID" ? "text-green-600" : "text-red-600"
-                      }`}
+                      className={`text-xs font-medium ${item.payment_status === "PAID" ? "text-green-600" : "text-red-600"
+                        }`}
                     >
                       {item.payment_status}
                     </span>

@@ -33,25 +33,25 @@ function MenuItems() {
     setShowDeleteModal(true);
   };
 
-const handleDelete = async () => {
-  if (!deleteId) return;
-  try {
-    const res = await api.delete(`subadmin/menu-items/${deleteId}/`);
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    try {
+      const res = await api.delete(`subadmin/menu-items/${deleteId}/`);
 
-    if (res?.success) {
-      toasterSuccess( "Menu item deleted successfully", "2000", "id");
+      if (res?.success) {
+        toasterSuccess("Menu item deleted successfully", "2000", "id");
 
-      setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
-      setShowDeleteModal(false);
-      setDeleteId(null);
-    } else {
-      toasterError("Failed to delete menu item", "2000", "id");
+        setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
+        setShowDeleteModal(false);
+        setDeleteId(null);
+      } else {
+        toasterError("Failed to delete menu item", "2000", "id");
+      }
+    } catch (err) {
+      console.error("Error deleting menu:", err);
+      toasterError("Something went wrong while deleting menu item", "2000", "id");
     }
-  } catch (err) {
-    console.error("Error deleting menu:", err);
-    toasterError("Something went wrong while deleting menu item", "2000", "id");
-  }
-};
+  };
 
 
   return (

@@ -75,7 +75,7 @@ export default function AddBusinessHour() {
         ...formData,
         subadmin_profile: id,
       });
-  
+
       // This runs only if status is 2xx
       if (res.data.success) {
         navigate("/subadmin/business-hour");
@@ -94,7 +94,7 @@ export default function AddBusinessHour() {
         toasterError("Failed to add business hour", 2000, "id");
       }
     }
-};
+  };
 
 
   return (
@@ -112,7 +112,7 @@ export default function AddBusinessHour() {
 
         <div className="bg-white p-6 rounded-2xl shadow-lg border-t-8 border-[#fe6a3c] max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-5">
-            
+
             <div>
               <label className="block text-sm font-medium mb-1">Day</label>
               <select
@@ -170,7 +170,7 @@ export default function AddBusinessHour() {
               </div>
             </div>
 
-            
+
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"

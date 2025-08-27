@@ -13,21 +13,21 @@ function MenuData() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchMenus = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get("subadmin/menu/");
-      setMenuList(res.data?.results || []);
-    } catch (err) {
-      console.error("Failed to fetch menus", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchMenus = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get("subadmin/menu/");
+        setMenuList(res.data?.results || []);
+      } catch (err) {
+        console.error("Failed to fetch menus", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchMenus();
-}, []);
+    fetchMenus();
+  }, []);
 
 
   const confirmDelete = (id: any) => {
@@ -35,36 +35,36 @@ useEffect(() => {
     setShowDeleteModal(true);
   };
 
- const handleDelete = async () => {
-  if (!deleteId) return;
-  try {
-    const res = await api.delete(`subadmin/menu/${deleteId}/`);
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    try {
+      const res = await api.delete(`subadmin/menu/${deleteId}/`);
 
-    if (res?.success) {
-      toasterSuccess(res?.data?.message || "Menu deleted successfully", "2000", "id");
+      if (res?.success) {
+        toasterSuccess(res?.data?.message || "Menu deleted successfully", "2000", "id");
 
-      setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
-      setShowDeleteModal(false);
-      setDeleteId(null);
-    } else {
-      console.error("Delete failed:", res);
+        setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
+        setShowDeleteModal(false);
+        setDeleteId(null);
+      } else {
+        console.error("Delete failed:", res);
+      }
+    } catch (err) {
+      console.error("Error deleting menu:", err);
     }
-  } catch (err) {
-    console.error("Error deleting menu:", err);
-  }
-};
+  };
 
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
- 
+
 
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">Menu</h1>
           </div>
-           <div className="flex-shrink-0">
+          <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
@@ -86,27 +86,26 @@ useEffect(() => {
               <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
                 Menu List
               </h1>
-          <div className="relative group">
-  <Link
-    to={menuList.length >= 3 ? "#" : "/subadmin/add-menu"}
-    className={`text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center ${
-      menuList.length >= 3
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-[#fe6a3c] hover:bg-[#fd8f61]"
-    }`}
-    onClick={(e) => {
-      if (menuList.length >= 3) e.preventDefault();
-    }}
-  >
-    Add Menu
-  </Link>
+              <div className="relative group">
+                <Link
+                  to={menuList.length >= 3 ? "#" : "/subadmin/add-menu"}
+                  className={`text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center ${menuList.length >= 3
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                    }`}
+                  onClick={(e) => {
+                    if (menuList.length >= 3) e.preventDefault();
+                  }}
+                >
+                  Add Menu
+                </Link>
 
-  {menuList.length >= 3 && (
-    <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-6 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-      You can't add more than three menus
-    </span>
-  )}
-</div>
+                {menuList.length >= 3 && (
+                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-6 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    You can't add more than three menus
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-gray-100">
@@ -115,74 +114,73 @@ useEffect(() => {
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
                     <th className="py-3 px-4 text-left">Name</th>
                     <th className="py-3 px-4 text-left">Description</th>
-                    
+
                     <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
                 </thead>
-              <tbody>
-  {loading ? (
-  <tr>
-  <td colSpan={6} className="py-10 text-center">
-    <div className="flex flex-col justify-center items-center gap-3 text-gray-500">
-      <svg
-        className="animate-spin h-10 w-10 text-[#1d3faa]" // larger spinner
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v8H4z"
-        ></path>
-      </svg>
-      <span className="font-medium">Loading menus...</span>
-    </div>
-  </td>
-</tr>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} className="py-10 text-center">
+                        <div className="flex flex-col justify-center items-center gap-3 text-gray-500">
+                          <svg
+                            className="animate-spin h-10 w-10 text-[#1d3faa]" // larger spinner
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8H4z"
+                            ></path>
+                          </svg>
+                          <span className="font-medium">Loading menus...</span>
+                        </div>
+                      </td>
+                    </tr>
 
-  ) : menuList.length > 0 ? (
-    menuList.map((menu: any, index: any) => (
-      <tr
-        key={menu.id}
-        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${
-          index % 2 === 0 ? "bg-white" : "bg-gray-50"
-        }`}
-      >
-        <td className="py-3 px-4 font-medium text-left">{menu.name}</td>
-        <td className="py-3 px-4 text-left">{menu.description}</td>
-        <td className="py-3 px-4 text-center space-x-4">
-          <button
-            onClick={() => navigate(`/subadmin/edit/${menu.id}`)}
-            className="cursor-pointer text-blue-600 hover:underline text-sm"
-          >
-            <Edit2Icon size={18} />
-          </button>
-          <button
-            onClick={() => confirmDelete(menu.id)}
-            className="text-red-600 hover:underline text-sm cursor-pointer"
-          >
-            <ArchiveIcon size={18} />
-          </button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan={6} className="text-center py-6 text-gray-500">
-        No menus available.
-      </td>
-    </tr>
-  )}
-</tbody>
+                  ) : menuList.length > 0 ? (
+                    menuList.map((menu: any, index: any) => (
+                      <tr
+                        key={menu.id}
+                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }`}
+                      >
+                        <td className="py-3 px-4 font-medium text-left">{menu.name}</td>
+                        <td className="py-3 px-4 text-left">{menu.description}</td>
+                        <td className="py-3 px-4 text-center space-x-4">
+                          <button
+                            onClick={() => navigate(`/subadmin/edit/${menu.id}`)}
+                            className="cursor-pointer text-blue-600 hover:underline text-sm"
+                          >
+                            <Edit2Icon size={18} />
+                          </button>
+                          <button
+                            onClick={() => confirmDelete(menu.id)}
+                            className="text-red-600 hover:underline text-sm cursor-pointer"
+                          >
+                            <ArchiveIcon size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-center py-6 text-gray-500">
+                        No menus available.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
 
               </table>
             </div>

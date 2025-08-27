@@ -51,222 +51,222 @@ const AppRouter = () => {
 
       <Routes>
         {/* Public Routes */}
-<Route
-  path="/"
-  element={
-    Cookies.get("token") && Cookies.get("role") ? (
-      Cookies.get("role") === "admin" ? (
-        <Navigate to="/admin/dashboard" replace />
-      ) : (
-        <Navigate to="/subadmin/dashboard" replace />
-      )
-    ) : (
-      <Navigate to="/auth/login" replace />
-    )
-  }
-/>
+        <Route
+          path="/"
+          element={
+            Cookies.get("token") && Cookies.get("role") ? (
+              Cookies.get("role") === "admin" ? (
+                <Navigate to="/admin/dashboard" replace />
+              ) : (
+                <Navigate to="/subadmin/dashboard" replace />
+              )
+            ) : (
+              <Navigate to="/auth/login" replace />
+            )
+          }
+        />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
-  <Route element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}>
+        <Route element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}>
 
-        {/* Admin Routes */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute allowedRole="admin" element={<AdminDashboard />} />
-          }
-        />
-        <Route
-          path="/admin/recently-onboarded"
-          element={
-            <ProtectedRoute
-              allowedRole="admin"
-              element={<RecentlyOnboardedPage />}
-            />
-          }
-        />
-        <Route
-          path="/admin/plans"
-          element={<ProtectedRoute allowedRole="admin" element={<Plans />} />}
-        />
-        <Route
-          path="/admin/plans/add-plans"
-          element={<ProtectedRoute allowedRole="admin" element={<AddPlan />} />}
-        />
-        <Route
-          path="/admin/plans/edit-plans/:id"
-          element={
-            <ProtectedRoute allowedRole="admin" element={<EditPlan />} />
-          }
-        />
-        <Route
-          path="/admin/restaurants"
-          element={
-            <ProtectedRoute allowedRole="admin" element={<Restaurants />} />
-          }
-        />
-        <Route
-          path="/admin/restaurantsdashboard"
-          element={
-            <ProtectedRoute
-              allowedRole="admin"
-              element={<RestaurantsDashboard />}
-            />
-          }
-        />
-        <Route
-          path="/admin/restaurants/add-restaurants"
-          element={
-            <ProtectedRoute allowedRole="admin" element={<AddRestaurant />} />
-          }
-        />
-        <Route
-          path="/admin/restaurants/edit-restaurants/:id"
-          element={
-            <ProtectedRoute allowedRole="admin" element={<EditRestaurant />} />
-          }
-        />
-  </Route>
-  <Route element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}>
-
-        {/* Subadmin Routes */}
-        <Route
-          path="/subadmin/dashboard"
-          element={
-            <ProtectedRoute
-              allowedRole="subdir"
-              element={<SubadminDashboard />}
-            />
-          }
-        />
-        <Route
-          path="/subadmin/recently-calls"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<RecentlyCalls />} />
-          }
-        />
-        <Route
-          path="/subadmin/menu"
-          element={<ProtectedRoute allowedRole="subdir" element={<Menu />} />}
-        />
-        <Route
-          path="/subadmin/add-menu"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<AddMenu />} />
-          }
-        />
-        <Route
-          path="/subadmin/edit/:id"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<EditMenu />} />
-          }
-        />
-        <Route
-          path="/subadmin/voice-bot"
-          element={
-            <ProtectedRoute
-              allowedRole="subdir"
-              element={<VoiceBotDashboard />}
-            />
-          }
-        />
-        {/* <Route path="/subadmin/billing" element={<ProtectedRoute allowedRole="subdir" element={<BillingPage />} />} /> */}
-        <Route
-          path="/subadmin/update-profile"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<UpdateReturn />} />
-          }
-        />
-        <Route
-          path="/subadmin/list"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<ManageLinkList />} />
-          }
-        />
-        <Route
-          path="/subadmin/manage-restaurants"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<Managelinks />} />
-          }
-        />
-        <Route
-          path="/subadmin/plan"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<PlansDetails />} />
-          }
-        />
-        <Route
-          path="/subadmin/plan/plandetails/:id"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<PlansDet />} />
-          }
-        />
-        <Route
-          path="/subadmin/payment-success"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<PaymentSuccess />} />
-          }
-        />
-        <Route
-          path="/subadmin/menu-items"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<MenuItems />} />
-          }
-        />
-        <Route
-          path="/subadmin/menu-items/add-menu-items"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<AddMenuItems />} />
-          }
-        />
-        <Route
-          path="/subadmin/edit-menu-items/:id"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<EditMenuItems />} />
-          }
-        />
-        <Route
-          path="/subadmin/business-hour"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<BusinessHour />} />
-          }
-        />
-        <Route
-          path="/subadmin/business-hour/add-business-hour"
-          element={
-            <ProtectedRoute
-              allowedRole="subdir"
-              element={<AddBusinessHour />}
-            />
-          }
-        />
-        <Route
-          path="/subadmin/business-hour/edit-business-hour/:id"
-          element={
-            <ProtectedRoute
-              allowedRole="subdir"
-              element={<EditBusinessHour />}
-            />
-          }
-        />
-        <Route
-          path="/subadmin/payment-cancelled"
-          element={
-            <ProtectedRoute allowedRole="subdir" element={<PaymentCancel />} />
-          }
-        />
-        <Route
-          path="/subadmin/all-history-invoices/:id"
-          element={
-            <ProtectedRoute
-              allowedRole="subdir"
-              element={<PlanHistorydetail />}
-            />
-          }
+          {/* Admin Routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<AdminDashboard />} />
+            }
           />
-            </Route>
+          <Route
+            path="/admin/recently-onboarded"
+            element={
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<RecentlyOnboardedPage />}
+              />
+            }
+          />
+          <Route
+            path="/admin/plans"
+            element={<ProtectedRoute allowedRole="admin" element={<Plans />} />}
+          />
+          <Route
+            path="/admin/plans/add-plans"
+            element={<ProtectedRoute allowedRole="admin" element={<AddPlan />} />}
+          />
+          <Route
+            path="/admin/plans/edit-plans/:id"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<EditPlan />} />
+            }
+          />
+          <Route
+            path="/admin/restaurants"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<Restaurants />} />
+            }
+          />
+          <Route
+            path="/admin/restaurantsdashboard"
+            element={
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<RestaurantsDashboard />}
+              />
+            }
+          />
+          <Route
+            path="/admin/restaurants/add-restaurants"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<AddRestaurant />} />
+            }
+          />
+          <Route
+            path="/admin/restaurants/edit-restaurants/:id"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<EditRestaurant />} />
+            }
+          />
+        </Route>
+        <Route element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}>
+
+          {/* Subadmin Routes */}
+          <Route
+            path="/subadmin/dashboard"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<SubadminDashboard />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/recently-calls"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<RecentlyCalls />} />
+            }
+          />
+          <Route
+            path="/subadmin/menu"
+            element={<ProtectedRoute allowedRole="subdir" element={<Menu />} />}
+          />
+          <Route
+            path="/subadmin/add-menu"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddMenu />} />
+            }
+          />
+          <Route
+            path="/subadmin/edit/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditMenu />} />
+            }
+          />
+          <Route
+            path="/subadmin/voice-bot"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<VoiceBotDashboard />}
+              />
+            }
+          />
+          {/* <Route path="/subadmin/billing" element={<ProtectedRoute allowedRole="subdir" element={<BillingPage />} />} /> */}
+          <Route
+            path="/subadmin/update-profile"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<UpdateReturn />} />
+            }
+          />
+          <Route
+            path="/subadmin/list"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<ManageLinkList />} />
+            }
+          />
+          <Route
+            path="/subadmin/manage-restaurants"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Managelinks />} />
+            }
+          />
+          <Route
+            path="/subadmin/plan"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<PlansDetails />} />
+            }
+          />
+          <Route
+            path="/subadmin/plan/plandetails/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<PlansDet />} />
+            }
+          />
+          <Route
+            path="/subadmin/payment-success"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<PaymentSuccess />} />
+            }
+          />
+          <Route
+            path="/subadmin/menu-items"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<MenuItems />} />
+            }
+          />
+          <Route
+            path="/subadmin/menu-items/add-menu-items"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddMenuItems />} />
+            }
+          />
+          <Route
+            path="/subadmin/edit-menu-items/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditMenuItems />} />
+            }
+          />
+          <Route
+            path="/subadmin/business-hour"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<BusinessHour />} />
+            }
+          />
+          <Route
+            path="/subadmin/business-hour/add-business-hour"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<AddBusinessHour />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/business-hour/edit-business-hour/:id"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<EditBusinessHour />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/payment-cancelled"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<PaymentCancel />} />
+            }
+          />
+          <Route
+            path="/subadmin/all-history-invoices/:id"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<PlanHistorydetail />}
+              />
+            }
+          />
+        </Route>
 
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>

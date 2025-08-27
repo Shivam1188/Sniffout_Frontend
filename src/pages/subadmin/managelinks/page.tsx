@@ -8,10 +8,10 @@ import Cookies from "js-cookie";
 const Managelinks = () => {
   const navigate = useNavigate();
   const id = Cookies.get("id")
-  
+
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const initialFormData= {
+  const initialFormData = {
     restaurant_name: id,
     direct_ordering_link: "",
     doordash_link: "",
@@ -23,10 +23,10 @@ const Managelinks = () => {
     catering_request_form: "",
     special_events_form: "",
   };
-const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState(initialFormData);
 
   // Update state when inputs change
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -34,61 +34,61 @@ const [formData, setFormData] = useState(initialFormData);
     }));
   };
 
-const isValidUrl = (url: string) => {
-  if (!url) return true; // allow empty if that's okay
+  const isValidUrl = (url: string) => {
+    if (!url) return true; // allow empty if that's okay
 
-  const pattern = new RegExp(
-    "^(https?:\\/\\/)" +                      // require http:// or https://
-    "(?:\\S+(?::\\S*)?@)?" +                  // optional user:pass@
-    "(?:" +
+    const pattern = new RegExp(
+      "^(https?:\\/\\/)" +                      // require http:// or https://
+      "(?:\\S+(?::\\S*)?@)?" +                  // optional user:pass@
+      "(?:" +
       "localhost" +                           // localhost
       "|\\d{1,3}(?:\\.\\d{1,3}){3}" +         // IPv4
       "|\\[[0-9A-Fa-f:.]+\\]" +               // IPv6
       "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +  // domain name
-    ")" +
-    "(?::\\d{2,5})?" +                        // optional port
-    "(?:[/?#][^\\s]*)?$",                     // path/query/fragment
-    "i"
-  );
+      ")" +
+      "(?::\\d{2,5})?" +                        // optional port
+      "(?:[/?#][^\\s]*)?$",                     // path/query/fragment
+      "i"
+    );
 
-  return pattern.test(url);
-};
+    return pattern.test(url);
+  };
 
-const handleSave = async (e: any) => {
-  e.preventDefault();
-  const hasAtLeastOneLink = Object.entries(formData).some(([key, value]) => {
-    return key !== "restaurant_name" && value && value.trim() !== "";
-  });
+  const handleSave = async (e: any) => {
+    e.preventDefault();
+    const hasAtLeastOneLink = Object.entries(formData).some(([key, value]) => {
+      return key !== "restaurant_name" && value && value.trim() !== "";
+    });
 
-  if (!hasAtLeastOneLink) {
-    toasterError("Please enter at least one link before saving.", 3000, "id");
-    return;
-  }
-
-  for (const [key, value] of Object.entries(formData)) {
-    if (key !== "restaurant_name" && value && !isValidUrl(value)) {
-      toasterError(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`, 3000, "id");
+    if (!hasAtLeastOneLink) {
+      toasterError("Please enter at least one link before saving.", 3000, "id");
       return;
     }
-  }
 
-  try {
-    const response = await api.post("subadmin/restaurant-links/", formData);
-    if (response.success) {
-      toasterSuccess("Link Successfully Added.", 4000, "id");
-      navigate("/subadmin/list");
-    } else {
-      toasterError(response.error, 2000, "id");
+    for (const [key, value] of Object.entries(formData)) {
+      if (key !== "restaurant_name" && value && !isValidUrl(value)) {
+        toasterError(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`, 3000, "id");
+        return;
+      }
     }
-  } catch (err) {
-    console.error("Add failed", err);
-    toasterError("Something went wrong while saving links.", 3000, "id");
-  }
-};
 
-const handleCancel = () => {
-  setFormData(initialFormData);
-};
+    try {
+      const response = await api.post("subadmin/restaurant-links/", formData);
+      if (response.success) {
+        toasterSuccess("Link Successfully Added.", 4000, "id");
+        navigate("/subadmin/list");
+      } else {
+        toasterError(response.error, 2000, "id");
+      }
+    } catch (err) {
+      console.error("Add failed", err);
+      toasterError("Something went wrong while saving links.", 3000, "id");
+    }
+  };
+
+  const handleCancel = () => {
+    setFormData(initialFormData);
+  };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
@@ -114,7 +114,7 @@ const handleCancel = () => {
 
         <div className=" mx-auto bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] rounded-3xl shadow-xl p-8 border border-gray-200">
           <div className="mb-6">
-           
+
           </div>
 
           <div className="flex items-center gap-2 mb-6">
@@ -232,7 +232,7 @@ const handleCancel = () => {
           </div>
 
           <div className="flex flex-col md:flex-row justify-end gap-3 pt-4">
-            <button onClick={handleCancel}  className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
+            <button onClick={handleCancel} className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
               Cancel Changes
             </button>
             <button

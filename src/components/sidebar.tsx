@@ -31,34 +31,34 @@ const Sidebar = () => {
   const menuItems = role === "admin" ? adminMenu : subdirMenu;
 
   const handleLogout = async () => {
-  try {
-    const refreshToken = Cookies.get("refreshToken");
+    try {
+      const refreshToken = Cookies.get("refreshToken");
 
-    if (!refreshToken) {
-      console.error("No refresh token found");
-      navigate("/auth/login");
-      return;
+      if (!refreshToken) {
+        console.error("No refresh token found");
+        navigate("/auth/login");
+        return;
+      }
+
+      const response = await api.post("auth/logout/", {
+        refresh: refreshToken,
+      });
+
+
+      if (response?.data?.success) {
+        toasterSuccess(response?.data?.message, "2000", "id")
+        Cookies.remove("refreshToken");
+        Cookies.remove("token");
+        Cookies.remove("role");
+        Cookies.remove("id");
+        Cookies.remove("email");
+        navigate("/auth/login");
+      } else {
+        console.error("Logout failed", response);
+      }
+    } catch (error) {
+      console.error("Error logging out", error);
     }
-
-    const response = await api.post("auth/logout/", {
-      refresh: refreshToken,
-    });
-
-
-    if (response?.data?.success) {
-      toasterSuccess(response?.data?.message,"2000","id")
-      Cookies.remove("refreshToken");
-      Cookies.remove("token");
-      Cookies.remove("role");
-      Cookies.remove("id");
-      Cookies.remove("email");
-      navigate("/auth/login");
-    } else {
-      console.error("Logout failed", response);
-    }
-  } catch (error) {
-    console.error("Error logging out", error);
-  }
 
 
   };
@@ -72,15 +72,14 @@ const Sidebar = () => {
               to={item.route}
               key={item.label}
               className={`flex items-center gap-3 p-2 rounded cursor-pointer transition 
-                ${
-                  pathname === item.route
-                    ? "bg-white text-[#1d3faa] font-semibold"
-                    : "hover:bg-[#5e5696]"
+                ${pathname === item.route
+                  ? "bg-white text-[#1d3faa] font-semibold"
+                  : "hover:bg-[#5e5696]"
                 }`}
             >
-            <div className={`w-6 flex justify-center ${pathname === item.route ? "text-[#1d3faa]" : ""}`}>
-  <BarChart2 size={16} className={pathname === item.route ? "" : "text-white"} />
-</div>
+              <div className={`w-6 flex justify-center ${pathname === item.route ? "text-[#1d3faa]" : ""}`}>
+                <BarChart2 size={16} className={pathname === item.route ? "" : "text-white"} />
+              </div>
 
               <span>{item.label}</span>
             </Link>

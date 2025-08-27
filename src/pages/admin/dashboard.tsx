@@ -1,5 +1,5 @@
 import api from "../../lib/Api";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DashboardCards from "../../components/admin/DashboardCards";
@@ -16,10 +16,10 @@ const AdminDashboard = () => {
   const [plandistributionData, setPlandistributionData] = useState([]);
   const [planStats, setPlanStats] = useState([]);
 
-  const displayed = recentlyRes.slice(0, 4); 
+  const displayed = recentlyRes.slice(0, 4);
   const [monthlyEarningData, setMonthlyEarningData] = useState([]);
-  
-   useEffect(() => {
+
+  useEffect(() => {
     const fetchPlanDistribution = async () => {
       try {
         const response = await api.get("superadmin/plan-distribution/");
@@ -30,9 +30,9 @@ const AdminDashboard = () => {
     };
 
     fetchPlanDistribution();
-   }, []);
-  
-   useEffect(() => {
+  }, []);
+
+  useEffect(() => {
     const fetchPlanData = async () => {
       try {
         const response = await api.get("superadmin/plan-stats/");
@@ -103,12 +103,12 @@ const AdminDashboard = () => {
               Plan Distribution
             </h2>
             <div className=" p-2 rounded-lg">
-            <PlanDistributionPieChart data={plandistributionData} />            </div>
+              <PlanDistributionPieChart data={plandistributionData} />            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <RestaurantsByPlanTable data={planStats}/>
+          <RestaurantsByPlanTable data={planStats} />
           <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
               <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center sm:text-left">
@@ -123,60 +123,60 @@ const AdminDashboard = () => {
             </div>
 
             <div className="space-y-4">
-<div className="space-y-4">
-  {displayed.map((item: any, index: any) => {
-    const isEmptyRestaurant =
-      !item.restaurant_name &&
-      !item.profile_image &&
-      !item.restaurant_description &&
-      !item.city &&
-      !item.state &&
-      !item.plan_name;
+              <div className="space-y-4">
+                {displayed.map((item: any, index: any) => {
+                  const isEmptyRestaurant =
+                    !item.restaurant_name &&
+                    !item.profile_image &&
+                    !item.restaurant_description &&
+                    !item.city &&
+                    !item.state &&
+                    !item.plan_name;
 
-    const hasImage = !!item.profile_image;
+                  const hasImage = !!item.profile_image;
 
-    return (
-      <div
-        key={index}
-        className="flex justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100"
-      >
-        <div className="flex items-center gap-3">
-          {/* Image or Email Initial */}
-          {hasImage ? (
-            <img
-              alt={item.restaurant_name || item.email}
-              src={`${apiUrl}${item.profile_image}`}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
-              {item.email ? item.email.charAt(0).toUpperCase() : "U"}
-            </div>
-          )}
+                  return (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100"
+                    >
+                      <div className="flex items-center gap-3">
+                        {/* Image or Email Initial */}
+                        {hasImage ? (
+                          <img
+                            alt={item.restaurant_name || item.email}
+                            src={`${apiUrl}${item.profile_image}`}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
+                            {item.email ? item.email.charAt(0).toUpperCase() : "U"}
+                          </div>
+                        )}
 
-          {/* Text */}
-          <div>
-            {isEmptyRestaurant ? (
-              <p className="font-semibold text-gray-800">{item.email} is onboarded</p>
-            ) : (
-              <>
-                <p className="font-semibold text-gray-800">{item.restaurant_name}</p>
-                <p className="text-sm text-gray-500">{item.plan_name}</p>
-              </>
-            )}
-          </div>
-        </div>
+                        {/* Text */}
+                        <div>
+                          {isEmptyRestaurant ? (
+                            <p className="font-semibold text-gray-800">{item.email} is onboarded</p>
+                          ) : (
+                            <>
+                              <p className="font-semibold text-gray-800">{item.restaurant_name}</p>
+                              <p className="text-sm text-gray-500">{item.plan_name}</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
 
-        {/* "New" badge only for real restaurants */}
-        {!isEmptyRestaurant && (
-          <span className="text-xs bg-[#fe6a3c]/10 text-[#fe6a3c] px-2.5 py-1 rounded-full font-medium">
-            New
-          </span>
-        )}
-      </div>
-    );
-  })}
-</div>
+                      {/* "New" badge only for real restaurants */}
+                      {!isEmptyRestaurant && (
+                        <span className="text-xs bg-[#fe6a3c]/10 text-[#fe6a3c] px-2.5 py-1 rounded-full font-medium">
+                          New
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
 
             </div>
           </div>

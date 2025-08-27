@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ const RestaurantsDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      
+
 
       {/* Main Content */}
       <div className="flex-1 p-8">
@@ -44,13 +44,12 @@ const RestaurantsDashboard = () => {
               </h3>
               <p className="text-2xl font-bold mb-1">{stat.value}</p>
               <p
-                className={`text-sm ${
-                  stat.change.startsWith("+")
+                className={`text-sm ${stat.change.startsWith("+")
                     ? "text-green-500"
                     : "text-red-500"
-                }`}
+                  }`}
               >
-                {stat.change} vs 
+                {stat.change} vs
               </p>
             </div>
           ))}

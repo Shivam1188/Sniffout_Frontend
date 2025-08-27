@@ -35,12 +35,12 @@ const AuthForm = ({
         const newErrors: { [key: string]: string } = {};
 
         // First name check
-        if (type!=="forgot-password" && !isLogin && !formData.firstname.trim()) {
+        if (type !== "forgot-password" && !isLogin && !formData.firstname.trim()) {
             newErrors.firstname = "First name is required";
         }
 
         // Last name check
-        if (type!=="forgot-password" && !isLogin && !formData.lastname.trim()) {
+        if (type !== "forgot-password" && !isLogin && !formData.lastname.trim()) {
             newErrors.lastname = "Last name is required";
         }
 
@@ -123,7 +123,7 @@ const AuthForm = ({
                     Cookies.set("role", response.data?.data?.role || response.data?.data?.user?.role, { expires: 1 });
                     Cookies.set("refreshToken", response?.data?.data?.tokens?.refresh, { expires: 7 });
                     Cookies.set("id", response?.data?.data?.user_id || response?.data?.data?.user?.id, { expires: 7 });
-  
+
                     const role = response.data?.data?.role || response.data?.data?.user?.role;
                     if (role === "admin") {
                         navigate("/admin/dashboard");
@@ -186,28 +186,28 @@ const AuthForm = ({
                     </form>
 
                     {/* Footer Link */}
-                  {/* Forgot Password link (only show for login form) */}
-{isLogin && (
-  <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
-    <Link
-      to="/auth/forgot-password"
-      className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
-    >
-      Forgot your password?
-    </Link>
-  </p>
-)}
+                    {/* Forgot Password link (only show for login form) */}
+                    {isLogin && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
+                            <Link
+                                to="/auth/forgot-password"
+                                className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                            >
+                                Forgot your password?
+                            </Link>
+                        </p>
+                    )}
 
-{/* Footer Link */}
-<p className="text-sm text-gray-600 dark:text-gray-400 mt-8 text-center">
-  {linkText}{" "}
-  <Link
-    to={linkPath}
-    className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
-  >
-    {linkLabel}
-  </Link>
-</p>
+                    {/* Footer Link */}
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-8 text-center">
+                        {linkText}{" "}
+                        <Link
+                            to={linkPath}
+                            className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                        >
+                            {linkLabel}
+                        </Link>
+                    </p>
 
 
                 </div>

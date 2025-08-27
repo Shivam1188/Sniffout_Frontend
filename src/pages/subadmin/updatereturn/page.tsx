@@ -16,8 +16,6 @@ const UpdateReturn = () => {
   const [isEditing, setIsEditing] = useState(false);
   const userId = Cookies.get("id")
 
-  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-  console.log(profileImageFile, "profileImageFile==")
   const [profile, setProfile] = useState({
     restaurant_name: "",
     first_name: "",
@@ -125,7 +123,6 @@ const UpdateReturn = () => {
 
     const file = e.target.files[0];
     setProfileImage(file.name);
-    setProfileImageFile(file);
 
     if (!isEditing) return;
 

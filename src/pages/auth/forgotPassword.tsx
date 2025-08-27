@@ -16,7 +16,7 @@ const ForgotPassword = () => {
       linkText="Remember your password?"
       linkPath="/auth/login"
       linkLabel="Back to Login"
-      type="forgot-password" 
+      type="forgot-password"
     />
   );
 };

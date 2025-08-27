@@ -13,10 +13,10 @@ export default function ResetPassword() {
   const uid = searchParams.get("uid") || "";
 
   const [formData, setFormData] = useState({
-    email:email,
+    email: email,
     password: "",
     confirm_password: "",
-    uid:""
+    uid: ""
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -55,7 +55,7 @@ export default function ResetPassword() {
     try {
       const response: any = await API.post(`auth/reset-password/${uid}/${token}/`, {
         email,
-          token,
+        token,
         uid,
         password: formData.password,
       });
@@ -79,11 +79,11 @@ export default function ResetPassword() {
             Reset Password
           </h2>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Email
-            </label>
+              </label>
               <input
                 type="email"
                 name="email"
@@ -92,7 +92,7 @@ export default function ResetPassword() {
                 readOnly
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
               />
-              
+
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -134,7 +134,7 @@ export default function ResetPassword() {
             >
               🔐 Reset Password
             </button>
-          </form>         
+          </form>
         </div>
       </div>
     </div>

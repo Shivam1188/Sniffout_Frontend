@@ -30,7 +30,7 @@ const fetchData = async () => {
     setRestaurantToDelete(restaurant);
     setShowDeleteModal(true);
   };
-
+console.log(plans,"==plan")
   const handleDelete = async () => {
     if (!restaurantToDelete) return;
     try {
@@ -132,19 +132,25 @@ const fetchData = async () => {
                   <th className="p-4">Action</th>
                 </tr>
               </thead>
-             <tbody>
+           <tbody>
   {loading ? (
-    // Loader row spanning all columns
     <tr>
-                    <td colSpan={4} className="p-4 text-center">
-                      <div className="flex justify-center items-center py-4">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
-                      </div>
-                    </td>
-                  </tr>
+      <td colSpan={6} className="p-4 text-center">
+        <div className="flex justify-center items-center py-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
+        </div>
+      </td>
+    </tr>
   ) : (
-    plans.map((r: any, index) => (
-      <tr key={index} className="border-b border-gray-100 hover:bg-[#fefefe] transition">
+                    plans.map((r: any, index) => (
+      console.log(r,"======"),
+      <tr
+        key={index}
+       className={`border-b border-gray-100 transition ${
+  r.is_active ? "bg-orange-100 hover:bg-orange-200" : "hover:bg-[#fefefe]"
+}`}
+
+      >
         <td className="p-4">
           <p className="font-semibold text-gray-800">{r.plan_name || "Unnamed"}</p>
         </td>
@@ -180,6 +186,7 @@ const fetchData = async () => {
     ))
   )}
 </tbody>
+
 
             </table>
           </div>

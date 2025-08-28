@@ -154,6 +154,38 @@ const UpdateReturn = () => {
     }
   };
 
+const handleRevert = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const res = await api.get("auth/profile/subadmin/");
+    const data = res.data;
+
+    setProfile({
+      restaurant_name: data.restaurant_name || "",
+      first_name: data.first_name || "",
+      last_name: data.last_name || "",
+      phone_number: data.phone_number || "",
+      email_address: data.email_address || "",
+      address: data.address || "",
+      city: data.city || "",
+      state: data.state || "",
+      zip_code: data.zip_code || "",
+      country: data.country || "",
+      website_url: data.website_url || "",
+      restaurant_description: data.restaurant_description || "",
+    });
+
+    setProfileImage(data.profile_image_url || "");
+    toasterSuccess("Changes reverted successfully!", 2000, "id");
+  } catch (err: any) {
+    console.error(err);
+    toasterError("Failed to revert changes.", 2000, "id");
+    setError("Failed to revert changes.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -250,14 +282,26 @@ const UpdateReturn = () => {
             </p>
           </div>
 
-          {anyFieldFilled && !isEditing && (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
-            >
-              Edit
-            </button>
-          )}
+      {anyFieldFilled && !isEditing && (
+  <button
+    onClick={() => setIsEditing(true)}
+    className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
+  >
+    Edit
+  </button>
+)}
+
+{isEditing && (
+  <button
+    type="button"
+    onClick={handleRevert}
+    className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-4"
+    disabled={saving || loading}
+  >
+    Revert Changes
+  </button>
+)}
+
 
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}

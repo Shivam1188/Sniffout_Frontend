@@ -86,26 +86,15 @@ function MenuData() {
               <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
                 Menu List
               </h1>
-              <div className="relative group">
-                <Link
-                  to={menuList.length >= 3 ? "#" : "/subadmin/add-menu"}
-                  className={`text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center ${menuList.length >= 3
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-[#fe6a3c] hover:bg-[#fd8f61]"
-                    }`}
-                  onClick={(e) => {
-                    if (menuList.length >= 3) e.preventDefault();
-                  }}
-                >
-                  Add Menu
-                </Link>
+       <div className="relative group">
+  <Link
+    to="/subadmin/add-menu"
+    className="text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center bg-[#fe6a3c] hover:bg-[#fd8f61]"
+  >
+    Add Menu
+  </Link>
+</div>
 
-                {menuList.length >= 3 && (
-                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black text-white text-xs px-6 py-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    You can't add more than three menus
-                  </span>
-                )}
-              </div>
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-gray-100">

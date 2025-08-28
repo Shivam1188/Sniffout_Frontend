@@ -60,10 +60,16 @@ const PlansDetails = () => {
                 </thead>
                 <tbody>
                   {plans.map((r: any, index) => (
+                    console.log(r.is_active, "----"),
                     <tr
                       key={index}
-                      className="border-b border-gray-100 hover:bg-[#fefefe] transition"
+                      style={{
+                        backgroundColor: r.is_active ? "#fed7aa" : undefined, // visible orange
+                      }}
+                      className="border-b border-gray-100 transition hover:bg-gray-50"
                     >
+
+
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div>
@@ -106,6 +112,7 @@ const PlansDetails = () => {
                     </tr>
                   ))}
                 </tbody>
+
               </table>
             )}
           </div>

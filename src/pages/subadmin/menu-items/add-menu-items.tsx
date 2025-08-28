@@ -17,17 +17,26 @@ export default function AddMenuItems() {
   });
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchMenus = async () => {
-      try {
-        const res = await api.get("subadmin/menu/");
-        setMenuList(res.data?.results || res.data || []);
-      } catch (err) {
-        console.error("Failed to fetch menus", err);
-      }
-    };
-    fetchMenus();
-  }, []);
+ useEffect(() => {
+  const fetchMenus = async () => {
+    try {
+      const res = await api.get("subadmin/menu/");
+      const menus = res.data?.results || res.data || [];
+
+      // Remove duplicates by menu name
+      const uniqueMenus = menus.filter(
+        (menu:any, index:any, self:any) =>
+          index === self.findIndex((m:any) => m.name === menu.name)
+      );
+
+      setMenuList(uniqueMenus);
+    } catch (err) {
+      console.error("Failed to fetch menus", err);
+    }
+  };
+  fetchMenus();
+}, []);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked }: any = e.target;

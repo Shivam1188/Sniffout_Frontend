@@ -5,50 +5,41 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
 
+interface LinkRecord {
+  id: number;
+  user_id: string;
+  restaurant_name: string;
+  direct_ordering_link: string;
+  doordash_link: string;
+  ubereats_link: string;
+  grubhub_link: string;
+  direct_reservation_link: string;
+  opentable_link: string;
+  resy_link: string;
+  catering_request_form: string;
+  special_events_form: string;
+}
+
 const ManageLinks = () => {
   const userid = Cookies.get("id");
 
   const [loading, setLoading] = useState(true);
-  const [recordId, setRecordId] = useState<string | null>(null);
-  const [hasData, setHasData] = useState(false);
+  const [records, setRecords] = useState<LinkRecord[]>([]);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [formData, setFormData] = useState<any>({
-    user_id: null,
-
-    restaurant_name: "",
-    direct_ordering_link: "",
-    doordash_link: "",
-    ubereats_link: "",
-    grubhub_link: "",
-    direct_reservation_link: "",
-    opentable_link: "",
-    resy_link: "",
-    catering_request_form: "",
-    special_events_form: "",
-  });
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const isValidUrl = (url: any) => {
+  const isValidUrl = (url: string) => {
     if (!url) return true;
     const pattern = new RegExp(
       "^(https?:\\/\\/)" +
-      "(?:\\S+(?::\\S*)?@)?" +
-      "(?:" +
-      "localhost" +
-      "|\\d{1,3}(?:\\.\\d{1,3}){3}" +
-      "|\\[[0-9A-Fa-f:.]+\\]" +
-      "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +
-      ")" +
-      "(?::\\d{2,5})?" +
-      "(?:[/?#][^\\s]*)?$",
+        "(?:\\S+(?::\\S*)?@)?" +
+        "(?:" +
+        "localhost" +
+        "|\\d{1,3}(?:\\.\\d{1,3}){3}" +
+        "|\\[[0-9A-Fa-f:.]+\\]" +
+        "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +
+        ")" +
+        "(?::\\d{2,5})?" +
+        "(?:[/?#][^\\s]*)?$",
       "i"
     );
     return pattern.test(url);
@@ -58,90 +49,69 @@ const ManageLinks = () => {
     try {
       const response: any = await api.get(`subadmin/restaurant-links/`);
       if (response?.data?.results?.length > 0) {
-        const data = response.data.results[0];
-        setFormData({
-          user_id: data.user_id,
-          restaurant_name: data.restaurant_name,
-          direct_ordering_link: data.direct_ordering_link || "",
-          doordash_link: data.doordash_link || "",
-          ubereats_link: data.ubereats_link || "",
-          grubhub_link: data.grubhub_link || "",
-          direct_reservation_link: data.direct_reservation_link || "",
-          opentable_link: data.opentable_link || "",
-          resy_link: data.resy_link || "",
-          catering_request_form: data.catering_request_form || "",
-          special_events_form: data.special_events_form || "",
-        });
-        setRecordId(data.id);
-        setHasData(true);
+        setRecords(response.data.results);
       } else {
-        setHasData(false);
+        setRecords([]);
       }
     } catch (err) {
       console.error("Error fetching links:", err);
-      setHasData(false);
+      setRecords([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSave = async (e: any) => {
-    e.preventDefault();
+  const handleInputChange = (recordId: number, name: string, value: string) => {
+    setRecords((prev) =>
+      prev.map((rec) =>
+        rec.id === recordId
+          ? {
+              ...rec,
+              [name]: value,
+            }
+          : rec
+      )
+    );
+  };
 
-    for (const [key, value] of Object.entries(formData)) {
-      if (["user_id", "restaurant_name"].includes(key)) continue;
-      if (value && !isValidUrl(value)) {
-        alert(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`);
-        return;
+  const handleSave = async () => {
+    // Validate URLs
+    for (const rec of records) {
+      for (const key of Object.keys(rec)) {
+        if (["id", "user_id", "restaurant_name"].includes(key)) continue;
+
+        const url = rec[key as keyof LinkRecord] as string;
+        if (url && !isValidUrl(url)) {
+          alert(`Invalid URL in "${key.replace(/_/g, " ")}": ${url}`);
+          return;
+        }
       }
     }
 
     try {
-      const payload = {
-        ...formData,
-        user_id: userid,
-      };
-
-      if (recordId) {
-        await api.put(`subadmin/restaurant-links/${recordId}/`, payload);
-      } else {
-        await api.post(`subadmin/restaurant-links/`, payload);
-      }
+      await Promise.all(
+        records.map((rec) => {
+          const payload = { ...rec, user_id: userid };
+          return api.put(`subadmin/restaurant-links/${rec.id}/`, payload);
+        })
+      );
 
       toasterSuccess("Links saved successfully!", 4000, "id");
-      fetchLinks();
       setIsEditing(false);
+      fetchLinks();
     } catch (err) {
       console.error("Save failed", err);
       toasterError("Failed to save data", 2000, "id");
     }
   };
 
-  const handleDelete = async () => {
-    if (!recordId) {
-      alert("No record to delete");
-      return;
-    }
-    if (!window.confirm("Are you sure you want to delete these links?")) return;
+  const handleDelete = async (recordId: number) => {
+    if (!window.confirm("Are you sure you want to delete this link record?")) return;
+
     try {
       await api.delete(`subadmin/restaurant-links/${recordId}/`);
       toasterSuccess("Links deleted successfully!", 4000, "id");
-      setFormData({
-        user_id: userid,
-        restaurant_name: "",
-        direct_ordering_link: "",
-        doordash_link: "",
-        ubereats_link: "",
-        grubhub_link: "",
-        direct_reservation_link: "",
-        opentable_link: "",
-        resy_link: "",
-        catering_request_form: "",
-        special_events_form: "",
-      });
-      setRecordId(null);
-      setHasData(false);
-      setIsEditing(false);
+      fetchLinks();
     } catch (err) {
       console.error("Delete failed", err);
       toasterError("Failed to delete data", 2000, "id");
@@ -154,17 +124,17 @@ const ManageLinks = () => {
 
   if (loading) return <p className="p-6"><LoadingSpinner /></p>;
 
-  const renderInput = (label: string, name: any) => (
-    <div >
+  const renderInput = (record: LinkRecord, label: string, name: keyof LinkRecord) => (
+    <div className="mb-4">
       <label className="text-sm font-semibold text-gray-700 block mb-1">{label}</label>
       <input
         type="text"
-        name={name}
-        value={formData[name]}
-        onChange={handleChange}
+        value={record[name] as string}
         readOnly={!isEditing}
-        className={`w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""
-          }`}
+        onChange={(e) => handleInputChange(record.id, name as string, e.target.value)}
+        className={`w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm ${
+          !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
+        }`}
       />
     </div>
   );
@@ -175,7 +145,7 @@ const ManageLinks = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <h1 className="text-2xl font-bold text-white">Manage Restaurant List</h1>
           <div className="flex gap-2">
-            {!isEditing && hasData && (
+            {!isEditing && records.length > 0 && (
               <button
                 onClick={() => setIsEditing(true)}
                 className="cursor-pointer bg-green-500 text-white px-5 py-2 rounded-md shadow-md"
@@ -191,14 +161,6 @@ const ManageLinks = () => {
                 >
                   Save
                 </button>
-                {recordId && (
-                  <button
-                    onClick={handleDelete}
-                    className="cursor-pointer bg-red-500 text-white px-5 py-2 rounded-md shadow-md"
-                  >
-                    Delete
-                  </button>
-                )}
                 <button
                   onClick={() => setIsEditing(false)}
                   className="cursor-pointer bg-gray-400 text-white px-5 py-2 rounded-md shadow-md"
@@ -216,34 +178,38 @@ const ManageLinks = () => {
           </div>
         </div>
 
-        {!hasData ? (
+        {records.length === 0 ? (
           <div className="bg-white p-8 rounded-2xl shadow text-center border border-gray-200">
             <p className="text-lg font-semibold text-gray-700">
-              Please add restaurant links from the <span className="text-[#fe6a3c]">2nd Tab</span> First.
+              No restaurant links found. Please add them first.
             </p>
           </div>
         ) : (
-          <>
-            <div className="mx-auto bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] rounded-3xl shadow-xl p-8 border border-gray-200 space-y-6">
-              {renderInput("Direct Ordering Link", "direct_ordering_link")}
-              {renderInput("DoorDash Link", "doordash_link")}
-              {renderInput("UberEats Link", "ubereats_link")}
-              {renderInput("GrubHub Link", "grubhub_link")}
-            </div>
+          records.map((rec,index) => (
+            <div key={rec.id} className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-200">
+  <h2 className="font-bold text-lg mb-4">
+      {index === records.length - 1 ? "Recent Restaurant Links" : `Restaurant ID: ${rec.restaurant_name}`}
+    </h2>
+              {renderInput(rec, "Direct Ordering Link", "direct_ordering_link")}
+              {renderInput(rec, "DoorDash Link", "doordash_link")}
+              {renderInput(rec, "UberEats Link", "ubereats_link")}
+              {renderInput(rec, "GrubHub Link", "grubhub_link")}
+              {renderInput(rec, "Direct Reservation Link", "direct_reservation_link")}
+              {renderInput(rec, "OpenTable Link", "opentable_link")}
+              {renderInput(rec, "Resy Link", "resy_link")}
+              {renderInput(rec, "Catering Request Form", "catering_request_form")}
+              {renderInput(rec, "Special Events Form", "special_events_form")}
 
-            <div className="mx-auto py-6 space-y-8">
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 space-y-5">
-                {renderInput("Direct Reservation Link", "direct_reservation_link")}
-                {renderInput("OpenTable Link", "opentable_link")}
-                {renderInput("Resy Link", "resy_link")}
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 space-y-5">
-                {renderInput("Catering Request Form", "catering_request_form")}
-                {renderInput("Special Events Form", "special_events_form")}
-              </div>
+              {isEditing && (
+                <button
+                  onClick={() => handleDelete(rec.id)}
+                  className="mt-4 bg-red-500 text-white px-5 py-2 rounded-md shadow-md"
+                >
+                  Delete
+                </button>
+              )}
             </div>
-          </>
+          ))
         )}
       </div>
     </div>

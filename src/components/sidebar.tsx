@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const subdirMenu = [
     { label: "Dashboard", route: "/subadmin/dashboard" },
-    { label: "Manage Restaurants Links", route: "/subadmin/manage-restaurants" },
+    { label: "Add Restaurants Links", route: "/subadmin/manage-restaurants" },
     { label: "Manage Restaurants List", route: "/subadmin/list" },
     { label: "Voice Bot", route: "/subadmin/voice-bot" },
     { label: "Update Profile", route: "/subadmin/update-profile" },

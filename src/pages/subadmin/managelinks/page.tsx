@@ -86,15 +86,15 @@ const Managelinks = () => {
     }
   };
 
-  const handleCancel = () => {
-    setFormData(initialFormData);
-  };
+  // const handleCancel = () => {
+  //   setFormData(initialFormData);
+  // };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <div>
-            <h1 className="text-2xl font-bold text-white">Manage Restaurant Links</h1>
+            <h1 className="text-2xl font-bold text-white">Add Restaurant Links</h1>
           </div>
           <div className="flex-shrink-0">
             <Link
@@ -232,9 +232,9 @@ const Managelinks = () => {
           </div>
 
           <div className="flex flex-col md:flex-row justify-end gap-3 pt-4">
-            <button onClick={handleCancel} className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
+            {/* <button onClick={handleCancel} className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
               Cancel Changes
-            </button>
+            </button> */}
             <button
               onClick={handleSave}
               className="cursor-pointer bg-[#2441a8] text-white px-6 py-2 rounded-md font-semibold shadow-md w-full md:w-auto"

@@ -43,6 +43,9 @@ import Unauthorized from "./pages/unauthorized.tsx";
 import PaymentCancel from "./pages/subadmin/paymentCancel/page.tsx";
 import PlanHistorydetail from "./pages/subadmin/plan/planHistorydetail.tsx";
 import Layout from "./components/Layout.tsx";
+import Feedback from "./pages/subadmin/feedback/page.tsx";
+import AddFeedback from "./pages/subadmin/feedback/add-feedback/page.tsx";
+import EditFeedback from "./pages/subadmin/feedback/edit-feedback/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -145,6 +148,24 @@ const AppRouter = () => {
             path="/subadmin/recently-calls"
             element={
               <ProtectedRoute allowedRole="subdir" element={<RecentlyCalls />} />
+            }
+          />
+           <Route
+            path="/subadmin/feedback"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Feedback />} />
+            }
+          />
+           <Route
+            path="/subadmin/add-feedback"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddFeedback />} />
+            }
+          />
+           <Route
+            path="/subadmin/edit-feedback/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditFeedback />} />
             }
           />
           <Route

@@ -25,7 +25,7 @@ const Sidebar = () => {
     { label: "Menu Items", route: "/subadmin/menu-items" },
     { label: "Business Hours", route: "/subadmin/business-hour" },
     { label: "Plans", route: "/subadmin/plan" },
-    // { label: "Payment", route: "/subadmin/billing" },
+    { label: "Feedback Questions", route: "/subadmin/feedback" },
   ];
 
   const menuItems = role === "admin" ? adminMenu : subdirMenu;

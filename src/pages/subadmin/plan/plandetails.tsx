@@ -54,7 +54,7 @@ export default function PlansDet() {
     };
 
     try {
-      const response = await fetch(`${apiUrl}api/superadmin/create-stripe-session/`, {
+      const response = await fetch(`http://3.150.71.157:5173/api/superadmin/create-stripe-session/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

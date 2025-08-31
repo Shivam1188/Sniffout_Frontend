@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const BASE_URL = apiUrl || 'http://127.0.0.1:8000/api/';
+const BASE_URL = apiUrl;
 const handleResponse = async (response: Response) => {
   if (response.status === 204 || response.status === 205) {
     return {

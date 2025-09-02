@@ -8,7 +8,7 @@ import PlanDistributionPieChart from "../../components/Charts/PieChartPlanDistri
 import RestaurantsByPlanTable from "../../components/RestaurantsByPlanTable";
 
 const AdminDashboard = () => {
-  const apiUrl = import.meta.env.VITE_IMAGE_URL;
+  // const apiUrl = import.meta.env.VITE_IMAGE_URL;
 
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);

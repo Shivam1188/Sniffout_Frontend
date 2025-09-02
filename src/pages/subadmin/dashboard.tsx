@@ -87,7 +87,7 @@ const App = () => {
             {/* Header with Toggle */}
             <div className="flex justify-between items-center mb-2">
               <h2 className="font-semibold text-gray-800 text-lg">
-                Earnings
+                Expenditure
               </h2>
 
               <div className="flex gap-2">

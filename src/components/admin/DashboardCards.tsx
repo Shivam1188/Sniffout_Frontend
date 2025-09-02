@@ -47,7 +47,7 @@ export default function DashboardCards() {
 
   const cards: any = [
     stats.restaurants && {
-      title: "Total Restaurants",
+      title: "Total Business",
       value: stats.restaurants.total_restaurants ?? 0,
       lastmonth: stats.restaurants?.last_month_count ?? 0,
       change: formatChange(

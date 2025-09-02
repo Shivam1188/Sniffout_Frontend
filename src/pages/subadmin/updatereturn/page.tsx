@@ -247,23 +247,12 @@ const handleRevert = async () => {
 
 
 
-  const handleClear = () => {
-    setProfile({
-      restaurant_name: "",
-      first_name: "",
-      last_name: "",
-      phone_number: "",
-      email_address: "",
-      address: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      country: "",
-      website_url: "",
-      restaurant_description: "",
-    });
-    setProfileImage("");
-  };
+const handleCancel = () => {
+  // setProfile(originalProfile);
+  // setProfileImage(originalProfileImage);
+  setIsEditing(false);
+};
+
 
   const anyFieldFilled = Object.values(profile).some(
     (val) => val !== null && val !== ""
@@ -442,14 +431,15 @@ const handleRevert = async () => {
             <div className="flex justify-end gap-4">
               {isEditing && (
                 <>
-                  {/* <button
-                    type="button"
-                    onClick={handleClear}
-                    className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-                    disabled={saving}
-                  >
-                    Clear All
-                  </button> */}
+                 <button
+  type="button"
+  onClick={handleCancel}
+  className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+  disabled={saving}
+>
+  Cancel
+</button>
+
 
                   <button
                     type="submit"

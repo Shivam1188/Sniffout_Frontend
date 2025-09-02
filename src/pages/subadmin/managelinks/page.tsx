@@ -94,7 +94,7 @@ const Managelinks = () => {
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <div>
-            <h1 className="text-2xl font-bold text-white">Add Restaurant Links</h1>
+            <h1 className="text-2xl font-bold text-white">Add Business Links</h1>
           </div>
           <div className="flex-shrink-0">
             <Link

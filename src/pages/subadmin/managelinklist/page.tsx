@@ -143,7 +143,7 @@ const ManageLinks = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
-          <h1 className="text-2xl font-bold text-white">Manage Restaurant List</h1>
+          <h1 className="text-2xl font-bold text-white">Manage Business List</h1>
           <div className="flex gap-2">
             {!isEditing && records.length > 0 && (
               <button
@@ -181,14 +181,14 @@ const ManageLinks = () => {
         {records.length === 0 ? (
           <div className="bg-white p-8 rounded-2xl shadow text-center border border-gray-200">
             <p className="text-lg font-semibold text-gray-700">
-              No restaurant links found. Please add them first.
+              No business links found. Please add them first.
             </p>
           </div>
         ) : (
           records.map((rec,index) => (
             <div key={rec.id} className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-200">
   <h2 className="font-bold text-lg mb-4">
-      {index === records.length - 1 ? "Recent Restaurant Links" : `Restaurant ID: ${rec.restaurant_name}`}
+      {index === records.length - 1 ? "Recent Business Links" : `Restaurant ID: ${rec.restaurant_name}`}
     </h2>
               {renderInput(rec, "Direct Ordering Link", "direct_ordering_link")}
               {renderInput(rec, "DoorDash Link", "doordash_link")}
@@ -203,7 +203,7 @@ const ManageLinks = () => {
               {isEditing && (
                 <button
                   onClick={() => handleDelete(rec.id)}
-                  className="mt-4 bg-red-500 text-white px-5 py-2 rounded-md shadow-md"
+                  className="cursor-pointer mt-4 bg-red-500 text-white px-5 py-2 rounded-md shadow-md"
                 >
                   Delete
                 </button>

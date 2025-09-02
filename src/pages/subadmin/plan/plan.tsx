@@ -12,7 +12,7 @@ const PlansDetails = () => {
       const response = await api.get("superadmin/admin-plans/");
       setPlans(response.data.results);
     } catch (error) {
-      console.error("Error fetching restaurant data", error);
+      console.error("Error fetching business data", error);
     } finally {
       setLoading(false);
     }

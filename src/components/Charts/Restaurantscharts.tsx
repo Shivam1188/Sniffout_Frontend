@@ -25,7 +25,7 @@ export default function Restaurantscharts() {
         );
         setStats(response.data);
       } catch (error) {
-        console.error("Error fetching restaurant data", error);
+        console.error("Error fetching business data", error);
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,7 @@ export default function Restaurantscharts() {
   const barData = stats
     ? [
         {
-          name: "Restaurants",
+          name: "Business",
           Active: stats.active_restaurants,
           Inactive: stats.inactive_restaurants,
         },
@@ -63,7 +63,7 @@ export default function Restaurantscharts() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-            Restaurant Statistics
+            Business Statistics
           </h2>
           <p className="text-sm text-gray-500">Insights and activity trends</p>
         </div>
@@ -97,7 +97,7 @@ export default function Restaurantscharts() {
                     🍽️
                   </div>
                   <p className="text-sm font-semibold text-blue-700">
-                    Total Restaurants
+                    Total Business
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold text-blue-900 mt-2">
                     {stats.total_restaurants}
@@ -112,7 +112,7 @@ export default function Restaurantscharts() {
                     ✅
                   </div>
                   <p className="text-sm font-semibold text-green-700">
-                    Active Restaurants
+                    Active Business
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold text-green-900 mt-2">
                     {stats.active_restaurants}
@@ -125,7 +125,7 @@ export default function Restaurantscharts() {
                     ⚠️
                   </div>
                   <p className="text-sm font-semibold text-red-700">
-                    Inactive Restaurants
+                    Inactive Business
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold text-red-900 mt-2">
                     {stats.inactive_restaurants}

@@ -64,7 +64,7 @@ const AdminDashboard = () => {
         const response = await api.get("superadmin/recently-onboarded/");
         setrecentlyRes(response.data || []);
       } catch (error) {
-        console.error("Error fetching recently onboarded restaurants", error);
+        console.error("Error fetching recently onboarded business", error);
       }
     };
 
@@ -145,7 +145,9 @@ const AdminDashboard = () => {
                         {hasImage ? (
                           <img
                             alt={item.restaurant_name || item.email}
-                            src={`${apiUrl}${item.profile_image}`}
+                            // src={`${apiUrl}${item.profile_image}`}
+src={`http://3.150.71.157:8000${item.profile_image}`}
+
                             className="w-10 h-10 rounded-full object-cover"
                           />
                         ) : (

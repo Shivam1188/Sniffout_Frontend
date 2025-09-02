@@ -133,7 +133,7 @@ const UpdateReturn = () => {
       formData.append("profile_image", file);
 
       const response = await fetch(
-        `${apiUrl}subadmin/profile/${userId}/update-profile-image/`,
+        `http://3.150.71.157:5173/subadmin/profile/${userId}/update-profile-image/`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
@@ -197,7 +197,7 @@ const handleRevert = async () => {
 
   const validateForm = () => {
     if (!profile.restaurant_name.trim()) {
-      toasterError("Restaurant Name is required.", 2000, "id");
+      toasterError("Business Name is required.", 2000, "id");
       return false;
     }
     if (!profile.first_name.trim()) {
@@ -275,10 +275,10 @@ const handleRevert = async () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">
-              Update Restaurant Information
+              Update Business Information
             </h1>
             <p className="text-sm text-white">
-              Modify your restaurant details to keep your profile up to date
+              Modify your business details to keep your profile up to date
             </p>
           </div>
 
@@ -291,7 +291,7 @@ const handleRevert = async () => {
   </button>
 )}
 
-{isEditing && (
+{/* {isEditing && (
   <button
     type="button"
     onClick={handleRevert}
@@ -300,7 +300,7 @@ const handleRevert = async () => {
   >
     Revert Changes
   </button>
-)}
+)} */}
 
 
           <button
@@ -381,7 +381,7 @@ const handleRevert = async () => {
               </div>
               <div className="lg:col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { label: "Restaurant Name", name: "restaurant_name" },
+                  { label: "Business", name: "restaurant_name" },
                   { label: "Phone Number", name: "phone_number" },
                   { label: "Email Address", name: "email_address" },
                   { label: "Address", name: "address" },
@@ -427,7 +427,7 @@ const handleRevert = async () => {
                     d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z"
                   />
                 </svg>
-                <span>Restaurant Description</span>
+                <span>Business Description</span>
               </label>
               <textarea
                 name="restaurant_description"
@@ -442,14 +442,14 @@ const handleRevert = async () => {
             <div className="flex justify-end gap-4">
               {isEditing && (
                 <>
-                  <button
+                  {/* <button
                     type="button"
                     onClick={handleClear}
                     className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
                     disabled={saving}
                   >
                     Clear All
-                  </button>
+                  </button> */}
 
                   <button
                     type="submit"

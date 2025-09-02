@@ -11,14 +11,14 @@ const Sidebar = () => {
 
   const adminMenu = [
     { label: "Dashboard", route: "/admin/dashboard" },
-    { label: "Restaurants", route: "/admin/restaurants" },
+    { label: "Business", route: "/admin/restaurants" },
     { label: "Plans", route: "/admin/plans" },
   ];
 
   const subdirMenu = [
     { label: "Dashboard", route: "/subadmin/dashboard" },
-    { label: "Add Restaurants Links", route: "/subadmin/manage-restaurants" },
-    { label: "Manage Restaurants List", route: "/subadmin/list" },
+    { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
+    { label: "Manage Business List", route: "/subadmin/list" },
     { label: "Voice Bot", route: "/subadmin/voice-bot" },
     { label: "Update Profile", route: "/subadmin/update-profile" },
     { label: "Menu", route: "/subadmin/menu" },
@@ -89,9 +89,9 @@ const Sidebar = () => {
 
       <div className="absolute w-[88%] bottom-[48px] left-[17px]">
         <hr className="border-[#ffffff3d] mb-3" />
-        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
+        {/* <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
           HELP & SUPPORT
-        </h3>
+        </h3> */}
         <div
           onClick={handleLogout}
           className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer bg-white"

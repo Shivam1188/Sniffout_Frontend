@@ -30,7 +30,7 @@ const RestaurantsDashboard = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
           {[
-            { title: "Total Restaurants", value: "1,248", change: "+12.5%" },
+            { title: "Total Business", value: "1,248", change: "+12.5%" },
             { title: "Total Calls Handled", value: "87,392", change: "+8.3%" },
             { title: "Avg Call Duration", value: "3:24", change: "-2.1%" },
             { title: "Active users Duration", value: "3,388", change: "+2.1%" },

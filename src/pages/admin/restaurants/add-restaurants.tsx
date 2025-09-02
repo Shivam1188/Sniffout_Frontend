@@ -25,7 +25,7 @@ const AddRestaurant = () => {
     try {
       const response = await api.post("superadmin/restaurants/", form);
       if (response) {
-        toasterSuccess("Successfully added restaurant.", 4000, "id");
+        toasterSuccess("Successfully added business.", 4000, "id");
         navigate("/admin/restaurant");
       }
     } catch (err) {
@@ -45,7 +45,7 @@ const AddRestaurant = () => {
   to="/admin/restaurants"
   className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
 >
-  ← BACK TO RESTAURANTS
+  ← BACK TO BUSINESS
 </Link>
 
             </div>
@@ -57,18 +57,18 @@ const AddRestaurant = () => {
       <div className="relative p-2 rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-1/2 ">
           <div className="bg-white rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
             <h2 className="cursor-pointer text-3xl font-bold text-gray-800 text-center mb-8 animate-slideInDown">
-              ADD RESTAURANT
+              ADD BUSINESS
             </h2>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Restaurant Name
+                  Business Name
                 </label>
                 <input
                   name="restaurant_name"
                   value={form.restaurant_name}
                   onChange={handleChange}
-                  placeholder="Enter restaurant name"
+                  placeholder="Enter business name"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                   required
                 />
@@ -163,7 +163,7 @@ const AddRestaurant = () => {
                 type="submit"
                 className="w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl"
               >
-                ADD RESTAURANT
+                ADD Business
               </button>
             </form>
           </div>

@@ -1,6 +1,7 @@
+// components/Charts/SubscribersBarChart.tsx
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -9,53 +10,26 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface MonthlyData {
-  period: string;
-  revenue: string;
-  expense: string;
+interface PlanData {
+  plan: string;
+  subscribers: number;
 }
 
-interface ChartProps {
-  monthlyEarningData?: MonthlyData[];
+interface SubscribersBarChartProps {
+  planData?: PlanData[];
+  title?: string;
 }
 
-const MonthlyEarningsChart = ({ monthlyEarningData = [] }: ChartProps) => {
-  // Convert string to numbers and rename `period` to `month`
-  const transformedData = monthlyEarningData.map((item) => ({
-    month: item.period,
-    revenue: parseFloat(item.revenue),
-    expense: parseFloat(item.expense),
-  }));
-
-  // Filter only months with actual data
-  const validChartData = transformedData.filter(
-    (item) => item.revenue !== 0 || item.expense !== 0
-  );
-
-  const renderDot = (props: any) => {
-    const { cx, cy, stroke, fill } = props;
-    return (
-      <circle cx={cx} cy={cy} r={5} stroke={stroke} strokeWidth={2} fill={fill} />
-    );
-  };
-
+const SubscribersBarChart = ({ planData = [] }: SubscribersBarChartProps) => {
   return (
-    <div className="md:col-span-2 bg-white p-6 rounded-2xl shadow-md">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-800">Earnings Overview</h2>
-        <button className="cursor-pointer text-gray-500 hover:text-[#fe6a3c] text-sm font-medium">
-          Monthly
-        </button>
-      </div>
-      <div className="p-2 rounded-lg h-72">
-        {validChartData.length > 0 ? (
+    <div className="bg-white p-6 rounded-2xl shadow-md">
+      {/* <h2 className="text-xl font-semibold text-gray-800 mb-4">{title}</h2> */}
+      <div className="h-72">
+        {planData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={transformedData}
-              margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
-            >
+            <BarChart data={planData} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6b7280" }} />
+              <XAxis dataKey="plan" tick={{ fontSize: 12, fill: "#6b7280" }} />
               <YAxis tick={{ fontSize: 12, fill: "#6b7280" }} />
               <Tooltip
                 contentStyle={{
@@ -65,33 +39,13 @@ const MonthlyEarningsChart = ({ monthlyEarningData = [] }: ChartProps) => {
                   fontSize: "0.875rem",
                 }}
               />
-              <Legend
-                verticalAlign="top"
-                align="right"
-                iconType="circle"
-                wrapperStyle={{ fontSize: "0.875rem", marginBottom: "1rem" }}
-              />
-              <Line
-                type="monotone"
-                dataKey="revenue"
-                stroke="#22c55e"
-                strokeWidth={2.5}
-                dot={renderDot}
-                activeDot={{ r: 6 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="expense"
-                stroke="#ef4444"
-                strokeWidth={2.5}
-                dot={renderDot}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
+              <Legend verticalAlign="top" align="right" iconType="circle" />
+              <Bar dataKey="subscribers" fill="#3b82f6" barSize={40} radius={[5, 5, 0, 0]} />
+            </BarChart>
           </ResponsiveContainer>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500 text-sm">
-            No earnings data available for this period.
+            No subscriber data available for this period.
           </div>
         )}
       </div>
@@ -99,4 +53,4 @@ const MonthlyEarningsChart = ({ monthlyEarningData = [] }: ChartProps) => {
   );
 };
 
-export default MonthlyEarningsChart;
+export default SubscribersBarChart;

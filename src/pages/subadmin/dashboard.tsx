@@ -13,14 +13,15 @@ import {
   Legend,
   ResponsiveContainer
 } from "recharts";
-
-
+import LoadingSpinner from "../../components/Loader";
 
 const App = () => {
   const navigate = useNavigate();
-  const [recentlyRes, setrecentlyRes] = useState([])
+  const [recentlyRes, setRecentlyRes] = useState([])
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chartData, setChartData] = useState([]);
+  const [selectedPeriod, setSelectedPeriod] = useState("daily");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchRecentlyCalls = async () => {
@@ -29,14 +30,14 @@ const App = () => {
         const data = response.data;
 
         if (Array.isArray(data.recent_calls)) {
-          setrecentlyRes(data.recent_calls);
+          setRecentlyRes(data.recent_calls);
         } else {
           console.error("Expected recent_calls array, got:", data);
-          setrecentlyRes([]);
+          setRecentlyRes([]);
         }
       } catch (error) {
         console.error("Error fetching recently calls", error);
-        setrecentlyRes([]);
+        setRecentlyRes([]);
       }
     };
 
@@ -44,21 +45,51 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const fetchMonthlyData = async () => {
+    const fetchExpenditureData = async () => {
+      setLoading(true);
       try {
-        const response = await api.get("superadmin/earnings/monthly/")
+        let endpoint = "";
+        switch (selectedPeriod) {
+          case "daily":
+            endpoint = "subadmin/earnings/daily/";
+            break;
+          case "weekly":
+            endpoint = "subadmin/earnings/weekly/";
+            break;
+          case "monthly":
+            endpoint = "subadmin/earnings/monthly/";
+            break;
+          default:
+            endpoint = "subadmin/earnings/daily/";
+        }
+
+        const response = await api.get(endpoint);
         setChartData(response.data);
       } catch (error) {
-        console.error("Error fetching monthly earnings:", error);
+        console.error("Error fetching expenditure data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchMonthlyData();
-  }, []);
-
+    fetchExpenditureData();
+  }, [selectedPeriod]);
 
   const displayed = recentlyRes.slice(0, 4);
-  const [view, setView] = useState("monthly");
+
+  // Function to format the chart title based on selected period
+  const getChartTitle = () => {
+    switch (selectedPeriod) {
+      case "daily":
+        return "Daily Expenditure";
+      case "weekly":
+        return "Weekly Expenditure";
+      case "monthly":
+        return "Monthly Expenditure";
+      default:
+        return "Expenditure Overview";
+    }
+  };
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
@@ -78,145 +109,118 @@ const App = () => {
           </button>
         </div>
 
-        {/* Stats Cards */}
         <SubadminDashboardCards />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {/* Earning Chart - span 2 columns */}
-          <div className="md:col-span-3 bg-white p-4 rounded-lg shadow-sm">
-            {/* Header with Toggle */}
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="font-semibold text-gray-800 text-lg">
-                Expenditure
+          <div className="md:col-span-3 bg-white p-6 rounded-2xl shadow-md">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
+              <h2 className="text-xl font-semibold text-gray-800">
+                {getChartTitle()}
               </h2>
 
-              <div className="flex gap-2">
+              <div className="flex space-x-2">
                 <button
-                  onClick={() => setView("monthly")}
-                  className={`cursor-pointer px-3 py-1 rounded-lg text-sm font-medium transition ${view === "monthly"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                    }`}
+                  onClick={() => setSelectedPeriod("daily")}
+                  className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
+                    selectedPeriod === "daily"
+                      ? "bg-[#1d3faa] text-white shadow-md"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Daily
+                </button>
+                <button
+                  onClick={() => setSelectedPeriod("weekly")}
+                  className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
+                    selectedPeriod === "weekly"
+                      ? "bg-[#1d3faa] text-white shadow-md"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Weekly
+                </button>
+                <button
+                  onClick={() => setSelectedPeriod("monthly")}
+                  className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
+                    selectedPeriod === "monthly"
+                      ? "bg-[#1d3faa] text-white shadow-md"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
                 >
                   Monthly
                 </button>
               </div>
             </div>
 
-            {/* Chart */}
-            <div className="p-2 rounded-lg">
-              <ResponsiveContainer width="100%" height={250}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" /> {/* month name */}
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="revenue" stroke="#1d3faa" strokeWidth={2} />
-                  <Line type="monotone" dataKey="expense" stroke="#fe6a3c" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            {loading ? (
+              <div className="h-72 flex items-center justify-center">
+                <div className="text-gray-500"><LoadingSpinner/></div>
+              </div>
+            ) : (
+              <div className="h-72">
+                {chartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis 
+                        dataKey="period" 
+                        tick={{ fontSize: 12, fill: "#6b7280" }}
+                        angle={selectedPeriod === "daily" ? -45 : 0}
+                        textAnchor={selectedPeriod === "daily" ? "end" : "middle"}
+                        height={selectedPeriod === "daily" ? 80 : undefined}
+                      />
+                      <YAxis tick={{ fontSize: 12, fill: "#6b7280" }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "white",
+                          border: "1px solid #e5e7eb",
+                          borderRadius: "0.5rem",
+                          fontSize: "0.875rem",
+                        }}
+                      />
+                      <Legend verticalAlign="top" align="right" iconType="circle" />
+                      <Line 
+                        type="monotone" 
+                        dataKey="call_cost" 
+                        stroke="#1d3faa" 
+                        strokeWidth={2} 
+                        name="Call Cost"
+                        dot={{ r: 4 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="sms_cost" 
+                        stroke="#fe6a3c" 
+                        strokeWidth={2} 
+                        name="SMS Cost"
+                        dot={{ r: 4 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="total_cost" 
+                        stroke="#10b981" 
+                        strokeWidth={3} 
+                        name="Total Cost"
+                        dot={{ r: 5 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+                    No expenditure data available for this period.
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-
-          {/* Pie Chart */}
-          {/* <div className="bg-white p-4 rounded-lg shadow-sm">
-            <h2 className="font-semibold text-gray-800 mb-2 text-lg text-center sm:text-left">
-              Plan Distribution
-            </h2>
-            <div className="p-2 rounded-lg">
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie data={planData} dataKey="value" cx="50%" cy="50%" outerRadius={80} label>
-                    {planData.map((_, i) => (
-                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div> */}
         </div>
+
         {/* Tables Section */}
         <div className="grid grid-cols-1 gap-8">
-          {/* Restaurants by Plan */}
-          {/* <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg border border-gray-200">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 text-center sm:text-left">
-              📊 Restaurants by Plan
-            </h2>
-
-            <div className="overflow-x-auto rounded-xl border border-gray-100">
-              <table className="min-w-[600px] w-full table-auto text-sm text-gray-700">
-                <thead>
-                  <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
-                    <th className="py-3 px-4 text-left">Plan Type</th>
-                    <th className="py-3 px-4 text-center">Restaurants</th>
-                    <th className="py-3 px-4 text-center">Revenue</th>
-                    <th className="py-3 px-4 text-center">Growth</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    {
-                      plan: "Entry Level",
-                      restaurants: "742",
-                      revenue: "$22,260",
-                      growth: "+8.4%",
-                    },
-                    {
-                      plan: "Standard",
-                      restaurants: "356",
-                      revenue: "$24,920",
-                      growth: "+12.7%",
-                    },
-                    {
-                      plan: "Premium",
-                      restaurants: "98",
-                      revenue: "$14,700",
-                      growth: "+23.5%",
-                    },
-                    {
-                      plan: "Enterprise",
-                      restaurants: "52",
-                      revenue: "$31,200",
-                      growth: "+2.1%",
-                    },
-                  ].map((row, index) => {
-                    const isPositive = row.growth.startsWith("+");
-                    return (
-                      <tr
-                        key={index}
-                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                          }`}
-                      >
-                        <td className="py-3 px-4 font-medium text-left">
-                          {row.plan}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          {row.restaurants}
-                        </td>
-                        <td className="py-3 px-4 text-center">{row.revenue}</td>
-                        <td
-                          className={`py-3 px-4 text-center font-semibold ${isPositive ? "text-green-600" : "text-red-500"
-                            }`}
-                        >
-                          {isPositive ? "▲" : "▼"} {row.growth}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div> */}
-
-          {/* Recently Onboarded */}
           <div className="w-full bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
               <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center sm:text-left">
-                🎉 Recently Calls
+                🎉 Recent Calls
               </h2>
 
               {displayed.length > 0 && (
@@ -261,8 +265,6 @@ const App = () => {
               </p>
             )}
           </div>
-
-
         </div>
       </div>
     </div>

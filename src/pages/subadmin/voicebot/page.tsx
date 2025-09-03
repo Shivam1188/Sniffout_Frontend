@@ -153,7 +153,7 @@ const VoiceBotDashboard = () => {
                 {/* Statistics Cards - Now inside the SMS Fallback Settings */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-sm font-medium text-gray-500">Restaurant</h3>
+                    <h3 className="text-sm font-medium text-gray-500">Business</h3>
                     <p className="text-xl font-bold text-gray-800">{restaurantName}</p>
                   </div>
                   

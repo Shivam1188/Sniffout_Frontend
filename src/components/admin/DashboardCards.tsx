@@ -8,7 +8,7 @@ export default function DashboardCards() {
     duration: null,
     activeUsers: null,
   });
-  const [loading, setLoading] = useState(true); // loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchAllStats();
@@ -16,18 +16,14 @@ export default function DashboardCards() {
 
   const fetchAllStats = async () => {
     try {
-      setLoading(true); // start loading
-      const [
-        resRestaurants,
-        resCalls,
-        resDuration,
-        resActiveUsers,
-      ] = await Promise.all([
-        api.get("superadmin/restaurant-count/"),
-        api.get("superadmin/call-statistics/"),
-        api.get("superadmin/call-duration-statistics/"),
-        api.get("superadmin/active-user-statistics/"),
-      ]);
+      setLoading(true);
+      const [resRestaurants, resCalls, resDuration, resActiveUsers] =
+        await Promise.all([
+          api.get("superadmin/restaurant-count/"),
+          api.get("superadmin/call-statistics/"),
+          api.get("superadmin/call-duration-statistics/"),
+          api.get("superadmin/active-user-statistics/"),
+        ]);
 
       setStats({
         restaurants: resRestaurants?.data,
@@ -38,7 +34,7 @@ export default function DashboardCards() {
     } catch (error) {
       console.error("Error fetching stats:", error);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
 
@@ -57,9 +53,7 @@ export default function DashboardCards() {
       bg: stats.restaurants.trend === "up" ? "bg-blue-100" : "bg-red-100",
       text: "text-blue-900",
       badge:
-        stats.restaurants.trend === "up"
-          ? "text-blue-700"
-          : "text-red-700",
+        stats.restaurants.trend === "up" ? "text-blue-700" : "text-red-700",
     },
     stats.calls && {
       title: "Total Calls Handled",
@@ -74,7 +68,10 @@ export default function DashboardCards() {
       title: "Avg Call Duration",
       value: stats.duration.average_duration ?? "0:00",
       lastmonth: stats.duration.last_month_average ?? 0,
-      change: formatChange(stats.duration.trend, stats.duration.percentage_change),
+      change: formatChange(
+        stats.duration.trend,
+        stats.duration.percentage_change
+      ),
       bg: stats.duration.trend === "up" ? "bg-gray-200" : "bg-red-100",
       text: "text-gray-900",
       badge: stats.duration.trend === "up" ? "text-gray-700" : "text-red-700",
@@ -89,11 +86,11 @@ export default function DashboardCards() {
       ),
       bg: stats.activeUsers.trend === "up" ? "bg-green-100" : "bg-red-100",
       text: "text-green-900",
-      badge: stats.activeUsers.trend === "up" ? "text-green-700" : "text-red-700",
+      badge:
+        stats.activeUsers.trend === "up" ? "text-green-700" : "text-red-700",
     },
   ].filter(Boolean);
 
-  // Skeleton card
   const SkeletonCard = () => (
     <div className="p-4 md:p-6 rounded-xl shadow-md border border-gray-200 animate-pulse">
       <div className="h-6 bg-gray-300 rounded w-3/4 mb-2"></div>
@@ -120,10 +117,14 @@ export default function DashboardCards() {
               <h3 className="mb-1 md:mb-2 text-sm sm:text-base font-semibold opacity-90">
                 {stat.title}
               </h3>
-              <p className="text-2xl sm:text-3xl font-bold mb-1">{stat.value}</p>
+              <p className="text-2xl sm:text-3xl font-bold mb-1">
+                {stat.value}
+              </p>
               <p
                 className={`text-xs sm:text-sm ${
-                  stat.change.startsWith("+") ? "text-green-600" : "text-red-500"
+                  stat.change.startsWith("+")
+                    ? "text-green-600"
+                    : "text-red-500"
                 }`}
               >
                 {stat.change} vs {stat.lastmonth}

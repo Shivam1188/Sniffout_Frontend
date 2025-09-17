@@ -6,11 +6,7 @@ const RestaurantsDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-
-      {/* Main Content */}
       <div className="flex-1 p-8">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
           <div>
             <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
@@ -44,10 +40,11 @@ const RestaurantsDashboard = () => {
               </h3>
               <p className="text-2xl font-bold mb-1">{stat.value}</p>
               <p
-                className={`text-sm ${stat.change.startsWith("+")
+                className={`text-sm ${
+                  stat.change.startsWith("+")
                     ? "text-green-500"
                     : "text-red-500"
-                  }`}
+                }`}
               >
                 {stat.change} vs
               </p>
@@ -56,7 +53,6 @@ const RestaurantsDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {/* Earning Chart - span 2 columns */}
           <div className="md:col-span-2 bg-gradient-to-br from-[#f9fafb] to-white p-6 rounded-2xl shadow-md border border-gray-100 transition hover:shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold text-[#1d3faa] text-xl">
@@ -79,7 +75,6 @@ const RestaurantsDashboard = () => {
             </div>
           </div>
 
-          {/* Voice Bot Status Card */}
           <div className="bg-gradient-to-br from-white via-[#f9f9fb] to-[#fcfcff] rounded-2xl shadow-md border border-gray-200 p-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -121,7 +116,6 @@ const RestaurantsDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Call Distribution Image Section */}
           <div className="bg-white p-4 rounded-xl shadow border border-gray-100">
             <h2 className="text-sm font-semibold text-gray-700 mb-3">
               Call Distribution by Time
@@ -131,7 +125,6 @@ const RestaurantsDashboard = () => {
             </div>
           </div>
 
-          {/* Recent Calls Section */}
           <div className="bg-white p-4 rounded-xl shadow border border-gray-100">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-sm font-semibold text-gray-700">

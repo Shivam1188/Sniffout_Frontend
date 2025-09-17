@@ -8,15 +8,6 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 
-// interface PlanDistributionData {
-//   plan_name: string;
-//   count: number;
-// }
-
-// interface Props {
-//   data: PlanDistributionData[] | null;
-// }
-
 const COLORS = ["#34d399", "#60a5fa", "#fbbf24", "#f87171", "#a78bfa"];
 
 const PlanDistributionPieChart = ({ data }: any) => {
@@ -27,15 +18,14 @@ const PlanDistributionPieChart = ({ data }: any) => {
     else setLoading(true);
   }, [data]);
 
-  const totalCount = data?.reduce((acc:any, item:any) => acc + item.count, 0) || 0;
+  const totalCount =
+    data?.reduce((acc: any, item: any) => acc + item.count, 0) || 0;
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md w-full h-96 relative">
       {loading ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 animate-pulse">
-          {/* Simulate pie chart */}
           <div className="w-48 h-48 rounded-full bg-gray-200"></div>
-          {/* Simulate legend */}
           <div className="flex flex-wrap gap-2 justify-center mt-4">
             {COLORS.map((color, idx) => (
               <div key={idx} className="flex items-center gap-2">
@@ -66,7 +56,7 @@ const PlanDistributionPieChart = ({ data }: any) => {
                 `${name} (${(percent * 100).toFixed(0)}%)`
               }
             >
-              {data.map((_:any, idx:any) => (
+              {data.map((_: any, idx: any) => (
                 <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
               ))}
             </Pie>

@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { FileText, ChevronRight } from "lucide-react";
-import {  useNavigate } from "react-router-dom";  // To handle redirection
+import { useNavigate } from "react-router-dom";
 import api from "../../lib/Api";
 
-export default function BillingHistory({id}:any) {
+export default function BillingHistory({ id }: any) {
   const [history, setHistory] = useState<any[]>([]);
-  const historyAPI = useNavigate(); // For redirection
-  
+  const historyAPI = useNavigate();
+
   useEffect(() => {
-    api.get("superadmin/billing-history/") 
-      .then((res:any) => {
-        setHistory(res.data); 
+    api
+      .get("superadmin/billing-history/")
+      .then((res: any) => {
+        setHistory(res.data);
       })
-      .catch((err:any) => console.error(err));
+      .catch((err: any) => console.error(err));
   }, []);
 
   const handleViewAll = () => {
-    historyAPI(`/subadmin/all-history-invoices/${id}`);  // Navigate to the 'All Invoices' page
+    historyAPI(`/subadmin/all-history-invoices/${id}`);
   };
 
   return (
@@ -29,7 +30,7 @@ export default function BillingHistory({id}:any) {
 
       <div className="space-y-4">
         {history.length > 0 ? (
-          history.slice(0, 4).map((item: any, index) => (  // Only show the first 4 items
+          history.slice(0, 4).map((item: any, index) => (
             <div
               key={index}
               className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 gap-2"
@@ -45,11 +46,15 @@ export default function BillingHistory({id}:any) {
                 </p>
               </div>
               <div className="text-right space-y-1">
-                <p className="font-semibold text-[#1d3faa]">${item.plan_price}</p>
+                <p className="font-semibold text-[#1d3faa]">
+                  ${item.plan_price}
+                </p>
                 <div className="flex items-center gap-2 justify-end">
                   <span
                     className={`text-xs font-medium ${
-                      item.payment_status === "PAID" ? "text-green-600" : "text-red-600"
+                      item.payment_status === "PAID"
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
                     {item.payment_status}

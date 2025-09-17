@@ -25,7 +25,7 @@ export const errorCodes: Record<string, IErrorHandler> = {
   ERR_AUTH_WRONG_REFRESH_TOKEN: signOut(),
   ERR_AUTH_REFRESH_EXPIRED: signOut(),
 
- 
+
   ERR_AUTH_WRONG_OLD_PASSWORD: toast("Old password is incorrect"),
   ERR_AUTH_WRONG_USERNAME_OR_PASSWORD: toast("Wrong email or password"),
   ERR_AUTH_WRONG_PASSWORD_RESET_TOKEN: toast("Reset token expired"),
@@ -41,7 +41,6 @@ async function handle(res: any): Promise<any> {
 
   if (!errorCode) {
     console.warn("Unhandled error (no code)", res);
-    // Optionally show toast here if needed
     return res;
   }
 
@@ -53,19 +52,16 @@ async function handle(res: any): Promise<any> {
   }
 
   if (error.toast) {
-    // You can show a toast here using your own component or 3rd-party one
-    // e.g., toasterError(error.toast);
+
     console.error("[TOAST]", error.toast);
   }
 
   if (error.signOut) {
-    // Implement sign-out if needed
-    // await User.signOut();
+
     console.warn("Signing out due to token error.");
   }
 
   if (error.validation) {
-    // Optional: Show first validation message
     const message = res.data?.body?.[0]?.message || "Validation error!";
     console.error("[VALIDATION]", message);
   }

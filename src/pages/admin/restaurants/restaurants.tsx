@@ -9,11 +9,10 @@ const Restaurants = () => {
   const [restaurantToDelete, setRestaurantToDelete] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  // Pagination states
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [pageSize] = useState(10); // Assuming backend returns 10 items per page
+  const [pageSize] = useState(10);
 
   const fetchData = async (page = 1) => {
     setLoading(true);
@@ -37,7 +36,9 @@ const Restaurants = () => {
   const handleDelete = async () => {
     if (!restaurantToDelete) return;
     try {
-      const res = await api.delete(`superadmin/restaurants/${restaurantToDelete.id}/`);
+      const res = await api.delete(
+        `superadmin/restaurants/${restaurantToDelete.id}/`
+      );
       if (res.success) {
         setShowDeleteModal(false);
         setRestaurantToDelete(null);
@@ -52,43 +53,67 @@ const Restaurants = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      {/* Delete Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white/90 backdrop-blur-md w-full max-w-md mx-4 rounded-2xl shadow-2xl p-6  border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="bg-red-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <svg
+                  className="w-6 h-6 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
-              <h2 className="text-lg font-semibold text-gray-800">Confirm Deletion</h2>
+              <h2 className="text-lg font-semibold text-gray-800">
+                Confirm Deletion
+              </h2>
             </div>
             <p className="text-sm text-gray-600 mb-6">
               Are you sure you want to delete Business:{" "}
               <span className="font-bold text-red-500">
                 {restaurantToDelete?.restaurant_name || "NOT UPDATED YET"}
-              </span>?
+              </span>
+              ?
             </p>
             <div className="flex justify-end gap-3">
-              <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 bg-gray-100 rounded-lg">Cancel</button>
-              <button onClick={handleDelete} className="px-4 py-2 bg-red-600 text-white rounded-lg">Delete</button>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 bg-gray-100 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Main Section */}
       <div className="flex-1 p-6">
         <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md ">
           <div className="flex justify-between mb-6 bg-white p-5 rounded-xl shadow-sm ">
             <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">🍽 Business List</h2>
-              <p className="text-sm text-gray-500">Manage all registered businesses in the system</p>
+              <h2 className="text-2xl font-bold text-[#1d3faa]">
+                🍽 Business List
+              </h2>
+              <p className="text-sm text-gray-500">
+                Manage all registered businesses in the system
+              </p>
             </div>
           </div>
 
-          {/* Table */}
           <div className="overflow-x-auto rounded-lg  bg-white shadow-sm">
             <table className="min-w-full text-sm text-gray-700">
               <thead>
@@ -112,8 +137,11 @@ const Restaurants = () => {
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           {r.profile_image ? (
-                            <img src={r.profile_image} alt={r.restaurant_name || r.email}
-                              className="w-10 h-10 rounded-full border object-cover"/>
+                            <img
+                              src={r.profile_image}
+                              alt={r.restaurant_name || r.email}
+                              className="w-10 h-10 rounded-full border object-cover"
+                            />
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
                               {r.email?.charAt(0).toUpperCase() || "U"}
@@ -126,11 +154,15 @@ const Restaurants = () => {
                       </td>
                       <td className="p-4">
                         <p className="font-medium">{r.username}</p>
-                        <p className="text-xs text-gray-500">{r.owner_role || "N/A"}</p>
+                        <p className="text-xs text-gray-500">
+                          {r.owner_role || "N/A"}
+                        </p>
                       </td>
                       <td className="p-4">
                         <p>{r.email}</p>
-                        <p className="text-xs text-gray-500">{r.phone_number || "N/A"}</p>
+                        <p className="text-xs text-gray-500">
+                          {r.phone_number || "N/A"}
+                        </p>
                       </td>
                       <td className="p-4">
                         <span className="px-2 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-600">
@@ -144,11 +176,13 @@ const Restaurants = () => {
             </table>
           </div>
 
-          {/* Pagination */}
           <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
             <p className="text-sm text-gray-600">
               Showing{" "}
-              <span className="font-semibold">{(currentPage - 1) * pageSize + 1}</span>–
+              <span className="font-semibold">
+                {(currentPage - 1) * pageSize + 1}
+              </span>
+              –
               <span className="font-semibold">
                 {Math.min(currentPage * pageSize, count)}
               </span>{" "}
@@ -163,23 +197,6 @@ const Restaurants = () => {
               >
                 Prev
               </button>
-
-              {/* {[...Array(totalPages)].map((_, i) => {
-                const page = i + 1;
-                return (
-                  <button
-                    key={page}
-                    onClick={() => fetchData(page)}
-                    className={`cursor-pointer w-9 h-9 rounded-lg text-sm font-medium ${
-                      page === currentPage
-                        ? "bg-[#fe6a3c] text-white"
-                        : "border text-gray-700 bg-white hover:bg-gray-100"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                );
-              })} */}
 
               <button
                 disabled={currentPage === totalPages}

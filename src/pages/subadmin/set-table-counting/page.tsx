@@ -1,0 +1,135 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../../lib/Api";
+
+const SetTableCounting = () => {
+  const [tableCounting, setTableCounting] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("subadmin/no-of-tables/");
+      setTableCounting(response.data.results || []);
+    } catch (error) {
+      console.error("Error fetching business data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
+      <div className="flex-1 p-6">
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div>
+              <h2 className="text-2xl font-bold text-[#1d3faa]">
+                No of Tables
+              </h2>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to={"/subadmin/set-table-counting/add-table-counting"}
+                className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              >
+                Add Table Counting
+              </Link>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
+            {loading ? (
+              <div className="flex justify-center items-center p-10">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
+              </div>
+            ) : (
+              <table className="min-w-full text-sm text-gray-700">
+                <thead>
+                  <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
+                    <th className="p-4">Plan Name</th>
+                    <th className="p-4">Plan Features</th>
+                    <th className="p-4">Price</th>
+                    <th className="p-4">Duration</th>
+                    <th className="p-4">Created At</th>
+                    <th className="p-4">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableCounting.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="text-center py-6 text-gray-500 font-medium"
+                      >
+                        No Data Available
+                      </td>
+                    </tr>
+                  ) : (
+                    tableCounting.map((r: any, index) => (
+                      <tr
+                        key={index}
+                        style={{
+                          backgroundColor: r.is_active
+                            ? "rgb(186 243 176)"
+                            : undefined,
+                        }}
+                        className="border-b border-gray-100 transition hover:bg-gray-50"
+                      >
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                {r.plan_name || "Unnamed"}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-4 whitespace-pre-wrap">
+                          <p className="font-medium">
+                            {(() => {
+                              try {
+                                return JSON.parse(`"${r.description}"`);
+                              } catch {
+                                return r.description;
+                              }
+                            })()}
+                          </p>
+                        </td>
+                        <td className="p-4">{r.price}</td>
+                        <td className="p-4">
+                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                            {r.duration}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                            {r.created_at.slice(0, 10)}
+                          </span>
+                        </td>
+                        <td className="p-2 text-center">
+                          <Link
+                            to={`/subadmin/plan/plandetails/${r.id}`}
+                            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                          >
+                            SEE PLAN DETAILS
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SetTableCounting;

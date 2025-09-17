@@ -26,6 +26,8 @@ const Sidebar = () => {
     { label: "Business Hours", route: "/subadmin/business-hour" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Feedback Questions", route: "/subadmin/feedback" },
+    { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
+    { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Reservation", route: "/subadmin/reservation" },
   ];
 
@@ -95,9 +97,7 @@ const Sidebar = () => {
 
       <div className="absolute w-[88%] bottom-[48px] left-[17px]">
         <hr className="border-[#ffffff3d] mb-3" />
-        {/* <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-3">
-          HELP & SUPPORT
-        </h3> */}
+
         <div
           onClick={handleLogout}
           className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer bg-white"

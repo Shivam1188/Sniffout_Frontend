@@ -47,6 +47,10 @@ import Feedback from "./pages/subadmin/feedback/page.tsx";
 import AddFeedback from "./pages/subadmin/feedback/add-feedback/page.tsx";
 import EditFeedback from "./pages/subadmin/feedback/edit-feedback/page.tsx";
 import Reservation from "./pages/subadmin/reservation/page.tsx";
+import CraeteTables from "./pages/subadmin/create-tables/page.tsx";
+import AddTables from "./pages/subadmin/create-tables/add-tables/page.tsx";
+import SetTableCounting from "./pages/subadmin/set-table-counting/page.tsx";
+import AddTableCounting from "./pages/subadmin/set-table-counting/add-table-counting/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -152,6 +156,37 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<Reservation />} />
             }
           />
+          <Route
+            path="/subadmin/create-tables"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<CraeteTables />} />
+            }
+          />
+          <Route
+            path="/subadmin/set-table-counting"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<SetTableCounting />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/set-table-counting/add-table-counting"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<AddTableCounting />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/create-tables/add-tables"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddTables />} />
+            }
+          />
+
           <Route
             path="/subadmin/dashboard"
             element={

@@ -89,13 +89,12 @@ const AdminDashboard = () => {
     fetchRecentlyOnboarded();
   }, []);
 
-  // Transform the API data for the bar chart
-  const barChartData = earningData?.plan_breakdown?.map((item: any) => ({
-    plan: item["plan__plan_name"],
-    subscribers: item.subscribers
-  })) || [];
+  const barChartData =
+    earningData?.plan_breakdown?.map((item: any) => ({
+      plan: item["plan__plan_name"],
+      subscribers: item.subscribers,
+    })) || [];
 
-  // Function to format the period title based on selected period and API data
   const getPeriodTitle = () => {
     if (!earningData) return "Subscribers Overview";
 
@@ -229,33 +228,38 @@ const AdminDashboard = () => {
                     className="flex justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100"
                   >
                     <div className="flex items-center gap-3">
-                      {/* Image or Email Initial */}
                       {hasImage ? (
                         <img
                           alt={item.restaurant_name || item.email}
-                          src={`http://3.150.71.157:8000${item.profile_image}`}
+                          src={`https://api.sniffout.io${item.profile_image}`}
                           className="w-10 h-10 rounded-full object-cover"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
-                          {item.email ? item.email.charAt(0).toUpperCase() : "U"}
+                          {item.email
+                            ? item.email.charAt(0).toUpperCase()
+                            : "U"}
                         </div>
                       )}
 
-                      {/* Text */}
                       <div>
                         {isEmptyRestaurant ? (
-                          <p className="font-semibold text-gray-800">{item.email} is onboarded</p>
+                          <p className="font-semibold text-gray-800">
+                            {item.email} is onboarded
+                          </p>
                         ) : (
                           <>
-                            <p className="font-semibold text-gray-800">{item.restaurant_name}</p>
-                            <p className="text-sm text-gray-500">{item.plan_name}</p>
+                            <p className="font-semibold text-gray-800">
+                              {item.restaurant_name}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {item.plan_name}
+                            </p>
                           </>
                         )}
                       </div>
                     </div>
 
-                    {/* "New" badge only for real restaurants */}
                     {!isEmptyRestaurant && (
                       <span className="text-xs bg-[#fe6a3c]/10 text-[#fe6a3c] px-2.5 py-1 rounded-full font-medium">
                         New

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../../../lib/Api";
 
 const Reservation = () => {
   const [plans, setPlans] = useState<any>([]);
@@ -8,8 +9,13 @@ const Reservation = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Static data for now
-      setPlans([{ id: 1, name: "Basic Plan", count: 10 }]);
+      const usDate = new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        timeZone: "America/New_York",
+      });
+
+      const response = await api.get(`subadmin/slots/?day=${usDate}`);
+      setPlans(response.data.results || []);
     } catch (error) {
       console.error("Error fetching business data", error);
     } finally {
@@ -43,6 +49,12 @@ const Reservation = () => {
             {loading ? (
               <div className="flex justify-center items-center p-10">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
+              </div>
+            ) : plans.length === 0 ? (
+              <div className="flex justify-center items-center p-10">
+                <p className="text-gray-500 text-lg font-medium">
+                  No reservations available
+                </p>
               </div>
             ) : (
               plans.map((plan: any) => (

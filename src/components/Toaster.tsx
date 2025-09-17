@@ -1,7 +1,11 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const toasterSuccess = (message: any, time: any = 3000, customId?: any) => {
+export const toasterSuccess = (
+  message: any,
+  time: any = 3000,
+  customId?: any
+) => {
   toast(message || "process has been done successfully", {
     type: "success",
     toastId: customId,
@@ -12,11 +16,15 @@ export const toasterSuccess = (message: any, time: any = 3000, customId?: any) =
     pauseOnHover: true,
     draggable: true,
     theme: "colored",
-    className: 'text-sm'
+    className: "text-sm",
   });
 };
 
-export const toasterError = (message: any, time: any = 3000, customId?: any) => {
+export const toasterError = (
+  message: any,
+  time: any = 3000,
+  customId?: any
+) => {
   toast(message || "An error has been encountered", {
     type: "error",
     toastId: customId,
@@ -27,11 +35,11 @@ export const toasterError = (message: any, time: any = 3000, customId?: any) => 
     pauseOnHover: true,
     draggable: true,
     theme: "colored",
-    className: 'text-sm text-white'
+    className: "text-sm text-white",
   });
 };
 
-export const toasterInfo = (message: any, time: any= 3000, customId?: any) => {
+export const toasterInfo = (message: any, time: any = 3000, customId?: any) => {
   toast(message, {
     type: "info",
     toastId: customId,
@@ -40,7 +48,7 @@ export const toasterInfo = (message: any, time: any= 3000, customId?: any) => {
     hideProgressBar: false,
     closeOnClick: true,
     draggable: true,
-    className: 'text-sm p-2'
+    className: "text-sm p-2",
   });
 };
 
@@ -48,14 +56,12 @@ export const toasterWarning = (message: any) => {
   toast(message, {
     type: "warning",
     position: "bottom-right",
-    autoClose: 3000, 
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
     theme: "colored",
-    className: 'text-sm'
+    className: "text-sm",
   });
 };
-
-

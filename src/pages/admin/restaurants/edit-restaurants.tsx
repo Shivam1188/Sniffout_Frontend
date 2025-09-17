@@ -7,7 +7,6 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 const EditRestaurant = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [form, setForm] = useState<any>({
     id: "",
@@ -23,7 +22,6 @@ const EditRestaurant = () => {
     growth_percent: "",
     profile_image: "",
   });
-
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -52,7 +50,6 @@ const EditRestaurant = () => {
     if (id) fetchRestaurant();
   }, [id]);
 
-
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -72,18 +69,22 @@ const EditRestaurant = () => {
       const response = await api.put(`superadmin/restaurants/${id}/`, form);
 
       if (response.data.success) {
-        toasterSuccess("Successfully updated.", 4000, "restaurant-edit-success");
+        toasterSuccess(
+          "Successfully updated.",
+          4000,
+          "restaurant-edit-success"
+        );
         navigate("/admin/restaurants");
       } else {
-        toasterError(response.data.message || "Update failed. Please try again.");
+        toasterError(
+          response.data.message || "Update failed. Please try again."
+        );
       }
     } catch (err) {
       console.error(err);
       toasterError("Something went wrong.");
     }
   };
-
-
 
   //  const handleFileChange = (e: any) => {
   //   const file = e.target.files[0];
@@ -102,8 +103,6 @@ const EditRestaurant = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-
       {/* Main Form */}
       <div className="flex-1 p-6">
         <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
@@ -216,9 +215,10 @@ const EditRestaurant = () => {
                     />
                   </div>
 
-
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Restaurant Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Restaurant Name
+                    </label>
                     <input
                       name="restaurant_name"
                       value={form.restaurant_name}
@@ -231,7 +231,9 @@ const EditRestaurant = () => {
 
                   {/* Email Address */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email
+                    </label>
                     <input
                       name="email_address"
                       type="email"
@@ -246,7 +248,9 @@ const EditRestaurant = () => {
 
                   {/* Phone Number */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number
+                    </label>
                     <input
                       name="phone_number"
                       type="tel"
@@ -260,7 +264,9 @@ const EditRestaurant = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Profile Image</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Profile Image
+                    </label>
 
                     {/* Display image preview if available */}
                     {form.profile_image && (

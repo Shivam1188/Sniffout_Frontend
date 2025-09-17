@@ -6,7 +6,7 @@ interface PlanStats {
 }
 
 interface Props {
-  data: PlanStats[] | null; // Make data nullable for loading
+  data: PlanStats[] | null;
 }
 
 const SkeletonRow = () => (
@@ -54,7 +54,9 @@ const RestaurantsByPlanTable = ({ data }: Props) => {
                       <td className="py-6 px-4 font-medium text-left">
                         {row.plan_type}
                       </td>
-                      <td className="py-3 px-4 text-center">{row.restaurants}</td>
+                      <td className="py-3 px-4 text-center">
+                        {row.restaurants}
+                      </td>
                       <td className="py-3 px-4 text-center">
                         ${row.monthly_revenue.toFixed(2)}
                       </td>

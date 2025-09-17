@@ -26,7 +26,7 @@ const UpdateReturn = () => {
     first_name: "",
     last_name: "",
     phone_number: "",
-    office_number: "",
+    office_mobile_number: "",
     email_address: "",
     address: "",
     city: "",
@@ -54,7 +54,7 @@ const UpdateReturn = () => {
             first_name: data.first_name || "",
             last_name: data.last_name || "",
             phone_number: data.phone_number || "",
-            office_number: data.office_number || "",
+            office_mobile_number: data.office_mobile_number || "",
             email_address: data.email_address || "",
             address: data.address || "",
             city: data.city || "",
@@ -107,7 +107,7 @@ const UpdateReturn = () => {
         first_name: profileData.first_name || "",
         last_name: profileData.last_name || "",
         phone_number: profileData.phone_number || "",
-        office_number: profileData.office_number || "",
+        office_mobile_number: profileData.office_mobile_number || "",
         email_address: profileData.email_address || "",
         address: profileData.address || "",
         city: profileData.city || "",
@@ -135,8 +135,7 @@ const UpdateReturn = () => {
     setPhoneLoading(true);
     try {
       const res = await api.get(`twilio_bot/api/forwarding-numbers/`);
-      // Set phoneNumbers to the 'data' array from the response
-      setPhoneNumbers(res.data.data || []);
+      setPhoneNumbers(res?.data?.results?.data || []);
     } catch (err) {
       console.error("Failed to fetch phone numbers:", err);
       toasterError("Failed to load phone numbers", 2000, "id");
@@ -160,7 +159,7 @@ const UpdateReturn = () => {
       formData.append("profile_image", file);
 
       const response = await fetch(
-        `http://3.150.71.157:5173/subadmin/profile/${userId}/update-profile-image/`,
+        `https://api.sniffout.io/api/subadmin/profile/${userId}/update-profile-image/`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },
@@ -313,7 +312,7 @@ const UpdateReturn = () => {
 
           <div className="flex gap-2 mb-4">
             <input
-              type="tel"
+              type="number"
               placeholder="Add new phone number"
               value={newPhoneNumber}
               onChange={(e) => setNewPhoneNumber(e.target.value)}
@@ -333,50 +332,59 @@ const UpdateReturn = () => {
           ) : (
             <ul className="space-y-2">
               {phoneNumbers &&
-                phoneNumbers.map((item: any, idx: any) => (
-                  <li
-                    key={item.id}
-                    className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
-                  >
-                    <input
-                      type="tel"
-                      value={item.phone_number}
-                      onChange={(e: any) => {
-                        const updated = [...phoneNumbers];
-                        updated[idx].phone_number = e.target.value;
-                        setPhoneNumbers(updated);
-                      }}
-                      className="flex-1 border rounded px-2 py-1"
-                      readOnly={editingIndex !== item.id}
-                    />
-
-                    <div className="flex gap-2">
-                      {editingIndex === item.id ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleUpdatePhoneNumber(
-                              item.id,
-                              phoneNumbers[idx].phone_number
-                            );
-                            setEditingIndex(null);
+                phoneNumbers.map(
+                  (item: any, idx: any) => (
+                    console.log(item, "=========="),
+                    (
+                      <li
+                        key={item.id}
+                        className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                      >
+                        <input
+                          type="tel"
+                          value={item.phone_number}
+                          onChange={(e) => {
+                            const onlyNums = e.target.value.replace(
+                              /[^0-9+]/g,
+                              ""
+                            ); // allow digits and +
+                            const updated = [...phoneNumbers];
+                            updated[idx].phone_number = onlyNums;
+                            setPhoneNumbers(updated);
                           }}
-                          className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setEditingIndex(item.id)}
-                          className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
-                        >
-                          Edit
-                        </button>
-                      )}
-                    </div>
-                  </li>
-                ))}
+                          className="flex-1 border rounded px-2 py-1"
+                          readOnly={editingIndex !== item.id}
+                        />
+
+                        <div className="flex gap-2">
+                          {editingIndex === item.id ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleUpdatePhoneNumber(
+                                  item.id,
+                                  phoneNumbers[idx].phone_number
+                                );
+                                setEditingIndex(null);
+                              }}
+                              className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                            >
+                              Save
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setEditingIndex(item.id)}
+                              className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
+                            >
+                              Edit
+                            </button>
+                          )}
+                        </div>
+                      </li>
+                    )
+                  )
+                )}
             </ul>
           )}
         </div>
@@ -470,7 +478,10 @@ const UpdateReturn = () => {
                   { label: "ZIP Code", name: "zip_code" },
                   { label: "Country", name: "country" },
                   { label: "Website URL", name: "website_url" },
-                  { label: "Office Number", name: "office_number" },
+                  {
+                    label: "Office Mobile Number",
+                    name: "office_mobile_number",
+                  },
                 ].map(({ label, name }) => (
                   <div key={name} className="w-full">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">

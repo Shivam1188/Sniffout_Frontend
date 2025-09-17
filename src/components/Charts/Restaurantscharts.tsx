@@ -14,7 +14,7 @@ import api from "../../lib/Api";
 export default function Restaurantscharts() {
   const [stats, setStats] = useState<any>(null);
   const [period, setPeriod] = useState("weekly");
-  const [loading, setLoading] = useState(true); // <-- add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,12 +48,10 @@ export default function Restaurantscharts() {
       ]
     : [];
 
-  // Skeleton card component
   const SkeletonCard = () => (
     <div className="p-5 sm:p-6 bg-gray-200 animate-pulse rounded-xl h-32 sm:h-40 w-full" />
   );
 
-  // Skeleton chart
   const SkeletonChart = () => (
     <div className="w-full h-[300px] bg-gray-200 animate-pulse rounded-2xl" />
   );
@@ -84,7 +82,6 @@ export default function Restaurantscharts() {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {loading
           ? Array(3)
@@ -117,7 +114,9 @@ export default function Restaurantscharts() {
                   <h3 className="text-3xl sm:text-4xl font-bold text-green-900 mt-2">
                     {stats.active_restaurants}
                   </h3>
-                  <p className="text-xs text-green-700 mt-1">✔ {stats.active_percentage}%</p>
+                  <p className="text-xs text-green-700 mt-1">
+                    ✔ {stats.active_percentage}%
+                  </p>
                 </div>
 
                 <div className="p-5 sm:p-6 bg-red-50 bg-opacity-60 backdrop-blur-lg rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-red-100 relative">
@@ -138,7 +137,6 @@ export default function Restaurantscharts() {
             )}
       </div>
 
-      {/* Chart */}
       <div className="relative w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm h-[300px] px-4 py-6">
         {loading ? (
           <SkeletonChart />
@@ -160,8 +158,18 @@ export default function Restaurantscharts() {
                 ]}
               />
               <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="Active" fill="#34D399" radius={[8, 8, 0, 0]} maxBarSize={30} />
-              <Bar dataKey="Inactive" fill="#F87171" radius={[8, 8, 0, 0]} maxBarSize={30} />
+              <Bar
+                dataKey="Active"
+                fill="#34D399"
+                radius={[8, 8, 0, 0]}
+                maxBarSize={30}
+              />
+              <Bar
+                dataKey="Inactive"
+                fill="#F87171"
+                radius={[8, 8, 0, 0]}
+                maxBarSize={30}
+              />
             </BarChart>
           </ResponsiveContainer>
         )}

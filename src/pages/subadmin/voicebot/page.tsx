@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
-import { toasterError, toasterSuccess, toasterInfo } from "../../../components/Toaster";
+import {
+  toasterError,
+  toasterSuccess,
+  toasterInfo,
+} from "../../../components/Toaster";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
 
@@ -13,46 +17,45 @@ const VoiceBotDashboard = () => {
   const [saving, setSaving] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [idUpdate, setId] = useState("");
-  
+
   // New state variables for the API response data
   const [restaurantName, setRestaurantName] = useState("");
   const [uniqueCallersCount, setUniqueCallersCount] = useState(0);
   const [recentCallersPreview, setRecentCallersPreview] = useState([]);
   const [totalCallRecords, setTotalCallRecords] = useState(0);
-  
-  useEffect(() => {
-    fetchData()
-  },[])
 
-    const fetchData = async () => {
-      try {
-        // Fetch SMS fallback settings
-        const smsRes = await api.get("subadmin/sms-fallback-settings/");
-        const smsData = smsRes.data.results?.[0];
-        if (smsData) {
-          setPreviewMessage(smsData.processed_message || smsData.message || "");
-          setId(smsData.id);
-          setIsDataLoaded(true);
-        } else {
-          setIsDataLoaded(false);
-        }
-        
-        // Fetch voice bot statistics
-        const statsRes = await api.get("subadmin/send-fallback-sms/"); // Replace with your actual endpoint
-        const statsData = statsRes.data;
-        setRestaurantName(statsData.restaurant_name);
-        setUniqueCallersCount(statsData.unique_callers_count);
-        setRecentCallersPreview(statsData.recent_callers_preview);
-        setTotalCallRecords(statsData.total_call_records);
-      } catch (err) {
-        console.error(err);
-        toasterError("Failed to load data", 2000, "id");
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      // Fetch SMS fallback settings
+      const smsRes = await api.get("subadmin/sms-fallback-settings/");
+      const smsData = smsRes.data.results?.[0];
+      if (smsData) {
+        setPreviewMessage(smsData.processed_message || smsData.message || "");
+        setId(smsData.id);
+        setIsDataLoaded(true);
+      } else {
         setIsDataLoaded(false);
-      } finally {
-        setLoading(false);
       }
-    };
- 
+
+      // Fetch voice bot statistics
+      const statsRes = await api.get("subadmin/send-fallback-sms/"); // Replace with your actual endpoint
+      const statsData = statsRes.data;
+      setRestaurantName(statsData.restaurant_name);
+      setUniqueCallersCount(statsData.unique_callers_count);
+      setRecentCallersPreview(statsData.recent_callers_preview);
+      setTotalCallRecords(statsData.total_call_records);
+    } catch (err) {
+      console.error(err);
+      toasterError("Failed to load data", 2000, "id");
+      setIsDataLoaded(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -68,12 +71,19 @@ const VoiceBotDashboard = () => {
       setSaving(true);
 
       if (isDataLoaded) {
-        const res = await api.put(`subadmin/sms-fallback-settings/${idUpdate}/`, {
-          message,
-          restaurant: id,
-        });
+        const res = await api.put(
+          `subadmin/sms-fallback-settings/${idUpdate}/`,
+          {
+            message,
+            restaurant: id,
+          }
+        );
         setPreviewMessage(res.data.preview || message);
-        toasterSuccess("SMS fallback message updated successfully!", 2000, "id");
+        toasterSuccess(
+          "SMS fallback message updated successfully!",
+          2000,
+          "id"
+        );
         setMessage("");
       } else {
         const previewRes = await api.post("subadmin/sms-fallback-settings/", {
@@ -81,7 +91,11 @@ const VoiceBotDashboard = () => {
           restaurant: id,
         });
         setPreviewMessage(previewRes.data.preview || message);
-        toasterSuccess("SMS fallback message created successfully!", 2000, "id");
+        toasterSuccess(
+          "SMS fallback message created successfully!",
+          2000,
+          "id"
+        );
         setMessage("");
         setIsDataLoaded(true);
         setId(previewRes.data.id);
@@ -100,17 +114,23 @@ const VoiceBotDashboard = () => {
 
       if (isDataLoaded) {
         const res = await api.post(`subadmin/send-fallback-sms/`, null);
-        
-        if (res.data.message === "No caller numbers found for this restaurant") {
+
+        if (
+          res.data.message === "No caller numbers found for this restaurant"
+        ) {
           toasterInfo(res.data.message, 2000, "id");
         } else if (res.data.sent_count > 0) {
-          toasterSuccess(`SMS sent successfully to ${res.data.sent_count} recipients`, 2000, "id");
+          toasterSuccess(
+            `SMS sent successfully to ${res.data.sent_count} recipients`,
+            2000,
+            "id"
+          );
         } else {
           toasterError("Failed to send SMS", 2000, "id");
         }
-        
+
         // setPreviewMessage(res.data.preview || message);
-      } 
+      }
     } catch (err) {
       console.error(err);
       toasterError("Failed to send SMS", 2000, "id");
@@ -124,7 +144,9 @@ const VoiceBotDashboard = () => {
       <div className="flex-1 p-6">
         {/* Heading always visible */}
         <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">
-          <h1 className="text-lg sm:text-xl font-bold text-white">Voice Bot Settings</h1>
+          <h1 className="text-lg sm:text-xl font-bold text-white">
+            Fresh Offers
+          </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <Link
               to={"/subadmin/dashboard"}
@@ -145,44 +167,78 @@ const VoiceBotDashboard = () => {
             {/* SMS Fallback Settings with integrated statistics */}
             <div className="col-span-3 space-y-2">
               <div className="bg-white p-6 rounded-xl shadow border-l-4 border-[#1d3faa]">
-                <h2 className="text-lg font-bold text-[#1d3faa] mb-2">SMS Fallback Settings</h2>
+                <h2 className="text-lg font-bold text-[#1d3faa] mb-2">
+                  SMS Fallback Settings
+                </h2>
                 <p className="text-sm text-gray-600 mb-6">
-                  Configure the message sent to customers when the voice bot cannot complete their request.
+                  Configure the message sent to customers when the voice bot
+                  cannot complete their request.
                 </p>
 
                 {/* Statistics Cards - Now inside the SMS Fallback Settings */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-sm font-medium text-gray-500">Business</h3>
-                    <p className="text-xl font-bold text-gray-800">{restaurantName}</p>
+                    <h3 className="text-sm font-medium text-gray-500">
+                      Business
+                    </h3>
+                    <p className="text-xl font-bold text-gray-800">
+                      {restaurantName}
+                    </p>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-sm font-medium text-gray-500">Unique Callers</h3>
-                    <p className="text-xl font-bold text-gray-800">{uniqueCallersCount}</p>
+                    <h3 className="text-sm font-medium text-gray-500">
+                      Unique Callers
+                    </h3>
+                    <p className="text-xl font-bold text-gray-800">
+                      {uniqueCallersCount}
+                    </p>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-sm font-medium text-gray-500">Total Calls</h3>
-                    <p className="text-xl font-bold text-gray-800">{totalCallRecords}</p>
+                    <h3 className="text-sm font-medium text-gray-500">
+                      Total Calls
+                    </h3>
+                    <p className="text-xl font-bold text-gray-800">
+                      {totalCallRecords}
+                    </p>
                   </div>
-                  
+
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
-                    <h3 className="text-sm font-medium text-gray-500">Recent Callers</h3>
+                    <h3 className="text-sm font-medium text-gray-500">
+                      Recent Callers
+                    </h3>
                     <div className="mt-1">
                       {recentCallersPreview.slice(0, 3).map((number, index) => (
-                        <p key={index} className="text-sm truncate text-gray-800">{number}</p>
+                        <p
+                          key={index}
+                          className="text-sm truncate text-gray-800"
+                        >
+                          {number}
+                        </p>
                       ))}
                       {recentCallersPreview.length > 3 && (
-                        <p className="text-xs text-gray-500 mt-1">+{recentCallersPreview.length - 3} more</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          +{recentCallersPreview.length - 3} more
+                        </p>
                       )}
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-gray-100 p-4 rounded text-sm mb-6">
+                <div className="flexbg-gray-100 p-4 rounded text-sm mb-6">
                   <strong className="text-gray-700">Preview SMS Message</strong>
                   <p className="mt-2 text-gray-700">{previewMessage}</p>
+
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleSMS}
+                      disabled={saving}
+                      className="p-2 cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800 mr-2"
+                    >
+                      {saving ? "Sending..." : "SEND SMS"}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mb-6">
@@ -200,19 +256,15 @@ const VoiceBotDashboard = () => {
 
                 <div className="text-right mt-4 gap-2">
                   <button
-                    onClick={handleSMS}
-                    disabled={saving}
-                    className="p-2 cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800 mr-2"
-                  >
-                    {saving ? "Sending..." : "SEND SMS"}
-                  </button>
-
-                  <button
                     onClick={handleSave}
                     disabled={saving}
                     className="cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800"
                   >
-                    {saving ? "Saving..." : isDataLoaded ? "Save Changes" : "Create Message"}
+                    {saving
+                      ? "Saving..."
+                      : isDataLoaded
+                      ? "Save Changes"
+                      : "Create Message"}
                   </button>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import { toasterSuccess } from "./Toaster";
 const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const role = Cookies.get("role")
+  const role = Cookies.get("role");
 
   const adminMenu = [
     { label: "Dashboard", route: "/admin/dashboard" },
@@ -19,13 +19,14 @@ const Sidebar = () => {
     { label: "Dashboard", route: "/subadmin/dashboard" },
     { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
     { label: "Manage Business List", route: "/subadmin/list" },
-    { label: "Voice Bot", route: "/subadmin/voice-bot" },
+    { label: "Fresh Offers", route: "/subadmin/voice-bot" },
     { label: "Update Profile", route: "/subadmin/update-profile" },
     { label: "Menu", route: "/subadmin/menu" },
     { label: "Menu Items", route: "/subadmin/menu-items" },
     { label: "Business Hours", route: "/subadmin/business-hour" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Feedback Questions", route: "/subadmin/feedback" },
+    { label: "Reservation", route: "/subadmin/reservation" },
   ];
 
   const menuItems = role === "admin" ? adminMenu : subdirMenu;
@@ -44,9 +45,8 @@ const Sidebar = () => {
         refresh: refreshToken,
       });
 
-
       if (response?.data?.success) {
-        toasterSuccess(response?.data?.message, "2000", "id")
+        toasterSuccess(response?.data?.message, "2000", "id");
         Cookies.remove("refreshToken");
         Cookies.remove("token");
         Cookies.remove("role");
@@ -59,8 +59,6 @@ const Sidebar = () => {
     } catch (error) {
       console.error("Error logging out", error);
     }
-
-
   };
 
   return (
@@ -72,13 +70,21 @@ const Sidebar = () => {
               to={item.route}
               key={item.label}
               className={`flex items-center gap-3 p-2 rounded cursor-pointer transition 
-                ${pathname === item.route
-                  ? "bg-white text-[#1d3faa] font-semibold"
-                  : "hover:bg-[#5e5696]"
+                ${
+                  pathname === item.route
+                    ? "bg-white text-[#1d3faa] font-semibold"
+                    : "hover:bg-[#5e5696]"
                 }`}
             >
-              <div className={`w-6 flex justify-center ${pathname === item.route ? "text-[#1d3faa]" : ""}`}>
-                <BarChart2 size={16} className={pathname === item.route ? "" : "text-white"} />
+              <div
+                className={`w-6 flex justify-center ${
+                  pathname === item.route ? "text-[#1d3faa]" : ""
+                }`}
+              >
+                <BarChart2
+                  size={16}
+                  className={pathname === item.route ? "" : "text-white"}
+                />
               </div>
 
               <span>{item.label}</span>

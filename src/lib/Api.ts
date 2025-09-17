@@ -39,7 +39,7 @@ const refreshAccessToken = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ refresh:refreshToken }),
+      body: JSON.stringify({ refresh: refreshToken }),
     });
 
     const json = await res.json();
@@ -62,8 +62,8 @@ const request = async (
   includeToken: boolean = true,
   isFileUpload: boolean = false
 ) => {
-  let token = Cookies.get("token");
-  let headers: any = includeToken && token
+  const token = Cookies.get("token");
+  const headers: any = includeToken && token
     ? { Authorization: `Bearer ${token}` }
     : {};
 

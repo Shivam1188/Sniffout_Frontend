@@ -63,12 +63,12 @@ const PlansDetails = () => {
                     <tr
                       key={index}
                       style={{
-                        backgroundColor: r.is_active ? "rgb(186 243 176)" : undefined, // visible orange
+                        backgroundColor: r.is_active
+                          ? "rgb(186 243 176)"
+                          : undefined, // visible orange
                       }}
                       className="border-b border-gray-100 transition hover:bg-gray-50"
                     >
-
-
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div>
@@ -111,7 +111,6 @@ const PlansDetails = () => {
                     </tr>
                   ))}
                 </tbody>
-
               </table>
             )}
           </div>

@@ -7,20 +7,26 @@ import LoadingSpinner from "../../../components/Loader";
 
 const UpdateReturn = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  const token = Cookies.get("token")
+  const token = Cookies.get("token");
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const userId = Cookies.get("id")
+  const [phoneNumbers, setPhoneNumbers] = useState<any>([]);
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
+  const [phoneLoading, setPhoneLoading] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const userId = Cookies.get("id");
 
   const [profile, setProfile] = useState({
     restaurant_name: "",
     first_name: "",
     last_name: "",
     phone_number: "",
+    office_number: "",
     email_address: "",
     address: "",
     city: "",
@@ -48,6 +54,7 @@ const UpdateReturn = () => {
             first_name: data.first_name || "",
             last_name: data.last_name || "",
             phone_number: data.phone_number || "",
+            office_number: data.office_number || "",
             email_address: data.email_address || "",
             address: data.address || "",
             city: data.city || "",
@@ -75,6 +82,11 @@ const UpdateReturn = () => {
       fetchProfile();
     }
   }, [userId]);
+
+  useEffect(() => {
+    fetchPhoneNumbers();
+  }, [userId]);
+
   useEffect(() => {
     fetchProfileData();
   }, [userId]);
@@ -95,6 +107,7 @@ const UpdateReturn = () => {
         first_name: profileData.first_name || "",
         last_name: profileData.last_name || "",
         phone_number: profileData.phone_number || "",
+        office_number: profileData.office_number || "",
         email_address: profileData.email_address || "",
         address: profileData.address || "",
         city: profileData.city || "",
@@ -117,6 +130,20 @@ const UpdateReturn = () => {
     }
   };
 
+  const fetchPhoneNumbers = async () => {
+    if (!userId) return;
+    setPhoneLoading(true);
+    try {
+      const res = await api.get(`twilio_bot/api/forwarding-numbers/`);
+      // Set phoneNumbers to the 'data' array from the response
+      setPhoneNumbers(res.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch phone numbers:", err);
+      toasterError("Failed to load phone numbers", 2000, "id");
+    } finally {
+      setPhoneLoading(false);
+    }
+  };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -153,48 +180,52 @@ const UpdateReturn = () => {
       setSaving(false);
     }
   };
+  const handleAddPhoneNumber = async () => {
+    if (!newPhoneNumber.trim()) return;
 
-// const handleRevert = async () => {
-//   setLoading(true);
-//   setError(null);
-//   try {
-//     const res = await api.get("auth/profile/subadmin/");
-//     const data = res.data;
+    try {
+      setPhoneLoading(true);
+      const response = await api.post(`twilio_bot/api/forwarding-numbers/`, {
+        phone_number: newPhoneNumber,
+      });
 
-//     setProfile({
-//       restaurant_name: data.restaurant_name || "",
-//       first_name: data.first_name || "",
-//       last_name: data.last_name || "",
-//       phone_number: data.phone_number || "",
-//       email_address: data.email_address || "",
-//       address: data.address || "",
-//       city: data.city || "",
-//       state: data.state || "",
-//       zip_code: data.zip_code || "",
-//       country: data.country || "",
-//       website_url: data.website_url || "",
-//       restaurant_description: data.restaurant_description || "",
-//     });
+      if (response.success) {
+        toasterSuccess("Phone number added successfully!", 2000, "id");
+        setNewPhoneNumber("");
+        fetchPhoneNumbers();
+      } else {
+        toasterError("Failed to add phone number", 2000, "id");
+      }
+    } catch (err) {
+      console.error(err);
+      toasterError("Failed to add phone number", 2000, "id");
+    } finally {
+      setPhoneLoading(false);
+    }
+  };
 
-//     setProfileImage(data.profile_image_url || "");
-//     toasterSuccess("Changes reverted successfully!", 2000, "id");
-//   } catch (err: any) {
-//     console.error(err);
-//     toasterError("Failed to revert changes.", 2000, "id");
-//     setError("Failed to revert changes.");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
+  const handleUpdatePhoneNumber = async (id: number, updatedNumber: string) => {
+    try {
+      setPhoneLoading(true);
+      await api.put(`twilio_bot/api/forwarding-numbers/${id}/`, {
+        phone_number: updatedNumber,
+      });
+      toasterSuccess("Phone number updated!", 2000, "id");
+      fetchPhoneNumbers();
+    } catch (err) {
+      console.error(err);
+      toasterError("Failed to update phone number", 2000, "id");
+    } finally {
+      setPhoneLoading(false);
+    }
+  };
 
-  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const validateForm = () => {
     if (!profile.restaurant_name.trim()) {
@@ -246,14 +277,9 @@ const UpdateReturn = () => {
     }
   };
 
-
-
-const handleCancel = () => {
-  // setProfile(originalProfile);
-  // setProfileImage(originalProfileImage);
-  setIsEditing(false);
-};
-
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
 
   const anyFieldFilled = Object.values(profile).some(
     (val) => val !== null && val !== ""
@@ -272,27 +298,6 @@ const handleCancel = () => {
             </p>
           </div>
 
-      {anyFieldFilled && !isEditing && (
-  <button
-    onClick={() => setIsEditing(true)}
-    className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
-  >
-    Edit
-  </button>
-)}
-
-{/* {isEditing && (
-  <button
-    type="button"
-    onClick={handleRevert}
-    className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-4"
-    disabled={saving || loading}
-  >
-    Revert Changes
-  </button>
-)} */}
-
-
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="cursor-pointer block md:hidden text-white z-50 transition"
@@ -300,6 +305,82 @@ const handleCancel = () => {
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
+        <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8">
+          <label className="block text-sm font-semibold text-gray-700 mb-3">
+            Forwarding Phone Numbers
+          </label>
+
+          <div className="flex gap-2 mb-4">
+            <input
+              type="tel"
+              placeholder="Add new phone number"
+              value={newPhoneNumber}
+              onChange={(e) => setNewPhoneNumber(e.target.value)}
+              className="flex-1 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+            />
+            <button
+              type="button"
+              onClick={handleAddPhoneNumber}
+              className="bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] cursor-pointer"
+            >
+              Add New Number
+            </button>
+          </div>
+
+          {phoneLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <ul className="space-y-2">
+              {phoneNumbers &&
+                phoneNumbers.map((item: any, idx: any) => (
+                  <li
+                    key={item.id}
+                    className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                  >
+                    <input
+                      type="tel"
+                      value={item.phone_number}
+                      onChange={(e: any) => {
+                        const updated = [...phoneNumbers];
+                        updated[idx].phone_number = e.target.value;
+                        setPhoneNumbers(updated);
+                      }}
+                      className="flex-1 border rounded px-2 py-1"
+                      readOnly={editingIndex !== item.id}
+                    />
+
+                    <div className="flex gap-2">
+                      {editingIndex === item.id ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleUpdatePhoneNumber(
+                              item.id,
+                              phoneNumbers[idx].phone_number
+                            );
+                            setEditingIndex(null);
+                          }}
+                          className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setEditingIndex(item.id)}
+                          className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          )}
+        </div>
+
         {loading ? (
           <div className="p-8 flex justify-center items-center">
             <LoadingSpinner />
@@ -307,12 +388,21 @@ const handleCancel = () => {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8"
+            className="mt-6 bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8"
           >
             {error && (
               <div className="text-red-600 mb-4 font-semibold">{error}</div>
             )}
-
+            {anyFieldFilled && !isEditing && (
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className=" cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
+                >
+                  Edit
+                </button>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -380,6 +470,7 @@ const handleCancel = () => {
                   { label: "ZIP Code", name: "zip_code" },
                   { label: "Country", name: "country" },
                   { label: "Website URL", name: "website_url" },
+                  { label: "Office Number", name: "office_number" },
                 ].map(({ label, name }) => (
                   <div key={name} className="w-full">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -391,14 +482,17 @@ const handleCancel = () => {
                       value={(profile as any)[name] || ""}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none 
-          ${name === "email_address" ? "bg-gray-100 text-gray-500 cursor-not-allowed" : "focus:ring-2 focus:ring-[#fe6a3c]"}
+          ${
+            name === "email_address"
+              ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+              : "focus:ring-2 focus:ring-[#fe6a3c]"
+          }
         `}
                       readOnly={name === "email_address" || !isEditing}
                     />
                   </div>
                 ))}
               </div>
-
             </div>
 
             <div>
@@ -432,15 +526,14 @@ const handleCancel = () => {
             <div className="flex justify-end gap-4">
               {isEditing && (
                 <>
-                 <button
-  type="button"
-  onClick={handleCancel}
-  className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-  disabled={saving}
->
-  Cancel
-</button>
-
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                    disabled={saving}
+                  >
+                    Cancel
+                  </button>
 
                   <button
                     type="submit"
@@ -452,7 +545,6 @@ const handleCancel = () => {
                 </>
               )}
             </div>
-
           </form>
         )}
       </main>

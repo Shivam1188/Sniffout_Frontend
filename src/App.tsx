@@ -46,6 +46,7 @@ import Layout from "./components/Layout.tsx";
 import Feedback from "./pages/subadmin/feedback/page.tsx";
 import AddFeedback from "./pages/subadmin/feedback/add-feedback/page.tsx";
 import EditFeedback from "./pages/subadmin/feedback/edit-feedback/page.tsx";
+import Reservation from "./pages/subadmin/reservation/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -72,13 +73,17 @@ const AppRouter = () => {
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
-        <Route element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}>
-
+        <Route
+          element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}
+        >
           {/* Admin Routes */}
           <Route
             path="/admin/dashboard"
             element={
-              <ProtectedRoute allowedRole="admin" element={<AdminDashboard />} />
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<AdminDashboard />}
+              />
             }
           />
           <Route
@@ -96,7 +101,9 @@ const AppRouter = () => {
           />
           <Route
             path="/admin/plans/add-plans"
-            element={<ProtectedRoute allowedRole="admin" element={<AddPlan />} />}
+            element={
+              <ProtectedRoute allowedRole="admin" element={<AddPlan />} />
+            }
           />
           <Route
             path="/admin/plans/edit-plans/:id"
@@ -128,13 +135,23 @@ const AppRouter = () => {
           <Route
             path="/admin/restaurants/edit-restaurants/:id"
             element={
-              <ProtectedRoute allowedRole="admin" element={<EditRestaurant />} />
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<EditRestaurant />}
+              />
             }
           />
         </Route>
-        <Route element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}>
-
+        <Route
+          element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}
+        >
           {/* Subadmin Routes */}
+          <Route
+            path="/subadmin/reservation"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Reservation />} />
+            }
+          />
           <Route
             path="/subadmin/dashboard"
             element={
@@ -147,22 +164,25 @@ const AppRouter = () => {
           <Route
             path="/subadmin/recently-calls"
             element={
-              <ProtectedRoute allowedRole="subdir" element={<RecentlyCalls />} />
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<RecentlyCalls />}
+              />
             }
           />
-           <Route
+          <Route
             path="/subadmin/feedback"
             element={
               <ProtectedRoute allowedRole="subdir" element={<Feedback />} />
             }
           />
-           <Route
+          <Route
             path="/subadmin/add-feedback"
             element={
               <ProtectedRoute allowedRole="subdir" element={<AddFeedback />} />
             }
           />
-           <Route
+          <Route
             path="/subadmin/edit-feedback/:id"
             element={
               <ProtectedRoute allowedRole="subdir" element={<EditFeedback />} />
@@ -203,7 +223,10 @@ const AppRouter = () => {
           <Route
             path="/subadmin/list"
             element={
-              <ProtectedRoute allowedRole="subdir" element={<ManageLinkList />} />
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<ManageLinkList />}
+              />
             }
           />
           <Route
@@ -227,7 +250,10 @@ const AppRouter = () => {
           <Route
             path="/subadmin/payment-success"
             element={
-              <ProtectedRoute allowedRole="subdir" element={<PaymentSuccess />} />
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<PaymentSuccess />}
+              />
             }
           />
           <Route
@@ -245,7 +271,10 @@ const AppRouter = () => {
           <Route
             path="/subadmin/edit-menu-items/:id"
             element={
-              <ProtectedRoute allowedRole="subdir" element={<EditMenuItems />} />
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<EditMenuItems />}
+              />
             }
           />
           <Route
@@ -275,7 +304,10 @@ const AppRouter = () => {
           <Route
             path="/subadmin/payment-cancelled"
             element={
-              <ProtectedRoute allowedRole="subdir" element={<PaymentCancel />} />
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<PaymentCancel />}
+              />
             }
           />
           <Route

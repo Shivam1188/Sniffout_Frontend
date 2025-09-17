@@ -10,17 +10,17 @@ const Plans = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [restaurantToDelete, setRestaurantToDelete] = useState<any>(null);
 
-const fetchData = async () => {
-  setLoading(true); // start loader
-  try {
-    const response = await api.get("superadmin/admin-plans/");
-    setPlans(response.data.results);
-  } catch (error) {
-    console.error("Error fetching plan data", error);
-  } finally {
-    setLoading(false); // stop loader
-  }
-};
+  const fetchData = async () => {
+    setLoading(true); // start loader
+    try {
+      const response = await api.get("superadmin/admin-plans/");
+      setPlans(response.data.results);
+    } catch (error) {
+      console.error("Error fetching plan data", error);
+    } finally {
+      setLoading(false); // stop loader
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -30,14 +30,13 @@ const fetchData = async () => {
     setRestaurantToDelete(restaurant);
     setShowDeleteModal(true);
   };
-console.log(plans,"==plan")
   const handleDelete = async () => {
     if (!restaurantToDelete) return;
     try {
       await api.delete(`superadmin/admin-plans/${restaurantToDelete.id}/`);
       setShowDeleteModal(false);
       setRestaurantToDelete(null);
-      fetchData(); 
+      fetchData();
       toasterSuccess("Successfully Plan deleted ", 4000, "id");
     } catch (err) {
       console.error("Delete failed:", err);
@@ -45,14 +44,11 @@ console.log(plans,"==plan")
     }
   };
 
-
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
       {showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white/90 backdrop-blur-lg w-full max-w-md rounded-2xl shadow-2xl p-6 sm:p-8 border border-gray-200">
-
             <div className="flex items-center gap-3 mb-5">
               <div className="bg-red-100 p-3 rounded-full">
                 <svg
@@ -69,7 +65,9 @@ console.log(plans,"==plan")
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Confirm Deletion</h2>
+              <h2 className="text-xl font-bold text-gray-800">
+                Confirm Deletion
+              </h2>
             </div>
 
             <p className="text-lg text-gray-800 mb-6">
@@ -102,12 +100,8 @@ console.log(plans,"==plan")
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">
-                Plans
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Manage all Plans
-              </p>
+              <h2 className="text-2xl font-bold text-[#1d3faa]">Plans</h2>
+              <p className="text-sm text-gray-500 mt-1">Manage all Plans</p>
             </div>
             <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
               <Link
@@ -116,7 +110,6 @@ console.log(plans,"==plan")
               >
                 + Add Plans
               </Link>
-
             </div>
           </div>
 
@@ -132,62 +125,62 @@ console.log(plans,"==plan")
                   <th className="p-4">Action</th>
                 </tr>
               </thead>
-           <tbody>
-  {loading ? (
-    <tr>
-      <td colSpan={6} className="p-4 text-center">
-        <div className="flex justify-center items-center py-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
-        </div>
-      </td>
-    </tr>
-  ) : (
-                    plans.map((r: any, index) => (
-      console.log(r,"======"),
-      <tr
-        key={index}
-       className={`border-b border-gray-100 transition ${
-  r.is_active ? "bg-orange-100 hover:bg-orange-200" : "hover:bg-[#fefefe]"
-}`}
-
-      >
-        <td className="p-4">
-          <p className="font-semibold text-gray-800">{r.plan_name || "Unnamed"}</p>
-        </td>
-        <td className="p-4 whitespace-pre-wrap">
-          <p className="font-medium">{r.description}</p>
-        </td>
-        <td className="p-4">{r.price}</td>
-        <td className="p-4">
-          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-            {r.duration}
-          </span>
-        </td>
-        <td className="p-4">
-          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-            {r.created_at.slice(0, 10)}
-          </span>
-        </td>
-        <td className="p-4 text-center">
-          <Link
-            to={`/admin/plans/edit-plans/${r.id}`}
-            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
-          >
-            Edit
-          </Link>
-          <button
-            onClick={() => openDeleteModal(r)}
-            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ))
-  )}
-</tbody>
-
-
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={6} className="p-4 text-center">
+                      <div className="flex justify-center items-center py-4">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  plans.map((r: any, index) => (
+                    <tr
+                      key={index}
+                      className={`border-b border-gray-100 transition ${
+                        r.is_active
+                          ? "bg-orange-100 hover:bg-orange-200"
+                          : "hover:bg-[#fefefe]"
+                      }`}
+                    >
+                      <td className="p-4">
+                        <p className="font-semibold text-gray-800">
+                          {r.plan_name || "Unnamed"}
+                        </p>
+                      </td>
+                      <td className="p-4 whitespace-pre-wrap">
+                        <p className="font-medium">{r.description}</p>
+                      </td>
+                      <td className="p-4">{r.price}</td>
+                      <td className="p-4">
+                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                          {r.duration}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                          {r.created_at.slice(0, 10)}
+                        </span>
+                      </td>
+                      <td className="p-4 text-center">
+                        <Link
+                          to={`/admin/plans/edit-plans/${r.id}`}
+                          className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => openDeleteModal(r)}
+                          className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
             </table>
           </div>
         </div>

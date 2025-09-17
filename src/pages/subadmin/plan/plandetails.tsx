@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import api from "../../../lib/Api";
 import { Menu, X } from "lucide-react";
 import { CheckCircle } from "lucide-react";
+
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PaymentForm from "../../../components/PaymentForm";
@@ -9,8 +10,8 @@ import BillingHistory from "../../../components/subadmin/BillingHistory";
 
 export default function PlansDet() {
   const { id } = useParams();
-  const userId = Cookies.get("id")
-  const token = Cookies.get("token")
+  const userId = Cookies.get("id");
+  const token = Cookies.get("token");
   const [plans, setPlans] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -23,7 +24,6 @@ export default function PlansDet() {
       try {
         const response = await api.get(`superadmin/admin-plans/${id}/`);
         setPlans(response.data);
-
       } catch (error) {
         console.error("Error fetching plan", error);
       }
@@ -45,7 +45,13 @@ export default function PlansDet() {
     fetchUserPlan();
   }, []);
 
-  const features = plans && plans.description ? plans.description.split("\n").map((item: any) => item.trim()).filter(Boolean) : [];
+  const features =
+    plans && plans.description
+      ? plans.description
+          .split("\n")
+          .map((item: any) => item.trim())
+          .filter(Boolean)
+      : [];
 
   const handleBuyPlan = async () => {
     const formData = {
@@ -54,14 +60,17 @@ export default function PlansDet() {
     };
 
     try {
-      const response = await fetch(`${apiUrl}api/superadmin/create-stripe-session/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${apiUrl}api/superadmin/create-stripe-session/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
       if (response.ok && data.checkout_url) {
@@ -82,11 +91,7 @@ export default function PlansDet() {
           <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
             <div>
               <h1 className="text-2xl font-bold text-white">Plan Details</h1>
-              <p className="text-sm text-white">
-                Overview of Plans
-              </p>
-
-
+              <p className="text-sm text-white">Overview of Plans</p>
             </div>
             <div className="flex justify-end">
               <Link
@@ -95,7 +100,6 @@ export default function PlansDet() {
               >
                 ← BACK TO PLANS
               </Link>
-
             </div>
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -105,9 +109,7 @@ export default function PlansDet() {
             </button>
           </div>
           <div className=" bg-gray-50  text-gray-800 space-y-8 font-inter">
-
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
-
               <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
                 <h2 className="text-lg font-semibold text-gray-800">
                   Your Current Subscription
@@ -120,9 +122,14 @@ export default function PlansDet() {
                         <CheckCircle size={24} />
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg">{userPlan.plan_name}</h3>
+                        <h3 className="font-bold text-lg">
+                          {userPlan.plan_name}
+                        </h3>
                         <p className="text-sm text-gray-500">
-                          Expires on: {new Date(userPlan.expiration_date).toLocaleDateString()}
+                          Expires on:{" "}
+                          {new Date(
+                            userPlan.expiration_date
+                          ).toLocaleDateString()}
                         </p>
                         <p className="text-sm text-gray-500">
                           Remaining days: {userPlan.message}
@@ -137,10 +144,11 @@ export default function PlansDet() {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500">You do not have an active plan.</p>
+                  <p className="text-sm text-gray-500">
+                    You do not have an active plan.
+                  </p>
                 )}
               </div>
-
 
               {!userPlan.has_active_plan && (
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 border-t border-gray-200">
@@ -153,6 +161,7 @@ export default function PlansDet() {
                 </div>
               )}
             </div>
+
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800">
                 Plan Features

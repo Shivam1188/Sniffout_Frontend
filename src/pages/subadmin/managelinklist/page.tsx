@@ -106,7 +106,8 @@ const ManageLinks = () => {
   };
 
   const handleDelete = async (recordId: number) => {
-    if (!window.confirm("Are you sure you want to delete this link record?")) return;
+    if (!window.confirm("Are you sure you want to delete this link record?"))
+      return;
 
     try {
       await api.delete(`subadmin/restaurant-links/${recordId}/`);
@@ -122,16 +123,24 @@ const ManageLinks = () => {
     fetchLinks();
   }, []);
 
-  if (loading) return <p className="p-6"><LoadingSpinner /></p>;
+  if (loading) return <LoadingSpinner />;
 
-  const renderInput = (record: LinkRecord, label: string, name: keyof LinkRecord) => (
+  const renderInput = (
+    record: LinkRecord,
+    label: string,
+    name: keyof LinkRecord
+  ) => (
     <div className="mb-4">
-      <label className="text-sm font-semibold text-gray-700 block mb-1">{label}</label>
+      <label className="text-sm font-semibold text-gray-700 block mb-1">
+        {label}
+      </label>
       <input
         type="text"
         value={record[name] as string}
         readOnly={!isEditing}
-        onChange={(e) => handleInputChange(record.id, name as string, e.target.value)}
+        onChange={(e) =>
+          handleInputChange(record.id, name as string, e.target.value)
+        }
         className={`w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm ${
           !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
         }`}
@@ -143,7 +152,9 @@ const ManageLinks = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
-          <h1 className="text-2xl font-bold text-white">Manage Business List</h1>
+          <h1 className="text-2xl font-bold text-white">
+            Manage Business List
+          </h1>
           <div className="flex gap-2">
             {!isEditing && records.length > 0 && (
               <button
@@ -185,19 +196,32 @@ const ManageLinks = () => {
             </p>
           </div>
         ) : (
-          records.map((rec,index) => (
-            <div key={rec.id} className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-200">
-  <h2 className="font-bold text-lg mb-4">
-      {index === records.length - 1 ? "Recent Business Links" : `Restaurant ID: ${rec.restaurant_name}`}
-    </h2>
+          records.map((rec, index) => (
+            <div
+              key={rec.id}
+              className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-200"
+            >
+              <h2 className="font-bold text-lg mb-4">
+                {index === records.length - 1
+                  ? "Recent Business Links"
+                  : `Restaurant ID: ${rec.restaurant_name}`}
+              </h2>
               {renderInput(rec, "Direct Ordering Link", "direct_ordering_link")}
               {renderInput(rec, "DoorDash Link", "doordash_link")}
               {renderInput(rec, "UberEats Link", "ubereats_link")}
               {renderInput(rec, "GrubHub Link", "grubhub_link")}
-              {renderInput(rec, "Direct Reservation Link", "direct_reservation_link")}
+              {renderInput(
+                rec,
+                "Direct Reservation Link",
+                "direct_reservation_link"
+              )}
               {renderInput(rec, "OpenTable Link", "opentable_link")}
               {renderInput(rec, "Resy Link", "resy_link")}
-              {renderInput(rec, "Catering Request Form", "catering_request_form")}
+              {renderInput(
+                rec,
+                "Catering Request Form",
+                "catering_request_form"
+              )}
               {renderInput(rec, "Special Events Form", "special_events_form")}
 
               {isEditing && (

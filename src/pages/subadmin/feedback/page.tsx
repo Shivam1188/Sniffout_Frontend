@@ -12,8 +12,6 @@ function Feedback() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  console.log(feedbackList, "===feedbackList===");
-
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -55,7 +53,9 @@ function Feedback() {
           "id"
         );
 
-        setFeedbackList((prev) => prev.filter((item: any) => item.id !== deleteId));
+        setFeedbackList((prev) =>
+          prev.filter((item: any) => item.id !== deleteId)
+        );
         setShowDeleteModal(false);
         setDeleteId(null);
       } else {
@@ -102,10 +102,11 @@ function Feedback() {
               <div className="relative group">
                 <Link
                   to="/subadmin/add-feedback"
-                  className={`text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center ${feedbackList.length >= 1
+                  className={`text-sm text-white px-5 py-2 rounded-full shadow-md transition-all w-full sm:w-auto text-center ${
+                    feedbackList.length >= 1
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-[#fe6a3c] hover:bg-[#fd8f61]"
-                    }`}
+                  }`}
                   onClick={(e) => {
                     if (feedbackList.length >= 1) {
                       e.preventDefault(); // prevent navigation
@@ -122,7 +123,6 @@ function Feedback() {
                   </span>
                 )}
               </div>
-
             </div>
 
             {/* Table */}
@@ -161,7 +161,9 @@ function Feedback() {
                               d="M4 12a8 8 0 018-8v8H4z"
                             ></path>
                           </svg>
-                          <span className="font-medium">Loading questions...</span>
+                          <span className="font-medium">
+                            Loading questions...
+                          </span>
                         </div>
                       </td>
                     </tr>
@@ -169,8 +171,9 @@ function Feedback() {
                     feedbackList.map((menu: any, index: any) => (
                       <tr
                         key={menu.id}
-                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                          }`}
+                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
                       >
                         <td className="py-3 px-4 font-medium text-left">
                           {menu.feedback_question1}

@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
+import { Edit2Icon } from "lucide-react";
 
 const SetTableCounting = () => {
-  const [tableCounting, setTableCounting] = useState([]);
+  const [tableCounting, setTableCounting] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editData, setEditData] = useState({ id: null, number_of_tables: "" });
 
+  // Fetch data from backend
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await api.get("subadmin/no-of-tables/");
-      setTableCounting(response.data.results || []);
+
+      // Ensure tableCounting is an array, even if the response is a single object
+      setTableCounting(
+        Array.isArray(response.data) ? response.data : [response.data]
+      );
     } catch (error) {
       console.error("Error fetching business data", error);
     } finally {
@@ -18,6 +26,30 @@ const SetTableCounting = () => {
     }
   };
 
+  // Handle edit action
+  const handleEdit = (id: any, number_of_tables: number) => {
+    setEditData({ id, number_of_tables: number_of_tables.toString() });
+    setIsModalOpen(true); // Open the modal
+  };
+
+  // Handle form submission for editing data
+  const handleSubmitEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Send the PUT request to update data
+      await api.put(`subadmin/no-of-tables/${editData.id}/`, {
+        number_of_tables: editData.number_of_tables,
+      });
+
+      // Close modal and fetch updated data
+      setIsModalOpen(false);
+      fetchData(); // Refresh data after update
+    } catch (error) {
+      console.error("Error updating table count", error);
+    }
+  };
+
+  // Fetch data when the component mounts
   useEffect(() => {
     fetchData();
   }, []);
@@ -32,13 +64,31 @@ const SetTableCounting = () => {
                 No of Tables
               </h2>
             </div>
-            <div className="flex-shrink-0">
-              <Link
-                to={"/subadmin/set-table-counting/add-table-counting"}
-                className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
-              >
-                Add Table Counting
-              </Link>
+            <div className="flex-shrink-0 relative group">
+              {tableCounting.length === 0 ? (
+                <Link
+                  to={"/subadmin/set-table-counting/add-table-counting"}
+                  className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+                >
+                  Add Table Counting
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="w-full md:w-auto px-5 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-full shadow-md cursor-not-allowed"
+                >
+                  Add Table Counting
+                </button>
+              )}
+
+              {/* Tooltip */}
+              {tableCounting.length > 0 && (
+                <div className="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block">
+                  <span className="bg-gray-800 text-white text-xs rounded-md px-2 py-1 shadow-lg whitespace-nowrap">
+                    You can add only once
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -51,11 +101,8 @@ const SetTableCounting = () => {
               <table className="min-w-full text-sm text-gray-700">
                 <thead>
                   <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
-                    <th className="p-4">Plan Name</th>
-                    <th className="p-4">Plan Features</th>
-                    <th className="p-4">Price</th>
-                    <th className="p-4">Duration</th>
-                    <th className="p-4">Created At</th>
+                    <th className="p-4">Id</th>
+                    <th className="p-4">No of Tables</th>
                     <th className="p-4">Action</th>
                   </tr>
                 </thead>
@@ -70,7 +117,7 @@ const SetTableCounting = () => {
                       </td>
                     </tr>
                   ) : (
-                    tableCounting.map((r: any, index) => (
+                    tableCounting.map((r: any, index: any) => (
                       <tr
                         key={index}
                         style={{
@@ -84,40 +131,28 @@ const SetTableCounting = () => {
                           <div className="flex items-center gap-3">
                             <div>
                               <p className="font-semibold text-gray-800">
-                                {r.plan_name || "Unnamed"}
+                                {r.id || "Unnamed"}
                               </p>
                             </div>
                           </div>
                         </td>
-                        <td className="p-4 whitespace-pre-wrap">
-                          <p className="font-medium">
-                            {(() => {
-                              try {
-                                return JSON.parse(`"${r.description}"`);
-                              } catch {
-                                return r.description;
-                              }
-                            })()}
-                          </p>
-                        </td>
-                        <td className="p-4">{r.price}</td>
                         <td className="p-4">
-                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-                            {r.duration}
-                          </span>
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                {r.number_of_tables || "Unnamed"}
+                              </p>
+                            </div>
+                          </div>
                         </td>
-                        <td className="p-4">
-                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-                            {r.created_at.slice(0, 10)}
-                          </span>
-                        </td>
+
                         <td className="p-2 text-center">
-                          <Link
-                            to={`/subadmin/plan/plandetails/${r.id}`}
-                            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                          <button
+                            onClick={() => handleEdit(r.id, r.number_of_tables)}
+                            className="cursor-pointer text-blue-500 hover:text-blue-700 mr-3"
                           >
-                            SEE PLAN DETAILS
-                          </Link>
+                            <Edit2Icon className="w-5 h-5" />
+                          </button>
                         </td>
                       </tr>
                     ))
@@ -128,6 +163,59 @@ const SetTableCounting = () => {
           </div>
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex justify-center items-center z-1">
+          {/* Dim and optionally blur the background */}
+          <div className="absolute inset-0 bg-opacity-1 backdrop-blur-sm z-1"></div>
+
+          {/* Modal content */}
+          <div className="bg-white rounded-lg p-6 w-1/3 shadow-lg z-50">
+            <h2 className="text-xl font-semibold mb-4">Edit Table Counting</h2>
+            <form onSubmit={handleSubmitEdit}>
+              <div className="mb-4">
+                <label
+                  htmlFor="number_of_tables"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Number of Tables
+                </label>
+                <input
+                  type="number"
+                  id="number_of_tables"
+                  name="number_of_tables"
+                  required
+                  value={editData.number_of_tables}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      number_of_tables: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                />
+              </div>
+
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="cursor-pointer px-4 py-2 bg-gray-300 text-gray-700 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-lg"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

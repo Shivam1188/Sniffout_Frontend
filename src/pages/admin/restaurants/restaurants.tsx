@@ -118,7 +118,7 @@ const Restaurants = () => {
             <table className="min-w-full text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600">
-                  <th className="p-4">Restaurant Name</th>
+                  <th className="p-4">Business Name</th>
                   <th className="p-4">Owner/Contact</th>
                   <th className="p-4">Contact Info</th>
                   <th className="p-4">Plan Type</th>

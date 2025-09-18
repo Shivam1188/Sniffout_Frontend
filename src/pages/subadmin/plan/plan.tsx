@@ -59,57 +59,68 @@ const PlansDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {plans.map((r: any, index) => (
-                    <tr
-                      key={index}
-                      style={{
-                        backgroundColor: r.is_active
-                          ? "rgb(186 243 176)"
-                          : undefined, // visible orange
-                      }}
-                      className="border-b border-gray-100 transition hover:bg-gray-50"
-                    >
-                      <td className="p-4">
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-semibold text-gray-800">
-                              {r.plan_name || "Unnamed"}
-                            </p>
+                  {plans.length > 0 ? (
+                    plans.map((r: any, index) => (
+                      <tr
+                        key={index}
+                        style={{
+                          backgroundColor: r.is_active
+                            ? "rgb(186 243 176)"
+                            : undefined,
+                        }}
+                        className="border-b border-gray-100 transition hover:bg-gray-50"
+                      >
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                {r.plan_name || "Unnamed"}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="p-4 whitespace-pre-wrap">
-                        <p className="font-medium">
-                          {(() => {
-                            try {
-                              return JSON.parse(`"${r.description}"`);
-                            } catch {
-                              return r.description;
-                            }
-                          })()}
-                        </p>
-                      </td>
-                      <td className="p-4">{r.price}</td>
-                      <td className="p-4">
-                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-                          {r.duration}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
-                          {r.created_at.slice(0, 10)}
-                        </span>
-                      </td>
-                      <td className="p-2 text-center">
-                        <Link
-                          to={`/subadmin/plan/plandetails/${r.id}`}
-                          className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
-                        >
-                          SEE PLAN DETAILS
-                        </Link>
+                        </td>
+                        <td className="p-4 whitespace-pre-wrap">
+                          <p className="font-medium">
+                            {(() => {
+                              try {
+                                return JSON.parse(`"${r.description}"`);
+                              } catch {
+                                return r.description;
+                              }
+                            })()}
+                          </p>
+                        </td>
+                        <td className="p-4">{r.price}</td>
+                        <td className="p-4">
+                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                            {r.duration}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                            {r.created_at.slice(0, 10)}
+                          </span>
+                        </td>
+                        <td className="p-2 text-center">
+                          <Link
+                            to={`/subadmin/plan/plandetails/${r.id}`}
+                            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                          >
+                            SEE PLAN DETAILS
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="text-center py-6 text-gray-500"
+                      >
+                        No Plans Yet
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             )}

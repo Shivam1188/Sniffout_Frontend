@@ -51,6 +51,7 @@ import CraeteTables from "./pages/subadmin/create-tables/page.tsx";
 import AddTables from "./pages/subadmin/create-tables/add-tables/page.tsx";
 import SetTableCounting from "./pages/subadmin/set-table-counting/page.tsx";
 import AddTableCounting from "./pages/subadmin/set-table-counting/add-table-counting/page.tsx";
+import Catering from "./pages/subadmin/catering/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -146,6 +147,7 @@ const AppRouter = () => {
             }
           />
         </Route>
+
         <Route
           element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}
         >
@@ -169,6 +171,13 @@ const AppRouter = () => {
                 allowedRole="subdir"
                 element={<SetTableCounting />}
               />
+            }
+          />
+
+          <Route
+            path="/subadmin/catering"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Catering />} />
             }
           />
           <Route

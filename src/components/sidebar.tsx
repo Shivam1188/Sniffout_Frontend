@@ -1,4 +1,19 @@
-import { BarChart2, LogOut } from "lucide-react";
+import {
+  BarChart2,
+  LogOut,
+  Home,
+  Building2,
+  ClipboardList,
+  Settings,
+  User,
+  Utensils,
+  Clock,
+  MessageSquare,
+  Table,
+  Calendar,
+  Gift,
+  FileText,
+} from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
 import Cookies from "js-cookie";
@@ -9,6 +24,23 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const role = Cookies.get("role");
 
+  const iconMap: any = {
+    Dashboard: <Home size={16} />,
+    Business: <Building2 size={16} />,
+    Plans: <ClipboardList size={16} />,
+    "Add Business Links": <Settings size={16} />,
+    "Manage Business List": <ClipboardList size={16} />,
+    "Fresh Offers": <Gift size={16} />,
+    "Update Profile": <User size={16} />,
+    Menu: <Utensils size={16} />,
+    "Menu Items": <FileText size={16} />,
+    "Business Hours": <Clock size={16} />,
+    "Feedback Questions": <MessageSquare size={16} />,
+    "Set No of Tables": <Table size={16} />,
+    "Create Tables ": <Table size={16} />,
+    Reservation: <Calendar size={16} />,
+    Catering: <Utensils size={16} />,
+  };
   const adminMenu = [
     { label: "Dashboard", route: "/admin/dashboard" },
     { label: "Business", route: "/admin/restaurants" },
@@ -29,6 +61,7 @@ const Sidebar = () => {
     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
     { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Reservation", route: "/subadmin/reservation" },
+    { label: "Catering", route: "/subadmin/catering" },
   ];
 
   const menuItems = role === "admin" ? adminMenu : subdirMenu;
@@ -54,6 +87,7 @@ const Sidebar = () => {
         Cookies.remove("role");
         Cookies.remove("id");
         Cookies.remove("email");
+        Cookies.remove("subadmin_id");
         navigate("/auth/login");
       } else {
         console.error("Logout failed", response);
@@ -83,12 +117,9 @@ const Sidebar = () => {
                   pathname === item.route ? "text-[#1d3faa]" : ""
                 }`}
               >
-                <BarChart2
-                  size={16}
-                  className={pathname === item.route ? "" : "text-white"}
-                />
+                {iconMap[item.label] || <BarChart2 size={16} />}{" "}
+                {/* fallback */}
               </div>
-
               <span>{item.label}</span>
             </Link>
           ))}

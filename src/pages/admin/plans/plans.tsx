@@ -11,14 +11,14 @@ const Plans = () => {
   const [restaurantToDelete, setRestaurantToDelete] = useState<any>(null);
 
   const fetchData = async () => {
-    setLoading(true); // start loader
+    setLoading(true);
     try {
       const response = await api.get("superadmin/admin-plans/");
       setPlans(response.data.results);
     } catch (error) {
       console.error("Error fetching plan data", error);
     } finally {
-      setLoading(false); // stop loader
+      setLoading(false);
     }
   };
 
@@ -132,6 +132,15 @@ const Plans = () => {
                       <div className="flex justify-center items-center py-4">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#fe6a3c]"></div>
                       </div>
+                    </td>
+                  </tr>
+                ) : plans.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="p-6 text-center text-gray-500 font-medium bg-gray-50"
+                    >
+                      No Plans Found
                     </td>
                   </tr>
                 ) : (

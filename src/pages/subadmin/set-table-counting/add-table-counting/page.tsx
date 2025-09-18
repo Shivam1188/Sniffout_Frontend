@@ -6,7 +6,7 @@ import { toasterSuccess } from "../../../../components/Toaster";
 
 export default function AddTableCounting() {
   const navigate = useNavigate();
-  const id = Cookies.get("id");
+  const id = Cookies.get("subadmin_id");
 
   const [formData, setFormData] = useState({
     number_of_tables: "",

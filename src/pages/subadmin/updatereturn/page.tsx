@@ -14,11 +14,15 @@ const UpdateReturn = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [phoneNumbers, setPhoneNumbers] = useState<any>([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [phoneLoading, setPhoneLoading] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
-
+  const [phoneNumbers, setPhoneNumbers] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [nextPage, setNextPage] = useState<string | null>(null);
+  const [prevPage, setPrevPage] = useState<string | null>(null);
+  const pageSize = 10; // or detect from API
   const userId = Cookies.get("id");
 
   const [profile, setProfile] = useState({
@@ -84,8 +88,8 @@ const UpdateReturn = () => {
   }, [userId]);
 
   useEffect(() => {
-    fetchPhoneNumbers();
-  }, [userId]);
+    fetchPhoneNumbers(1);
+  }, []);
 
   useEffect(() => {
     fetchProfileData();
@@ -130,12 +134,18 @@ const UpdateReturn = () => {
     }
   };
 
-  const fetchPhoneNumbers = async () => {
+  const fetchPhoneNumbers = async (pageNum = 1) => {
     if (!userId) return;
     setPhoneLoading(true);
     try {
-      const res = await api.get(`twilio_bot/api/forwarding-numbers/`);
+      const res = await api.get(
+        `twilio_bot/api/forwarding-numbers/?page=${pageNum}`
+      );
       setPhoneNumbers(res?.data?.results?.data || []);
+      setTotal(res?.data?.count || 0);
+      setNextPage(res?.data?.next || null);
+      setPrevPage(res?.data?.previous || null);
+      setPage(pageNum);
     } catch (err) {
       console.error("Failed to fetch phone numbers:", err);
       toasterError("Failed to load phone numbers", 2000, "id");
@@ -330,62 +340,92 @@ const UpdateReturn = () => {
           {phoneLoading ? (
             <LoadingSpinner />
           ) : (
-            <ul className="space-y-2">
-              {phoneNumbers &&
-                phoneNumbers.map(
-                  (item: any, idx: any) => (
-                    console.log(item, "=========="),
-                    (
-                      <li
-                        key={item.id}
-                        className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
-                      >
-                        <input
-                          type="tel"
-                          value={item.phone_number}
-                          onChange={(e) => {
-                            const onlyNums = e.target.value.replace(
-                              /[^0-9+]/g,
-                              ""
-                            ); // allow digits and +
-                            const updated = [...phoneNumbers];
-                            updated[idx].phone_number = onlyNums;
-                            setPhoneNumbers(updated);
-                          }}
-                          className="flex-1 border rounded px-2 py-1"
-                          readOnly={editingIndex !== item.id}
-                        />
+            <>
+              <ul className="space-y-2">
+                {phoneNumbers &&
+                  phoneNumbers.map((item: any, idx: any) => (
+                    <li
+                      key={item.id}
+                      className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                    >
+                      <input
+                        type="tel"
+                        value={item.phone_number}
+                        onChange={(e) => {
+                          const onlyNums = e.target.value.replace(
+                            /[^0-9+]/g,
+                            ""
+                          ); // allow digits and +
+                          const updated = [...phoneNumbers];
+                          updated[idx].phone_number = onlyNums;
+                          setPhoneNumbers(updated);
+                        }}
+                        className="flex-1 border rounded px-2 py-1"
+                        readOnly={editingIndex !== item.id}
+                      />
 
-                        <div className="flex gap-2">
-                          {editingIndex === item.id ? (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                handleUpdatePhoneNumber(
-                                  item.id,
-                                  phoneNumbers[idx].phone_number
-                                );
-                                setEditingIndex(null);
-                              }}
-                              className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
-                            >
-                              Save
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setEditingIndex(item.id)}
-                              className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
-                            >
-                              Edit
-                            </button>
-                          )}
-                        </div>
-                      </li>
-                    )
-                  )
-                )}
-            </ul>
+                      <div className="flex gap-2">
+                        {editingIndex === item.id ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleUpdatePhoneNumber(
+                                item.id,
+                                phoneNumbers[idx].phone_number
+                              );
+                              setEditingIndex(null);
+                            }}
+                            className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                          >
+                            Save
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setEditingIndex(item.id)}
+                            className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+
+              <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
+                <p className="text-sm text-gray-600">
+                  Showing{" "}
+                  <span className="font-semibold">
+                    {(page - 1) * pageSize + 1}
+                  </span>
+                  –
+                  <span className="font-semibold">
+                    {Math.min(page * pageSize, total)}
+                  </span>{" "}
+                  of <span className="font-semibold">{total}</span> phone
+                  numbers
+                </p>
+
+                <div className="flex items-center space-x-2">
+                  <button
+                    disabled={!prevPage}
+                    onClick={() => fetchPhoneNumbers(page - 1)}
+                    className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                  >
+                    Prev
+                  </button>
+
+                  <button
+                    disabled={!nextPage}
+                    onClick={() => fetchPhoneNumbers(page + 1)}
+                    className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </>
           )}
         </div>
 

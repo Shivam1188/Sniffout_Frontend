@@ -217,14 +217,14 @@ const EditRestaurant = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Restaurant Name
+                      Business Name
                     </label>
                     <input
                       name="restaurant_name"
                       value={form.restaurant_name}
                       onChange={handleChange}
                       required
-                      placeholder="Enter restaurant name"
+                      placeholder="Enter business name"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>

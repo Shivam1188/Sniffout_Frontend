@@ -40,7 +40,7 @@ function MenuItems() {
 
       if (res?.success) {
         toasterSuccess("Menu item deleted successfully", "2000", "id");
-        setMenuList(prev => prev.filter((item: any) => item.id !== deleteId));
+        setMenuList((prev) => prev.filter((item: any) => item.id !== deleteId));
         setShowDeleteModal(false);
         setDeleteId(null);
       } else {
@@ -48,7 +48,11 @@ function MenuItems() {
       }
     } catch (err) {
       console.error("Error deleting menu:", err);
-      toasterError("Something went wrong while deleting menu item", "2000", "id");
+      toasterError(
+        "Something went wrong while deleting menu item",
+        "2000",
+        "id"
+      );
     }
   };
 
@@ -64,7 +68,9 @@ function MenuItems() {
       <div className="flex-1 p-6 sm:p-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-8 relative space-y-3 md:space-y-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Menu Items</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">
+            Menu Items
+          </h1>
           <Link
             to={"/subadmin/dashboard"}
             className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
@@ -128,7 +134,9 @@ function MenuItems() {
                         key={menu.id}
                         className="bg-white p-5 rounded-xl shadow border border-gray-100 hover:shadow-lg transition"
                       >
-                        <h3 className="text-lg font-semibold text-gray-800">{menu.name}</h3>
+                        <h3 className="text-lg font-semibold text-gray-800">
+                          {menu.name}
+                        </h3>
                         <p className="text-sm text-gray-500 mt-1 mb-4">
                           {menu.description || "No description available"}
                         </p>
@@ -137,14 +145,14 @@ function MenuItems() {
                             onClick={() =>
                               navigate(`/subadmin/edit-menu-items/${menu.id}`)
                             }
-                            className="text-blue-600 hover:text-blue-800"
+                            className="cursor-pointer text-blue-600 hover:text-blue-800"
                             title="Edit"
                           >
                             <Edit2Icon size={18} />
                           </button>
                           <button
                             onClick={() => confirmDelete(menu.id)}
-                            className="text-red-600 hover:text-red-800"
+                            className="cursor-pointer text-red-600 hover:text-red-800"
                             title="Delete"
                           >
                             <ArchiveIcon size={18} />

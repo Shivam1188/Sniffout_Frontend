@@ -6,27 +6,23 @@ import { toasterSuccess } from "../../../../components/Toaster";
 
 export default function AddTables() {
   const navigate = useNavigate();
-  const id = Cookies.get("id");
+  const id = Cookies.get("subadmin_id");
 
   const [formData, setFormData] = useState({
-    no_of_tables: "",
     table_number: "",
     is_available: "true", // dropdown default
     restaurant: Number(id),
+    no_of_tables: 1,
   });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: any) => {
+    const value = e.target.value;
+    // Allow only "Table " followed by numbers
+    if (/^Table\s\d*$/.test(value)) {
+      setFormData({ ...formData, [e.target.name]: value });
+    }
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -67,33 +63,22 @@ export default function AddTables() {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* No of Tables */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      No of Tables
-                    </label>
-                    <input
-                      type="number"
-                      name="no_of_tables"
-                      value={formData.no_of_tables}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
-                      placeholder="Enter number of tables"
-                      required
-                    />
-                  </div>
+                  {/* Show Number of Tables readonly */}
 
                   {/* Table Number */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Table Number
                     </label>
-                    <textarea
+                    <input
+                      type="text"
                       name="table_number"
                       value={formData.table_number}
                       onChange={handleChange}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
-                      placeholder="Enter table number"
+                      placeholder="Enter table (e.g., Table 1)"
+                      pattern="Table [1-9][0-9]*"
+                      title="Please enter in format: Table 1, Table 2, etc."
                       required
                     />
                   </div>

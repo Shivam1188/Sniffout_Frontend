@@ -95,7 +95,7 @@ const AuthForm = ({
     const endpoint = endpointMapUrl[type];
 
     try {
-      const response: any = await API.post(endpoint, payload);
+      const response = await API.post(endpoint, payload);
 
       if (response.success) {
         if (type === "forgot-password") {
@@ -112,6 +112,12 @@ const AuthForm = ({
           Cookies.set(
             "email",
             response?.data?.data?.email || response?.data?.data?.user?.email,
+            { expires: 1 }
+          );
+          Cookies.set(
+            "subadmin_id",
+            response?.data?.data?.subadmin_id ||
+              response?.data?.data?.user?.subadmin_id,
             { expires: 1 }
           );
           Cookies.set(

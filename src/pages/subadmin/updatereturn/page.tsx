@@ -22,7 +22,7 @@ const UpdateReturn = () => {
   const [total, setTotal] = useState(0);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [prevPage, setPrevPage] = useState<string | null>(null);
-  const pageSize = 10; // or detect from API
+  const pageSize = 10;
   const userId = Cookies.get("id");
 
   const [profile, setProfile] = useState({
@@ -158,12 +158,12 @@ const UpdateReturn = () => {
     if (!e.target.files || e.target.files.length === 0) return;
 
     const file = e.target.files[0];
-    setProfileImage(file.name);
+    setProfileImage(URL.createObjectURL(file)); // For instant preview
 
     if (!isEditing) return;
 
     try {
-      setSaving(true);
+      setSaving(true); // Set saving state to true when uploading
 
       const formData = new FormData();
       formData.append("profile_image", file);
@@ -180,15 +180,16 @@ const UpdateReturn = () => {
       if (!response.ok) throw new Error("Failed to update profile image");
 
       const data = await response.json();
-      setProfileImage(data.profile_image_url || ""); // ✅ persist updated image
+      setProfileImage(data.profile_image_url || ""); // Update the profile image URL if successful
       toasterSuccess("Profile image updated successfully!", 2000, "id");
     } catch (err) {
       console.error(err);
       toasterError("Failed to upload profile image", 2000, "id");
     } finally {
-      setSaving(false);
+      setSaving(false); // Reset saving state after the upload
     }
   };
+
   const handleAddPhoneNumber = async () => {
     if (!newPhoneNumber.trim()) return;
 
@@ -483,30 +484,42 @@ const UpdateReturn = () => {
             {/* Rest of your form inputs */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
               {/* Profile Image Upload Section */}
-              <div className="col-span-1 flex flex-col items-center bg-gradient-to-tr from-[#1d3faa]/10 to-[#fe6a3c]/10 p-6 rounded-xl shadow text-center">
-                {profileImage ? (
+              <div className="col-span-1 flex flex-col items-center bg-gradient-to-tr from-[#1d3faa]/10 to-[#fe6a3c]/10 p-6 rounded-2xl shadow-lg text-center transition-transform hover:scale-105 relative">
+                {/* Image or Loader */}
+                {saving ? (
+                  <div className="w-32 h-32 flex items-center justify-center rounded-full border-2 border-white shadow-md mb-4">
+                    <LoadingSpinner />
+                  </div>
+                ) : profileImage ? (
                   <img
                     src={profileImage}
                     alt="Profile"
-                    className="w-32 h-32 object-cover rounded-full border mb-4"
+                    className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md mb-4"
                   />
                 ) : (
-                  <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center shadow-inner mb-4">
                     <span className="text-gray-500 text-sm">No Image</span>
                   </div>
                 )}
 
+                {/* File Input for Editing */}
                 {isEditing && (
-                  <>
+                  <label className="cursor-pointer mt-2 w-32 h-32 flex items-center justify-center rounded-full border-2 border-dashed border-gray-300 hover:border-[#fe6a3c] transition-colors absolute top-6">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleImageChange}
-                      className="w-32 h-32 cursor-pointer block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-[#fe6a3c] file:text-white hover:file:bg-[#fd8f61]"
+                      className="hidden"
                     />
-                  </>
+                    {!saving && (
+                      <span className="text-gray-500 text-sm text-center px-2">
+                        Click to Upload
+                      </span>
+                    )}
+                  </label>
                 )}
               </div>
+
               <div className="lg:col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   { label: "Business", name: "restaurant_name" },

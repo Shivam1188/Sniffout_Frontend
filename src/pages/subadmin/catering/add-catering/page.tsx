@@ -6,10 +6,10 @@ import { toasterSuccess } from "../../../../components/Toaster";
 
 export default function AddCatering() {
   const navigate = useNavigate();
-  const id = Cookies.get("subadmin_id"); // if needed for `customer`
+  const id = Cookies.get("subadmin_id");
 
   const [formData, setFormData] = useState({
-    customer: Number(id) || 1, // fallback if no cookie
+    customer: Number(id),
     number_of_guests: "",
     event_date: "",
     event_time: "",
@@ -69,7 +69,6 @@ export default function AddCatering() {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Number of Guests */}
                   <div>
                     <label className="block text-sm font-medium text-white dark:text-white-300 mb-1">
                       Number of Guests
@@ -85,7 +84,6 @@ export default function AddCatering() {
                     />
                   </div>
 
-                  {/* Event Date */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Event Date
@@ -100,7 +98,6 @@ export default function AddCatering() {
                     />
                   </div>
 
-                  {/* Event Time */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Event Time
@@ -115,7 +112,6 @@ export default function AddCatering() {
                     />
                   </div>
 
-                  {/* Special Instructions */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Special Instructions
@@ -130,7 +126,6 @@ export default function AddCatering() {
                     />
                   </div>
 
-                  {/* Estimated Budget */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Estimated Budget
@@ -147,7 +142,6 @@ export default function AddCatering() {
                     />
                   </div>
 
-                  {/* Status */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Status
@@ -164,7 +158,6 @@ export default function AddCatering() {
                     </select>
                   </div>
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={loading}

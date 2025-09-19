@@ -166,7 +166,7 @@ function Catering() {
                         colSpan={6}
                         className="text-center py-6 text-gray-500"
                       >
-                        No menus available.
+                        No Catering Available.
                       </td>
                     </tr>
                   )}

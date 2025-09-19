@@ -7,7 +7,6 @@ const CreateTables = () => {
   const [tables, setTables] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTable, setEditingTable] = useState<any>(null);
   const [editData, setEditData] = useState<any>({
@@ -78,7 +77,7 @@ const CreateTables = () => {
       });
       toasterSuccess("Table updated successfully!", 2000, "id");
       setIsModalOpen(false);
-      fetchData(); // refresh table list
+      fetchData();
     } catch (error) {
       console.error("Error updating table:", error);
       alert("Failed to update table.");
@@ -120,7 +119,6 @@ const CreateTables = () => {
                   <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
                     <th className="p-4">Table Number</th>
                     <th className="p-4">Availability</th>
-                    <th className="p-4">No. of Tables</th>
                     <th className="p-4">Created At</th>
                     <th className="p-4">Action</th>
                   </tr>
@@ -145,7 +143,6 @@ const CreateTables = () => {
                           </span>
                         )}
                       </td>
-                      <td className="p-4">{r.no_of_tables}</td>
                       <td className="p-4">
                         <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
                           {r.created_at.slice(0, 10)}
@@ -174,7 +171,6 @@ const CreateTables = () => {
         </div>
       </div>
 
-      {/* Edit Modal */}
       {isModalOpen && editingTable && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-md">
@@ -200,7 +196,7 @@ const CreateTables = () => {
                 </label>
                 <select
                   name="is_available"
-                  value={String(editData.is_available)} // ensure it's "true" or "false"
+                  value={String(editData.is_available)}
                   onChange={handleEditChange}
                   className="w-full px-4 py-2 border rounded-lg"
                 >

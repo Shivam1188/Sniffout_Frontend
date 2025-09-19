@@ -56,7 +56,7 @@ const refreshAccessToken = async () => {
 };
 
 const request = async (
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
   url: string,
   body?: any,
   includeToken: boolean = true,
@@ -97,6 +97,7 @@ const api = {
   get: (url: string) => request("GET", url),
   post: (url: string, body: any) => request("POST", url, body),
   put: (url: string, body: any) => request("PUT", url, body),
+  patch: (url: string, body: any) => request("PATCH", url, body), // ✅ Added PATCH
   delete: (url: string) => request("DELETE", url),
   postFile: (url: string, formData: FormData) => request("POST", url, formData, true, true),
 };

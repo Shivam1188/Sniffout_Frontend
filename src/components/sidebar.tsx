@@ -62,6 +62,7 @@ const Sidebar = () => {
     { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Reservation", route: "/subadmin/reservation" },
     { label: "Catering", route: "/subadmin/catering" },
+    { label: "Subscribe", route: "/subadmin/subscribe" },
   ];
 
   const menuItems = role === "admin" ? adminMenu : subdirMenu;

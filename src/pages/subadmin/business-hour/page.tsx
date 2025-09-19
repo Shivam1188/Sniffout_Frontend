@@ -11,7 +11,6 @@ export default function BusinessHoursList() {
   const id = Cookies.get("id");
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [menuList, setMenuList] = useState<any[]>([]);
   const [hoursList, setHoursList] = useState<any[]>([]);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -23,11 +22,10 @@ export default function BusinessHoursList() {
 
   const fetchData = async () => {
     try {
-      const [menuRes, hoursRes] = await Promise.all([
+      const [hoursRes] = await Promise.all([
         api.get("subadmin/menu/"),
-        api.get(`subadmin/business-hours/?subadmin_profile=${id}`)
+        api.get(`subadmin/business-hours/?subadmin_profile=${id}`),
       ]);
-      setMenuList(menuRes.data?.results || []);
       setHoursList(hoursRes.data?.results || []);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -55,12 +53,13 @@ export default function BusinessHoursList() {
     }
   };
 
-
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Business Hours</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">
+            Business Hours
+          </h1>
           <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
@@ -83,10 +82,14 @@ export default function BusinessHoursList() {
         ) : (
           <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">Business Hours List</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
+                Business Hours List
+              </h1>
 
               <button
-                onClick={() => navigate("/subadmin/business-hour/add-business-hour")}
+                onClick={() =>
+                  navigate("/subadmin/business-hour/add-business-hour")
+                }
                 className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
               >
                 <Plus size={16} className="inline mr-2" /> Add Business Hours
@@ -97,7 +100,7 @@ export default function BusinessHoursList() {
               <table className="min-w-[800px] w-full table-auto text-sm text-gray-700">
                 <thead>
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
-                    <th className="py-3 px-4 text-left">Menu</th>
+                    {/* <th className="py-3 px-4 text-left">Menu</th> */}
                     <th className="py-3 px-4 text-left">Day</th>
                     <th className="py-3 px-4 text-left">Time</th>
                     <th className="py-3 px-4 text-center">Actions</th>
@@ -108,12 +111,13 @@ export default function BusinessHoursList() {
                     hoursList.map((item, index) => (
                       <tr
                         key={item.id}
-                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                          }`}
+                        className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
                       >
-                        <td className="py-3 px-4">
+                        {/* <td className="py-3 px-4">
                           {menuList.find((m) => m.id === item.menu)?.name || "Unknown"}
-                        </td>
+                        </td> */}
                         <td className="py-3 px-4">{item.day}</td>
                         <td className="py-3 px-4">
                           {item.closed_all_day
@@ -122,7 +126,11 @@ export default function BusinessHoursList() {
                         </td>
                         <td className="py-3 px-4 text-center space-x-4">
                           <button
-                            onClick={() => navigate(`/subadmin/business-hour/edit-business-hour/${item.id}`)}
+                            onClick={() =>
+                              navigate(
+                                `/subadmin/business-hour/edit-business-hour/${item.id}`
+                              )
+                            }
                             className="text-blue-600 hover:underline cursor-pointer"
                           >
                             <Edit2Icon size={18} />
@@ -138,7 +146,10 @@ export default function BusinessHoursList() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={4} className="text-center py-6 text-gray-500">
+                      <td
+                        colSpan={4}
+                        className="text-center py-6 text-gray-500"
+                      >
                         No business hours added yet.
                       </td>
                     </tr>
@@ -146,8 +157,8 @@ export default function BusinessHoursList() {
                 </tbody>
               </table>
             </div>
-
-          </div>)}
+          </div>
+        )}
       </div>
 
       {showDeleteModal && (

@@ -45,10 +45,7 @@ export default function AddBusinessHour() {
       toasterError("Day is required.", 2000, "id");
       return;
     }
-    if (!formData.menu) {
-      toasterError("Menu is required.", 2000, "id");
-      return;
-    }
+
     if (!formData.opening_time) {
       toasterError("Opening Time is required.", 2000, "id");
       return;

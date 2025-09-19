@@ -9,7 +9,7 @@ export default function PaymentCancel() {
       navigate("/subadmin/dashboard");
     }, 60000);
 
-    return () => clearTimeout(timer); 
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
@@ -18,7 +18,8 @@ export default function PaymentCancel() {
         ❌ Payment Cancelled
       </h1>
       <p className="text-gray-700 text-lg">
-        Your payment was not completed. You can try again or go back to your dashboard.
+        Your payment was not completed. You can try again or go back to your
+        dashboard.
       </p>
 
       <a

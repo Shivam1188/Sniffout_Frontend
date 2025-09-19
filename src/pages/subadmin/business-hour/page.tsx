@@ -22,11 +22,10 @@ export default function BusinessHoursList() {
 
   const fetchData = async () => {
     try {
-      const [hoursRes] = await Promise.all([
-        api.get("subadmin/menu/"),
-        api.get(`subadmin/business-hours/?subadmin_profile=${id}`),
-      ]);
-      setHoursList(hoursRes.data?.results || []);
+      const res = await api.get(
+        `subadmin/business-hours/?subadmin_profile=${id}`
+      );
+      setHoursList(res.data?.results || []);
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {

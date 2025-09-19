@@ -53,6 +53,8 @@ import SetTableCounting from "./pages/subadmin/set-table-counting/page.tsx";
 import AddTableCounting from "./pages/subadmin/set-table-counting/add-table-counting/page.tsx";
 import Catering from "./pages/subadmin/catering/page.tsx";
 import Subscribe from "./pages/subadmin/subscribe/page.tsx";
+import AddCatering from "./pages/subadmin/catering/add-catering/page.tsx";
+import EditCatering from "./pages/subadmin/catering/edit-catering/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -186,6 +188,18 @@ const AppRouter = () => {
             path="/subadmin/catering"
             element={
               <ProtectedRoute allowedRole="subdir" element={<Catering />} />
+            }
+          />
+          <Route
+            path="/subadmin/catering/add-catering"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddCatering />} />
+            }
+          />
+          <Route
+            path="/subadmin/catering/edit-catering/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditCatering />} />
             }
           />
           <Route

@@ -1,14 +1,13 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
+import api from "../../../lib/Api";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
-import Cookies from "js-cookie";
 
 const Managelinks = () => {
   const navigate = useNavigate();
-  const id = Cookies.get("id")
-
+  const id = Cookies.get("id");
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const initialFormData = {
@@ -38,16 +37,16 @@ const Managelinks = () => {
     if (!url) return true; // allow empty if that's okay
 
     const pattern = new RegExp(
-      "^(https?:\\/\\/)" +                      // require http:// or https://
-      "(?:\\S+(?::\\S*)?@)?" +                  // optional user:pass@
-      "(?:" +
-      "localhost" +                           // localhost
-      "|\\d{1,3}(?:\\.\\d{1,3}){3}" +         // IPv4
-      "|\\[[0-9A-Fa-f:.]+\\]" +               // IPv6
-      "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +  // domain name
-      ")" +
-      "(?::\\d{2,5})?" +                        // optional port
-      "(?:[/?#][^\\s]*)?$",                     // path/query/fragment
+      "^(https?:\\/\\/)" + // require http:// or https://
+        "(?:\\S+(?::\\S*)?@)?" + // optional user:pass@
+        "(?:" +
+        "localhost" + // localhost
+        "|\\d{1,3}(?:\\.\\d{1,3}){3}" + // IPv4
+        "|\\[[0-9A-Fa-f:.]+\\]" + // IPv6
+        "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" + // domain name
+        ")" +
+        "(?::\\d{2,5})?" + // optional port
+        "(?:[/?#][^\\s]*)?$", // path/query/fragment
       "i"
     );
 
@@ -67,7 +66,11 @@ const Managelinks = () => {
 
     for (const [key, value] of Object.entries(formData)) {
       if (key !== "restaurant_name" && value && !isValidUrl(value)) {
-        toasterError(`Please enter a valid URL for "${key.replace(/_/g, " ")}"`, 3000, "id");
+        toasterError(
+          `Please enter a valid URL for "${key.replace(/_/g, " ")}"`,
+          3000,
+          "id"
+        );
         return;
       }
     }
@@ -86,15 +89,14 @@ const Managelinks = () => {
     }
   };
 
-  // const handleCancel = () => {
-  //   setFormData(initialFormData);
-  // };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <div>
-            <h1 className="text-2xl font-bold text-white">Add Business Links</h1>
+            <h1 className="text-2xl font-bold text-white">
+              Add Business Links
+            </h1>
           </div>
           <div className="flex-shrink-0">
             <Link
@@ -113,9 +115,7 @@ const Managelinks = () => {
         </div>
 
         <div className=" mx-auto bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] rounded-3xl shadow-xl p-8 border border-gray-200">
-          <div className="mb-6">
-
-          </div>
+          <div className="mb-6"></div>
 
           <div className="flex items-center gap-2 mb-6">
             <div className="bg-[#fe6a3c] text-white rounded-full p-1.5">
@@ -123,12 +123,16 @@ const Managelinks = () => {
                 <path d="M2.5 6a.5.5 0 0 1 .5-.5H17a.5.5 0 0 1 .4.8l-6.5 9a.5.5 0 0 1-.8 0l-6.5-9A.5.5 0 0 1 2.5 6z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800">Online Ordering Links</h3>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Online Ordering Links
+            </h3>
           </div>
 
           <div className="space-y-6">
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">Direct Ordering Link</label>
+              <label className="text-sm font-semibold text-gray-700 block mb-1">
+                Direct Ordering Link
+              </label>
               <input
                 type="text"
                 name="direct_ordering_link"
@@ -138,7 +142,9 @@ const Managelinks = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">DoorDash Link</label>
+              <label className="text-sm font-semibold text-gray-700 block mb-1">
+                DoorDash Link
+              </label>
               <input
                 type="text"
                 name="doordash_link"
@@ -148,7 +154,9 @@ const Managelinks = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">UberEats Link</label>
+              <label className="text-sm font-semibold text-gray-700 block mb-1">
+                UberEats Link
+              </label>
               <input
                 type="text"
                 name="ubereats_link"
@@ -158,7 +166,9 @@ const Managelinks = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">GrubHub Link</label>
+              <label className="text-sm font-semibold text-gray-700 block mb-1">
+                GrubHub Link
+              </label>
               <input
                 type="text"
                 name="grubhub_link"
@@ -174,7 +184,9 @@ const Managelinks = () => {
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Direct Reservation Link</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Direct Reservation Link
+                </label>
                 <input
                   type="text"
                   name="direct_reservation_link"
@@ -184,7 +196,9 @@ const Managelinks = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">OpenTable Link</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  OpenTable Link
+                </label>
                 <input
                   type="text"
                   name="opentable_link"
@@ -194,7 +208,9 @@ const Managelinks = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Resy Link</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Resy Link
+                </label>
                 <input
                   type="text"
                   name="resy_link"
@@ -209,7 +225,9 @@ const Managelinks = () => {
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Catering Request Form</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Catering Request Form
+                </label>
                 <input
                   type="text"
                   name="catering_request_form"
@@ -219,7 +237,9 @@ const Managelinks = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Special Events Form</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Special Events Form
+                </label>
                 <input
                   type="text"
                   name="special_events_form"
@@ -232,9 +252,6 @@ const Managelinks = () => {
           </div>
 
           <div className="flex flex-col md:flex-row justify-end gap-3 pt-4">
-            {/* <button onClick={handleCancel} className=" cursor-pointer bg-white text-[#de6b5b] border border-pink-300 px-5 py-2 rounded-md font-semibold hover:bg-pink-50 w-full md:w-auto">
-              Cancel Changes
-            </button> */}
             <button
               onClick={handleSave}
               className="cursor-pointer bg-[#2441a8] text-white px-6 py-2 rounded-md font-semibold shadow-md w-full md:w-auto"

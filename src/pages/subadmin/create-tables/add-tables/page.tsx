@@ -10,26 +10,24 @@ export default function AddTables() {
 
   const [formData, setFormData] = useState({
     table_number: "",
-    is_available: "true", // dropdown default
+    is_available: "true",
     restaurant: Number(id),
     no_of_tables: 1,
   });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
-    const value = e.target.value;
-    // Allow only "Table " followed by numbers
-    if (/^Table\s\d*$/.test(value)) {
-      setFormData({ ...formData, [e.target.name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       await api.post("subadmin/restaurant-table/", {
         ...formData,
-        is_available: formData.is_available === "true", // convert to boolean
+        is_available: formData.is_available === "true",
       });
       toasterSuccess("Table Added Successfully!", 2000, "id");
       navigate("/subadmin/create-tables");
@@ -63,13 +61,11 @@ export default function AddTables() {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Show Number of Tables readonly */}
-
-                  {/* Table Number */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Table Number
                     </label>
+
                     <input
                       type="text"
                       name="table_number"

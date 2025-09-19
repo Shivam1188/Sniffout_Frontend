@@ -30,7 +30,7 @@ const UpdateReturn = () => {
     first_name: "",
     last_name: "",
     phone_number: "",
-    office_mobile_number: "",
+    office_number: "",
     email_address: "",
     address: "",
     city: "",
@@ -58,7 +58,7 @@ const UpdateReturn = () => {
             first_name: data.first_name || "",
             last_name: data.last_name || "",
             phone_number: data.phone_number || "",
-            office_mobile_number: data.office_mobile_number || "",
+            office_number: data.office_number || "",
             email_address: data.email_address || "",
             address: data.address || "",
             city: data.city || "",
@@ -111,7 +111,7 @@ const UpdateReturn = () => {
         first_name: profileData.first_name || "",
         last_name: profileData.last_name || "",
         phone_number: profileData.phone_number || "",
-        office_mobile_number: profileData.office_mobile_number || "",
+        office_number: profileData.office_number || "",
         email_address: profileData.email_address || "",
         address: profileData.address || "",
         city: profileData.city || "",
@@ -502,7 +502,6 @@ const UpdateReturn = () => {
                   </div>
                 )}
 
-                {/* File Input for Editing */}
                 {isEditing && (
                   <label className="cursor-pointer mt-2 w-32 h-32 flex items-center justify-center rounded-full border-2 border-dashed border-gray-300 hover:border-[#fe6a3c] transition-colors absolute top-6">
                     <input
@@ -533,7 +532,7 @@ const UpdateReturn = () => {
                   { label: "Website URL", name: "website_url" },
                   {
                     label: "Office Mobile Number",
-                    name: "office_mobile_number",
+                    name: "office_number",
                   },
                 ].map(({ label, name }) => (
                   <div key={name} className="w-full">

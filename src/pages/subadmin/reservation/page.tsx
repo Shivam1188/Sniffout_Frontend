@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 
 const Reservation = () => {
@@ -130,7 +130,7 @@ const Reservation = () => {
                               : "bg-[#1d3faa] hover:bg-[#1d3faa]/80 cursor-pointer"
                           }`}
                         >
-                          TABLE NO : {table.table}
+                          {table.table_number}
                         </div>
                       ))}
                     </div>

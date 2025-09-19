@@ -9,13 +9,12 @@ export default function EditBusinessHour() {
   const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [menus, setMenus] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     day: "",
     opening_time: "",
     closing_time: "",
     closed_all_day: false,
-    menu: ""
+    menu: "",
   });
 
   useEffect(() => {
@@ -28,24 +27,16 @@ export default function EditBusinessHour() {
       }
     };
 
-    const fetchMenus = async () => {
-      try {
-        const res = await api.get(`subadmin/menu/`);
-        setMenus(res.data?.results);
-      } catch (err) {
-        console.error("Error fetching menus:", err);
-      }
-    };
-
     fetchHour();
-    fetchMenus();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type, checked }: any = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -56,10 +47,7 @@ export default function EditBusinessHour() {
       toasterError("Day is required.", 2000, "id");
       return;
     }
-    if (!formData.menu) {
-      toasterError("Menu is required.", 2000, "id");
-      return;
-    }
+
     if (!formData.opening_time) {
       toasterError("Opening Time is required.", 2000, "id");
       return;
@@ -79,12 +67,13 @@ export default function EditBusinessHour() {
     }
   };
 
-
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Edit Business Hour</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">
+            Edit Business Hour
+          </h1>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="absolute top-4 right-4 block md:hidden text-white z-50"
@@ -104,7 +93,15 @@ export default function EditBusinessHour() {
                 className="w-full border rounded-lg px-3 py-2"
               >
                 <option value="">Select a Day</option>
-                {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day) => (
+                {[
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((day) => (
                   <option key={day} value={day}>
                     {day}
                   </option>
@@ -112,26 +109,11 @@ export default function EditBusinessHour() {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">Menu</label>
-              <select
-                name="menu"
-                value={formData.menu}
-                onChange={handleChange}
-                className="w-full border rounded-lg px-3 py-2"
-              >
-                <option value="">Select Menu</option>
-                {menus.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Opening Time</label>
+                <label className="block text-sm font-medium mb-1">
+                  Opening Time
+                </label>
                 <input
                   type="time"
                   name="opening_time"
@@ -141,7 +123,9 @@ export default function EditBusinessHour() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Closing Time</label>
+                <label className="block text-sm font-medium mb-1">
+                  Closing Time
+                </label>
                 <input
                   type="time"
                   name="closing_time"

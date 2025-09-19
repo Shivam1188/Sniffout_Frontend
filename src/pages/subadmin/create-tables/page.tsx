@@ -148,7 +148,7 @@ const CreateTables = () => {
                           {r.created_at.slice(0, 10)}
                         </span>
                       </td>
-                      <td className="p-2 text-center flex justify-center gap-2">
+                      <td className="p-2 ">
                         <button
                           onClick={() => handleEdit(r)}
                           className="cursor-pointer px-4 py-2 text-xs font-medium rounded-full bg-[#fe6a3c]/10 text-[#fe6a3c] hover:bg-[#fe6a3c]/20"
@@ -198,7 +198,7 @@ const CreateTables = () => {
                   name="is_available"
                   value={String(editData.is_available)}
                   onChange={handleEditChange}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="cursor-pointer w-full px-4 py-2 border rounded-lg"
                 >
                   <option value="true">Available</option>
                   <option value="false">Occupied</option>

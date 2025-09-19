@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
@@ -6,10 +6,10 @@ import { toasterSuccess } from "../../../../components/Toaster";
 
 export default function AddCatering() {
   const navigate = useNavigate();
-  const id = Cookies.get("subadmin_id");
-
+  // const id = Cookies.get("subadmin_id");
+  const [Id, setID] = useState("");
   const [formData, setFormData] = useState({
-    customer: Number(id),
+    customer: Number(Id),
     number_of_guests: "",
     event_date: "",
     event_time: "",
@@ -18,6 +18,22 @@ export default function AddCatering() {
     status: "pending",
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCater = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get("subadmin/customers/");
+        setID(res.data || []);
+      } catch (err) {
+        console.error("Failed to fetch menus", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCater();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -150,7 +166,7 @@ export default function AddCatering() {
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border text-white border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="cursor-pointer w-full px-4 py-3 border text-white border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     >
                       <option value="pending">Pending</option>
                       <option value="approved">Approved</option>

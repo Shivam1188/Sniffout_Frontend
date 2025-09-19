@@ -147,12 +147,16 @@ const SetTableCounting = () => {
                         </td>
 
                         <td className="p-2 text-center">
-                          <button
-                            onClick={() => handleEdit(r.id, r.number_of_tables)}
-                            className="cursor-pointer text-blue-500 hover:text-blue-700 mr-3"
-                          >
-                            <Edit2Icon className="w-5 h-5" />
-                          </button>
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() =>
+                                handleEdit(r.id, r.number_of_tables)
+                              }
+                              className="cursor-pointer text-blue-500 hover:text-blue-700 mr-3"
+                            >
+                              <Edit2Icon className="w-5 h-5" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))

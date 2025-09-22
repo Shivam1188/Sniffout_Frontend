@@ -3,55 +3,62 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toasterSuccess } from "../../../components/Toaster";
 import { X, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
+import LoadingSpinner from "../../../components/Loader";
 
 function Catering() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [menuList, setMenuList] = useState([]);
+  const [menuList, setMenuList] = useState<any[]>([]);
   const [deleteId, setDeleteId] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const pageSize = 10; // items per page
+  const totalPages = Math.ceil(count / pageSize);
 
   useEffect(() => {
-    const fetchCater = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get("subadmin/catering-services/");
-        setMenuList(res.data || []);
-      } catch (err) {
-        console.error("Failed to fetch menus", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchCatering(currentPage);
+  }, [currentPage]);
 
-    fetchCater();
-  }, []);
+  const fetchCatering = async (page: number) => {
+    try {
+      setLoading(true);
+      const res = await api.get(
+        `subadmin/catering-services/?page=${page}&per_page=${pageSize}`
+      );
+      setMenuList(res.data?.results || []);
+      setCount(res.data?.count || 0);
+    } catch (err) {
+      console.error("Failed to fetch menus", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const confirmDelete = (id: any) => {
     setDeleteId(id);
     setShowDeleteModal(true);
   };
+
   const handleDelete = async () => {
     if (!deleteId) return;
     try {
       const res = await api.delete(`subadmin/catering-services/${deleteId}/`);
-
       if (res?.success) {
         toasterSuccess(
           res?.data?.message || "Catering deleted successfully",
           "2000",
           "id"
         );
-
-        setMenuList((prev) => prev.filter((item: any) => item.id !== deleteId));
+        setMenuList((prev) => prev.filter((item) => item.id !== deleteId));
         setShowDeleteModal(false);
         setDeleteId(null);
+        setCount((prev) => prev - 1); // update count
       }
     } catch (err: any) {
       console.error("Error deleting menu:", err);
-      // optional: show error toaster
-      // toasterError(err.response?.data?.message || "Failed to delete catering");
     }
   };
 
@@ -95,6 +102,10 @@ function Catering() {
             <table className="min-w-[900px] w-full table-auto text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
+                  <th className="py-3 px-4 text-left">Customer</th>
+                  <th className="py-3 px-4 text-left">Email</th>
+                  <th className="py-3 px-4 text-left">Phone</th>
+                  <th className="py-3 px-4 text-left">Company</th>
                   <th className="py-3 px-4 text-left">Guests</th>
                   <th className="py-3 px-4 text-left">Event Date</th>
                   <th className="py-3 px-4 text-left">Event Time</th>
@@ -108,48 +119,61 @@ function Catering() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={8} className="py-10 text-center">
-                      <div className="flex flex-col justify-center items-center gap-3 text-gray-500">
-                        <svg
-                          className="animate-spin h-10 w-10 text-[#1d3faa]"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8v8H4z"
-                          ></path>
-                        </svg>
-                        <span className="font-medium">Loading catering...</span>
-                      </div>
+                    <td colSpan={12} className="py-10 text-center">
+                      <LoadingSpinner />
                     </td>
                   </tr>
                 ) : menuList.length > 0 ? (
-                  menuList.map((item: any, index: number) => (
+                  menuList.map((item, index) => (
                     <tr
                       key={item.id}
                       className={`transition duration-300 ease-in-out hover:bg-[#f0f4ff] ${
                         index % 2 === 0 ? "bg-white" : "bg-gray-50"
                       }`}
                     >
+                      <td className="py-3 px-4">{item.customer_name}</td>
+                      <td className="py-3 px-4">{item.customer_email}</td>
+                      <td className="py-3 px-4">{item.customer_phone}</td>
+                      <td className="py-3 px-4">{item.customer_company}</td>
                       <td className="py-3 px-4">{item.number_of_guests}</td>
                       <td className="py-3 px-4">{item.event_date}</td>
                       <td className="py-3 px-4">{item.event_time}</td>
                       <td className="py-3 px-4">
                         {item.special_instructions || "-"}
                       </td>
-                      <td className="py-3 px-4 capitalize">{item.status}</td>
-                      <td className="py-3 px-4">₹{item.estimated_budget}</td>
+                      <td className="py-3 px-4">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold capitalize
+                          ${
+                            item.status === "pending"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : ""
+                          }
+                          ${
+                            item.status === "confirmed"
+                              ? "bg-green-100 text-green-800"
+                              : ""
+                          }
+                          ${
+                            item.status === "in_progress"
+                              ? "bg-purple-100 text-purple-800"
+                              : ""
+                          }
+                          ${
+                            item.status === "completed"
+                              ? "bg-blue-100 text-blue-800"
+                              : ""
+                          }
+                          ${
+                            item.status === "cancelled"
+                              ? "bg-red-100 text-red-800"
+                              : ""
+                          }`}
+                        >
+                          {item.status.replace("_", " ")}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4">${item.estimated_budget}</td>
                       <td className="py-3 px-4">
                         {item.restaurant_notes || "-"}
                       </td>
@@ -175,7 +199,7 @@ function Catering() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={8} className="text-center py-6 text-gray-500">
+                    <td colSpan={12} className="text-center py-6 text-gray-500">
                       No Catering Requests Available.
                     </td>
                   </tr>
@@ -183,6 +207,41 @@ function Catering() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {menuList.length > 0 && (
+            <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
+              <p className="text-sm text-gray-600">
+                Showing{" "}
+                <span className="font-semibold">
+                  {(currentPage - 1) * pageSize + 1}
+                </span>
+                –
+                <span className="font-semibold">
+                  {Math.min(currentPage * pageSize, count)}
+                </span>{" "}
+                of <span className="font-semibold">{count}</span> catering
+                requests
+              </p>
+
+              <div className="flex items-center space-x-2 mt-2 md:mt-0">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                >
+                  Prev
+                </button>
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

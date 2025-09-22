@@ -3,28 +3,34 @@ import { X, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
+import LoadingSpinner from "../../../components/Loader";
 
 function Subscribe() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const pageSize = 10;
 
   useEffect(() => {
-    fetchSubscribers();
-  }, []);
+    fetchSubscribers(currentPage);
+  }, [currentPage]);
 
-  const fetchSubscribers = async () => {
+  const fetchSubscribers = async (page: number) => {
     try {
       setLoading(true);
-      const res = await api.get("subadmin/subscribers/");
+      const res = await api.get(`subadmin/subscribers/?page=${page}`);
       setSubscribers(res.data?.results || []);
+      setCount(res.data?.count || 0);
     } catch (err) {
       console.error("Failed to fetch subscribers", err);
     } finally {
       setLoading(false);
     }
   };
+  const totalPages = Math.ceil(count / pageSize);
 
   const handleStatusChange = async (id: number, value: string) => {
     try {
@@ -48,6 +54,7 @@ function Subscribe() {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-white">
@@ -70,7 +77,8 @@ function Subscribe() {
           </button>
         </div>
 
-        <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] mb-10">
+        {/* Table */}
+        <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] mb-4">
           <h2 className="text-lg sm:text-xl font-bold text-[#1d3faa] mb-6">
             Subscribers List
           </h2>
@@ -86,12 +94,11 @@ function Subscribe() {
                   <th className="py-3 px-4 text-left">Created At</th>
                 </tr>
               </thead>
-
               <tbody>
                 {loading ? (
                   <tr>
                     <td colSpan={5} className="py-10 text-center">
-                      Loading...
+                      <LoadingSpinner />
                     </td>
                   </tr>
                 ) : subscribers.length > 0 ? (
@@ -139,7 +146,7 @@ function Subscribe() {
                         )}
                       </td>
                       <td className="py-3 px-4">
-                        {new Date(subscriber.created_at).toLocaleString()}
+                        {subscriber.created_at?.substring(0, 10)}
                       </td>
                     </tr>
                   ))
@@ -153,6 +160,39 @@ function Subscribe() {
               </tbody>
             </table>
           </div>
+          {subscribers.length > 0 && (
+            <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
+              <p className="text-sm text-gray-600">
+                Showing{" "}
+                <span className="font-semibold">
+                  {(currentPage - 1) * pageSize + 1}
+                </span>
+                –
+                <span className="font-semibold">
+                  {Math.min(currentPage * pageSize, count)}
+                </span>{" "}
+                of <span className="font-semibold">{count}</span> subscribers
+              </p>
+
+              <div className="flex items-center space-x-2 mt-2 md:mt-0">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                >
+                  Prev
+                </button>
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

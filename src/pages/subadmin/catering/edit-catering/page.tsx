@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
+import LoadingSpinner from "../../../../components/Loader";
 
 export default function EditCatering() {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ export default function EditCatering() {
 
   const [formData, setFormData] = useState({
     customer: Number(Cookies.get("subadmin_id")) || 1,
+    customer_name: "",
+    customer_email: "",
+    customer_phone: "",
+    customer_company: "",
     number_of_guests: "",
     event_date: "",
     event_time: "",
@@ -30,6 +35,10 @@ export default function EditCatering() {
           setFormData({
             customer:
               res.data.customer || Number(Cookies.get("subadmin_id")) || 1,
+            customer_name: res.data.customer_name || "",
+            customer_email: res.data.customer_email || "",
+            customer_phone: res.data.customer_phone || "",
+            customer_company: res.data.customer_company || "",
             number_of_guests: res.data.number_of_guests?.toString() || "",
             event_date: res.data.event_date || "",
             event_time: res.data.event_time || "",
@@ -63,7 +72,7 @@ export default function EditCatering() {
     e.preventDefault();
     setSaving(true);
     try {
-      await api.put(`subadmin/catering-services/${id}/`, {
+      await api.patch(`subadmin/catering-services/${id}/`, {
         ...formData,
         number_of_guests: Number(formData.number_of_guests),
         estimated_budget: parseFloat(formData.estimated_budget),
@@ -81,7 +90,7 @@ export default function EditCatering() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen text-lg">
-        Loading catering details...
+        <LoadingSpinner />
       </div>
     );
   }
@@ -100,17 +109,77 @@ export default function EditCatering() {
               </Link>
             </div>
           </div>
+
           <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+              <div className="bg-white rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+                <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-8">
                   Edit Catering
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Customer Name */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Customer Name
+                    </label>
+                    <input
+                      type="text"
+                      name="customer_name"
+                      value={formData.customer_name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                    />
+                  </div>
+
+                  {/* Customer Email */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Customer Email
+                    </label>
+                    <input
+                      type="email"
+                      name="customer_email"
+                      value={formData.customer_email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                    />
+                  </div>
+
+                  {/* Customer Phone */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Customer Phone
+                    </label>
+                    <input
+                      type="tel"
+                      name="customer_phone"
+                      value={formData.customer_phone}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                    />
+                  </div>
+
+                  {/* Customer Company */}
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Customer Company
+                    </label>
+                    <input
+                      type="text"
+                      name="customer_company"
+                      value={formData.customer_company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                    />
+                  </div>
+
                   {/* Number of Guests */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Number of Guests
                     </label>
                     <input
@@ -119,13 +188,13 @@ export default function EditCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Event Date */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Event Date
                     </label>
                     <input
@@ -134,13 +203,13 @@ export default function EditCatering() {
                       value={formData.event_date}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Event Time */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Event Time
                     </label>
                     <input
@@ -149,13 +218,13 @@ export default function EditCatering() {
                       value={formData.event_time}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Special Instructions */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Special Instructions
                     </label>
                     <textarea
@@ -163,13 +232,13 @@ export default function EditCatering() {
                       value={formData.special_instructions}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full px-4 py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Estimated Budget
                     </label>
                     <input
@@ -179,24 +248,26 @@ export default function EditCatering() {
                       value={formData.estimated_budget}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium mb-1">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border text-white border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     >
                       <option value="pending">Pending</option>
-                      <option value="approved">Approved</option>
-                      <option value="rejected">Rejected</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
                     </select>
                   </div>
 

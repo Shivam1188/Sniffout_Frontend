@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
 
 export default function AddCatering() {
   const navigate = useNavigate();
-  // const id = Cookies.get("subadmin_id");
-  const [Id, setID] = useState("");
+
   const [formData, setFormData] = useState({
-    customer: Number(Id),
+    customer_name: "",
+    company: "",
+    email: "",
+    phone_number: "",
     number_of_guests: "",
     event_date: "",
     event_time: "",
     special_instructions: "",
+    restaurant_notes: "",
     estimated_budget: "",
     status: "pending",
   });
+
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchCater = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get("subadmin/customers/");
-        setID(res.data || []);
-      } catch (err) {
-        console.error("Failed to fetch menus", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCater();
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -85,8 +72,72 @@ export default function AddCatering() {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Customer Name */}
                   <div>
-                    <label className="block text-sm font-medium text-white dark:text-white-300 mb-1">
+                    <label className="block text-sm font-medium text-white mb-1">
+                      Customer Name
+                    </label>
+                    <input
+                      type="text"
+                      name="customer_name"
+                      value={formData.customer_name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      placeholder="Enter customer name"
+                    />
+                  </div>
+
+                  {/* Company */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-1">
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      placeholder="Enter company name"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      placeholder="Enter email address"
+                    />
+                  </div>
+
+                  {/* Phone Number */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      name="phone_number"
+                      value={formData.phone_number}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      placeholder="+1234567890"
+                    />
+                  </div>
+
+                  {/* Number of Guests */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-1">
                       Number of Guests
                     </label>
                     <input
@@ -95,11 +146,12 @@ export default function AddCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter number of guests"
                     />
                   </div>
 
+                  {/* Event Date */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Event Date
@@ -114,6 +166,7 @@ export default function AddCatering() {
                     />
                   </div>
 
+                  {/* Event Time */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Event Time
@@ -128,6 +181,7 @@ export default function AddCatering() {
                     />
                   </div>
 
+                  {/* Special Instructions */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Special Instructions
@@ -144,6 +198,21 @@ export default function AddCatering() {
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
+                      Restaurant Notes
+                    </label>
+                    <textarea
+                      name="restaurant_notes"
+                      value={formData.restaurant_notes}
+                      onChange={handleChange}
+                      rows={3}
+                      className="w-full px-4 py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      placeholder="Any Notes"
+                    />
+                  </div>
+
+                  {/* Estimated Budget */}
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-1">
                       Estimated Budget
                     </label>
                     <input
@@ -158,6 +227,7 @@ export default function AddCatering() {
                     />
                   </div>
 
+                  {/* Status */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
                       Status
@@ -169,8 +239,10 @@ export default function AddCatering() {
                       className="cursor-pointer w-full px-4 py-3 border text-white border-white rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     >
                       <option value="pending">Pending</option>
-                      <option value="approved">Approved</option>
-                      <option value="rejected">Rejected</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
                     </select>
                   </div>
 

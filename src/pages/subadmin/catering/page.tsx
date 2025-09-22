@@ -52,10 +52,21 @@ function Catering() {
           "2000",
           "id"
         );
-        setMenuList((prev) => prev.filter((item) => item.id !== deleteId));
+
+        setMenuList((prev) => {
+          const updated = prev.filter((item) => item.id !== deleteId);
+
+          // If page becomes empty and not first page, go to previous page
+          if (updated.length === 0 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+          }
+
+          return updated;
+        });
+
+        setCount((prev) => prev - 1); // update total count
         setShowDeleteModal(false);
         setDeleteId(null);
-        setCount((prev) => prev - 1); // update count
       }
     } catch (err: any) {
       console.error("Error deleting menu:", err);
@@ -209,7 +220,7 @@ function Catering() {
           </div>
 
           {/* Pagination */}
-          {menuList.length > 0 && (
+          {count > 10 && (
             <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
               <p className="text-sm text-gray-600">
                 Showing{" "}

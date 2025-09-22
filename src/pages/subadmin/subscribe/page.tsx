@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { X, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
 import LoadingSpinner from "../../../components/Loader";
 
 function Subscribe() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<number | null>(null);

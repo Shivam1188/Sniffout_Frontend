@@ -34,7 +34,10 @@ const EditPlan = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response: any = await api.put(`superadmin/admin-plans/${id}/`, form);
+      const response: any = await api.put(
+        `superadmin/admin-plans/${id}/`,
+        form
+      );
       if (response.success) {
         toasterSuccess("Successfully updated.", 4000, "id");
         navigate("/admin/plans");
@@ -46,9 +49,7 @@ const EditPlan = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-      <div className="flex-1 p-6">
-
+      <div className="flex-1 sm:p-6 p-3">
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
@@ -58,15 +59,13 @@ const EditPlan = () => {
               >
                 ← BACK TO PLANS
               </Link>
-
             </div>
-
           </div>
 
           <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
-            <main className="flex-1 p-6 flex items-center justify-center">
+            <main className="flex-1 sm:p-6 p-3 flex items-center justify-center">
               <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-                <div className="bg-white rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+                <div className="bg-white rounded-2xl p-4 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
                   <h2 className="text-3xl font-bold text-gray-800 text-center mb-8 animate-slideInDown">
                     EDIT PLAN
                   </h2>
@@ -142,7 +141,6 @@ const EditPlan = () => {
               </div>
             </main>
           </div>
-
         </div>
       </div>
     </div>
@@ -150,6 +148,3 @@ const EditPlan = () => {
 };
 
 export default EditPlan;
-
-
-

@@ -100,7 +100,7 @@ export default function DashboardCards() {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-7">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-7">
       {loading
         ? [1, 2, 3, 4].map((i) => <SkeletonCard key={i} />)
         : cards.map((stat: any, index: any) => (

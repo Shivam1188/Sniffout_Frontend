@@ -151,10 +151,12 @@ const ManageLinks = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
-          <h1 className="text-2xl font-bold text-white">
-            Manage Business List
-          </h1>
+        <div className="flex flex-col  justify-between  md:flex-wrap lg:flex-row md:gap-5 bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
+          <div>
+            <h1 className="text-xl font-bold text-white sm:text-2xl">
+              Manage Business List
+            </h1>
+          </div>
           <div className="flex gap-2">
             {!isEditing && records.length > 0 && (
               <button
@@ -187,6 +189,33 @@ const ManageLinks = () => {
               Back to Dashboard
             </Link>
           </div>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {records.length === 0 ? (

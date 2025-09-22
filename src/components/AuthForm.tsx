@@ -125,6 +125,18 @@ const AuthForm = ({
             response.data?.data?.role || response.data?.data?.user?.role,
             { expires: 1 }
           );
+          Cookies.set(
+            "plan_name",
+            response.data?.data?.plan_name ||
+              response.data?.data?.user?.plan_name,
+            { expires: 1 }
+          );
+          Cookies.set(
+            "plan_expiry_date",
+            response.data?.data?.plan_expiry_date ||
+              response.data?.data?.user?.plan_expiry_date,
+            { expires: 1 }
+          );
           Cookies.set("refreshToken", response?.data?.data?.tokens?.refresh, {
             expires: 7,
           });

@@ -18,7 +18,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
 import Cookies from "js-cookie";
 import { toasterSuccess } from "./Toaster";
-
+import "../assets/css/custom.css";
 const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -58,6 +58,7 @@ const Sidebar = () => {
     { label: "Business Hours", route: "/subadmin/business-hour" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Feedback Questions", route: "/subadmin/feedback" },
+
     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
     { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Reservation", route: "/subadmin/reservation" },
@@ -100,7 +101,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <nav className="space-y-1 mb-8">
+      <nav className="space-y-1 mb-8 overflow-y-auto h-screen scrollbar-hide">
         <div className="space-y-2 text-white">
           {menuItems.map((item) => (
             <Link
@@ -127,7 +128,7 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      <div className="absolute w-[88%] bottom-[48px] left-[17px]">
+      <div className="">
         <hr className="border-[#ffffff3d] mb-3" />
 
         <div

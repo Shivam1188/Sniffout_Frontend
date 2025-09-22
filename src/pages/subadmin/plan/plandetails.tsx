@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import api from "../../../lib/Api";
-import { Menu, X } from "lucide-react";
 import { CheckCircle } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -14,7 +13,6 @@ export default function PlansDet() {
   const token = Cookies.get("token");
   const [plans, setPlans] = useState<any>({});
   const [isOpen, setIsOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userPlan, setUserPlan] = useState<any>({});
 
   const apiUrl = import.meta.env.VITE_STRIPE_URL;
@@ -88,7 +86,7 @@ export default function PlansDet() {
       <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
         {isOpen && <PaymentForm onClose={() => setIsOpen(false)} />}
         <div className="flex-1 p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
+          <div className="flex flex-col md:flex-row gap-3 sm:gap-0 md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
             <div>
               <h1 className="text-2xl font-bold text-white">Plan Details</h1>
               <p className="text-sm text-white">Overview of Plans</p>
@@ -101,12 +99,33 @@ export default function PlansDet() {
                 ← BACK TO PLANS
               </Link>
             </div>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="absolute top-4 right-4 block md:hidden text-white z-50 transition"
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-5 right-5 z-50 bg-white  p-1 rounded  shadow-md md:hidden cursor-pointer"
             >
-              {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
           <div className=" bg-gray-50  text-gray-800 space-y-8 font-inter">
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">

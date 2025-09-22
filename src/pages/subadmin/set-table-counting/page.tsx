@@ -56,26 +56,51 @@ const SetTableCounting = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-3 sm:p-6 rounded-xl shadow-md border border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-0 mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">
-                No of Tables
-              </h2>
+              <h2 className="text-2xl font-bold">No of Tables</h2>
             </div>
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-13 right-13 z-40 bg-[#fe6a3c] text-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
             <div className="flex-shrink-0 relative group">
               {tableCounting.length === 0 ? (
                 <Link
                   to={"/subadmin/set-table-counting/add-table-counting"}
-                  className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+                  className="w-full md:w-auto px-5 py-2.5 bg-[#3046a6] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
                 >
                   Add Table Counting
                 </Link>
               ) : (
                 <button
                   disabled
-                  className="w-full md:w-auto px-5 py-2.5 bg-gray-300 text-gray-500 font-semibold rounded-full shadow-md cursor-not-allowed"
+                  className="w-full md:w-auto px-5 py-2.5 bg-[#3046a6] text-white font-semibold rounded-full shadow-md cursor-not-allowed"
                 >
                   Add Table Counting
                 </button>
@@ -170,12 +195,15 @@ const SetTableCounting = () => {
 
       {/* Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex justify-center items-center z-1">
+        <div className="fixed inset-0 flex justify-center items-center z-40">
           {/* Dim and optionally blur the background */}
-          <div className="absolute inset-0 bg-opacity-1 backdrop-blur-sm z-1"></div>
+          <div className="absolute inset-0 bg-opacity-1 backdrop-blur-sm z-40"></div>
 
           {/* Modal content */}
-          <div className="bg-white rounded-lg p-6 w-1/3 shadow-lg z-50">
+          <div
+            className="bg-white rounded-lg p-6 shadow-lg z-[9999] w-full 
+  max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-md 2xl:max-w-md m-4 sm:m-0"
+          >
             <h2 className="text-xl font-semibold mb-4">Edit Table Counting</h2>
             <form onSubmit={handleSubmitEdit}>
               <div className="mb-4">

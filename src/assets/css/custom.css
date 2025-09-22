@@ -1,8 +1,13 @@
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 .scrollbar-hide {
   scrollbar-width: none;
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
+}
+@media screen and (max-width: 769px) {
+  .responsive-btn {
+    gap: 20px;
+    padding-bottom: 30px;
+  }
 }

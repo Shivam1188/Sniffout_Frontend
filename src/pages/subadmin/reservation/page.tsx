@@ -62,16 +62,37 @@ const Reservation = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-[#1d3faa]">Reservation</h2>
+      <div className="flex-1 sm:p-6 p-4 ">
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white sm:p-6 p-3 rounded-xl shadow-md border border-gray-200">
+          <div className="flex flex-col gap-4 sm:gap-0 md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <h2 className="text-xl sm:text-2xl font-bold">Reservation</h2>
             <Link
               to={"/subadmin/dashboard"}
               className="px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
               Back to Dashboard
             </Link>
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-13 right-13 z-40 bg-[#1d3faa] text-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
 
           <div className="space-y-6">

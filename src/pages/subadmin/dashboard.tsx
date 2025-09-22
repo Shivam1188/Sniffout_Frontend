@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SubadminDashboardCards from "../../components/subadmin/SubAdminDashboardCards";
 import api from "../../lib/Api";
@@ -11,14 +10,13 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 import LoadingSpinner from "../../components/Loader";
 
 const App = () => {
   const navigate = useNavigate();
-  const [recentlyRes, setRecentlyRes] = useState([])
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [recentlyRes, setRecentlyRes] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState("daily");
   const [loading, setLoading] = useState(false);
@@ -96,17 +94,40 @@ const App = () => {
       <div className="flex-1 p-7">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
           <div>
-            <h1 className="text-2xl font-bold text-white">SubAdmin Dashboard</h1>
+            <h1 className="text-xl font-bold text-white sm:text-2xl">
+              SubAdmin Dashboard
+            </h1>
             <p className="text-sm text-white">
               Overview of platform statistics and performance
             </p>
           </div>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="cursor-pointer absolute top-4 right-4 block md:hidden text-white z-50 transition"
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         <SubadminDashboardCards />
@@ -154,7 +175,9 @@ const App = () => {
 
             {loading ? (
               <div className="h-72 flex items-center justify-center">
-                <div className="text-gray-500"><LoadingSpinner/></div>
+                <div className="text-gray-500">
+                  <LoadingSpinner />
+                </div>
               </div>
             ) : (
               <div className="h-72">
@@ -162,11 +185,13 @@ const App = () => {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis 
-                        dataKey="period" 
+                      <XAxis
+                        dataKey="period"
                         tick={{ fontSize: 12, fill: "#6b7280" }}
                         angle={selectedPeriod === "daily" ? -45 : 0}
-                        textAnchor={selectedPeriod === "daily" ? "end" : "middle"}
+                        textAnchor={
+                          selectedPeriod === "daily" ? "end" : "middle"
+                        }
                         height={selectedPeriod === "daily" ? 80 : undefined}
                       />
                       <YAxis tick={{ fontSize: 12, fill: "#6b7280" }} />
@@ -178,28 +203,32 @@ const App = () => {
                           fontSize: "0.875rem",
                         }}
                       />
-                      <Legend verticalAlign="top" align="right" iconType="circle" />
-                      <Line 
-                        type="monotone" 
-                        dataKey="call_cost" 
-                        stroke="#1d3faa" 
-                        strokeWidth={2} 
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="call_cost"
+                        stroke="#1d3faa"
+                        strokeWidth={2}
                         name="Call Cost"
                         dot={{ r: 4 }}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="sms_cost" 
-                        stroke="#fe6a3c" 
-                        strokeWidth={2} 
+                      <Line
+                        type="monotone"
+                        dataKey="sms_cost"
+                        stroke="#fe6a3c"
+                        strokeWidth={2}
                         name="SMS Cost"
                         dot={{ r: 4 }}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="total_cost" 
-                        stroke="#10b981" 
-                        strokeWidth={3} 
+                      <Line
+                        type="monotone"
+                        dataKey="total_cost"
+                        stroke="#10b981"
+                        strokeWidth={3}
                         name="Total Cost"
                         dot={{ r: 5 }}
                       />
@@ -242,9 +271,12 @@ const App = () => {
                   >
                     <div>
                       <p className="font-semibold text-gray-800">
-                        📞 Call SID: <span className="text-gray-600">{item.call_sid}</span>
+                        📞 Call SID:{" "}
+                        <span className="text-gray-600">{item.call_sid}</span>
                       </p>
-                      <p className="text-sm text-gray-500">Status: {item.status}</p>
+                      <p className="text-sm text-gray-500">
+                        Status: {item.status}
+                      </p>
                       <p className="text-sm text-gray-500">
                         Started: {new Date(item.created_at).toLocaleString()}
                       </p>
@@ -254,7 +286,9 @@ const App = () => {
                     </div>
 
                     <span className="text-xs bg-green-100 text-green-600 px-2.5 py-1 rounded-full font-medium">
-                      {item.status === "in-progress" ? "In Progress" : "Completed"}
+                      {item.status === "in-progress"
+                        ? "In Progress"
+                        : "Completed"}
                     </span>
                   </div>
                 ))}

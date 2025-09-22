@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import Cookies from "js-cookie";
@@ -8,8 +7,6 @@ import LoadingSpinner from "../../../components/Loader";
 const UpdateReturn = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const token = Cookies.get("token");
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -297,23 +294,44 @@ const UpdateReturn = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-8 overflow-auto max-w-5xl mx-auto">
+      <main className="flex-1 p-6 mx-auto overflow-hidden sm:max-w-5xl sm:p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white">
+            <h1 className="text-lg sm:text-2xl pr-10 sm:pr-0 font-bold text-white">
               Update Business Information
             </h1>
-            <p className="text-sm text-white">
+            <p className="text-sm text-white pr-10 sm:pr-0">
               Modify your business details to keep your profile up to date
             </p>
           </div>
 
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="cursor-pointer block md:hidden text-white z-50 transition"
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8">
@@ -321,7 +339,7 @@ const UpdateReturn = () => {
             Forwarding Phone Numbers
           </label>
 
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 flex-col sm:flex-row md:flex-col lg:flex-row">
             <input
               type="number"
               placeholder="Add new phone number"
@@ -452,7 +470,7 @@ const UpdateReturn = () => {
                 </button>
               </div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4 lg:grid-cols-2">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                   First Name *
@@ -519,7 +537,7 @@ const UpdateReturn = () => {
                 )}
               </div>
 
-              <div className="lg:col-span-1 xl:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="lg:col-span-1 xl:col-span-3  grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 gap-4">
                 {[
                   { label: "Business", name: "restaurant_name" },
                   { label: "Phone Number", name: "phone_number" },

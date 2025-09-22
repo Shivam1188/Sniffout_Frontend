@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { X, Menu, Edit2Icon, ArchiveIcon, Plus } from "lucide-react";
+import { Edit2Icon, ArchiveIcon, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../../lib/Api";
@@ -10,7 +10,6 @@ export default function BusinessHoursList() {
   const navigate = useNavigate();
   const id = Cookies.get("id");
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [hoursList, setHoursList] = useState<any[]>([]);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -54,8 +53,8 @@ export default function BusinessHoursList() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-4 sm:gap-0 p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Business Hours
           </h1>
@@ -67,12 +66,34 @@ export default function BusinessHoursList() {
               Back to Dashboard
             </Link>
           </div>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="absolute top-4 right-4 block md:hidden text-white z-50 transition"
+
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
         {loading ? (
           <div className="text-center py-6">
@@ -81,7 +102,7 @@ export default function BusinessHoursList() {
         ) : (
           <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
+              <h1 className="text-xl sm:text-2xl md:text-xl lg:text-2xl font-bold text-[#1d3faa]">
                 Business Hours List
               </h1>
 
@@ -89,7 +110,7 @@ export default function BusinessHoursList() {
                 onClick={() =>
                   navigate("/subadmin/business-hour/add-business-hour")
                 }
-                className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                className="cursor-pointer text-sm text-white sm:px-5 lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
               >
                 <Plus size={16} className="inline mr-2" /> Add Business Hours
               </button>

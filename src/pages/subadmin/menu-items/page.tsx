@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { X, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
+import { Edit2Icon, ArchiveIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 
 function MenuItems() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuList, setMenuList] = useState([]);
   const [deleteId, setDeleteId] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -67,7 +66,7 @@ function MenuItems() {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-8 relative space-y-3 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center justify-between sm:gap-0 gap-4 bg-[#4d519e] p-4 rounded mb-8 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Menu Items
           </h1>
@@ -77,12 +76,34 @@ function MenuItems() {
           >
             Back to Dashboard
           </Link>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="absolute top-4 right-4 block md:hidden text-white z-50 transition"
+
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {/* Add Button */}
@@ -128,7 +149,7 @@ function MenuItems() {
                   <h2 className="text-xl font-bold text-[#1d3faa] mb-4 border-b pb-2">
                     {menuName}
                   </h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                     {items.map((menu: any) => (
                       <div
                         key={menu.id}

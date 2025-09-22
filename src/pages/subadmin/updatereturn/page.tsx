@@ -411,39 +411,40 @@ const UpdateReturn = () => {
                     </li>
                   ))}
               </ul>
+              {total > 10 && (
+                <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
+                  <p className="text-sm text-gray-600">
+                    Showing{" "}
+                    <span className="font-semibold">
+                      {(page - 1) * pageSize + 1}
+                    </span>
+                    –
+                    <span className="font-semibold">
+                      {Math.min(page * pageSize, total)}
+                    </span>{" "}
+                    of <span className="font-semibold">{total}</span> phone
+                    numbers
+                  </p>
 
-              <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
-                <p className="text-sm text-gray-600">
-                  Showing{" "}
-                  <span className="font-semibold">
-                    {(page - 1) * pageSize + 1}
-                  </span>
-                  –
-                  <span className="font-semibold">
-                    {Math.min(page * pageSize, total)}
-                  </span>{" "}
-                  of <span className="font-semibold">{total}</span> phone
-                  numbers
-                </p>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      disabled={!prevPage}
+                      onClick={() => fetchPhoneNumbers(page - 1)}
+                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                    >
+                      Prev
+                    </button>
 
-                <div className="flex items-center space-x-2">
-                  <button
-                    disabled={!prevPage}
-                    onClick={() => fetchPhoneNumbers(page - 1)}
-                    className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
-                  >
-                    Prev
-                  </button>
-
-                  <button
-                    disabled={!nextPage}
-                    onClick={() => fetchPhoneNumbers(page + 1)}
-                    className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
-                  >
-                    Next
-                  </button>
+                    <button
+                      disabled={!nextPage}
+                      onClick={() => fetchPhoneNumbers(page + 1)}
+                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}{" "}
             </>
           )}
         </div>

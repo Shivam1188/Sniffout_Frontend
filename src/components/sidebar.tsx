@@ -23,6 +23,10 @@ const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const role = Cookies.get("role");
+  const planName = Cookies.get("plan_name");
+  const planExpiry = Cookies.get("plan_expiry_date"); // YYYY-MM-DD format
+
+  const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
 
   const iconMap: any = {
     Dashboard: <Home size={16} />,
@@ -58,7 +62,6 @@ const Sidebar = () => {
     { label: "Business Hours", route: "/subadmin/business-hour" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Feedback Questions", route: "/subadmin/feedback" },
-
     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
     { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Reservation", route: "/subadmin/reservation" },
@@ -66,7 +69,14 @@ const Sidebar = () => {
     { label: "Subscribe", route: "/subadmin/subscribe" },
   ];
 
-  const menuItems = role === "admin" ? adminMenu : subdirMenu;
+  const menuItems =
+    role === "admin"
+      ? adminMenu
+      : isPlanExpired
+      ? subdirMenu.slice(0, subdirMenu.length - 5) // hide last 5 if expired
+      : planName === "Standard"
+      ? subdirMenu
+      : subdirMenu.slice(0, subdirMenu.length - 5); // keep your current logic
 
   const handleLogout = async () => {
     try {
@@ -90,6 +100,7 @@ const Sidebar = () => {
         Cookies.remove("id");
         Cookies.remove("email");
         Cookies.remove("subadmin_id");
+        Cookies.remove("plan_expiry_date");
         navigate("/auth/login");
       } else {
         console.error("Logout failed", response);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
@@ -12,9 +12,31 @@ export default function AddTables() {
     table_number: "",
     is_available: "true",
     restaurant: Number(id),
-    no_of_tables: 1,
+    no_of_tables: null,
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("subadmin/no-of-tables/");
+
+        console.log("No of tables:", response.data);
+        setFormData((prev) => ({
+          ...prev,
+          no_of_tables: Array.isArray(response.data)
+            ? response.data[0].id
+            : response.data.id,
+        }));
+      } catch (error) {
+        console.error("Error fetching number of tables:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("Formdata:", formData);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

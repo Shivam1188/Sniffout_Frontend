@@ -65,7 +65,7 @@ export default function Restaurantscharts() {
           </h2>
           <p className="text-sm text-gray-500">Insights and activity trends</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2 sm:flex-row md:flex-col lg:flex-row flex-col">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-row md:flex-col lg:flex-row flex-row">
           {["Weekly", "Monthly", "Yearly"].map((label) => (
             <button
               key={label}

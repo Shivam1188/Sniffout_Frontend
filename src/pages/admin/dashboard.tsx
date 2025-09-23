@@ -111,8 +111,8 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-7 overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
-          <div>
+        <div className="flex sm:gap-0 gap-5 flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
+          <div className="sm:grid flex flex-col sm:gap-0 gap-3">
             <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
             <p className="text-sm text-white">
               Overview of platform statistics and performance

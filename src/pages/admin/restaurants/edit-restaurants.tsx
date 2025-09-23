@@ -117,7 +117,7 @@ const EditRestaurant = () => {
 
           <main className="flex-1 flex items-center justify-center">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-              <div className="bg-white rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+              <div className="bg-white rounded-2xl p-4 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
                 <h2 className="text-3xl font-bold text-gray-800 text-center mb-8 animate-slideInDown">
                   EDIT Business
                 </h2>

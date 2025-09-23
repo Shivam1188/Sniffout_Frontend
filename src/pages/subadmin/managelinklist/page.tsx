@@ -157,7 +157,7 @@ const ManageLinks = () => {
               Manage Business List
             </h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 sm:flex-row flex-col sm:mt-0 mt-4">
             {!isEditing && records.length > 0 && (
               <button
                 onClick={() => setIsEditing(true)}

@@ -394,7 +394,7 @@ const UpdateReturn = () => {
                               );
                               setEditingIndex(null);
                             }}
-                            className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
                           >
                             Save
                           </button>

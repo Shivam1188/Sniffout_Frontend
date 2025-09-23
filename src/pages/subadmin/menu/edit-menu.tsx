@@ -11,7 +11,7 @@ export default function EditMenu() {
     name: "",
     description: "",
     subadmin_profile: "",
-    is_active: true
+    is_active: true,
   });
 
   const [loading, setLoading] = useState(false);
@@ -28,9 +28,11 @@ export default function EditMenu() {
     fetchMenu();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,10 +51,7 @@ export default function EditMenu() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-
-
       <div className="flex-1 p-6">
-
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
@@ -62,15 +61,13 @@ export default function EditMenu() {
               >
                 ← BACK TO Menus
               </Link>
-
             </div>
           </div>
 
           <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] px-4 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-
-                <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+                <h2 className="sm:text-4xl text-2xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
                   Edit Menu
                 </h2>
 
@@ -131,9 +128,5 @@ export default function EditMenu() {
         </div>
       </div>
     </div>
-
   );
 }
-
-
-

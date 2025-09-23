@@ -125,7 +125,7 @@ function Catering() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-gray-100">
-            <table className="min-w-[900px] w-full table-auto text-sm text-gray-700">
+            <table className="min-w-[1100px] overflow-auto w-full table-auto text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
                   <th className="py-3 px-4 text-left">Customer</th>

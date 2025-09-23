@@ -2,12 +2,11 @@ import api from "../../../lib/Api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toasterSuccess } from "../../../components/Toaster";
-import { X, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
+import { Edit2Icon, ArchiveIcon } from "lucide-react";
 import LoadingSpinner from "../../../components/Loader";
 
 function Catering() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuList, setMenuList] = useState<any[]>([]);
   const [deleteId, setDeleteId] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -125,7 +124,7 @@ function Catering() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-gray-100">
-            <table className="min-w-[900px] w-full table-auto text-sm text-gray-700">
+            <table className="min-w-[1100px] overflow-auto w-full table-auto text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
                   <th className="py-3 px-4 text-left">Customer</th>

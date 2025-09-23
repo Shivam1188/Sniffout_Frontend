@@ -11,3 +11,8 @@
     padding-bottom: 30px;
   }
 }
+@media screen and (max-width: 950px) {
+  .responsive-tab {
+    min-width: 900px;
+  }
+}

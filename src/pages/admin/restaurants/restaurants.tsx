@@ -101,21 +101,42 @@ const Restaurants = () => {
         </div>
       )}
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
         <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md ">
-          <div className="flex justify-between mb-6 bg-white p-5 rounded-xl shadow-sm ">
+          <div className="flex justify-between gap-10 sm:gap-0 mb-6 bg-white p-5 rounded-xl shadow-sm ">
             <div>
               <h2 className="text-2xl font-bold text-[#1d3faa]">
-                🍽 Business List
+                Business List
               </h2>
               <p className="text-sm text-gray-500">
                 Manage all registered businesses in the system
               </p>
+              {/* Toggle Button (Arrow) */}
+              <label
+                htmlFor="sidebar-toggle"
+                className="absolute top-16 right-16 z-40 bg-[#fe6a3c] text-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+              >
+                {/* Arrow Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                  />
+                </svg>
+              </label>
             </div>
           </div>
 
           <div className="overflow-x-auto rounded-lg  bg-white shadow-sm">
-            <table className="min-w-full text-sm text-gray-700">
+            <table className="min-w-full text-sm text-gray-700 responsive-tab">
               <thead>
                 <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600">
                   <th className="p-4">Business Name</th>

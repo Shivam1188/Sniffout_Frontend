@@ -16,7 +16,7 @@ export default function ResetPassword() {
     email: email,
     password: "",
     confirm_password: "",
-    uid: ""
+    uid: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -53,12 +53,15 @@ export default function ResetPassword() {
     if (!validate()) return;
 
     try {
-      const response: any = await API.post(`auth/reset-password/${uid}/${token}/`, {
-        email,
-        token,
-        uid,
-        password: formData.password,
-      });
+      const response: any = await API.post(
+        `auth/reset-password/${uid}/${token}/`,
+        {
+          email,
+          token,
+          uid,
+          password: formData.password,
+        }
+      );
 
       if (response.success) {
         toasterSuccess("Password reset successful!", 3000, "id");
@@ -75,7 +78,7 @@ export default function ResetPassword() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] px-4 sm:px-6 lg:px-8 animate-fadeIn">
       <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-          <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+          <h2 className=" text-md sm:text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
             Reset Password
           </h2>
 
@@ -92,7 +95,6 @@ export default function ResetPassword() {
                 readOnly
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
               />
-
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -124,7 +126,9 @@ export default function ResetPassword() {
                 placeholder="Re-enter new password"
               />
               {errors.confirm_password && (
-                <p className="text-red-500 text-sm mt-1">{errors.confirm_password}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.confirm_password}
+                </p>
               )}
             </div>
 

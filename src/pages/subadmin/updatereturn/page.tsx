@@ -294,7 +294,7 @@ const UpdateReturn = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 mx-auto overflow-hidden sm:max-w-5xl sm:p-8">
+      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>
             <h1 className="text-lg sm:text-2xl pr-10 sm:pr-0 font-bold text-white">
@@ -365,7 +365,7 @@ const UpdateReturn = () => {
                   phoneNumbers.map((item: any, idx: any) => (
                     <li
                       key={item.id}
-                      className="flex items-center justify-between bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                      className="flex items-center flex-col sm:justify-between sm:gap-0 gap-5 sm:flex-row justify-start bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
                     >
                       <input
                         type="tel"
@@ -394,7 +394,7 @@ const UpdateReturn = () => {
                               );
                               setEditingIndex(null);
                             }}
-                            className="cursor-pointer ml-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
                           >
                             Save
                           </button>

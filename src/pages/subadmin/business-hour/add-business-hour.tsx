@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { X, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../../lib/Api";
@@ -8,8 +7,6 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 export default function AddBusinessHour() {
   const navigate = useNavigate();
   const id = Cookies.get("id");
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
     day: "",
     opening_time: "",
@@ -96,12 +93,27 @@ export default function AddBusinessHour() {
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Add Business Hour
           </h1>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="absolute top-4 right-4 block md:hidden text-white z-50"
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-lg border-t-8 border-[#fe6a3c] max-w-2xl mx-auto">

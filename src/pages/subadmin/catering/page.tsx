@@ -2,12 +2,11 @@ import api from "../../../lib/Api";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toasterSuccess } from "../../../components/Toaster";
-import { X, Menu, Edit2Icon, ArchiveIcon } from "lucide-react";
+import { Edit2Icon, ArchiveIcon } from "lucide-react";
 import LoadingSpinner from "../../../components/Loader";
 
 function Catering() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuList, setMenuList] = useState<any[]>([]);
   const [deleteId, setDeleteId] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

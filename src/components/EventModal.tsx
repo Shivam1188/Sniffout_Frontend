@@ -93,7 +93,6 @@ const EventModal: React.FC<EventModalProps> = ({
       };
 
       const res = await api.post("subadmin/send-fallback-sms/", payload);
-      console.log(res, "====");
       if (res.success) {
         toasterSuccess("Event created successfully!", 2000, "id");
         setSelectedDate(null);

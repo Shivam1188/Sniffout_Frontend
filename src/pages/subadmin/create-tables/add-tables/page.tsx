@@ -21,7 +21,6 @@ export default function AddTables() {
       try {
         const response = await api.get("subadmin/no-of-tables/");
 
-        console.log("No of tables:", response.data);
         setFormData((prev) => ({
           ...prev,
           no_of_tables: Array.isArray(response.data)
@@ -35,8 +34,6 @@ export default function AddTables() {
 
     fetchData();
   }, []);
-
-  console.log("Formdata:", formData);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

@@ -162,7 +162,8 @@ export default function AddCatering() {
                       value={formData.event_date}
                       onChange={handleChange}
                       required
-                      className="text-white w-full px-4  py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      min={new Date().toISOString().split("T")[0]} // disables past dates
+                      className="text-white w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 

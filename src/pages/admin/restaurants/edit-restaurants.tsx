@@ -111,7 +111,7 @@ const EditRestaurant = () => {
               to="/admin/restaurants"
               className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
             >
-              ← BACK TO Business
+              ← Back To Business
             </Link>
           </div>
 

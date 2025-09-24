@@ -36,7 +36,7 @@ const PlansDetails = () => {
                 to={"/subadmin/dashboard"}
                 className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
               >
-                Back to Dashboard
+                Back To Dashboard
               </Link>
               {/* Overlay for mobile */}
               <label
@@ -81,6 +81,7 @@ const PlansDetails = () => {
                     <th className="p-4">Plan Features</th>
                     <th className="p-4">Price</th>
                     <th className="p-4">Duration</th>
+                    <th className="p-4">Call Limit</th>
                     <th className="p-4">Created At</th>
                     <th className="p-4">Action</th>
                   </tr>
@@ -121,6 +122,11 @@ const PlansDetails = () => {
                         <td className="p-4">
                           <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
                             {r.duration}
+                          </span>
+                        </td>
+                        <td className="p-4">
+                          <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                            {r.call_limit}
                           </span>
                         </td>
                         <td className="p-4">

@@ -46,13 +46,16 @@ export default function EditBusinessHour() {
       return;
     }
 
-    if (!formData.opening_time) {
-      toasterError("Opening Time is required.", 2000, "id");
-      return;
-    }
-    if (!formData.closing_time) {
-      toasterError("Closing Time is required.", 2000, "id");
-      return;
+    // Only validate times if not closed all day
+    if (!formData.closed_all_day) {
+      if (!formData.opening_time) {
+        toasterError("Opening Time is required.", 2000, "id");
+        return;
+      }
+      if (!formData.closing_time) {
+        toasterError("Closing Time is required.", 2000, "id");
+        return;
+      }
     }
 
     try {
@@ -132,7 +135,12 @@ export default function EditBusinessHour() {
                   name="opening_time"
                   value={formData.opening_time}
                   onChange={handleChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                  disabled={formData.closed_all_day}
+                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                    formData.closed_all_day
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white text-gray-800"
+                  }`}
                 />
               </div>
               <div>
@@ -144,7 +152,12 @@ export default function EditBusinessHour() {
                   name="closing_time"
                   value={formData.closing_time}
                   onChange={handleChange}
-                  className="w-full border rounded-lg px-3 py-2"
+                  disabled={formData.closed_all_day}
+                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                    formData.closed_all_day
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white text-gray-800"
+                  }`}
                 />
               </div>
             </div>

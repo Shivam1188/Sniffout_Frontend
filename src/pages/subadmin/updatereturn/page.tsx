@@ -235,10 +235,6 @@ const UpdateReturn = () => {
   };
 
   const validateForm = () => {
-    if (!profile.restaurant_name.trim()) {
-      toasterError("Business Name is required.", 2000, "id");
-      return false;
-    }
     if (!profile.first_name.trim()) {
       toasterError("First Name is required.", 2000, "id");
       return false;
@@ -247,10 +243,39 @@ const UpdateReturn = () => {
       toasterError("Last Name is required.", 2000, "id");
       return false;
     }
-    if (!profileImage) {
-      toasterError("Profile image is required.", 2000, "id");
+    if (!profile.restaurant_name.trim()) {
+      toasterError("Business Name is required.", 2000, "id");
       return false;
     }
+    if (!profile.address.trim()) {
+      toasterError("Address is required.", 2000, "id");
+      return false;
+    }
+    if (!profile.city.trim()) {
+      toasterError("City is required.", 2000, "id");
+      return false;
+    }
+    if (!profile.state.trim()) {
+      toasterError("State is required.", 2000, "id");
+      return false;
+    }
+    if (!profile.state.trim()) {
+      toasterError("State is required.", 2000, "id");
+      return false;
+    }
+    if (!profile.zip_code.trim()) {
+      toasterError("Zip Code is required.", 2000, "id");
+      return false;
+    }
+    if (!profile.office_number.trim()) {
+      toasterError("Office Number  is required.", 2000, "id");
+      return false;
+    }
+
+    // if (!profileImage) {
+    //   toasterError("Profile image is required.", 2000, "id");
+    //   return false;
+    // }
     return true;
   };
 
@@ -541,7 +566,7 @@ const UpdateReturn = () => {
               <div className="lg:col-span-1 xl:col-span-3  grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 gap-4">
                 {[
                   { label: "Business", name: "restaurant_name" },
-                  { label: "Phone Number", name: "phone_number" },
+                  { label: "Twillo Phone Number", name: "phone_number" },
                   { label: "Email Address", name: "email_address" },
                   { label: "Address", name: "address" },
                   { label: "City", name: "city" },

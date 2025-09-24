@@ -105,7 +105,7 @@ export default function EditCatering() {
                 to="/subadmin/catering"
                 className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
               >
-                ← BACK TO Catering
+                ← Back To Catering
               </Link>
             </div>
           </div>

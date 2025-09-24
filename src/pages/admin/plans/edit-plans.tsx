@@ -57,7 +57,7 @@ const EditPlan = () => {
                 to="/admin/plans"
                 className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
               >
-                ← BACK TO PLANS
+                ← Back To Plans
               </Link>
             </div>
           </div>

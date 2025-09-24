@@ -97,7 +97,7 @@ function MenuData() {
             to={"/subadmin/dashboard"}
             className="px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
           >
-            Back to Dashboard
+            Back To Dashboard
           </Link>
         </div>
 

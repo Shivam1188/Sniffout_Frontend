@@ -79,7 +79,7 @@ export default function AddMenuItems() {
                 to="/subadmin/menu-items"
                 className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
               >
-                ← BACK TO Menu Items
+                ← Back To Menu Items
               </Link>
             </div>
           </div>

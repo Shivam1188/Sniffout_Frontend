@@ -43,13 +43,16 @@ export default function AddBusinessHour() {
       return;
     }
 
-    if (!formData.opening_time) {
-      toasterError("Opening Time is required.", 2000, "id");
-      return;
-    }
-    if (!formData.closing_time) {
-      toasterError("Closing Time is required.", 2000, "id");
-      return;
+    // Only validate times if not closed all day
+    if (!formData.closed_all_day) {
+      if (!formData.opening_time) {
+        toasterError("Opening Time is required.", 2000, "id");
+        return;
+      }
+      if (!formData.closing_time) {
+        toasterError("Closing Time is required.", 2000, "id");
+        return;
+      }
     }
 
     try {
@@ -58,7 +61,6 @@ export default function AddBusinessHour() {
         subadmin_profile: id,
       });
 
-      // This runs only if status is 2xx
       if (res.data.success) {
         navigate("/subadmin/business-hour");
         toasterSuccess("Business Hour Added Successfully", 2000, "id");
@@ -157,12 +159,13 @@ export default function AddBusinessHour() {
                 <label className="block text-sm font-medium mb-1">
                   Opening Time
                 </label>
-                <input
+                {/* <input
                   type="time"
                   name="opening_time"
                   value={formData.opening_time}
                   onChange={handleChange}
                   className="cursor-pointer w-full border rounded-lg px-3 py-2"
+                  disabled={formData.closed_all_day}
                 />
               </div>
               <div>
@@ -175,6 +178,36 @@ export default function AddBusinessHour() {
                   value={formData.closing_time}
                   onChange={handleChange}
                   className="cursor-pointer w-full border rounded-lg px-3 py-2"
+                  disabled={formData.closed_all_day}
+                /> */}
+                <input
+                  type="time"
+                  name="opening_time"
+                  value={formData.opening_time}
+                  onChange={handleChange}
+                  disabled={formData.closed_all_day}
+                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                    formData.closed_all_day
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white text-gray-800"
+                  }`}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Closing Time
+                </label>
+                <input
+                  type="time"
+                  name="closing_time"
+                  value={formData.closing_time}
+                  onChange={handleChange}
+                  disabled={formData.closed_all_day}
+                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                    formData.closed_all_day
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white text-gray-800"
+                  }`}
                 />
               </div>
             </div>

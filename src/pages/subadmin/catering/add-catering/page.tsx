@@ -60,7 +60,7 @@ export default function AddCatering() {
                 to="/subadmin/catering"
                 className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
               >
-                ← BACK TO Catering
+                ← Back To Catering
               </Link>
             </div>
           </div>
@@ -83,14 +83,14 @@ export default function AddCatering() {
                       value={formData.customer_name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter customer name"
                     />
                   </div>
 
                   {/* Company */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Company
                     </label>
                     <input
@@ -98,14 +98,14 @@ export default function AddCatering() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter company name"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Email
                     </label>
                     <input
@@ -114,14 +114,14 @@ export default function AddCatering() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter email address"
                     />
                   </div>
 
                   {/* Phone Number */}
                   <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="text-white block text-sm font-medium mb-1">
                       Phone Number
                     </label>
                     <input
@@ -130,14 +130,14 @@ export default function AddCatering() {
                       value={formData.phone_number}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="+1234567890"
                     />
                   </div>
 
                   {/* Number of Guests */}
                   <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="text-white block text-sm font-medium mb-1">
                       Number of Guests
                     </label>
                     <input
@@ -146,14 +146,14 @@ export default function AddCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter number of guests"
                     />
                   </div>
 
                   {/* Event Date */}
                   <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="text-white block text-sm font-medium mb-1">
                       Event Date
                     </label>
                     <input
@@ -162,13 +162,13 @@ export default function AddCatering() {
                       value={formData.event_date}
                       onChange={handleChange}
                       required
-                      className="w-full px-4  py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4  py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Event Time */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Event Time
                     </label>
                     <input
@@ -177,13 +177,13 @@ export default function AddCatering() {
                       value={formData.event_time}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     />
                   </div>
 
                   {/* Special Instructions */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Special Instructions
                     </label>
                     <textarea
@@ -191,13 +191,13 @@ export default function AddCatering() {
                       value={formData.special_instructions}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Any instructions (e.g., vegan options, outdoor setup)"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Restaurant Notes
                     </label>
                     <textarea
@@ -205,14 +205,14 @@ export default function AddCatering() {
                       value={formData.restaurant_notes}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Any Notes"
                     />
                   </div>
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Estimated Budget
                     </label>
                     <input
@@ -222,21 +222,21 @@ export default function AddCatering() {
                       value={formData.estimated_budget}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter budget (e.g., 3500.00)"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
-                    <label className="block text-sm font-medium  mb-1">
+                    <label className="text-white block text-sm font-medium  mb-1">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-white cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>

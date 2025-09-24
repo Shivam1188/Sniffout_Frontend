@@ -6,6 +6,15 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 const Reservation = () => {
   const [slots, setSlots] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<{
+    id: number;
+    status: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     setLoading(true);
@@ -23,10 +32,6 @@ const Reservation = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const toggleBooking = async (slotId: number, currentStatus: boolean) => {
     try {
@@ -59,7 +64,18 @@ const Reservation = () => {
     acc[item.slot].push(item);
     return acc;
   }, {});
+  const handleConfirm = (slotId: number, currentStatus: boolean) => {
+    setSelectedSlot({ id: slotId, status: currentStatus });
+    setConfirmOpen(true);
+  };
 
+  const confirmUpdate = () => {
+    if (selectedSlot) {
+      toggleBooking(selectedSlot.id, selectedSlot.status);
+    }
+    setConfirmOpen(false);
+    setSelectedSlot(null);
+  };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 sm:p-6 p-4 ">
@@ -70,7 +86,7 @@ const Reservation = () => {
               to={"/subadmin/dashboard"}
               className="px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
-              Back to Dashboard
+              Back To Dashboard
             </Link>
             {/* Toggle Button (Arrow) */}
             <label
@@ -143,8 +159,8 @@ const Reservation = () => {
                         <div
                           key={table.id}
                           onClick={() =>
-                            toggleBooking(table.id, table.is_booked)
-                          }
+                            handleConfirm(table.id, table.is_booked)
+                          } // ✅ FIXED
                           className={`h-12 w-50 flex items-center justify-center font-bold rounded-lg text-white ${
                             table.is_booked
                               ? "bg-red-500 cursor-pointer"
@@ -155,6 +171,58 @@ const Reservation = () => {
                         </div>
                       ))}
                     </div>
+
+                    {confirmOpen && (
+                      <div className="fixed inset-0 flex items-center justify-center bg-black/30 z-50">
+                        <div className="bg-white w-[90%] max-w-md p-8 rounded-2xl shadow-2xl text-center relative animate-fadeIn">
+                          {/* Icon */}
+                          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#1d3faa]/10 mx-auto mb-4">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2}
+                              stroke="currentColor"
+                              className="w-10 h-10 text-[#1d3faa]"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                              />
+                            </svg>
+                          </div>
+
+                          {/* Text */}
+                          <h2 className="text-xl font-bold text-gray-800 mb-2">
+                            Confirm Action
+                          </h2>
+                          <p className="text-gray-600 mb-6">
+                            Are you sure you want to{" "}
+                            <span className="font-semibold">
+                              {selectedSlot?.status ? "unbook" : "book"}
+                            </span>{" "}
+                            this table?
+                          </p>
+
+                          {/* Buttons */}
+                          <div className="flex justify-center gap-4">
+                            <button
+                              onClick={confirmUpdate}
+                              className="cursor-pointer px-5 py-2 bg-[#1d3faa] text-white rounded-lg shadow hover:bg-[#1d3faa]/90 transition"
+                            >
+                              Yes, Continue
+                            </button>
+                            <button
+                              onClick={() => setConfirmOpen(false)}
+                              className="cursor-pointer px-5 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 transition"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })

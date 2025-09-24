@@ -9,7 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import LoadingSpinner from "../../components/Loader";
@@ -18,7 +17,7 @@ const App = () => {
   const navigate = useNavigate();
   const [recentlyRes, setRecentlyRes] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [selectedPeriod, setSelectedPeriod] = useState("daily");
+  const [selectedPeriod, setSelectedPeriod] = useState("weekly");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -48,21 +47,25 @@ const App = () => {
       try {
         let endpoint = "";
         switch (selectedPeriod) {
-          case "daily":
-            endpoint = "subadmin/earnings/daily/";
-            break;
           case "weekly":
-            endpoint = "subadmin/earnings/weekly/";
+            endpoint = "subadmin/daily-wise-calls/?period_type=weekly";
             break;
           case "monthly":
-            endpoint = "subadmin/earnings/monthly/";
+            endpoint = "subadmin/daily-wise-calls/?period_type=monthly";
             break;
           default:
-            endpoint = "subadmin/earnings/daily/";
+            endpoint = "subadmin/daily-wise-calls/?period_type=weekly";
         }
 
         const response = await api.get(endpoint);
-        setChartData(response.data);
+
+        // Map API data for the chart
+        const formattedData = response.data.map((item: any) => ({
+          period: item.date, // x-axis
+          call_count: item.call_count, // y-axis
+        }));
+
+        setChartData(formattedData);
       } catch (error) {
         console.error("Error fetching expenditure data:", error);
       } finally {
@@ -78,14 +81,12 @@ const App = () => {
   // Function to format the chart title based on selected period
   const getChartTitle = () => {
     switch (selectedPeriod) {
-      case "daily":
-        return "Daily Expenditure";
       case "weekly":
-        return "Weekly Expenditure";
+        return "Weekly Call Details";
       case "monthly":
-        return "Monthly Expenditure";
+        return "Monthly Call Details";
       default:
-        return "Expenditure Overview";
+        return "Weekly Call Details";
     }
   };
 
@@ -141,16 +142,6 @@ const App = () => {
 
               <div className="flex space-x-2">
                 <button
-                  onClick={() => setSelectedPeriod("daily")}
-                  className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "daily"
-                      ? "bg-[#1d3faa] text-white shadow-md"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  Daily
-                </button>
-                <button
                   onClick={() => setSelectedPeriod("weekly")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
                     selectedPeriod === "weekly"
@@ -203,40 +194,19 @@ const App = () => {
                           fontSize: "0.875rem",
                         }}
                       />
-                      <Legend
-                        verticalAlign="top"
-                        align="right"
-                        iconType="circle"
-                      />
                       <Line
                         type="monotone"
-                        dataKey="call_cost"
+                        dataKey="call_count"
                         stroke="#1d3faa"
                         strokeWidth={2}
-                        name="Call Cost"
+                        name="Call Count"
                         dot={{ r: 4 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="sms_cost"
-                        stroke="#fe6a3c"
-                        strokeWidth={2}
-                        name="SMS Cost"
-                        dot={{ r: 4 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="total_cost"
-                        stroke="#10b981"
-                        strokeWidth={3}
-                        name="Total Cost"
-                        dot={{ r: 5 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
                   <div className="flex items-center justify-center h-full text-gray-500 text-sm">
-                    No expenditure data available for this period.
+                    No Calls data available for this period.
                   </div>
                 )}
               </div>

@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import api from "../lib/Api";
+import { toasterSuccess } from "./Toaster";
 
 Modal.setAppElement("#root");
 
 interface EventModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void; // optional callback after success
 }
 
-const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
+const EventModal: React.FC<EventModalProps> = ({
+  isOpen,
+  onClose,
+  onSuccess,
+}) => {
   // Time Picker state
   const [hour, setHour] = useState(10);
   const [minute, setMinute] = useState(0);
@@ -31,6 +37,28 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
     for (let i = 1; i <= lastDate; i++) days.push(i);
 
     return days;
+  };
+
+  // Check if a date is in the past (before today)
+  const isPastDate = (day: number) => {
+    const dateToCheck = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      day
+    );
+    const today = new Date();
+
+    // Reset time part to compare only dates
+    today.setHours(0, 0, 0, 0);
+    dateToCheck.setHours(0, 0, 0, 0);
+
+    return dateToCheck < today;
+  };
+
+  // Check if a date is selectable (today or future)
+  const isDateSelectable = (day: number) => {
+    if (!day) return false;
+    return !isPastDate(day);
   };
 
   const daysInMonth = getDaysInMonth(
@@ -61,17 +89,18 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
 
     try {
       const payload = {
-        scheduled_date_time: eventDateTime.toISOString(), // 👈 your API expects this
+        scheduled_date_time: eventDateTime.toISOString(),
       };
-
-      console.log("Sending payload:", payload);
 
       const res = await api.post("subadmin/send-fallback-sms/", payload);
 
-      if (res.data.success) {
-        alert("Event created successfully!");
-        onClose();
+      if (res.success) {
+        toasterSuccess("Event created successfully!", 2000, "id");
         setSelectedDate(null);
+        onClose();
+
+        // ✅ Call fetchData in parent
+        if (onSuccess) onSuccess();
       } else {
         alert(res.data.message || "Failed to create event");
       }
@@ -156,35 +185,44 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
 
           {/* Dates */}
           <div className="grid grid-cols-7 gap-1">
-            {daysInMonth.map((day, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() =>
-                  day &&
-                  setSelectedDate(
-                    new Date(
-                      currentDate.getFullYear(),
-                      currentDate.getMonth(),
-                      day
+            {daysInMonth.map((day: any, index) => {
+              const isSelectable = isDateSelectable(day);
+              const isSelected =
+                selectedDate?.getDate() === day &&
+                selectedDate?.getMonth() === currentDate.getMonth();
+
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() =>
+                    day &&
+                    isSelectable &&
+                    setSelectedDate(
+                      new Date(
+                        currentDate.getFullYear(),
+                        currentDate.getMonth(),
+                        day
+                      )
                     )
-                  )
-                }
-                className={`h-12 flex items-center justify-center text-sm rounded-lg transition-all duration-200 ${
-                  day
-                    ? "bg-white shadow hover:bg-[#1d3faa] hover:text-white cursor-pointer"
-                    : "bg-transparent cursor-default"
-                } ${
-                  selectedDate?.getDate() === day &&
-                  selectedDate?.getMonth() === currentDate.getMonth()
-                    ? "bg-[#1d3faa] font-bold"
-                    : "text-gray-700 "
-                }`}
-                disabled={!day}
-              >
-                {day || ""}
-              </button>
-            ))}
+                  }
+                  className={`h-12 flex items-center justify-center text-sm rounded-lg transition-all duration-200 ${
+                    day
+                      ? isSelectable
+                        ? "bg-white shadow hover:bg-[#1d3faa] hover:text-white cursor-pointer"
+                        : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "bg-transparent cursor-default"
+                  } ${
+                    isSelected
+                      ? "bg-[#1d3faa] text-white font-bold"
+                      : "text-gray-700"
+                  }`}
+                  disabled={!day || !isSelectable}
+                >
+                  {day || ""}
+                </button>
+              );
+            })}
           </div>
         </div>
 

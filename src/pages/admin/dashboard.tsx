@@ -91,7 +91,7 @@ const AdminDashboard = () => {
     const fetchRecentlyOnboarded = async () => {
       try {
         const response = await api.get("superadmin/recently-onboarded/");
-        setRecentlyRes(response.data || []);
+        setRecentlyRes(response.data.results || []);
       } catch (error) {
         console.error("Error fetching recently onboarded business", error);
       }

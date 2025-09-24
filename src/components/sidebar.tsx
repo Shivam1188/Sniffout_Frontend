@@ -54,22 +54,17 @@ const Sidebar = () => {
   const subdirMenu = [
     { label: "Dashboard", route: "/subadmin/dashboard" },
     { label: "Business Profile", route: "/subadmin/update-profile" },
-
     { label: "Business Hours", route: "/subadmin/business-hour" },
-
     { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
     { label: "Manage Business List", route: "/subadmin/list" },
     { label: "Menu", route: "/subadmin/menu" },
     { label: "Menu Items", route: "/subadmin/menu-items" },
     { label: "Catering", route: "/subadmin/catering" },
-
     { label: "Reservation", route: "/subadmin/reservation" },
     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
-
     { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Fresh Offers", route: "/subadmin/voice-bot" },
     { label: "Plans", route: "/subadmin/plan" },
-
     { label: "Subscribe", route: "/subadmin/subscribe" },
     { label: "Feedback Questions", route: "/subadmin/feedback" },
   ];
@@ -77,11 +72,30 @@ const Sidebar = () => {
   const menuItems =
     role === "admin"
       ? adminMenu
-      : isPlanExpired
-      ? subdirMenu.slice(0, subdirMenu.length - 5) // hide last 5 if expired
-      : planName === "Standard"
-      ? subdirMenu
-      : subdirMenu.slice(0, subdirMenu.length - 5); // keep your current logic
+      : subdirMenu.filter((item) => {
+          // If plan is expired, hide restricted items
+          if (isPlanExpired) {
+            const restrictedItems = [
+              "Reservation",
+              "Set No of Tables",
+              "Create Tables ",
+              "Subscribe",
+            ];
+            return !restrictedItems.includes(item.label);
+          }
+
+          // If plan is Standard, show all items
+          if (planName === "Standard") return true;
+
+          // For non-standard but not expired plans, hide restricted items
+          const restrictedItems = [
+            "Reservation",
+            "Set No of Tables",
+            "Create Tables ",
+            "Subscribe",
+          ];
+          return !restrictedItems.includes(item.label);
+        });
 
   const handleLogout = async () => {
     try {

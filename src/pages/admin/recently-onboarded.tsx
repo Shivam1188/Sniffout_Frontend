@@ -5,32 +5,32 @@ import api from "../../lib/Api";
 const RecentlyOnboardedPage = () => {
   const apiUrl = import.meta.env.VITE_IMAGE_URL;
 
-  const [restaurants, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+
   const perPage = 10;
   const navigate = useNavigate();
-  const pageSize = 10; // items per page
-  // const totalPages = Math.ceil(count / pageSize);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // start loader
+      setLoading(true);
       try {
         const response = await api.get("superadmin/recently-onboarded/");
-        setRestaurants(response.data || []);
-        setCount(response.data);
+        setRestaurants(response.data.results || []);
+        setCount(response.data.count || 0);
       } catch (error) {
         console.error("Error fetching recently onboarded data", error);
       } finally {
-        setLoading(false); // stop loader
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  const totalPages = Math.ceil(restaurants.length / perPage);
+  // Pagination calculations
+  const totalPages = Math.ceil(count / perPage);
   const startIndex = (currentPage - 1) * perPage;
   const currentItems = restaurants.slice(startIndex, startIndex + perPage);
 
@@ -64,7 +64,7 @@ const RecentlyOnboardedPage = () => {
                 <div className="h-5 w-10 bg-gray-300 rounded"></div>
               </div>
             ))
-          : currentItems.map((item: any, index: any) => {
+          : currentItems.map((item, index) => {
               const isEmptyRestaurant =
                 !item.restaurant_name &&
                 !item.profile_image &&
@@ -104,7 +104,8 @@ const RecentlyOnboardedPage = () => {
                             {item.restaurant_name}
                           </p>
                           <p className="text-sm text-gray-500">
-                            {item.plan_name} — {item.city}, {item.state}
+                            {item.plan_name || "No Plan"} — {item.city || "N/A"}
+                            , {item.state || "N/A"}
                           </p>
                         </>
                       )}
@@ -122,16 +123,12 @@ const RecentlyOnboardedPage = () => {
       </div>
 
       {/* Pagination */}
-      {count > 10 && (
+      {count > perPage && (
         <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
           <p className="text-sm text-gray-600">
-            Showing{" "}
+            Showing <span className="font-semibold">{startIndex + 1}</span>–
             <span className="font-semibold">
-              {(currentPage - 1) * pageSize + 1}
-            </span>
-            –
-            <span className="font-semibold">
-              {Math.min(currentPage * pageSize, count)}
+              {Math.min(currentPage * perPage, count)}
             </span>{" "}
             of <span className="font-semibold">{count}</span> catering requests
           </p>

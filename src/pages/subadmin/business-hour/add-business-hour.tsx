@@ -7,7 +7,7 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 export default function AddBusinessHour() {
   const navigate = useNavigate();
   const id = Cookies.get("id");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     day: "",
     opening_time: null,
     closing_time: null,
@@ -28,7 +28,7 @@ export default function AddBusinessHour() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type, checked }: any = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));

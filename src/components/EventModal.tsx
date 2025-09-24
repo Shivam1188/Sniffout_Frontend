@@ -12,34 +12,63 @@ interface EventModalProps {
 const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
-  const [startTime, setStartTime] = useState("10:00");
-  const [endTime, setEndTime] = useState("11:00");
+  const [startTime, setStartTime] = useState<any>("10:00");
+  const [endTime, setEndTime] = useState<any>("11:00");
 
-  const calendarData = {
-    month: "September 2025",
-    days: [
-      [null, 1, 2, 3, 4, 5, 6],
-      [7, 8, 9, 10, 11, 12, 13],
-      [14, 15, 16, 17, 18, 19, 20],
-      [21, 22, 23, 24, 25, 26, 27],
-      [28, 29, 30, null, null, null, null],
-    ],
+  // Calendar state
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const getDaysInMonth = (year: number, month: number) => {
+    const date = new Date(year, month, 1);
+    const days: (number | null)[] = [];
+    const firstDay = date.getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    // Add empty slots for first week
+    for (let i = 0; i < firstDay; i++) days.push(null);
+
+    // Add days of month
+    for (let i = 1; i <= lastDate; i++) days.push(i);
+
+    return days;
+  };
+
+  const daysInMonth = getDaysInMonth(
+    currentDate.getFullYear(),
+    currentDate.getMonth()
+  );
+
+  const handlePrevMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    );
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    );
   };
 
   const handleCreateEvent = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedDate) return alert("Please select a date!");
     console.log("Event created:", {
       title: eventTitle,
       description: eventDescription,
+      date: selectedDate.toDateString(),
       startTime,
       endTime,
     });
-    onClose(); // Close modal
-    // Reset form
+    onClose();
     setEventTitle("");
     setEventDescription("");
     setStartTime("10:00");
     setEndTime("11:00");
+    setSelectedDate(null);
   };
 
   return (
@@ -49,15 +78,36 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
       className="bg-white rounded-2xl p-8 max-w-5xl mx-auto mt-16 shadow-2xl outline-none"
       overlayClassName="fixed inset-0 backdrop-blur-sm bg-opacity-60 flex justify-center items-start pt-16 overflow-y-auto transition-opacity"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
         {/* Calendar Section */}
         <div className="bg-gray-50 rounded-xl p-6 shadow-inner">
           <h2 className="text-2xl font-bold mb-2 text-gray-800">Select Date</h2>
-          <h3 className="text-lg font-semibold mb-6 text-gray-600">
-            {calendarData.month}
-          </h3>
+
+          {/* Month Navigation */}
+          <div className="flex justify-between items-center mb-4">
+            <button
+              onClick={handlePrevMonth}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            >
+              &lt;
+            </button>
+            <h3 className="text-lg font-semibold text-gray-600">
+              {currentDate.toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              })}
+            </h3>
+            <button
+              onClick={handleNextMonth}
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            >
+              &gt;
+            </button>
+          </div>
+
+          {/* Days of Week */}
           <div className="grid grid-cols-7 gap-1 mb-3">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+            {daysOfWeek.map((day) => (
               <div
                 key={day}
                 className="text-center text-sm font-medium text-gray-500 py-2"
@@ -66,17 +116,32 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
               </div>
             ))}
           </div>
+
+          {/* Dates */}
           <div className="grid grid-cols-7 gap-1">
-            {calendarData.days.flat().map((day, index) => (
+            {daysInMonth.map((day, index) => (
               <button
                 key={index}
                 type="button"
+                onClick={() =>
+                  day &&
+                  setSelectedDate(
+                    new Date(
+                      currentDate.getFullYear(),
+                      currentDate.getMonth(),
+                      day
+                    )
+                  )
+                }
                 className={`h-12 flex items-center justify-center text-sm rounded-lg transition-all duration-200 ${
                   day
                     ? "bg-white shadow hover:bg-blue-50 cursor-pointer focus:ring-2 focus:ring-blue-300"
                     : "bg-transparent cursor-default"
                 } ${
-                  day === 1 ? "text-blue-600 font-semibold" : "text-gray-700"
+                  selectedDate?.getDate() === day &&
+                  selectedDate?.getMonth() === currentDate.getMonth()
+                    ? "bg-blue-600 text-white font-semibold"
+                    : "text-gray-700"
                 }`}
                 disabled={!day}
               >
@@ -98,6 +163,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
                 Set Time
               </h3>
               <div className="space-y-4">
+                {/* Start Time */}
                 <div>
                   <label
                     htmlFor="start-time"
@@ -109,12 +175,14 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
                     id="start-time"
                     onChange={setStartTime}
                     value={startTime}
-                    className="w-full rounded-lg border border-gray-300"
-                    clockIcon={null}
+                    disableClock={false} // ✅ Enable clock popup
+                    format="HH:mm"
                     clearIcon={null}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
 
+                {/* End Time */}
                 <div>
                   <label
                     htmlFor="end-time"
@@ -126,9 +194,10 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
                     id="end-time"
                     onChange={setEndTime}
                     value={endTime}
-                    className="w-full rounded-lg border border-gray-300"
-                    clockIcon={null}
+                    disableClock={false} // ✅ Enable clock popup
+                    format="HH:mm"
                     clearIcon={null}
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
               </div>

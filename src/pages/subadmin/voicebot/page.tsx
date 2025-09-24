@@ -381,8 +381,8 @@ import {
 } from "../../../components/Toaster";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
-import Modal from "react-modal";
-import TimePicker from "react-time-picker";
+// import Modal from "react-modal";
+// import TimePicker from "react-time-picker";
 import EventModal from "../../../components/EventModal";
 
 const VoiceBotDashboard = () => {
@@ -402,10 +402,10 @@ const VoiceBotDashboard = () => {
   const [totalCallRecords, setTotalCallRecords] = useState(0);
 
   // Event form state
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [eventTitle, setEventTitle] = useState("");
+  // const [eventDescription, setEventDescription] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -520,40 +520,40 @@ const VoiceBotDashboard = () => {
     }
   };
 
-  const handleCreateEvent = () => {
-    // Handle event creation logic here
-    console.log({
-      eventTitle,
-      eventDescription,
-      startTime,
-      endTime,
-    });
-    setIsModalOpen(false);
-    // Reset form
-    setEventTitle("");
-    setEventDescription("");
-    setStartTime("");
-    setEndTime("");
-  };
+  // const handleCreateEvent = () => {
+  //   // Handle event creation logic here
+  //   console.log({
+  //     eventTitle,
+  //     eventDescription,
+  //     startTime,
+  //     endTime,
+  //   });
+  //   setIsModalOpen(false);
+  //   // Reset form
+  //   setEventTitle("");
+  //   setEventDescription("");
+  //   setStartTime("");
+  //   setEndTime("");
+  // };
 
   // Calendar data for September 2025 (matching your screenshot)
-  const calendarData = {
-    month: "September 2025",
-    days: [
-      // Week 1 (with empty days for August)
-      [null, 1, 2, 3, 4, 5, 6],
-      // Week 2
-      [7, 8, 9, 10, 11, 12, 13],
-      // Week 3
-      [14, 15, 16, 17, 18, 19, 20],
-      // Week 4
-      [21, 22, 23, 24, 25, 26, 27],
-      // Week 5
-      [28, 29, 30, null, null, null, null],
-    ],
-  };
+  // const calendarData = {
+  //   month: "September 2025",
+  //   days: [
+  //     // Week 1 (with empty days for August)
+  //     [null, 1, 2, 3, 4, 5, 6],
+  //     // Week 2
+  //     [7, 8, 9, 10, 11, 12, 13],
+  //     // Week 3
+  //     [14, 15, 16, 17, 18, 19, 20],
+  //     // Week 4
+  //     [21, 22, 23, 24, 25, 26, 27],
+  //     // Week 5
+  //     [28, 29, 30, null, null, null, null],
+  //   ],
+  // };
 
-  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  // const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">

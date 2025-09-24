@@ -9,10 +9,9 @@ export default function AddBusinessHour() {
   const id = Cookies.get("id");
   const [formData, setFormData] = useState({
     day: "",
-    opening_time: "",
-    closing_time: "",
+    opening_time: null,
+    closing_time: null,
     closed_all_day: false,
-    menu: "",
   });
 
   const daysOfWeek = [
@@ -38,12 +37,12 @@ export default function AddBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Client-side validation
     if (!formData.day) {
       toasterError("Day is required.", 2000, "id");
       return;
     }
 
-    // Only validate times if not closed all day
     if (!formData.closed_all_day) {
       if (!formData.opening_time) {
         toasterError("Opening Time is required.", 2000, "id");
@@ -61,27 +60,29 @@ export default function AddBusinessHour() {
         subadmin_profile: id,
       });
 
+      // Handle API response regardless of HTTP status
       if (res.data.success) {
-        navigate("/subadmin/business-hour");
         toasterSuccess("Business Hour Added Successfully", 2000, "id");
+        navigate("/subadmin/business-hour");
+      } else {
+        // Show backend validation error
+        toasterError(
+          res.data.error || res.data.message || "Failed to add business hour",
+          2000,
+          "id"
+        );
       }
     } catch (err: any) {
-      console.error("Error adding business hour:", err);
+      console.error("API Error:", err);
+
+      // Handle actual HTTP errors (network/server issues)
       if (err.response && err.response.data) {
         const errorData = err.response.data;
-        if (errorData.error === "Already exist .") {
-          toasterError(
-            "This business hour already exists for this day and menu.",
-            2000,
-            "id"
-          );
-        } else {
-          toasterError(
-            errorData.error || "Failed to add business hour",
-            2000,
-            "id"
-          );
-        }
+        toasterError(
+          errorData.error || errorData.message || "Failed to add business hour",
+          2000,
+          "id"
+        );
       } else {
         toasterError("Failed to add business hour", 2000, "id");
       }
@@ -136,23 +137,6 @@ export default function AddBusinessHour() {
                 ))}
               </select>
             </div>
-
-            {/* <div>
-              <label className="block text-sm font-medium mb-1">Menu</label>
-              <select
-                name="menu"
-                value={formData.menu}
-                onChange={handleChange}
-                className="w-full border rounded-lg px-3 py-2"
-              >
-                <option value="">Select a menu</option>
-                {menuList.map((menu) => (
-                  <option key={menu.id} value={menu.id}>
-                    {menu.name}
-                  </option>
-                ))}
-              </select>
-            </div> */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>

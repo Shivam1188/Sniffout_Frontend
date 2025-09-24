@@ -382,8 +382,8 @@ import {
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
 import Modal from "react-modal";
-// import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import TimePicker from "react-time-picker";
+import EventModal from "../../../components/EventModal";
 
 const VoiceBotDashboard = () => {
   const id = Cookies.get("id");
@@ -394,8 +394,6 @@ const VoiceBotDashboard = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [idUpdate, setId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState("09:00 AM");
 
   // New state variables for the API response data
   const [restaurantName, setRestaurantName] = useState("");
@@ -403,11 +401,11 @@ const VoiceBotDashboard = () => {
   const [recentCallersPreview, setRecentCallersPreview] = useState([]);
   const [totalCallRecords, setTotalCallRecords] = useState(0);
 
-  // Calendar state
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedCalendarDate, setSelectedCalendarDate] = useState<Date | null>(
-    null
-  );
+  // Event form state
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -427,7 +425,7 @@ const VoiceBotDashboard = () => {
       }
 
       // Fetch voice bot statistics
-      const statsRes = await api.get("subadmin/send-fallback-sms/"); // Replace with your actual endpoint
+      const statsRes = await api.get("subadmin/send-fallback-sms/");
       const statsData = statsRes.data;
       setRestaurantName(statsData.restaurant_name);
       setUniqueCallersCount(statsData.unique_callers_count);
@@ -522,70 +520,39 @@ const VoiceBotDashboard = () => {
     }
   };
 
-  // Calendar functions
-  const getDaysInMonth = (date: Date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const handleCreateEvent = () => {
+    // Handle event creation logic here
+    console.log({
+      eventTitle,
+      eventDescription,
+      startTime,
+      endTime,
+    });
+    setIsModalOpen(false);
+    // Reset form
+    setEventTitle("");
+    setEventDescription("");
+    setStartTime("");
+    setEndTime("");
   };
 
-  const getFirstDayOfMonth = (date: Date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  // Calendar data for September 2025 (matching your screenshot)
+  const calendarData = {
+    month: "September 2025",
+    days: [
+      // Week 1 (with empty days for August)
+      [null, 1, 2, 3, 4, 5, 6],
+      // Week 2
+      [7, 8, 9, 10, 11, 12, 13],
+      // Week 3
+      [14, 15, 16, 17, 18, 19, 20],
+      // Week 4
+      [21, 22, 23, 24, 25, 26, 27],
+      // Week 5
+      [28, 29, 30, null, null, null, null],
+    ],
   };
 
-  const generateCalendarDays = () => {
-    const daysInMonth = getDaysInMonth(currentMonth);
-    const firstDayOfMonth = getFirstDayOfMonth(currentMonth);
-    const days = [];
-
-    // Add empty cells for days before the first day of the month
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      days.push(null);
-    }
-
-    // Add days of the month
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(
-        new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i)
-      );
-    }
-
-    return days;
-  };
-
-  const goToPreviousMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
-    );
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
-    );
-  };
-
-  const formatMonthYear = (date: Date) => {
-    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-  };
-
-  const isToday = (date: Date) => {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  };
-
-  const isSelectedDate = (date: Date) => {
-    return (
-      selectedCalendarDate &&
-      date.getDate() === selectedCalendarDate.getDate() &&
-      date.getMonth() === selectedCalendarDate.getMonth() &&
-      date.getFullYear() === selectedCalendarDate.getFullYear()
-    );
-  };
-
-  const calendarDays = generateCalendarDays();
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
@@ -604,33 +571,6 @@ const VoiceBotDashboard = () => {
               Back To Dashboard
             </Link>
           </div>
-          {/* Overlay for mobile */}
-          <label
-            htmlFor="sidebar-toggle"
-            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
-          ></label>
-
-          {/* Toggle Button (Arrow) */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
-          >
-            {/* Arrow Icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-              />
-            </svg>
-          </label>
         </div>
 
         {/* Content */}
@@ -651,7 +591,7 @@ const VoiceBotDashboard = () => {
                   cannot complete their request.
                 </p>
 
-                {/* Statistics Cards - Now inside the SMS Fallback Settings */}
+                {/* Statistics Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
                     <h3 className="text-sm font-medium text-gray-500">
@@ -701,198 +641,33 @@ const VoiceBotDashboard = () => {
                     </div>
                   </div>
                 </div>
-
-                <Modal
+                <EventModal
                   isOpen={isModalOpen}
-                  onRequestClose={() => setIsModalOpen(false)}
-                  className="bg-white rounded-xl p-6 max-w-4xl mx-auto mt-10 shadow-lg outline-none"
-                  overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-10"
-                >
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Calendar Section */}
-                    <div className="bg-white rounded-lg p-4">
-                      <h2 className="text-xl font-bold mb-4 text-center">
-                        Select Date
-                      </h2>
+                  onClose={() => setIsModalOpen(false)}
+                />
 
-                      {/* Month/Year Header */}
-                      <div className="flex justify-between items-center mb-4">
-                        <button
-                          onClick={goToPreviousMonth}
-                          className="p-2 hover:bg-gray-100 rounded-full"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                        <h3 className="text-lg font-semibold">
-                          {formatMonthYear(currentMonth)}
-                        </h3>
-                        <button
-                          onClick={goToNextMonth}
-                          className="p-2 hover:bg-gray-100 rounded-full"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-
-                      {/* Week Days Header */}
-                      <div className="grid grid-cols-7 gap-1 mb-2">
-                        {weekDays.map((day) => (
-                          <div
-                            key={day}
-                            className="text-center text-sm font-medium text-gray-500 py-2"
-                          >
-                            {day}
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Calendar Days */}
-                      <div className="grid grid-cols-7 gap-1">
-                        {calendarDays.map((date, index) => (
-                          <button
-                            key={index}
-                            onClick={() =>
-                              date && setSelectedCalendarDate(date)
-                            }
-                            className={`h-12 rounded-lg text-sm font-medium transition-colors ${
-                              !date
-                                ? "bg-transparent"
-                                : isSelectedDate(date)
-                                ? "bg-[#1d3faa] text-white"
-                                : isToday(date)
-                                ? "bg-blue-100 text-blue-600"
-                                : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                            }`}
-                            disabled={!date}
-                          >
-                            {date ? date.getDate() : ""}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Event Creation Section */}
-                    <div className="space-y-6">
-                      <div>
-                        <h2 className="text-xl font-bold mb-4">Create Event</h2>
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Event Title
-                            </label>
-                            <input
-                              type="text"
-                              className="w-full p-3 border border-gray-300 rounded-lg focus:border-[#1d3faa] focus:ring-2 focus:ring-[#1d3faa] outline-none"
-                              placeholder="Enter event title"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Event Description
-                            </label>
-                            <textarea
-                              className="w-full p-3 border border-gray-300 rounded-lg focus:border-[#1d3faa] focus:ring-2 focus:ring-[#1d3faa] outline-none"
-                              rows={3}
-                              placeholder="Enter event description"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="border-t pt-4">
-                        <h3 className="text-lg font-bold mb-4">Set Time</h3>
-                        <div className="space-y-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Start Time
-                            </label>
-                            <input
-                              type="time"
-                              value={selectedTime}
-                              onChange={(e) => setSelectedTime(e.target.value)}
-                              className="w-full p-3 border border-gray-300 rounded-lg focus:border-[#1d3faa] focus:ring-2 focus:ring-[#1d3faa] outline-none"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              End Time
-                            </label>
-                            <input
-                              type="time"
-                              className="w-full p-3 border border-gray-300 rounded-lg focus:border-[#1d3faa] focus:ring-2 focus:ring-[#1d3faa] outline-none"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Buttons */}
-                      <div className="flex justify-end gap-3 pt-4">
-                        <button
-                          onClick={() => setIsModalOpen(false)}
-                          className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => {
-                            console.log("Selected Date:", selectedCalendarDate);
-                            console.log("Selected Time:", selectedTime);
-                            setIsModalOpen(false);
-                          }}
-                          className="px-6 py-2 bg-[#1d3faa] text-white rounded-lg hover:bg-blue-700 transition-colors"
-                        >
-                          Create Event
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Modal>
-
-                <div className="flexbg-gray-100 p-4 rounded text-sm mb-6">
+                <div className="bg-gray-100 p-4 rounded text-sm mb-6">
                   <strong className="text-gray-700">Preview SMS Message</strong>
                   <p className="mt-2 text-gray-700">{previewMessage}</p>
 
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-4">
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="cursor-pointer p-2 bg-[#fe6a3c] text-white rounded-md mr-2"
+                      className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#e55a2c] transition-colors mr-2"
                     >
-                      Schedule Something
+                      Schedule Event
                     </button>
                     <button
                       onClick={handleSMS}
                       disabled={saving}
-                      className="p-2 cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800 mr-2"
+                      className="px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
                     >
                       {saving ? "Sending..." : "SEND SMS"}
                     </button>
                   </div>
                 </div>
 
+                {/* Message Update Section */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Update SMS Fallback Message
@@ -906,11 +681,11 @@ const VoiceBotDashboard = () => {
                   />
                 </div>
 
-                <div className="text-right mt-4 gap-2">
+                <div className="text-right">
                   <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="cursor-pointer bg-[#1d3faa] text-white px-4 py-2 rounded-md text-sm hover:bg-blue-800"
+                    className="px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
                   >
                     {saving
                       ? "Saving..."

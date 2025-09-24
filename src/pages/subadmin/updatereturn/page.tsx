@@ -259,8 +259,8 @@ const UpdateReturn = () => {
       toasterError("State is required.", 2000, "id");
       return false;
     }
-    if (!profile.state.trim()) {
-      toasterError("State is required.", 2000, "id");
+    if (!profile.country.trim()) {
+      toasterError("Country is required.", 2000, "id");
       return false;
     }
     if (!profile.zip_code.trim()) {
@@ -567,17 +567,17 @@ const UpdateReturn = () => {
                 {[
                   { label: "Business", name: "restaurant_name" },
                   { label: "Twillo Phone Number", name: "phone_number" },
-                  { label: "Email Address", name: "email_address" },
-                  { label: "Address", name: "address" },
-                  { label: "City", name: "city" },
-                  { label: "State", name: "state" },
-                  { label: "ZIP Code", name: "zip_code" },
-                  { label: "Country", name: "country" },
-                  { label: "Website URL", name: "website_url" },
                   {
                     label: "Office Mobile Number",
                     name: "office_number",
                   },
+                  { label: "Email Address", name: "email_address" },
+                  { label: "Address", name: "address" },
+                  { label: "Country", name: "country" },
+                  { label: "State", name: "state" },
+                  { label: "City", name: "city" },
+                  { label: "ZIP Code", name: "zip_code" },
+                  { label: "Website URL", name: "website_url" },
                 ].map(({ label, name }) => (
                   <div key={name} className="w-full">
                     <label className="block text-sm font-semibold text-gray-700 mb-1">

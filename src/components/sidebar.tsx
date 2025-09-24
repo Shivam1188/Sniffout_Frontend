@@ -53,20 +53,25 @@ const Sidebar = () => {
 
   const subdirMenu = [
     { label: "Dashboard", route: "/subadmin/dashboard" },
+    { label: "Business Profile", route: "/subadmin/update-profile" },
+
+    { label: "Business Hours", route: "/subadmin/business-hour" },
+
     { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
     { label: "Manage Business List", route: "/subadmin/list" },
-    { label: "Fresh Offers", route: "/subadmin/voice-bot" },
-    { label: "Update Profile", route: "/subadmin/update-profile" },
     { label: "Menu", route: "/subadmin/menu" },
     { label: "Menu Items", route: "/subadmin/menu-items" },
-    { label: "Business Hours", route: "/subadmin/business-hour" },
-    { label: "Plans", route: "/subadmin/plan" },
-    { label: "Feedback Questions", route: "/subadmin/feedback" },
-    { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
-    { label: "Create Tables ", route: "/subadmin/create-tables" },
-    { label: "Reservation", route: "/subadmin/reservation" },
     { label: "Catering", route: "/subadmin/catering" },
+
+    { label: "Reservation", route: "/subadmin/reservation" },
+    { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
+
+    { label: "Create Tables ", route: "/subadmin/create-tables" },
+    { label: "Fresh Offers", route: "/subadmin/voice-bot" },
+    { label: "Plans", route: "/subadmin/plan" },
+
     { label: "Subscribe", route: "/subadmin/subscribe" },
+    { label: "Feedback Questions", route: "/subadmin/feedback" },
   ];
 
   const menuItems =

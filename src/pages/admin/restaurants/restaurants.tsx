@@ -8,6 +8,9 @@ const Restaurants = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [restaurantToDelete, setRestaurantToDelete] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [restaurantToEdit, setRestaurantToEdit] = useState<any>(null);
 
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +30,11 @@ const Restaurants = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const handleEdit = (restaurant: any) => {
+    setRestaurantToEdit(restaurant);
+    setPhoneNumber(restaurant.phone_number || ""); // Set the current phone number
+    setShowEditModal(true); // Open the modal
   };
 
   useEffect(() => {
@@ -48,6 +56,33 @@ const Restaurants = () => {
     } catch (err) {
       console.error("Delete failed:", err);
       alert("Something went wrong while deleting.");
+    }
+  };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (!restaurantToEdit || !phoneNumber) {
+      alert("Phone number is required.");
+      return;
+    }
+
+    try {
+      // Assume you send the updated phone number to the backend here
+      const res = await api.put(
+        `superadmin/restaurants/${restaurantToEdit.id}/`,
+        { phone_number: phoneNumber }
+      );
+
+      if (res.success) {
+        setShowEditModal(false); // Close the modal
+        setRestaurantToEdit(null);
+        setPhoneNumber(""); // Clear the phone number input
+        toasterSuccess("Phone number updated successfully", 2000, "id");
+        fetchData(currentPage); // Refresh the restaurant data
+      }
+    } catch (err) {
+      console.error("Error updating phone number:", err);
+      alert("Something went wrong while updating.");
     }
   };
 
@@ -142,6 +177,7 @@ const Restaurants = () => {
                   <th className="p-4">Business Name</th>
                   <th className="p-4">Owner/Contact</th>
                   <th className="p-4">Contact Info</th>
+                  <th className="p-4">Phone Number</th>
                   <th className="p-4">Plan Type</th>
                 </tr>
               </thead>
@@ -185,6 +221,16 @@ const Restaurants = () => {
                           {r.phone_number || "N/A"}
                         </p>
                       </td>
+                      <td className="p-4 flex items-center gap-3">
+                        <span>{r.phone_number || "N/A"}</span>
+
+                        <button
+                          onClick={() => handleEdit(r)}
+                          className="cursor-pointer px-2 py-1.5 text-xs bg-[#fe6a3c] text-white rounded hover:bg-[#fe6a3c]/90 transition"
+                        >
+                          Edit
+                        </button>
+                      </td>
                       <td className="p-4">
                         <span className="px-2 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-600">
                           {r.plan_type || "NO PLAN"}
@@ -196,6 +242,64 @@ const Restaurants = () => {
               </tbody>
             </table>
           </div>
+
+          {showEditModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+              <div className="bg-white/90 w-full max-w-md mx-4 rounded-2xl shadow-2xl p-6 border-gray-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-blue-100 p-3 rounded-full">
+                    <svg
+                      className="w-6 h-6 text-blue-600"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    Edit Phone Number
+                  </h2>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Phone Number
+                    </label>
+                    <input
+                      type="number"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="w-full p-3 mt-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowEditModal(false)}
+                      className="cursor-pointer px-4 py-2 bg-gray-100 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
             <p className="text-sm text-gray-600">

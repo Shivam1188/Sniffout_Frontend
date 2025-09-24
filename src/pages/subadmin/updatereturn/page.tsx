@@ -317,6 +317,23 @@ const UpdateReturn = () => {
     (val) => val !== null && val !== ""
   );
 
+  const handleDeletePhoneNumber = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this phone number?"))
+      return;
+
+    try {
+      setPhoneLoading(true);
+      await api.delete(`twilio_bot/api/forwarding-numbers/${id}/`);
+      toasterSuccess("Phone number deleted!", 2000, "id");
+      fetchPhoneNumbers(page); // refresh the list
+    } catch (err) {
+      console.error(err);
+      toasterError("Failed to delete phone number", 2000, "id");
+    } finally {
+      setPhoneLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
@@ -363,6 +380,10 @@ const UpdateReturn = () => {
           <label className="block text-sm font-semibold text-gray-700 mb-3">
             Forwarding Phone Numbers
           </label>
+          <h3>
+            You can add additional phone numbers to activate the call forwarding
+            feature
+          </h3>
 
           <div className="flex gap-2 mb-4 flex-col sm:flex-row md:flex-col lg:flex-row">
             <input
@@ -424,13 +445,24 @@ const UpdateReturn = () => {
                             Save
                           </button>
                         ) : (
-                          <button
-                            type="button"
-                            onClick={() => setEditingIndex(item.id)}
-                            className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
-                          >
-                            Edit
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => setEditingIndex(item.id)}
+                              className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
+                            >
+                              Edit
+                            </button>
+
+                            {/* Delete Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleDeletePhoneNumber(item.id)}
+                              className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                            >
+                              Delete
+                            </button>
+                          </>
                         )}
                       </div>
                     </li>

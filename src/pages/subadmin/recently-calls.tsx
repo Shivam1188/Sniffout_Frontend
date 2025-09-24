@@ -12,16 +12,21 @@ interface Call {
 
 const RecentlyCalls = () => {
   const [calls, setCalls] = useState<Call[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10;
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [count, setCount] = useState(0);
+
+  const pageSize = 10; // items per page
+  const totalPages = Math.ceil(count / pageSize);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get("subadmin/recent-calls/");
-        const data = response.data?.recent_calls || [];
+        const data = response.data?.results || [];
         setCalls(data);
+        setCount(response.data?.count || 0);
       } catch (error) {
         console.error("Failed to fetch recent calls:", error);
         setCalls([]);
@@ -30,7 +35,6 @@ const RecentlyCalls = () => {
     fetchData();
   }, []);
 
-  const totalPages = Math.ceil(calls.length / perPage);
   const startIndex = (currentPage - 1) * perPage;
   const currentItems = calls.slice(startIndex, startIndex + perPage);
 
@@ -52,7 +56,8 @@ const RecentlyCalls = () => {
             className="p-4 border border-gray-100 bg-gray-50 rounded-xl hover:bg-[#f0f4ff] transition"
           >
             <p className="font-semibold text-gray-800">
-              Call SID: <span className="text-sm text-gray-600">{item.call_sid}</span>
+              Call SID:{" "}
+              <span className="text-sm text-gray-600">{item.call_sid}</span>
             </p>
             <p className="text-sm text-gray-600">
               Status: <span className="font-medium">{item.status}</span>
@@ -70,20 +75,38 @@ const RecentlyCalls = () => {
         ))}
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center mt-6 gap-2">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${
-              currentPage === i + 1 ? "bg-[#1d3faa] text-white" : "bg-gray-200"
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {count > 10 && (
+        <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
+          <p className="text-sm text-gray-600">
+            Showing{" "}
+            <span className="font-semibold">
+              {(currentPage - 1) * pageSize + 1}
+            </span>
+            –
+            <span className="font-semibold">
+              {Math.min(currentPage * pageSize, count)}
+            </span>{" "}
+            of <span className="font-semibold">{count}</span> catering requests
+          </p>
+
+          <div className="flex items-center space-x-2 mt-2 md:mt-0">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+            >
+              Prev
+            </button>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

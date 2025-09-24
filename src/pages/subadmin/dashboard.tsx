@@ -26,10 +26,10 @@ const App = () => {
         const response = await api.get("subadmin/recent-calls/");
         const data = response.data;
 
-        if (Array.isArray(data.recent_calls)) {
-          setRecentlyRes(data.recent_calls);
+        if (Array.isArray(data.results)) {
+          setRecentlyRes(data.results);
         } else {
-          console.error("Expected recent_calls array, got:", data);
+          console.error("Expected results array, got:", data);
           setRecentlyRes([]);
         }
       } catch (error) {
@@ -76,7 +76,7 @@ const App = () => {
     fetchExpenditureData();
   }, [selectedPeriod]);
 
-  const displayed = recentlyRes.slice(0, 4);
+  const displayed = recentlyRes.slice(0, 3);
 
   // Function to format the chart title based on selected period
   const getChartTitle = () => {
@@ -214,7 +214,6 @@ const App = () => {
           </div>
         </div>
 
-        {/* Tables Section */}
         <div className="grid grid-cols-1 gap-8">
           <div className="w-full bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">

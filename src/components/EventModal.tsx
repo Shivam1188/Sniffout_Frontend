@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import api from "../lib/Api";
-import { toasterSuccess } from "./Toaster";
+import { toasterError, toasterSuccess } from "./Toaster";
 
 Modal.setAppElement("#root");
 
@@ -93,16 +93,16 @@ const EventModal: React.FC<EventModalProps> = ({
       };
 
       const res = await api.post("subadmin/send-fallback-sms/", payload);
-
+      console.log(res, "====");
       if (res.success) {
         toasterSuccess("Event created successfully!", 2000, "id");
         setSelectedDate(null);
         onClose();
 
-        // ✅ Call fetchData in parent
         if (onSuccess) onSuccess();
       } else {
-        alert(res.data.message || "Failed to create event");
+        toasterError(res.error, 4000, "id");
+        onClose();
       }
     } catch (error: any) {
       console.error(error);

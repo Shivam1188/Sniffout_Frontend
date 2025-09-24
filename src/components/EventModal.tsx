@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import TimePicker from "react-time-picker";
+import api from "../lib/Api";
 
 Modal.setAppElement("#root");
 
@@ -10,10 +10,10 @@ interface EventModalProps {
 }
 
 const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [startTime, setStartTime] = useState<any>("10:00");
-  const [endTime, setEndTime] = useState<any>("11:00");
+  // Time Picker state
+  const [hour, setHour] = useState(10);
+  const [minute, setMinute] = useState(0);
+  const [ampm, setAmpm] = useState("AM");
 
   // Calendar state
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -27,10 +27,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
     const firstDay = date.getDay();
     const lastDate = new Date(year, month + 1, 0).getDate();
 
-    // Add empty slots for first week
     for (let i = 0; i < firstDay; i++) days.push(null);
-
-    // Add days of month
     for (let i = 1; i <= lastDate; i++) days.push(i);
 
     return days;
@@ -53,45 +50,85 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
     );
   };
 
-  const handleCreateEvent = (e: React.FormEvent) => {
+  const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDate) return alert("Please select a date!");
-    console.log("Event created:", {
-      title: eventTitle,
-      description: eventDescription,
-      date: selectedDate.toDateString(),
-      startTime,
-      endTime,
-    });
-    onClose();
-    setEventTitle("");
-    setEventDescription("");
-    setStartTime("10:00");
-    setEndTime("11:00");
-    setSelectedDate(null);
+
+    const formattedHour = (hour % 12) + (ampm === "PM" ? 12 : 0);
+
+    const eventDateTime = new Date(selectedDate);
+    eventDateTime.setHours(formattedHour, minute, 0, 0);
+
+    try {
+      const payload = {
+        scheduled_date_time: eventDateTime.toISOString(), // 👈 your API expects this
+      };
+
+      console.log("Sending payload:", payload);
+
+      const res = await api.post("subadmin/send-fallback-sms/", payload);
+
+      if (res.data.success) {
+        alert("Event created successfully!");
+        onClose();
+        setSelectedDate(null);
+      } else {
+        alert(res.data.message || "Failed to create event");
+      }
+    } catch (error: any) {
+      console.error(error);
+      alert("Error creating event");
+    }
   };
+
+  // Clock angles
+  const hourAngle = ((hour % 12) + minute / 60) * 30;
+  const minuteAngle = minute * 6;
+
+  const getHandPosition = (angle: number, length: number) => {
+    const rad = (Math.PI / 180) * angle;
+    const x = 50 + length * Math.sin(rad);
+    const y = 50 - length * Math.cos(rad);
+    return { x, y };
+  };
+
+  const hourPos = getHandPosition(hourAngle, 20);
+  const minutePos = getHandPosition(minuteAngle, 30);
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
       className="bg-white rounded-2xl p-8 max-w-5xl mx-auto mt-16 shadow-2xl outline-none"
-      overlayClassName="fixed inset-0 backdrop-blur-sm bg-opacity-60 flex justify-center items-start pt-16 overflow-y-auto transition-opacity"
+      overlayClassName="fixed inset-0 backdrop-blur-sm bg-black/40 flex justify-center items-start pt-16 overflow-y-auto transition-opacity"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-        {/* Calendar Section */}
-        <div className="bg-gray-50 rounded-xl p-6 shadow-inner">
-          <h2 className="text-2xl font-bold mb-2 text-gray-800">Select Date</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-gray-800">Select Date</h2>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-7 h-7 text-[#fe6a3c]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
 
           {/* Month Navigation */}
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={handlePrevMonth}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              className="cursor-pointer px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"
             >
-              &lt;
+              {"<"}
             </button>
-            <h3 className="text-lg font-semibold text-gray-600">
+            <h3 className="text-lg font-semibold text-gray-700">
               {currentDate.toLocaleString("default", {
                 month: "long",
                 year: "numeric",
@@ -99,9 +136,9 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
             </h3>
             <button
               onClick={handleNextMonth}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+              className="cursor-pointer p-2 bg-gray-100 rounded hover:bg-gray-200"
             >
-              &gt;
+              {">"}
             </button>
           </div>
 
@@ -110,7 +147,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
             {daysOfWeek.map((day) => (
               <div
                 key={day}
-                className="text-center text-sm font-medium text-gray-500 py-2"
+                className="text-center text-sm font-semibold text-gray-500 py-2"
               >
                 {day}
               </div>
@@ -135,13 +172,13 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
                 }
                 className={`h-12 flex items-center justify-center text-sm rounded-lg transition-all duration-200 ${
                   day
-                    ? "bg-white shadow hover:bg-blue-50 cursor-pointer focus:ring-2 focus:ring-blue-300"
+                    ? "bg-white shadow hover:bg-[#1d3faa] hover:text-white cursor-pointer"
                     : "bg-transparent cursor-default"
                 } ${
                   selectedDate?.getDate() === day &&
                   selectedDate?.getMonth() === currentDate.getMonth()
-                    ? "bg-blue-600 text-white font-semibold"
-                    : "text-gray-700"
+                    ? "bg-[#1d3faa] font-bold"
+                    : "text-gray-700 "
                 }`}
                 disabled={!day}
               >
@@ -151,74 +188,121 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Event Creation Section */}
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        {/* Time Picker Section */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Set Time</h2>
+
+          {/* Clock */}
+          <div className="flex justify-center mb-6">
+            <div className="w-48 h-48 rounded-full border-8 border-gray-200 flex items-center justify-center relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 100 100"
+                className="absolute w-40 h-40"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="48"
+                  fill="white"
+                  stroke="#1d3faa"
+                  strokeWidth="2"
+                />
+
+                {/* Numbers */}
+                {[...Array(12)].map((_, i) => {
+                  const angle = (i + 1) * 30;
+                  const x = 50 + 38 * Math.sin((Math.PI / 180) * angle);
+                  const y = 54 - 38 * Math.cos((Math.PI / 180) * angle);
+                  return (
+                    <text
+                      key={i}
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      fontSize="6"
+                      fill="black"
+                      fontWeight="bold"
+                    >
+                      {i + 1}
+                    </text>
+                  );
+                })}
+
+                {/* Hour hand */}
+                <line
+                  x1="50"
+                  y1="50"
+                  x2={hourPos.x}
+                  y2={hourPos.y}
+                  stroke="#1d3faa"
+                  strokeWidth="3"
+                />
+
+                {/* Minute hand */}
+                <line
+                  x1="50"
+                  y1="50"
+                  x2={minutePos.x}
+                  y2={minutePos.y}
+                  stroke="#fe6a3c"
+                  strokeWidth="2"
+                />
+
+                <circle cx="50" cy="50" r="3" fill="black" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Time Select */}
+          <div className="flex justify-center gap-3 mb-6">
+            <select
+              value={hour}
+              onChange={(e) => setHour(Number(e.target.value))}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-[#fe6a3c]"
+            >
+              {[...Array(12)].map((_, i) => (
+                <option key={i} value={i + 1}>
+                  {String(i + 1).padStart(2, "0")}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={minute}
+              onChange={(e) => setMinute(Number(e.target.value))}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-[#fe6a3c]"
+            >
+              {[...Array(60)].map((_, i) => (
+                <option key={i} value={i}>
+                  {String(i).padStart(2, "0")}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={ampm}
+              onChange={(e) => setAmpm(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-[#fe6a3c]"
+            >
+              <option>AM</option>
+              <option>PM</option>
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="cursor-pointer w-full mt-3 bg-gray-400 py-3 rounded-xl  text-gray-600 hover:text-gray-800 text-sm"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleCreateEvent}
+            className="cursor-pointer w-full mt-6 py-3 bg-[#fe6a3c] text-white rounded-lg font-semibold hover:bg-[#e55a2c] transition-colors"
+          >
             Create Event
-          </h2>
-
-          <form onSubmit={handleCreateEvent} className="space-y-5">
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-gray-700">
-                Set Time
-              </h3>
-              <div className="space-y-4">
-                {/* Start Time */}
-                <div>
-                  <label
-                    htmlFor="start-time"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Start Time
-                  </label>
-                  <TimePicker
-                    id="start-time"
-                    onChange={setStartTime}
-                    value={startTime}
-                    disableClock={false} // ✅ Enable clock popup
-                    format="HH:mm"
-                    clearIcon={null}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  />
-                </div>
-
-                {/* End Time */}
-                <div>
-                  <label
-                    htmlFor="end-time"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    End Time
-                  </label>
-                  <TimePicker
-                    id="end-time"
-                    onChange={setEndTime}
-                    value={endTime}
-                    disableClock={false} // ✅ Enable clock popup
-                    format="HH:mm"
-                    clearIcon={null}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-4 mt-6">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-              >
-                Create Event
-              </button>
-            </div>
-          </form>
+          </button>
         </div>
       </div>
     </Modal>

@@ -26,6 +26,7 @@ const AuthForm = ({
     role: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -38,11 +39,19 @@ const AuthForm = ({
       newErrors.lastname = "Last name is required";
     }
 
-    if (!formData.email.match(/^\S+@\S+\.\S+$/)) {
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!formData.email.match(/^\S+@\S+\.\S+$/)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (!isLogin && formData.password !== formData.confirmpassword) {
+    if (type !== "forgot-password" && !formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (type !== "forgot-password" && formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!isLogin && type !== "forgot-password" && formData.password !== formData.confirmpassword) {
       newErrors.confirmpassword = "Passwords do not match";
     }
 
@@ -57,6 +66,14 @@ const AuthForm = ({
       ...prev,
       [name]: value,
     }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,6 +111,8 @@ const AuthForm = ({
     const payload = endpointMap[type](formData);
     const endpoint = endpointMapUrl[type];
 
+    setLoading(true);
+
     try {
       const response = await API.post(endpoint, payload);
 
@@ -105,7 +124,19 @@ const AuthForm = ({
             "id"
           );
           navigate("/");
+        } else if (type === "signup") {
+          // Handle signup success - user needs to verify email
+          toasterSuccess(
+            "Registration successful! Please check your email to activate your account.",
+            5000,
+            "id"
+          );
+          // Redirect to login page after signup
+          setTimeout(() => {
+            navigate("/auth/login");
+          }, 2000);
         } else {
+          // Handle login success
           Cookies.set("token", response?.data?.data?.tokens?.access, {
             expires: 1,
           });
@@ -154,19 +185,18 @@ const AuthForm = ({
             navigate("/subadmin/dashboard");
           }
 
-          toasterSuccess(
-            `${type === "login" ? "Login" : "Signup"} successful!`,
-            2000,
-            "id"
-          );
+          toasterSuccess("Login successful!", 2000, "id");
         }
       } else {
         const errorMsg = handleError(response?.error);
         toasterError(errorMsg, "2000", "id");
       }
     } catch (err: any) {
-      const errorMsg = handleError(err?.error);
+      console.error("API Error:", err);
+      const errorMsg = handleError(err?.error) || "An error occurred. Please try again.";
       toasterError(errorMsg, "2000", "id");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -186,10 +216,11 @@ const AuthForm = ({
                 </label>
                 <input
                   name={field.name}
-                  value={formData[field.name as keyof typeof formData] || ""} // Add this
+                  value={formData[field.name as keyof typeof formData] || ""}
                   type={field.type}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder={field.placeholder}
                 />
                 {errors[field.name] && (
@@ -202,9 +233,10 @@ const AuthForm = ({
 
             <button
               type="submit"
-              className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove"
+              disabled={loading}
+              className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              {buttonText}
+              {loading ? "Processing..." : buttonText}
             </button>
           </form>
 

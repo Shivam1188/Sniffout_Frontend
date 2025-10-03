@@ -55,6 +55,10 @@ import Catering from "./pages/subadmin/catering/page.tsx";
 import Subscribe from "./pages/subadmin/subscribe/page.tsx";
 import AddCatering from "./pages/subadmin/catering/add-catering/page.tsx";
 import EditCatering from "./pages/subadmin/catering/edit-catering/page.tsx";
+import Upsells from "./pages/subadmin/upsells/page.tsx";
+import AddUpsells from "./pages/subadmin/upsells/add-upsells/page.tsx";
+import EditUpsells from "./pages/subadmin/upsells/edit-upsells/page.tsx";
+import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -119,10 +123,17 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="admin" element={<EditPlan />} />
             }
           />
+
           <Route
             path="/admin/restaurants"
             element={
               <ProtectedRoute allowedRole="admin" element={<Restaurants />} />
+            }
+          />
+          <Route
+            path="/admin/twillo-records"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<TwilloRecord />} />
             }
           />
           <Route
@@ -162,6 +173,12 @@ const AppRouter = () => {
             }
           />
           <Route
+            path="/subadmin/upsells"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Upsells />} />
+            }
+          />
+          <Route
             path="/subadmin/subscribe"
             element={
               <ProtectedRoute allowedRole="subdir" element={<Subscribe />} />
@@ -172,6 +189,18 @@ const AppRouter = () => {
             path="/subadmin/create-tables"
             element={
               <ProtectedRoute allowedRole="subdir" element={<CraeteTables />} />
+            }
+          />
+          <Route
+            path="/subadmin/upsells/add-upsells"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<AddUpsells />} />
+            }
+          />
+          <Route
+            path="/subadmin/upsells/edit-upsells/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditUpsells />} />
             }
           />
           <Route

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   BarChart2,
   LogOut,
@@ -13,22 +14,38 @@ import {
   Calendar,
   Gift,
   FileText,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
 import Cookies from "js-cookie";
 import { toasterSuccess } from "./Toaster";
 import "../assets/css/custom.css";
+
+interface SubMenuItem {
+  label: string;
+  route: string;
+}
+
+interface MenuItem {
+  label: string;
+  route: string;
+  hasSubmenu?: boolean;
+  submenu?: SubMenuItem[];
+}
+
 const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const role = Cookies.get("role");
   const planName = Cookies.get("plan_name");
-  const planExpiry = Cookies.get("plan_expiry_date"); // YYYY-MM-DD format
+  const planExpiry = Cookies.get("plan_expiry_date");
+  const [isBusinessProfileOpen, setIsBusinessProfileOpen] = useState(false);
 
   const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
 
-  const iconMap: any = {
+  const iconMap: { [key: string]: React.ReactElement } = {
     Dashboard: <Home size={16} />,
     Business: <Building2 size={16} />,
     Plans: <ClipboardList size={16} />,
@@ -36,6 +53,7 @@ const Sidebar = () => {
     "Manage Business List": <ClipboardList size={16} />,
     "Fresh Offers": <Gift size={16} />,
     "Update Profile": <User size={16} />,
+    "Business Profile": <Building2 size={16} />,
     Menu: <Utensils size={16} />,
     "Menu Items": <FileText size={16} />,
     "Business Hours": <Clock size={16} />,
@@ -45,35 +63,45 @@ const Sidebar = () => {
     Reservation: <Calendar size={16} />,
     Catering: <Utensils size={16} />,
   };
-  const adminMenu = [
+
+  const adminMenu: MenuItem[] = [
     { label: "Dashboard", route: "/admin/dashboard" },
     { label: "Business", route: "/admin/restaurants" },
     { label: "Plans", route: "/admin/plans" },
+    { label: "Twillo Records", route: "/admin/twillo-records" },
   ];
 
-  const subdirMenu = [
+  const subdirMenu: MenuItem[] = [
     { label: "Dashboard", route: "/subadmin/dashboard" },
-    { label: "Business Profile", route: "/subadmin/update-profile" },
-    { label: "Business Hours", route: "/subadmin/business-hour" },
-    { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
-    { label: "Manage Business List", route: "/subadmin/list" },
-    { label: "Menu", route: "/subadmin/menu" },
-    { label: "Menu Items", route: "/subadmin/menu-items" },
+    {
+      label: "Business Profile",
+      route: "/subadmin/business-profile",
+      hasSubmenu: true,
+      submenu: [
+        { label: "Update Profile", route: "/subadmin/update-profile" },
+        { label: "Business Hours", route: "/subadmin/business-hour" },
+        { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
+        { label: "Manage Business List", route: "/subadmin/list" },
+        { label: "Menu", route: "/subadmin/menu" },
+        { label: "Feedback Questions", route: "/subadmin/feedback" },
+      ],
+    },
+
+    // { label: "Menu Items", route: "/subadmin/menu-items" },
     { label: "Catering", route: "/subadmin/catering" },
     { label: "Reservation", route: "/subadmin/reservation" },
     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
     { label: "Create Tables ", route: "/subadmin/create-tables" },
-    { label: "Fresh Offers", route: "/subadmin/voice-bot" },
+    { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },
+    { label: "UpSelling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Subscribe", route: "/subadmin/subscribe" },
-    { label: "Feedback Questions", route: "/subadmin/feedback" },
   ];
 
   const menuItems =
     role === "admin"
       ? adminMenu
       : subdirMenu.filter((item) => {
-          // If plan is expired, hide restricted items
           if (isPlanExpired) {
             const restrictedItems = [
               "Reservation",
@@ -84,10 +112,8 @@ const Sidebar = () => {
             return !restrictedItems.includes(item.label);
           }
 
-          // If plan is Standard, show all items
           if (planName === "Standard") return true;
 
-          // For non-standard but not expired plans, hide restricted items
           const restrictedItems = [
             "Reservation",
             "Set No of Tables",
@@ -129,31 +155,93 @@ const Sidebar = () => {
     }
   };
 
+  const isSubmenuActive = (submenu?: SubMenuItem[]) => {
+    return submenu?.some((sub) => pathname === sub.route);
+  };
+
   return (
     <>
       <nav className="space-y-1 mb-8 overflow-y-auto h-screen scrollbar-hide">
         <div className="space-y-2 text-white">
           {menuItems.map((item) => (
-            <Link
-              to={item.route}
-              key={item.label}
-              className={`flex items-center gap-3 p-2 rounded cursor-pointer transition 
-                ${
-                  pathname === item.route
-                    ? "bg-white text-[#1d3faa] font-semibold"
-                    : "hover:bg-[#5e5696]"
-                }`}
-            >
-              <div
-                className={`w-6 flex justify-center ${
-                  pathname === item.route ? "text-[#1d3faa]" : ""
-                }`}
-              >
-                {iconMap[item.label] || <BarChart2 size={16} />}{" "}
-                {/* fallback */}
-              </div>
-              <span>{item.label}</span>
-            </Link>
+            <div key={item.label}>
+              {item.hasSubmenu ? (
+                <>
+                  <div
+                    onClick={() =>
+                      setIsBusinessProfileOpen(!isBusinessProfileOpen)
+                    }
+                    className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition 
+                      ${
+                        isSubmenuActive(item.submenu)
+                          ? "bg-white text-[#1d3faa] font-semibold"
+                          : "hover:bg-[#5e5696]"
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-6 flex justify-center ${
+                          isSubmenuActive(item.submenu) ? "text-[#1d3faa]" : ""
+                        }`}
+                      >
+                        {iconMap[item.label] || <BarChart2 size={16} />}
+                      </div>
+                      <span>{item.label}</span>
+                    </div>
+                    {isBusinessProfileOpen ? (
+                      <ChevronDown size={16} />
+                    ) : (
+                      <ChevronRight size={16} />
+                    )}
+                  </div>
+
+                  {isBusinessProfileOpen && item.submenu && (
+                    <div className="ml-6 mt-1 space-y-1">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          to={subItem.route}
+                          key={subItem.label}
+                          className={`flex items-center gap-3 p-2 rounded cursor-pointer transition text-sm
+                            ${
+                              pathname === subItem.route
+                                ? "bg-white text-[#1d3faa] font-semibold"
+                                : "hover:bg-[#5e5696]"
+                            }`}
+                        >
+                          <div
+                            className={`w-6 flex justify-center ${
+                              pathname === subItem.route ? "text-[#1d3faa]" : ""
+                            }`}
+                          >
+                            {iconMap[subItem.label] || <BarChart2 size={16} />}
+                          </div>
+                          <span>{subItem.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <Link
+                  to={item.route}
+                  className={`flex items-center gap-3 p-2 rounded cursor-pointer transition 
+                    ${
+                      pathname === item.route
+                        ? "bg-white text-[#1d3faa] font-semibold"
+                        : "hover:bg-[#5e5696]"
+                    }`}
+                >
+                  <div
+                    className={`w-6 flex justify-center ${
+                      pathname === item.route ? "text-[#1d3faa]" : ""
+                    }`}
+                  >
+                    {iconMap[item.label] || <BarChart2 size={16} />}
+                  </div>
+                  <span>{item.label}</span>
+                </Link>
+              )}
+            </div>
           ))}
         </div>
       </nav>

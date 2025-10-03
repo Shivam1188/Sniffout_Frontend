@@ -257,6 +257,8 @@ const App = () => {
                     <span className="text-xs bg-green-100 text-green-600 px-2.5 py-1 rounded-full font-medium">
                       {item.status === "in-progress"
                         ? "In Progress"
+                        : item.status === "failed"
+                        ? "Failed"
                         : "Completed"}
                     </span>
                   </div>

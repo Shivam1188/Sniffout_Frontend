@@ -5,6 +5,9 @@ import api from "../../../lib/Api";
 const PlansDetails = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState<
+    "monthly" | "yearly"
+  >("monthly");
 
   const fetchData = async () => {
     setLoading(true);
@@ -22,6 +25,12 @@ const PlansDetails = () => {
     fetchData();
   }, []);
 
+  // Filter plans based on selected tab
+  const filteredPlans = plans.filter((plan: any) => {
+    // Assuming duration is a string like 'monthly' or 'yearly' (adjust if different)
+    return plan.duration.toLowerCase() === selectedDuration;
+  });
+
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
@@ -31,36 +40,57 @@ const PlansDetails = () => {
               <h2 className="text-2xl font-bold text-[#1d3faa]">Plans</h2>
               <p className="text-sm text-gray-500 mt-1">See All Plans</p>
             </div>
-            <div className="flex-shrink-0">
+            <div className="flex items-center gap-4">
+              {/* Tabs */}
+              <button
+                onClick={() => setSelectedDuration("monthly")}
+                className={`cursor-pointer px-4 py-2 rounded-full font-semibold transition ${
+                  selectedDuration === "monthly"
+                    ? "bg-[#fe6a3c] text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                Monthly Plans
+              </button>
+              <button
+                onClick={() => setSelectedDuration("yearly")}
+                className={`cursor-pointer px-4 py-2 rounded-full font-semibold transition ${
+                  selectedDuration === "yearly"
+                    ? "bg-[#fe6a3c] text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                Yearly Plans
+              </button>
+
               <Link
                 to={"/subadmin/dashboard"}
-                className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+                className="ml-6 w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
               >
                 Back To Dashboard
               </Link>
-              {/* Overlay for mobile */}
+
+              {/* Overlay and toggle buttons for mobile unchanged */}
               <label
                 htmlFor="sidebar-toggle"
                 className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
               ></label>
 
-              {/* Toggle Button (Arrow) */}
               <label
                 htmlFor="sidebar-toggle"
                 className="absolute top-18 right-20 z-50 bg-[#fe6a3c] text-white p-1 rounded  shadow-md md:hidden cursor-pointer"
               >
-                {/* Arrow Icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="size-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
                   />
                 </svg>
@@ -87,8 +117,8 @@ const PlansDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {plans.length > 0 ? (
-                    plans.map((r: any, index) => (
+                  {filteredPlans.length > 0 ? (
+                    filteredPlans.map((r: any, index) => (
                       <tr
                         key={index}
                         style={{
@@ -147,10 +177,12 @@ const PlansDetails = () => {
                   ) : (
                     <tr>
                       <td
-                        colSpan={6}
+                        colSpan={7}
                         className="text-center py-6 text-gray-500"
                       >
-                        No Plans Yet
+                        No Plans for{" "}
+                        {selectedDuration.charAt(0).toUpperCase() +
+                          selectedDuration.slice(1)}
                       </td>
                     </tr>
                   )}

@@ -5,18 +5,42 @@ const SignUp = () => {
     <AuthForm
       title="Create an Account"
       fields={[
-        { name: "firstname", label: "Full Name", type: "text", placeholder: "John " },
-        { name: "lastname", label: "Last Name", type: "text", placeholder: "Doe" },
-        { name: "email", label: "Email", type: "email", placeholder: "you@example.com" },
-        { name: "password", label: "Password", type: "password", placeholder: "••••••••" },
-        { name: "confirmpassword", label: "Confirm Password", type: "password", placeholder: "••••••••" }
+        {
+          name: "firstname",
+          label: "First Name",
+          type: "text",
+          placeholder: "Enter first name",
+        },
+        {
+          name: "lastname",
+          label: "Last Name",
+          type: "text",
+          placeholder: "Enter last name",
+        },
+        {
+          name: "email",
+          label: "Email",
+          type: "email",
+          placeholder: "Enter email",
+        },
+        {
+          name: "password",
+          label: "Password",
+          type: "password",
+          placeholder: "Enter password",
+        },
+        {
+          name: "confirmpassword",
+          label: "Confirm Password",
+          type: "password",
+          placeholder: "Confirm password",
+        },
       ]}
       buttonText="🚀 Sign Up"
       linkText="Already have an account?"
       linkPath="/auth/login"
       linkLabel="Sign in"
       type="signup"
-
     />
   );
 };

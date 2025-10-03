@@ -249,7 +249,7 @@ const VoiceBotDashboard = () => {
                     <button
                       onClick={handleSMS}
                       disabled={saving || !isFlagActive}
-                      className="px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                      className="cursor-pointer  px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
                     >
                       {saving ? "Sending..." : "SEND SMS"}
                     </button>
@@ -274,7 +274,7 @@ const VoiceBotDashboard = () => {
                   <button
                     onClick={handleSave}
                     disabled={saving || !isFlagActive}
-                    className="px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                    className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
                   >
                     {saving
                       ? "Saving..."

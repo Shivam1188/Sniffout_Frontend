@@ -406,9 +406,9 @@ const UpdateReturn = () => {
             <LoadingSpinner />
           ) : (
             <>
-              <ul className="space-y-2">
-                {phoneNumbers &&
-                  phoneNumbers.map((item: any, idx: any) => (
+              {phoneNumbers && phoneNumbers.length > 0 ? (
+                <ul className="space-y-2">
+                  {phoneNumbers.map((item: any, idx: any) => (
                     <li
                       key={item.id}
                       className="flex items-center flex-col sm:justify-between sm:gap-0 gap-5 sm:flex-row justify-start bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
@@ -420,7 +420,7 @@ const UpdateReturn = () => {
                           const onlyNums = e.target.value.replace(
                             /[^0-9+]/g,
                             ""
-                          ); // allow digits and +
+                          );
                           const updated = [...phoneNumbers];
                           updated[idx].phone_number = onlyNums;
                           setPhoneNumbers(updated);
@@ -454,7 +454,6 @@ const UpdateReturn = () => {
                               Edit
                             </button>
 
-                            {/* Delete Button */}
                             <button
                               type="button"
                               onClick={() => handleDeletePhoneNumber(item.id)}
@@ -467,7 +466,13 @@ const UpdateReturn = () => {
                       </div>
                     </li>
                   ))}
-              </ul>
+                </ul>
+              ) : (
+                <p className="text-gray-500 text-center py-4">
+                  No phone is added yet
+                </p>
+              )}
+
               {total > 10 && (
                 <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
                   <p className="text-sm text-gray-600">
@@ -501,7 +506,7 @@ const UpdateReturn = () => {
                     </button>
                   </div>
                 </div>
-              )}{" "}
+              )}
             </>
           )}
         </div>
@@ -598,7 +603,10 @@ const UpdateReturn = () => {
               <div className="lg:col-span-1 xl:col-span-3  grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 gap-4">
                 {[
                   { label: "Business", name: "restaurant_name" },
-                  { label: "Twillo Phone Number", name: "phone_number" },
+                  {
+                    label: "Twillo Phone Number (Loaded by Sniffout Team)",
+                    name: "phone_number",
+                  },
                   {
                     label: "Office Mobile Number",
                     name: "office_number",
@@ -621,13 +629,17 @@ const UpdateReturn = () => {
                       value={(profile as any)[name] || ""}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none 
-          ${
-            name === "email_address"
-              ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-              : "focus:ring-2 focus:ring-[#fe6a3c]"
-          }
-        `}
-                      readOnly={name === "email_address" || !isEditing}
+  ${
+    name === "email_address" || name === "phone_number"
+      ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+      : "focus:ring-2 focus:ring-[#fe6a3c]"
+  }
+`}
+                      readOnly={
+                        name === "email_address" ||
+                        name === "phone_number" ||
+                        !isEditing
+                      }
                     />
                   </div>
                 ))}

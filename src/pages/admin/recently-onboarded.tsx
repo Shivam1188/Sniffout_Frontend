@@ -2,37 +2,105 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../lib/Api";
 
+interface Restaurant {
+  restaurant_name: string;
+  profile_image: string | null;
+  restaurant_description: string | null;
+  city: string;
+  state: string;
+  plan_name: string | null;
+  onboarded_date: string | null;
+  email: string;
+}
+
 const RecentlyOnboardedPage = () => {
   const apiUrl = import.meta.env.VITE_IMAGE_URL;
 
-  const [restaurants, setRestaurants] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
-  const [count, setCount] = useState(0);
+  const [pagination, setPagination] = useState({
+    count: 0,
+    next: null as string | null,
+    previous: null as string | null,
+  });
 
-  const perPage = 10;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get("superadmin/recently-onboarded/");
-        setRestaurants(response.data.results || []);
-        setCount(response.data.count || 0);
-      } catch (error) {
-        console.error("Error fetching recently onboarded data", error);
-      } finally {
-        setLoading(false);
+  const fetchData = async (url?: string) => {
+    setLoading(true);
+    try {
+      let finalUrl = url;
+      if (!url) {
+        finalUrl = "superadmin/recently-onboarded/";
+      } else if (url.startsWith("http")) {
+        const urlObj = new URL(url);
+        finalUrl = urlObj.pathname + urlObj.search;
+        if (finalUrl.startsWith("/api/")) {
+          finalUrl = finalUrl.substring(5);
+        }
       }
-    };
+
+      const response = await api.get(finalUrl!);
+      setRestaurants(response.data.results || []);
+      setPagination({
+        count: response.data.count || 0,
+        next: response.data.next,
+        previous: response.data.previous,
+      });
+    } catch (error) {
+      console.error("Error fetching recently onboarded data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-  // Pagination calculations
-  const totalPages = Math.ceil(count / perPage);
-  const startIndex = (currentPage - 1) * perPage;
-  const currentItems = restaurants.slice(startIndex, startIndex + perPage);
+  const handleNextPage = () => {
+    if (pagination.next) {
+      fetchData(pagination.next);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (pagination.previous) {
+      fetchData(pagination.previous);
+    }
+  };
+
+  const getCurrentRange = () => {
+    if (restaurants.length === 0)
+      return { start: 0, end: 0, currentPage: 0, totalPages: 0 };
+
+    const pageSize = 10;
+    const totalPages = Math.ceil(pagination.count / pageSize);
+
+    let currentPage = 1;
+    if (pagination.next) {
+      const nextUrl = new URL(pagination.next);
+      const pageParam = nextUrl.searchParams.get("page");
+      if (pageParam) {
+        currentPage = parseInt(pageParam) - 1;
+      }
+    } else if (pagination.previous) {
+      const prevUrl = new URL(pagination.previous);
+      const pageParam = prevUrl.searchParams.get("page");
+      if (pageParam) {
+        currentPage = parseInt(pageParam) + 1;
+      } else {
+        currentPage = 2;
+      }
+    }
+
+    const startIndex = (currentPage - 1) * pageSize + 1;
+    const endIndex = Math.min(currentPage * pageSize, pagination.count);
+
+    return { start: startIndex, end: endIndex, currentPage, totalPages };
+  };
+
+  const { start, end } = getCurrentRange();
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
@@ -49,7 +117,7 @@ const RecentlyOnboardedPage = () => {
 
       <div className="space-y-4">
         {loading
-          ? Array.from({ length: 5 }).map((_, i) => (
+          ? Array.from({ length: 10 }).map((_, i) => (
               <div
                 key={i}
                 className="flex justify-between items-center p-4 rounded-xl bg-gray-100 animate-pulse border border-gray-200"
@@ -64,7 +132,7 @@ const RecentlyOnboardedPage = () => {
                 <div className="h-5 w-10 bg-gray-300 rounded"></div>
               </div>
             ))
-          : currentItems.map((item, index) => {
+          : restaurants.map((item, index) => {
               const isEmptyRestaurant =
                 !item.restaurant_name &&
                 !item.profile_image &&
@@ -122,29 +190,36 @@ const RecentlyOnboardedPage = () => {
             })}
       </div>
 
-      {/* Pagination */}
-      {count > perPage && (
+      {pagination.count > 0 && (
         <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
           <p className="text-sm text-gray-600">
-            Showing <span className="font-semibold">{startIndex + 1}</span>–
-            <span className="font-semibold">
-              {Math.min(currentPage * perPage, count)}
-            </span>{" "}
-            of <span className="font-semibold">{count}</span> catering requests
+            Showing <span className="font-semibold">{start}</span>–
+            <span className="font-semibold">{end}</span> of{" "}
+            <span className="font-semibold">{pagination.count}</span> onboarded
+            restaurants
           </p>
 
           <div className="flex items-center space-x-2 mt-2 md:mt-0">
             <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-              className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+              disabled={!pagination.previous}
+              onClick={handlePrevPage}
+              className={`cursor-pointer px-3 py-1.5 border rounded-lg transition-colors ${
+                pagination.previous
+                  ? "border-gray-300 hover:bg-gray-50"
+                  : "border-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
             >
-              Prev
+              Previous
             </button>
+
             <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-              className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+              disabled={!pagination.next}
+              onClick={handleNextPage}
+              className={`cursor-pointer px-3 py-1.5 border rounded-lg transition-colors ${
+                pagination.next
+                  ? "border-gray-300 hover:bg-gray-50"
+                  : "border-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
             >
               Next
             </button>

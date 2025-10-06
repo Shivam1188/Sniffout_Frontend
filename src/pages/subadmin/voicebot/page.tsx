@@ -8,7 +8,6 @@ import {
 } from "../../../components/Toaster";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
-
 import EventModal from "../../../components/EventModal";
 
 const VoiceBotDashboard = () => {
@@ -35,17 +34,32 @@ const VoiceBotDashboard = () => {
     try {
       // Fetch SMS fallback settings
       const smsRes = await api.get("subadmin/sms-fallback-settings/");
-      const smsData = smsRes.data.results?.[0];
+      console.log("SMS API Response:", smsRes.data); // Debug log
 
-      if (smsData) {
+      // Check if response is an array or object
+      let smsData;
+      if (Array.isArray(smsRes.data)) {
+        // If it's an array, take the first item
+        smsData = smsRes.data[0];
+      } else if (smsRes.data.results && Array.isArray(smsRes.data.results)) {
+        // If it's an object with results array
+        smsData = smsRes.data.results[0];
+      } else {
+        // If it's a direct object
+        smsData = smsRes.data;
+      }
+
+      if (smsData && smsData.id) {
         setPreviewMessage(smsData.processed_message || smsData.message || "");
         setId(smsData.id);
         setIsDataLoaded(true);
         setIsFlagActive(smsData.flag); // only use flag from API
+        console.log("Flag status:", smsData.flag); // Debug log
       } else {
         // No record found → user can create a new one
         setIsDataLoaded(false);
         setIsFlagActive(true); // ✅ enable buttons
+        console.log("No SMS data found, enabling buttons"); // Debug log
       }
 
       // Fetch voice bot statistics
@@ -106,6 +120,7 @@ const VoiceBotDashboard = () => {
         );
         setMessage("");
         setIsDataLoaded(true);
+        setIsFlagActive(false);
         setId(previewRes.data.id);
       }
     } catch (err) {
@@ -145,6 +160,9 @@ const VoiceBotDashboard = () => {
     }
   };
 
+  // Disable state for all buttons
+  const isDisabled = !isFlagActive;
+
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
@@ -173,6 +191,39 @@ const VoiceBotDashboard = () => {
                 <h2 className="text-lg font-bold text-[#1d3faa] mb-2">
                   SMS Fallback Settings
                 </h2>
+
+                {/* Status Indicator */}
+                {isDisabled && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                          <svg
+                            className="w-4 h-4 text-red-600"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          SMS Functionality Disabled
+                        </h3>
+                        <p className="text-sm text-red-600 mt-1">
+                          SMS features are currently disabled because an event
+                          is already scheduled.{" "}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <p className="text-sm text-gray-600 mb-6">
                   Configure the message sent to customers when the voice bot
                   cannot complete their request.
@@ -241,15 +292,15 @@ const VoiceBotDashboard = () => {
                   <div className="flex justify-end mt-4">
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      disabled={!isFlagActive}
-                      className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#e55a2c] transition-colors mr-2 disabled:opacity-50"
+                      disabled={isDisabled}
+                      className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#e55a2c] transition-colors mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Schedule Event
                     </button>
                     <button
                       onClick={handleSMS}
-                      disabled={saving || !isFlagActive}
-                      className="cursor-pointer  px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                      disabled={saving || isDisabled}
+                      className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {saving ? "Sending..." : "SEND SMS"}
                     </button>
@@ -262,19 +313,24 @@ const VoiceBotDashboard = () => {
                     Update SMS Fallback Message
                   </label>
                   <textarea
-                    className="w-full p-4 rounded-lg border border-gray-300 focus:border-[#1d3faa] focus:ring-2 focus:ring-[#1d3faa] outline-none text-sm text-gray-800 placeholder-gray-400 transition duration-300 shadow-sm"
+                    className={`w-full p-4 rounded-lg border focus:ring-2 outline-none text-sm text-gray-800 placeholder-gray-400 transition duration-300 shadow-sm ${
+                      isDisabled
+                        ? "border-gray-200 bg-gray-50 cursor-not-allowed"
+                        : "border-gray-300 focus:border-[#1d3faa] focus:ring-[#1d3faa]"
+                    }`}
                     rows={4}
                     placeholder="Enter your fallback message here..."
                     value={message}
                     onChange={handleChange}
+                    disabled={isDisabled}
                   />
                 </div>
 
                 <div className="text-right">
                   <button
                     onClick={handleSave}
-                    disabled={saving || !isFlagActive}
-                    className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50"
+                    disabled={saving || isDisabled}
+                    className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {saving
                       ? "Saving..."

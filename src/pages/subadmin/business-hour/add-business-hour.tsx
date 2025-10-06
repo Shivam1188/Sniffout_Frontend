@@ -37,28 +37,34 @@ export default function AddBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Prepare data for submission
+    const submitData = {
+      ...formData,
+      subadmin_profile: id,
+      // If closed_all_day is true, force opening_time and closing_time to null
+      opening_time: formData.closed_all_day ? null : formData.opening_time,
+      closing_time: formData.closed_all_day ? null : formData.closing_time,
+    };
+
     // Client-side validation
-    if (!formData.day) {
+    if (!submitData.day) {
       toasterError("Day is required.", 2000, "id");
       return;
     }
 
-    if (!formData.closed_all_day) {
-      if (!formData.opening_time) {
+    if (!submitData.closed_all_day) {
+      if (!submitData.opening_time) {
         toasterError("Opening Time is required.", 2000, "id");
         return;
       }
-      if (!formData.closing_time) {
+      if (!submitData.closing_time) {
         toasterError("Closing Time is required.", 2000, "id");
         return;
       }
     }
 
     try {
-      const res: any = await api.post(`subadmin/business-hours/`, {
-        ...formData,
-        subadmin_profile: id,
-      });
+      const res: any = await api.post(`subadmin/business-hours/`, submitData);
 
       // Handle API response regardless of HTTP status
       if (res.data.success) {
@@ -143,31 +149,10 @@ export default function AddBusinessHour() {
                 <label className="block text-sm font-medium mb-1">
                   Opening Time
                 </label>
-                {/* <input
-                  type="time"
-                  name="opening_time"
-                  value={formData.opening_time}
-                  onChange={handleChange}
-                  className="cursor-pointer w-full border rounded-lg px-3 py-2"
-                  disabled={formData.closed_all_day}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Closing Time
-                </label>
-                <input
-                  type="time"
-                  name="closing_time"
-                  value={formData.closing_time}
-                  onChange={handleChange}
-                  className="cursor-pointer w-full border rounded-lg px-3 py-2"
-                  disabled={formData.closed_all_day}
-                /> */}
                 <input
                   type="time"
                   name="opening_time"
-                  value={formData.opening_time}
+                  value={formData.opening_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
                   className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
@@ -184,7 +169,7 @@ export default function AddBusinessHour() {
                 <input
                   type="time"
                   name="closing_time"
-                  value={formData.closing_time}
+                  value={formData.closing_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
                   className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${

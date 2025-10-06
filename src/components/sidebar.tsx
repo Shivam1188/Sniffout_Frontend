@@ -68,7 +68,7 @@ const Sidebar = () => {
     { label: "Dashboard", route: "/admin/dashboard" },
     { label: "Business", route: "/admin/restaurants" },
     { label: "Plans", route: "/admin/plans" },
-    { label: "Twillo Records", route: "/admin/twillo-records" },
+    { label: "Twilio Records", route: "/admin/twillo-records" },
   ];
 
   const subdirMenu: MenuItem[] = [
@@ -96,10 +96,10 @@ const Sidebar = () => {
         { label: "Create Tables ", route: "/subadmin/create-tables" },
       ],
     },
-    // { label: "Menu Items", route: "/subadmin/menu-items" },
+
     { label: "Catering", route: "/subadmin/catering" },
     { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },
-    { label: "UpSelling Offers", route: "/subadmin/upsells" },
+    { label: "Upselling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Subscribe", route: "/subadmin/subscribe" },
   ];
@@ -118,7 +118,7 @@ const Sidebar = () => {
             return !restrictedItems.includes(item.label);
           }
 
-          if (planName === "Standard") return true;
+          if (planName === "pro") return true;
 
           const restrictedItems = [
             "Reservation",

@@ -102,10 +102,12 @@ function Upsells() {
                   {loading ? (
                     <tr>
                       <td
-                        colSpan={3}
-                        className="py-10 text-center text-gray-500 align-middle"
+                        colSpan={6}
+                        className="py-20 text-center align-middle"
                       >
-                        <LoadingSpinner />
+                        <div className="flex justify-center items-center">
+                          <LoadingSpinner />
+                        </div>
                       </td>
                     </tr>
                   ) : List.length > 0 ? (

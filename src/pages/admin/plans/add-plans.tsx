@@ -57,14 +57,18 @@ const AddPlan = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Plan Name
                       </label>
-                      <input
+                      <select
                         name="plan_name"
                         value={form.plan_name}
                         onChange={handleChange}
-                        placeholder="Enter plan name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] cursor-pointer"
                         required
-                      />
+                      >
+                        <option value="">Select a plan</option>
+                        <option value="starter">Starter</option>
+                        <option value="pro">Pro</option>
+                        <option value="enterprise">Enterprise</option>
+                      </select>
                     </div>
 
                     {/* Description */}
@@ -111,7 +115,6 @@ const AddPlan = () => {
                       >
                         <option value="monthly">Monthly</option>
                         <option value="yearly">Yearly</option>
-                        <option value="quarterly">Quarterly</option>
                       </select>
                     </div>
 

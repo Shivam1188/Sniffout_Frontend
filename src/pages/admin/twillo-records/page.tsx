@@ -46,22 +46,34 @@ function SubadminList() {
     fetchSubadmins();
   }, []);
 
-  // Pagination calculation
-  const pageSize = list.length;
-  const getPageNumber = (url: string | null) => {
-    if (!url) return 1;
-    const params = new URL(url).searchParams;
-    return Number(params.get("page")) || 1;
+  // Fixed pagination calculation
+  const getCurrentRange = () => {
+    if (list.length === 0) return { start: 0, end: 0, currentPage: 0 };
+
+    const pageSize = 10; // Your API returns 10 items per page
+    let currentPage = 1;
+
+    // Determine current page from URL parameters
+    if (pagination.next) {
+      const nextUrl = new URL(pagination.next);
+      const pageParam = nextUrl.searchParams.get("page");
+      currentPage = pageParam ? parseInt(pageParam) - 1 : 1;
+    } else if (pagination.previous) {
+      const prevUrl = new URL(pagination.previous);
+      const pageParam = prevUrl.searchParams.get("page");
+      currentPage = pageParam ? parseInt(pageParam) + 1 : 1;
+    } else {
+      // If no next or previous, we're on page 1
+      currentPage = 1;
+    }
+
+    const startIndex = (currentPage - 1) * pageSize + 1;
+    const endIndex = Math.min(currentPage * pageSize, pagination.count);
+
+    return { start: startIndex, end: endIndex, currentPage };
   };
 
-  const currentPage = pagination.previous
-    ? getPageNumber(pagination.previous) + 1
-    : 1;
-  const start = pagination.count > 0 ? (currentPage - 1) * pageSize + 1 : 0;
-  const end =
-    start + pageSize - 1 > pagination.count
-      ? pagination.count
-      : start + pageSize - 1;
+  const { start, end } = getCurrentRange();
   const count = pagination.count;
 
   return (
@@ -86,8 +98,9 @@ function SubadminList() {
             <table className="min-w-full table-auto text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
-                  <th className="py-3 px-4 text-left">ID</th>
-                  <th className="py-3 px-4 text-left">Restaurant Name</th>
+                  <th className="py-3 px-4 text-left">SR NO.</th>
+                  <th className="py-3 px-4 text-left">Business Name</th>
+                  <th className="py-3 px-4 text-left">Email</th>
                   <th className="py-3 px-4 text-left">Phone Number</th>
                   <th className="py-3 px-4 text-center">Actions</th>
                 </tr>
@@ -100,11 +113,15 @@ function SubadminList() {
                     </td>
                   </tr>
                 ) : list.length > 0 ? (
-                  list.map((subadmin: any) => (
+                  list.map((subadmin: any, index: number) => (
                     <tr key={subadmin.id} className="hover:bg-[#f0f4ff]">
-                      <td className="py-3 px-4">{subadmin.id}</td>
+                      {/* Display index number instead of actual ID for consistent numbering */}
+                      <td className="py-3 px-4">{start + index}</td>
                       <td className="py-3 px-4">
                         {subadmin.restaurant_name || "-"}
+                      </td>{" "}
+                      <td className="py-3 px-4">
+                        {subadmin.email_address || "-"}
                       </td>
                       <td className="py-3 px-4">
                         {subadmin.phone_number || "-"}
@@ -134,13 +151,13 @@ function SubadminList() {
               </tbody>
             </table>
 
-            {/* Pagination */}
-            {(pagination.next || pagination.previous) && (
+            {/* Pagination - Show even if no next/previous but we have items */}
+            {count > 0 && (
               <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
                 <p className="text-sm text-gray-600">
                   Showing <span className="font-semibold">{start}</span>–
                   <span className="font-semibold">{end}</span> of{" "}
-                  <span className="font-semibold">{count}</span> calls
+                  <span className="font-semibold">{count}</span> subadmins
                 </p>
 
                 <div className="flex items-center space-x-2 mt-2 md:mt-0">
@@ -149,7 +166,11 @@ function SubadminList() {
                     onClick={() =>
                       pagination.previous && fetchSubadmins(pagination.previous)
                     }
-                    className="cursor-pointer px-4 py-2 border border-gray-600 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition disabled:cursor-not-allowed"
+                    className={`cursor-pointer px-4 py-2 border rounded-lg transition ${
+                      pagination.previous
+                        ? "border-gray-600 hover:bg-gray-50"
+                        : "border-gray-300 text-gray-400 cursor-not-allowed"
+                    }`}
                   >
                     Previous
                   </button>
@@ -158,7 +179,11 @@ function SubadminList() {
                     onClick={() =>
                       pagination.next && fetchSubadmins(pagination.next)
                     }
-                    className="cursor-pointer px-4 py-2 border border-gray-600 rounded-lg disabled:opacity-40 hover:bg-gray-50 transition disabled:cursor-not-allowed"
+                    className={`cursor-pointer px-4 py-2 border rounded-lg transition ${
+                      pagination.next
+                        ? "border-gray-600 hover:bg-gray-50"
+                        : "border-gray-300 text-gray-400 cursor-not-allowed"
+                    }`}
                   >
                     Next
                   </button>

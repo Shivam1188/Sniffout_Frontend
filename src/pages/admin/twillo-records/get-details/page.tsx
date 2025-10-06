@@ -55,7 +55,8 @@ export default function GetDetails() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"calls" | "sms">("calls");
   const [data, setData] = useState<ApiResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // For initial page load
+  const [tableLoading, setTableLoading] = useState(false); // For pagination loading
   const [error, setError] = useState<string | null>(null);
   const [callsPagination, setCallsPagination] = useState({
     next: null as string | null,
@@ -70,7 +71,10 @@ export default function GetDetails() {
 
   const fetchTwilioRecords = async (url?: string) => {
     try {
-      setLoading(true);
+      // Only set main loading for initial load, not for pagination
+      if (!url) {
+        setLoading(true);
+      }
       setError(null);
 
       if (!id && !url) {
@@ -124,7 +128,7 @@ export default function GetDetails() {
 
   const fetchCallsPage = async (url: string) => {
     try {
-      setLoading(true);
+      setTableLoading(true); // Only set table loading for pagination
 
       let finalUrl = url;
       if (url.startsWith("http")) {
@@ -156,13 +160,13 @@ export default function GetDetails() {
       console.error("Failed to fetch calls page", err);
       setError("Failed to load calls page");
     } finally {
-      setLoading(false);
+      setTableLoading(false);
     }
   };
 
   const fetchSmsPage = async (url: string) => {
     try {
-      setLoading(true);
+      setTableLoading(true); // Only set table loading for pagination
 
       let finalUrl = url;
       if (url.startsWith("http")) {
@@ -194,7 +198,7 @@ export default function GetDetails() {
       console.error("Failed to fetch SMS page", err);
       setError("Failed to load SMS page");
     } finally {
-      setLoading(false);
+      setTableLoading(false);
     }
   };
 
@@ -281,18 +285,56 @@ export default function GetDetails() {
       currentTab === "calls" ? data?.calls?.results : data?.sms?.results;
     const currentCount = results?.length || 0;
 
+    // Calculate the current range based on URL parameters
+    const getCurrentRange = () => {
+      if (currentCount === 0) return { start: 0, end: 0 };
+
+      const pageSize = 10; // Your API returns 10 items per page
+      let currentPage = 1;
+
+      // Determine current page from URL parameters
+      const pageParamName = currentTab === "calls" ? "calls_page" : "sms_page";
+
+      if (next) {
+        const nextUrl = new URL(next);
+        const pageParam = nextUrl.searchParams.get(pageParamName);
+        currentPage = pageParam ? parseInt(pageParam) - 1 : 1;
+      } else if (previous) {
+        const prevUrl = new URL(previous);
+        const pageParam = prevUrl.searchParams.get(pageParamName);
+        currentPage = pageParam ? parseInt(pageParam) + 1 : 1;
+      } else {
+        currentPage = 1;
+      }
+
+      const startIndex = (currentPage - 1) * pageSize + 1;
+      const endIndex = Math.min(currentPage * pageSize, count);
+
+      return { start: startIndex, end: endIndex };
+    };
+
+    const { start, end } = getCurrentRange();
+
     return (
       <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
         <div className="text-sm text-gray-600">
-          Showing {currentCount} of {count} records
+          {count > 0 ? (
+            <>
+              Showing <span className="font-semibold">{start}</span>–
+              <span className="font-semibold">{end}</span> of{" "}
+              <span className="font-semibold">{count}</span> records
+            </>
+          ) : (
+            "No records found"
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => previous && onPageChange(previous)}
-            disabled={!previous}
+            disabled={!previous || tableLoading}
             className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              previous
+              previous && !tableLoading
                 ? "bg-[#4d519e] text-white hover:bg-[#3d418e] cursor-pointer"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
@@ -303,9 +345,9 @@ export default function GetDetails() {
 
           <button
             onClick={() => next && onPageChange(next)}
-            disabled={!next}
+            disabled={!next || tableLoading}
             className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              next
+              next && !tableLoading
                 ? "bg-[#4d519e] text-white hover:bg-[#3d418e] cursor-pointer"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
@@ -497,7 +539,11 @@ export default function GetDetails() {
           {/* Calls Table */}
           {activeTab === "calls" && (
             <>
-              {calls.length > 0 ? (
+              {tableLoading ? (
+                <div className="text-center py-10">
+                  <LoadingSpinner />
+                </div>
+              ) : calls.length > 0 ? (
                 <>
                   <div className="overflow-x-auto">
                     <table className="min-w-full table-auto text-sm">
@@ -565,7 +611,11 @@ export default function GetDetails() {
           {/* SMS Table */}
           {activeTab === "sms" && (
             <>
-              {sms.length > 0 ? (
+              {tableLoading ? (
+                <div className="text-center py-10">
+                  <LoadingSpinner />
+                </div>
+              ) : sms.length > 0 ? (
                 <>
                   <div className="overflow-x-auto">
                     <table className="min-w-full table-auto text-sm">

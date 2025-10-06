@@ -41,30 +41,55 @@ export default function EditBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.day) {
+    // Prepare data for submission - override times to null if closed_all_day is true
+    const submitData = {
+      day: formData.day,
+      closed_all_day: formData.closed_all_day,
+      menu: formData.menu,
+      // Force opening_time and closing_time to null if closed_all_day is true
+      opening_time: formData.closed_all_day ? null : formData.opening_time,
+      closing_time: formData.closed_all_day ? null : formData.closing_time,
+    };
+
+    console.log("Submitting data:", submitData); // For debugging
+
+    if (!submitData.day) {
       toasterError("Day is required.", 2000, "id");
       return;
     }
 
     // Only validate times if not closed all day
-    if (!formData.closed_all_day) {
-      if (!formData.opening_time) {
+    if (!submitData.closed_all_day) {
+      if (!submitData.opening_time) {
         toasterError("Opening Time is required.", 2000, "id");
         return;
       }
-      if (!formData.closing_time) {
+      if (!submitData.closing_time) {
         toasterError("Closing Time is required.", 2000, "id");
         return;
       }
     }
 
     try {
-      await api.put(`subadmin/business-hours/${id}/`, formData);
+      await api.put(`subadmin/business-hours/${id}/`, submitData);
       toasterSuccess("Business hour updated successfully!", 2000, "id");
       navigate("/subadmin/business-hour");
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error updating business hour:", err);
-      toasterError("Failed to update business hour", 2000, "id");
+
+      // Handle actual HTTP errors (network/server issues)
+      if (err.response && err.response.data) {
+        const errorData = err.response.data;
+        toasterError(
+          errorData.error ||
+            errorData.message ||
+            "Failed to update business hour",
+          2000,
+          "id"
+        );
+      } else {
+        toasterError("Failed to update business hour", 2000, "id");
+      }
     }
   };
 
@@ -106,7 +131,7 @@ export default function EditBusinessHour() {
                 name="day"
                 value={formData.day}
                 onChange={handleChange}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full border rounded-lg px-3 py-2 cursor-pointer"
               >
                 <option value="">Select a Day</option>
                 {[
@@ -133,7 +158,7 @@ export default function EditBusinessHour() {
                 <input
                   type="time"
                   name="opening_time"
-                  value={formData.opening_time}
+                  value={formData.opening_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
                   className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
@@ -150,7 +175,7 @@ export default function EditBusinessHour() {
                 <input
                   type="time"
                   name="closing_time"
-                  value={formData.closing_time}
+                  value={formData.closing_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
                   className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
@@ -168,8 +193,9 @@ export default function EditBusinessHour() {
                 name="closed_all_day"
                 checked={formData.closed_all_day}
                 onChange={handleChange}
+                className="cursor-pointer"
               />
-              <label className="text-sm">Closed All Day</label>
+              <label className="text-sm cursor-pointer">Closed All Day</label>
             </div>
 
             <div className="flex justify-end gap-4">

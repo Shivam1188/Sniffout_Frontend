@@ -165,7 +165,7 @@ const VoiceBotDashboard = () => {
       <div className="flex-1 p-6">
         <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">
           <h1 className="text-2xl sm:text-2xl font-bold text-white">
-            Fresh Offers
+            Bulk SMS Campaign{" "}
           </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <Link

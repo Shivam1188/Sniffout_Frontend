@@ -51,7 +51,7 @@ const Sidebar = () => {
     Plans: <ClipboardList size={16} />,
     "Add Business Links": <Settings size={16} />,
     "Manage Business List": <ClipboardList size={16} />,
-    "Fresh Offers": <Gift size={16} />,
+    "Bulk SMS Campaign": <Gift size={16} />,
     "Update Profile": <User size={16} />,
     "Business Profile": <Building2 size={16} />,
     Menu: <Utensils size={16} />,

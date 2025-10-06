@@ -51,8 +51,6 @@ export default function EditBusinessHour() {
       closing_time: formData.closed_all_day ? null : formData.closing_time,
     };
 
-    console.log("Submitting data:", submitData); // For debugging
-
     if (!submitData.day) {
       toasterError("Day is required.", 2000, "id");
       return;

@@ -34,7 +34,6 @@ const VoiceBotDashboard = () => {
     try {
       // Fetch SMS fallback settings
       const smsRes = await api.get("subadmin/sms-fallback-settings/");
-      console.log("SMS API Response:", smsRes.data); // Debug log
 
       // Check if response is an array or object
       let smsData;
@@ -54,12 +53,10 @@ const VoiceBotDashboard = () => {
         setId(smsData.id);
         setIsDataLoaded(true);
         setIsFlagActive(smsData.flag); // only use flag from API
-        console.log("Flag status:", smsData.flag); // Debug log
       } else {
         // No record found → user can create a new one
         setIsDataLoaded(false);
         setIsFlagActive(true); // ✅ enable buttons
-        console.log("No SMS data found, enabling buttons"); // Debug log
       }
 
       // Fetch voice bot statistics

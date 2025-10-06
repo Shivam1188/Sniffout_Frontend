@@ -73,7 +73,10 @@ const Plans = () => {
       alert("Something went wrong while updating.");
     }
   };
-
+  const capitalizeFirstLetter = (str: string) => {
+    if (!str) return "Unnamed";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Delete Modal */}
@@ -240,7 +243,7 @@ const Plans = () => {
                     >
                       <td className="p-4">
                         <p className="font-semibold text-gray-800">
-                          {r.plan_name || "Unnamed"}
+                          {capitalizeFirstLetter(r.plan_name)}
                         </p>
                       </td>
                       <td className="p-4 whitespace-pre-wrap">

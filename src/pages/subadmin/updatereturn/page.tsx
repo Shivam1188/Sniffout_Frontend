@@ -195,13 +195,14 @@ const UpdateReturn = () => {
       const response = await api.post(`twilio_bot/api/forwarding-numbers/`, {
         phone_number: newPhoneNumber,
       });
+      console.log(response, "==re");
 
       if (response.success) {
         toasterSuccess("Phone number added successfully!", 2000, "id");
         setNewPhoneNumber("");
         fetchPhoneNumbers();
       } else {
-        toasterError("Failed to add phone number", 2000, "id");
+        toasterError("Phone number must be between 10-15 digits", 2000, "id");
       }
     } catch (err) {
       console.error(err);

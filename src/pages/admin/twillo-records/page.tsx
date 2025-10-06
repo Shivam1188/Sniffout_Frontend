@@ -159,7 +159,7 @@ function TwilloRecord() {
                         colSpan={3}
                         className="text-center py-6 text-gray-500"
                       >
-                        No Upselling Offers available.
+                        No Twillo Records available.
                       </td>
                     </tr>
                   )}

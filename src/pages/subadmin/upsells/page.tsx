@@ -101,7 +101,10 @@ function Upsells() {
                 <tbody>
                   {loading ? (
                     <tr>
-                      <td colSpan={3} className="py-10 text-center">
+                      <td
+                        colSpan={3}
+                        className="py-10 text-center text-gray-500 align-middle"
+                      >
                         <LoadingSpinner />
                       </td>
                     </tr>
@@ -158,10 +161,10 @@ function Upsells() {
                   ) : (
                     <tr>
                       <td
-                        colSpan={3}
-                        className="text-center py-6 text-gray-500"
+                        colSpan={6}
+                        className="py-10 text-center text-gray-500 align-middle"
                       >
-                        No menus available.
+                        No Upselling Offers available.
                       </td>
                     </tr>
                   )}

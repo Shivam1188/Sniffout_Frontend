@@ -32,9 +32,11 @@ function Subscribe() {
 
   const handleStatusChange = async (id: number, value: string) => {
     try {
-      const res = await api.patch(`subadmin/subscribers/${id}/`, {
-        is_active: value === "active",
-      });
+      const res = await api.patch(
+        `subadmin/subscribers/${id}/?is_active=${value}`,
+        {}
+      );
+
       if (res.success) {
         setSubscribers((prev) =>
           prev.map((s) =>

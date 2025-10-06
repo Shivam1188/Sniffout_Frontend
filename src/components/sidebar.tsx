@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BarChart2,
   LogOut,
@@ -129,6 +129,38 @@ const Sidebar = () => {
           return !restrictedItems.includes(item.label);
         });
 
+  // Handle parent menu item click
+  const handleParentMenuClick = (item: MenuItem) => {
+    if (item.hasSubmenu && item.submenu && item.submenu.length > 0) {
+      // Navigate to the first submenu item
+      navigate(item.submenu[0].route);
+      // Open the submenu
+      setOpenSubmenu(item.label);
+    }
+  };
+
+  // Auto-open submenu when path matches any submenu item
+  useEffect(() => {
+    const findParentForCurrentPath = () => {
+      for (const item of menuItems) {
+        if (item.hasSubmenu && item.submenu) {
+          const isActive = item.submenu.some(
+            (subItem) => pathname === subItem.route
+          );
+          if (isActive) {
+            return item.label;
+          }
+        }
+      }
+      return null;
+    };
+
+    const parentLabel = findParentForCurrentPath();
+    if (parentLabel) {
+      setOpenSubmenu(parentLabel);
+    }
+  }, [pathname, menuItems]);
+
   const handleLogout = async () => {
     try {
       const refreshToken = Cookies.get("refreshToken");
@@ -174,11 +206,7 @@ const Sidebar = () => {
               {item.hasSubmenu ? (
                 <>
                   <div
-                    onClick={() =>
-                      setOpenSubmenu(
-                        openSubmenu === item.label ? null : item.label
-                      )
-                    }
+                    onClick={() => handleParentMenuClick(item)}
                     className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition 
     ${
       isSubmenuActive(item.submenu)

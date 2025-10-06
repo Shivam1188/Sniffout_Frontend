@@ -37,20 +37,16 @@ function Upsells() {
     if (!deleteId) return;
     try {
       const res = await api.delete(`subadmin/upsells/${deleteId}/`);
-      // Assuming success status is in res.status or res.data.success
-      if (res.data?.success) {
+      if (res?.success) {
         toasterSuccess(
           res.data?.message || "Upsell deleted successfully",
           "2000",
           "id"
         );
 
-        // Update UI optimistically
         setList((prev) => prev.filter((item) => item.id !== deleteId));
         setShowDeleteModal(false);
         setDeleteId(null);
-
-        // If current page is empty after delete, go to previous page
       }
     } catch (err) {
       console.error("Error deleting upsell:", err);

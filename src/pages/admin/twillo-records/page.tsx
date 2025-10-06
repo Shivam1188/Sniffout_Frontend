@@ -175,7 +175,7 @@ function TwilloRecord() {
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-              Are you sure you want to delete this Upselling Offers?
+              Are you sure you want to delete this Twillio Record Offers?
             </h2>
             <div className="flex justify-center gap-4">
               <button

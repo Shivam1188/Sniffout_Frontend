@@ -12,7 +12,7 @@ function TwilloRecord() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const fetchUpsells = async (url = "superadmin/twillo-record/") => {
+  const fetchUpsells = async (url = "superadmin/twilio-records/") => {
     try {
       setLoading(true);
       const res = await api.get(url);
@@ -38,7 +38,7 @@ function TwilloRecord() {
     try {
       const res = await api.delete(`subadmin/upsells/${deleteId}/`);
       // Assuming success status is in res.status or res.data.success
-      if (res.status === 204 || res.data?.success) {
+      if (res.data?.success) {
         toasterSuccess(
           res.data?.message || "Upsell deleted successfully",
           "2000",

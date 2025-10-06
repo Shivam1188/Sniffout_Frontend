@@ -41,7 +41,7 @@ const Sidebar = () => {
   const role = Cookies.get("role");
   const planName = Cookies.get("plan_name");
   const planExpiry = Cookies.get("plan_expiry_date");
-  const [isBusinessProfileOpen, setIsBusinessProfileOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
 
@@ -86,12 +86,18 @@ const Sidebar = () => {
         { label: "Feedback Questions", route: "/subadmin/feedback" },
       ],
     },
-
+    {
+      label: "Reservation",
+      route: "/subadmin/reservation",
+      hasSubmenu: true,
+      submenu: [
+        { label: "Reservation", route: "/subadmin/reservation" },
+        { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
+        { label: "Create Tables ", route: "/subadmin/create-tables" },
+      ],
+    },
     // { label: "Menu Items", route: "/subadmin/menu-items" },
     { label: "Catering", route: "/subadmin/catering" },
-    { label: "Reservation", route: "/subadmin/reservation" },
-    { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
-    { label: "Create Tables ", route: "/subadmin/create-tables" },
     { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },
     { label: "UpSelling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
@@ -169,14 +175,16 @@ const Sidebar = () => {
                 <>
                   <div
                     onClick={() =>
-                      setIsBusinessProfileOpen(!isBusinessProfileOpen)
+                      setOpenSubmenu(
+                        openSubmenu === item.label ? null : item.label
+                      )
                     }
                     className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition 
-                      ${
-                        isSubmenuActive(item.submenu)
-                          ? "bg-white text-[#1d3faa] font-semibold"
-                          : "hover:bg-[#5e5696]"
-                      }`}
+    ${
+      isSubmenuActive(item.submenu)
+        ? "bg-white text-[#1d3faa] font-semibold"
+        : "hover:bg-[#5e5696]"
+    }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
@@ -188,25 +196,25 @@ const Sidebar = () => {
                       </div>
                       <span>{item.label}</span>
                     </div>
-                    {isBusinessProfileOpen ? (
+                    {openSubmenu === item.label ? (
                       <ChevronDown size={16} />
                     ) : (
                       <ChevronRight size={16} />
                     )}
                   </div>
 
-                  {isBusinessProfileOpen && item.submenu && (
+                  {openSubmenu === item.label && item.submenu && (
                     <div className="ml-6 mt-1 space-y-1">
                       {item.submenu.map((subItem) => (
                         <Link
                           to={subItem.route}
                           key={subItem.label}
                           className={`flex items-center gap-3 p-2 rounded cursor-pointer transition text-sm
-                            ${
-                              pathname === subItem.route
-                                ? "bg-white text-[#1d3faa] font-semibold"
-                                : "hover:bg-[#5e5696]"
-                            }`}
+          ${
+            pathname === subItem.route
+              ? "bg-white text-[#1d3faa] font-semibold"
+              : "hover:bg-[#5e5696]"
+          }`}
                         >
                           <div
                             className={`w-6 flex justify-center ${

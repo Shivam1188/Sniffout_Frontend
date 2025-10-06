@@ -38,7 +38,7 @@ function Upsells() {
     try {
       const res = await api.delete(`subadmin/upsells/${deleteId}/`);
       // Assuming success status is in res.status or res.data.success
-      if (res.status === 204 || res.data?.success) {
+      if (res.data?.success) {
         toasterSuccess(
           res.data?.message || "Upsell deleted successfully",
           "2000",

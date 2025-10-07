@@ -57,7 +57,7 @@ const Sidebar = () => {
     Menu: <Utensils size={16} />,
     "Menu Items": <FileText size={16} />,
     "Business Hours": <Clock size={16} />,
-    "Feedback Questions": <MessageSquare size={16} />,
+    Feedback: <MessageSquare size={16} />,
     "Set No of Tables": <Table size={16} />,
     "Create Tables ": <Table size={16} />,
     Reservation: <Calendar size={16} />,
@@ -83,7 +83,7 @@ const Sidebar = () => {
         { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
         { label: "Manage Business List", route: "/subadmin/list" },
         { label: "Menu", route: "/subadmin/menu" },
-        { label: "Feedback Questions", route: "/subadmin/feedback" },
+        { label: "Feedback", route: "/subadmin/feedback" },
       ],
     },
     // {
@@ -102,7 +102,6 @@ const Sidebar = () => {
     { label: "Upselling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Subscribe", route: "/subadmin/subscribe" },
-    { label: "FeedBack Ratings", route: "/subadmin/feedback-ratings" },
   ];
 
   const menuItems =

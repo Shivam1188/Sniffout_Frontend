@@ -60,7 +60,6 @@ import AddUpsells from "./pages/subadmin/upsells/add-upsells/page.tsx";
 import EditUpsells from "./pages/subadmin/upsells/edit-upsells/page.tsx";
 import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
 import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
-import FeedbackRatings from "./pages/subadmin/feedback-ratings/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -199,15 +198,6 @@ const AppRouter = () => {
             }
           />
 
-          <Route
-            path="/subadmin/feedback-ratings"
-            element={
-              <ProtectedRoute
-                allowedRole="subdir"
-                element={<FeedbackRatings />}
-              />
-            }
-          />
           <Route
             path="/subadmin/upsells/add-upsells"
             element={

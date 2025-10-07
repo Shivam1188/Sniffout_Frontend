@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
+import { capitalizeFirstLetter } from "../../../utils/captilize";
 
 const PlansDetails = () => {
   const [plans, setPlans] = useState([]);
@@ -132,7 +133,7 @@ const PlansDetails = () => {
                           <div className="flex items-center gap-3">
                             <div>
                               <p className="font-semibold text-gray-800">
-                                {r.plan_name || "Unnamed"}
+                                {capitalizeFirstLetter(r.plan_name)}
                               </p>
                             </div>
                           </div>

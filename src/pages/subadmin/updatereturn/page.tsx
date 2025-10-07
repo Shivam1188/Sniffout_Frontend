@@ -151,37 +151,23 @@ const UpdateReturn = () => {
     }
   };
 
-  // Function to validate phone number format
   const validatePhoneNumber = (phone: string): boolean => {
-    // Remove all non-digit and non-plus characters first
     const cleaned = phone.replace(/[^\d+]/g, "");
-
-    // Check if plus is only at the beginning
     if (cleaned.includes("+") && cleaned.indexOf("+") !== 0) {
       return false;
     }
-
-    // Remove plus for digit count check
     const digitsOnly = cleaned.replace("+", "");
-
-    // Check if we have between 10-15 digits (including country code)
     return digitsOnly.length >= 10 && digitsOnly.length <= 15;
   };
 
-  // Function to format phone number for display
   const formatPhoneNumber = (phone: string): string => {
-    // Remove all non-digit and non-plus characters
     const cleaned = phone.replace(/[^\d+]/g, "");
-
-    // If there's a plus, ensure it's only at the beginning
     if (cleaned.includes("+")) {
       const plusIndex = cleaned.indexOf("+");
       if (plusIndex === 0) {
-        // Plus is at beginning - valid
         const digitsAfterPlus = cleaned.slice(1).replace(/\D/g, "");
         return `+${digitsAfterPlus}`;
       } else {
-        // Plus is not at beginning - remove it
         return cleaned.replace(/\+/g, "");
       }
     }
@@ -193,12 +179,12 @@ const UpdateReturn = () => {
     if (!e.target.files || e.target.files.length === 0) return;
 
     const file = e.target.files[0];
-    setProfileImage(URL.createObjectURL(file)); // For instant preview
+    setProfileImage(URL.createObjectURL(file));
 
     if (!isEditing) return;
 
     try {
-      setSaving(true); // Set saving state to true when uploading
+      setSaving(true);
 
       const formData = new FormData();
       formData.append("profile_image", file);
@@ -215,13 +201,13 @@ const UpdateReturn = () => {
       if (!response.ok) throw new Error("Failed to update profile image");
 
       const data = await response.json();
-      setProfileImage(data.profile_image_url || ""); // Update the profile image URL if successful
+      setProfileImage(data.profile_image_url || "");
       toasterSuccess("Profile image updated successfully!", 2000, "id");
     } catch (err) {
       console.error(err);
       toasterError("Failed to upload profile image", 2000, "id");
     } finally {
-      setSaving(false); // Reset saving state after the upload
+      setSaving(false);
     }
   };
 
@@ -705,22 +691,51 @@ const UpdateReturn = () => {
                       {label}
                     </label>
                     <input
-                      type="text"
+                      type={name === "office_number" ? "tel" : "text"}
                       name={name}
-                      value={(profile as any)[name] || ""}
-                      onChange={handleChange}
+                      value={
+                        name === "office_number"
+                          ? formatPhoneNumber((profile as any)[name] || "")
+                          : (profile as any)[name] || ""
+                      }
+                      onChange={(e) => {
+                        if (name === "office_number") {
+                          // For office number, format the input in real-time
+                          const formatted = formatPhoneNumber(e.target.value);
+                          setProfile((prev) => ({
+                            ...prev,
+                            [name]: formatted,
+                          }));
+                        } else {
+                          handleChange(e);
+                        }
+                      }}
+                      onBlur={(e) => {
+                        if (name === "office_number") {
+                          // Final formatting when user leaves the field
+                          const formatted = formatPhoneNumber(e.target.value);
+                          setProfile((prev) => ({
+                            ...prev,
+                            [name]: formatted,
+                          }));
+                        }
+                      }}
                       className={`w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none 
-  ${
-    name === "email_address" || name === "phone_number"
-      ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-      : "focus:ring-2 focus:ring-[#fe6a3c]"
-  }
-`}
+          ${
+            name === "email_address" || name === "phone_number"
+              ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+              : "focus:ring-2 focus:ring-[#fe6a3c]"
+          }
+        `}
                       readOnly={
                         name === "email_address" ||
                         name === "phone_number" ||
                         !isEditing
                       }
+                      placeholder={
+                        name === "office_number" ? "+1234567890" : ""
+                      }
+                      maxLength={16} // Prevent too long inputs
                     />
                   </div>
                 ))}

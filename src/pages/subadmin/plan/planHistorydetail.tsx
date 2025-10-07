@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../../lib/Api";
 import { FileText, ChevronLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { capitalizeFirstLetter } from "../../../utils/captilize";
 
 export default function PlanHistorydetail() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ export default function PlanHistorydetail() {
               >
                 <div className="w-full sm:w-1/2">
                   <p className="text-lg font-semibold text-gray-800">
-                    {item.plan_name}
+                    {capitalizeFirstLetter(item.plan_name)}
                   </p>
                   <p className="text-sm text-gray-500">
                     {new Date(item.date_display).toLocaleDateString("en-US", {
@@ -86,14 +87,6 @@ export default function PlanHistorydetail() {
             <p className="text-sm text-gray-500">No billing history found.</p>
           )}
         </div>
-
-        {history.length > 0 && (
-          <div className="flex justify-center pt-6">
-            <button className="px-6 py-2 bg-[#fe6a3c] text-white font-medium rounded-lg shadow-md hover:bg-[#fe6a3c]/90 transition duration-200">
-              Load More Invoices
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

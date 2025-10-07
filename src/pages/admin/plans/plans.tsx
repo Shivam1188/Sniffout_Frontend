@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
+import { capitalizeFirstLetter } from "../../../utils/captilize";
 
 const Plans = () => {
   const [plans, setPlans] = useState([]);
@@ -73,10 +74,7 @@ const Plans = () => {
       alert("Something went wrong while updating.");
     }
   };
-  const capitalizeFirstLetter = (str: string) => {
-    if (!str) return "Unnamed";
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
+
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* Delete Modal */}

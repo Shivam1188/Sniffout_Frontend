@@ -136,7 +136,7 @@ function SubadminList() {
                           className="text-green-600 cursor-pointer p-2 hover:bg-green-50 rounded"
                           title="View Twilio Records"
                         >
-                          <EyeIcon size={18} />
+                          <EyeIcon size={24} />
                         </button>
                       </td>
                     </tr>

@@ -171,14 +171,14 @@ const Restaurants = () => {
           </div>
 
           <div className="overflow-x-auto rounded-lg  bg-white shadow-sm">
-            <table className="min-w-full text-sm text-gray-700 responsive-tab">
+            <table className="min-w-full text-base text-gray-700 responsive-tab">
               <thead>
-                <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600">
-                  <th className="p-4">Business Name</th>
-                  <th className="p-4">Owner/Contact</th>
-                  <th className="p-4">Contact Info</th>
-                  <th className="p-4">Phone Number</th>
-                  <th className="p-4">Plan Type</th>
+                <tr className="bg-[#f3f4f6] text-base uppercase text-gray-600">
+                  <th className="py-4 ">Business Name</th>
+                  <th className="py-4">Owner/Contact</th>
+                  <th className="py-4">Contact Info</th>
+                  <th className="py-4">Phone Number</th>
+                  <th className="py-4">Plan Type</th>
                 </tr>
               </thead>
               <tbody>
@@ -204,7 +204,7 @@ const Restaurants = () => {
                               {r.email?.charAt(0).toUpperCase() || "U"}
                             </div>
                           )}
-                          <span className="font-semibold">
+                          <span className="font-semibold text-xs sm:text-sm md:text-base">
                             {r.restaurant_name || "NOT UPDATED YET"}
                           </span>
                         </div>
@@ -221,7 +221,7 @@ const Restaurants = () => {
                           {r.phone_number || "N/A"}
                         </p>
                       </td>
-                      <td className="p-4 flex items-center gap-3">
+                      <td className="p-4 flex items-center gap-3 justify-between w-full sm:w-3/4">
                         <span>{r.phone_number || "N/A"}</span>
 
                         <button
@@ -314,7 +314,7 @@ const Restaurants = () => {
               of <span className="font-semibold">{count}</span> business
             </p>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mt-2 sm:mt-0">
               <button
                 disabled={currentPage === 1}
                 onClick={() => fetchData(currentPage - 1)}

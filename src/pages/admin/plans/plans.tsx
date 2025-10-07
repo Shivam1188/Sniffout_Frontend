@@ -183,7 +183,7 @@ const Plans = () => {
       {/* Main Content */}
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center md:items-center text-center md:text-left mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>
               <h2 className="text-2xl font-bold text-[#1d3faa]">Plans</h2>
               <p className="text-sm text-gray-500 mt-1">Manage all Plans</p>
@@ -191,7 +191,7 @@ const Plans = () => {
             <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
               <Link
                 to="/admin/plans/add-plans"
-                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition"
+                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
               >
                 + Add Plans
               </Link>
@@ -254,11 +254,11 @@ const Plans = () => {
                         </span>
                       </td>
                       <td className="p-4">
-                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] px-2 py-1 rounded-full">
+                        <span className="text-sm font-semibold bg-[#fe6a3c]/10 text-[#fe6a3c] pl-2 py-1 rounded-full">
                           {r.call_limit} Calls
                           <button
                             onClick={() => openEditModal(r)}
-                            className="ml-3 cursor-pointer px-2 py-1.5 text-xs bg-[#fe6a3c] text-white rounded hover:bg-[#fe6a3c]/90 transition"
+                            className="ml-3 cursor-pointer px-2 py-1 text-xs bg-[#fe6a3c] text-white rounded-full hover:bg-[#fe6a3c]/90 transition"
                           >
                             Edit
                           </button>
@@ -272,13 +272,13 @@ const Plans = () => {
                       <td className="p-4 text-center">
                         <Link
                           to={`/admin/plans/edit-plans/${r.id}`}
-                          className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                          className="cursor-pointer px-4 py-2 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
                         >
                           Edit
                         </Link>
                         <button
                           onClick={() => openDeleteModal(r)}
-                          className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200"
+                          className="cursor-pointer px-4 py-2 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200"
                         >
                           Delete
                         </button>

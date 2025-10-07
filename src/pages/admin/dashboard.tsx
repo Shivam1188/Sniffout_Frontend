@@ -416,7 +416,7 @@ const AdminDashboard = () => {
                           className="w-10 h-10 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
+                        <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold text-sm sm:text-base md:text-lg">
                           {item.email
                             ? item.email.charAt(0).toUpperCase()
                             : "U"}

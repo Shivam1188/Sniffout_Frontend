@@ -451,7 +451,7 @@ export default function GetDetails() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
           <div className="bg-white p-4 rounded-2xl shadow-lg border-l-4 border-green-500">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 rounded-lg">

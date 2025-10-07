@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import LoadingSpinner from "../../../components/Loader";
 
@@ -20,7 +20,6 @@ function FeedbackRatings() {
   const [previous, setPrevious] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10; // or whatever your API page size is
-  const totalPages = Math.ceil(count / pageSize);
 
   const fetchRatings = async (url: string = "subadmin/feedback-ratings") => {
     try {

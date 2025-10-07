@@ -197,6 +197,7 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<CraeteTables />} />
             }
           />
+
           <Route
             path="/subadmin/upsells/add-upsells"
             element={

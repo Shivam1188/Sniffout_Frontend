@@ -53,7 +53,9 @@ function Subscribe() {
       // Create CSV content
       const csvContent = [
         headers.join(","),
-        ...csvData.map((row) => row.map((field) => `"${field}"`).join(",")),
+        ...csvData.map((row: any) =>
+          row.map((field: any) => `"${field}"`).join(",")
+        ),
       ].join("\n");
 
       // Create and download file

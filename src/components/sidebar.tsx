@@ -102,6 +102,7 @@ const Sidebar = () => {
     { label: "Upselling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Subscribe", route: "/subadmin/subscribe" },
+    { label: "FeedBack Ratings", route: "/subadmin/feedback-ratings" },
   ];
 
   const menuItems =

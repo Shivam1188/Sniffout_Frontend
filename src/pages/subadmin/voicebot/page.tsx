@@ -15,11 +15,21 @@ const VoiceBotDashboard = () => {
   const [message, setMessage] = useState("");
   const [previewMessage, setPreviewMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [savingmsg, setSavingmsg] = useState(false);
+  const [savingsms, setSavingsms] = useState(false);
+
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [idUpdate, setId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFlagActive, setIsFlagActive] = useState(true);
+  const [isFlagActive, setIsFlagActive] = useState(false); // Changed default to false
+
+  // New state for SMS fallback status
+  const [smsFallbackStatus, setSmsFallbackStatus] = useState({
+    scheduled_date_time: "",
+    restaurant_name: "",
+    flag: false,
+    status: "",
+  });
 
   const [restaurantName, setRestaurantName] = useState("");
   const [uniqueCallersCount, setUniqueCallersCount] = useState(0);
@@ -52,25 +62,38 @@ const VoiceBotDashboard = () => {
         setPreviewMessage(smsData.processed_message || smsData.message || "");
         setId(smsData.id);
         setIsDataLoaded(true);
-        setIsFlagActive(smsData.flag); // only use flag from API
+        setIsFlagActive(smsData.flag);
       } else {
         // No record found → user can create a new one
         setIsDataLoaded(false);
-        setIsFlagActive(true); // ✅ enable buttons
+        setIsFlagActive(false); // ✅ enable buttons when no data
       }
 
-      // Fetch voice bot statistics
+      // Fetch voice bot statistics and SMS fallback status
       const statsRes = await api.get("subadmin/send-fallback-sms/");
       const statsData = statsRes.data;
+
       setRestaurantName(statsData.restaurant_name);
       setUniqueCallersCount(statsData.unique_callers_count);
       setRecentCallersPreview(statsData.recent_callers_preview);
       setTotalCallRecords(statsData.total_call_records);
+
+      // Set SMS fallback status from the response
+      if (statsData.flag !== undefined) {
+        setSmsFallbackStatus({
+          scheduled_date_time: statsData.scheduled_date_time || "",
+          restaurant_name: statsData.restaurant_name || "",
+          flag: statsData.flag,
+          status: statsData.status || "",
+        });
+        // Update the flag state based on the API response
+        setIsFlagActive(statsData.flag);
+      }
     } catch (err) {
       console.error(err);
       toasterError("Failed to load data", 2000, "id");
       setIsDataLoaded(false);
-      setIsFlagActive(true); // fallback: keep buttons usable
+      setIsFlagActive(false); // fallback: enable buttons on error
     } finally {
       setLoading(false);
     }
@@ -87,7 +110,7 @@ const VoiceBotDashboard = () => {
     }
 
     try {
-      setSaving(true);
+      setSavingmsg(true);
 
       if (isDataLoaded) {
         const res = await api.put(
@@ -117,20 +140,19 @@ const VoiceBotDashboard = () => {
         );
         setMessage("");
         setIsDataLoaded(true);
-        setIsFlagActive(false);
         setId(previewRes.data.id);
       }
     } catch (err) {
       console.error(err);
       toasterError("Failed to update SMS fallback message", 2000, "id");
     } finally {
-      setSaving(false);
+      setSavingmsg(false);
     }
   };
 
   const handleSMS = async () => {
     try {
-      setSaving(true);
+      setSavingsms(true);
 
       if (isDataLoaded) {
         const res = await api.post(`subadmin/send-fallback-sms/`, null);
@@ -153,12 +175,19 @@ const VoiceBotDashboard = () => {
       console.error(err);
       toasterError("Failed to send SMS", 2000, "id");
     } finally {
-      setSaving(false);
+      setSavingsms(false);
     }
   };
 
-  // Disable state for all buttons
-  const isDisabled = !isFlagActive;
+  // Disable state for all buttons - now disabled when API flag is true
+  const isDisabled = isFlagActive;
+
+  // Format date for display
+  const formatScheduledDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
@@ -186,17 +215,17 @@ const VoiceBotDashboard = () => {
             <div className="col-span-3 space-y-2">
               <div className="bg-white p-6 rounded-xl shadow border-l-4 border-[#1d3faa]">
                 <h2 className="text-lg font-bold text-[#1d3faa] mb-2">
-                  SMS Fallback Settings
+                  Bulk SMS Settings
                 </h2>
 
-                {/* Status Indicator */}
-                {isDisabled && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                {/* Status Indicator - Show when flag is true (SMS scheduled) */}
+                {isDisabled && smsFallbackStatus.flag && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
                           <svg
-                            className="w-4 h-4 text-red-600"
+                            className="w-4 h-4 text-yellow-600"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -209,12 +238,27 @@ const VoiceBotDashboard = () => {
                         </div>
                       </div>
                       <div className="ml-3">
-                        <h3 className="text-sm font-medium text-red-800">
-                          SMS Functionality Disabled
+                        <h3 className="text-sm font-medium text-yellow-800">
+                          SMS Functionality Temporarily Disabled
                         </h3>
-                        <p className="text-sm text-red-600 mt-1">
-                          SMS features are currently disabled because an event
-                          is already scheduled.{" "}
+                        <p className="text-sm text-yellow-600 mt-1">
+                          SMS features are currently disabled because an SMS
+                          fallback has been scheduled for{" "}
+                          {smsFallbackStatus.scheduled_date_time && (
+                            <strong>
+                              {formatScheduledDate(
+                                smsFallbackStatus.scheduled_date_time
+                              )}
+                            </strong>
+                          )}
+                          . The system will automatically re-enable after the
+                          scheduled event.
+                        </p>
+                        <p className="text-xs text-yellow-500 mt-2">
+                          Status:{" "}
+                          <span className="font-medium">
+                            {smsFallbackStatus.status || "scheduled"}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -276,10 +320,11 @@ const VoiceBotDashboard = () => {
                     </div>
                   </div>
                 </div>
+
                 <EventModal
                   isOpen={isModalOpen}
                   onClose={() => setIsModalOpen(false)}
-                  onSuccess={() => fetchData()} // <-- call fetchData after successful schedule
+                  onSuccess={() => fetchData()} // Refresh data after scheduling
                 />
 
                 <div className="bg-gray-100 p-4 rounded text-sm mb-6">
@@ -296,10 +341,10 @@ const VoiceBotDashboard = () => {
                     </button>
                     <button
                       onClick={handleSMS}
-                      disabled={saving || isDisabled}
+                      disabled={savingsms || isDisabled}
                       className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {saving ? "Sending..." : "SEND SMS"}
+                      {savingsms ? "Sending..." : "SEND SMS"}
                     </button>
                   </div>
                 </div>
@@ -307,7 +352,7 @@ const VoiceBotDashboard = () => {
                 {/* Message Update Section */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Update SMS Fallback Message
+                    Update SMS
                   </label>
                   <textarea
                     className={`w-full p-4 rounded-lg border focus:ring-2 outline-none text-sm text-gray-800 placeholder-gray-400 transition duration-300 shadow-sm ${
@@ -316,7 +361,7 @@ const VoiceBotDashboard = () => {
                         : "border-gray-300 focus:border-[#1d3faa] focus:ring-[#1d3faa]"
                     }`}
                     rows={4}
-                    placeholder="Enter your fallback message here..."
+                    placeholder="Enter your message here..."
                     value={message}
                     onChange={handleChange}
                     disabled={isDisabled}
@@ -326,10 +371,10 @@ const VoiceBotDashboard = () => {
                 <div className="text-right">
                   <button
                     onClick={handleSave}
-                    disabled={saving || isDisabled}
+                    disabled={savingmsg || isDisabled || !message.trim()}
                     className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {saving
+                    {savingmsg
                       ? "Saving..."
                       : isDataLoaded
                       ? "Save Changes"

@@ -125,7 +125,7 @@ export default function AddUpsell() {
                       onChange={handleChange}
                       required
                       className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
-                      placeholder="Discounted offer price"
+                      placeholder="offer price"
                     />
                   </div>
 

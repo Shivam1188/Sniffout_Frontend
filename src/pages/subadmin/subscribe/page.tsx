@@ -10,6 +10,7 @@ function Subscribe() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [exportLoading, setExportLoading] = useState(false);
   const pageSize = 10;
 
   useEffect(() => {
@@ -28,6 +29,57 @@ function Subscribe() {
       setLoading(false);
     }
   };
+
+  const exportToExcel = async () => {
+    try {
+      setExportLoading(true);
+
+      // Fetch all subscribers data
+      const res = await api.get(
+        `subadmin/subscribers/?page=1&page_size=${count}`
+      );
+      const allSubscribers = res.data?.results || [];
+
+      // Convert to CSV format
+      const headers = ["Name", "Email", "Phone", "Status", "Created At"];
+      const csvData = allSubscribers.map((subscriber: any) => [
+        subscriber.name || "",
+        subscriber.email || "",
+        subscriber.phone_number || "",
+        subscriber.is_active ? "Active" : "Inactive",
+        subscriber.created_at?.substring(0, 10) || "",
+      ]);
+
+      // Create CSV content
+      const csvContent = [
+        headers.join(","),
+        ...csvData.map((row) => row.map((field) => `"${field}"`).join(",")),
+      ].join("\n");
+
+      // Create and download file
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `subscribers_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      link.style.visibility = "hidden";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toasterSuccess("Subscribers exported successfully!", 2000, "id");
+    } catch (err) {
+      console.error("Failed to export subscribers", err);
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
   const totalPages = Math.ceil(count / pageSize);
 
   const handleStatusChange = async (id: number, value: string) => {
@@ -61,10 +113,38 @@ function Subscribe() {
               Subscribers
             </h1>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+            <button
+              onClick={exportToExcel}
+              disabled={exportLoading || count === 0}
+              className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold rounded-full shadow-md transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              {exportLoading ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  Exporting...
+                </>
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Export All List
+                </>
+              )}
+            </button>
             <Link
               to={"/subadmin/dashboard"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center"
             >
               Back To Dashboard
             </Link>
@@ -94,9 +174,14 @@ function Subscribe() {
 
         {/* Table */}
         <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] mb-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1d3faa] mb-6">
-            Subscribers List
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+            <h2 className="text-lg sm:text-xl font-bold text-[#1d3faa] mb-4 sm:mb-0">
+              Subscribers List
+            </h2>
+            <div className="text-sm text-gray-600">
+              Total: <span className="font-semibold">{count}</span> subscribers
+            </div>
+          </div>
 
           <div className="overflow-x-auto rounded-xl border border-gray-100">
             <table className="min-w-[800px] w-full table-auto text-sm text-gray-700">
@@ -112,7 +197,7 @@ function Subscribe() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="py-10 text-center">
+                    <td colSpan={5} className="text-center">
                       <LoadingSpinner />
                     </td>
                   </tr>

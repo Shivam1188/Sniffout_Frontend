@@ -86,16 +86,16 @@ const Sidebar = () => {
         { label: "Feedback Questions", route: "/subadmin/feedback" },
       ],
     },
-    {
-      label: "Reservation",
-      route: "/subadmin/reservation",
-      hasSubmenu: true,
-      submenu: [
-        { label: "Reservation", route: "/subadmin/reservation" },
-        { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
-        { label: "Create Tables ", route: "/subadmin/create-tables" },
-      ],
-    },
+    // {
+    //   label: "Reservation",
+    //   route: "/subadmin/reservation",
+    //   hasSubmenu: true,
+    //   submenu: [
+    //     { label: "Reservation", route: "/subadmin/reservation" },
+    //     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
+    //     { label: "Create Tables ", route: "/subadmin/create-tables" },
+    //   ],
+    // },
 
     { label: "Catering", route: "/subadmin/catering" },
     { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },

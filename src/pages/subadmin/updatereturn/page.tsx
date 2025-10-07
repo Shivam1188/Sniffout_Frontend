@@ -151,6 +151,44 @@ const UpdateReturn = () => {
     }
   };
 
+  // Function to validate phone number format
+  const validatePhoneNumber = (phone: string): boolean => {
+    // Remove all non-digit and non-plus characters first
+    const cleaned = phone.replace(/[^\d+]/g, "");
+
+    // Check if plus is only at the beginning
+    if (cleaned.includes("+") && cleaned.indexOf("+") !== 0) {
+      return false;
+    }
+
+    // Remove plus for digit count check
+    const digitsOnly = cleaned.replace("+", "");
+
+    // Check if we have between 10-15 digits (including country code)
+    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  };
+
+  // Function to format phone number for display
+  const formatPhoneNumber = (phone: string): string => {
+    // Remove all non-digit and non-plus characters
+    const cleaned = phone.replace(/[^\d+]/g, "");
+
+    // If there's a plus, ensure it's only at the beginning
+    if (cleaned.includes("+")) {
+      const plusIndex = cleaned.indexOf("+");
+      if (plusIndex === 0) {
+        // Plus is at beginning - valid
+        const digitsAfterPlus = cleaned.slice(1).replace(/\D/g, "");
+        return `+${digitsAfterPlus}`;
+      } else {
+        // Plus is not at beginning - remove it
+        return cleaned.replace(/\+/g, "");
+      }
+    }
+
+    return cleaned;
+  };
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -188,12 +226,26 @@ const UpdateReturn = () => {
   };
 
   const handleAddPhoneNumber = async () => {
-    if (!newPhoneNumber.trim()) return;
+    const formattedNumber = formatPhoneNumber(newPhoneNumber);
+
+    if (!formattedNumber.trim()) {
+      toasterError("Please enter a valid phone number", 2000, "id");
+      return;
+    }
+
+    if (!validatePhoneNumber(formattedNumber)) {
+      toasterError(
+        "Phone number must be between 10-15 digits with optional + at start",
+        2000,
+        "id"
+      );
+      return;
+    }
 
     try {
       setPhoneLoading(true);
       const response = await api.post(`twilio_bot/api/forwarding-numbers/`, {
-        phone_number: newPhoneNumber,
+        phone_number: formattedNumber,
       });
       console.log(response, "==re");
 
@@ -202,7 +254,7 @@ const UpdateReturn = () => {
         setNewPhoneNumber("");
         fetchPhoneNumbers();
       } else {
-        toasterError("Phone number must be between 10-15 digits", 2000, "id");
+        toasterError("Failed to add phone number", 2000, "id");
       }
     } catch (err) {
       console.error(err);
@@ -213,10 +265,26 @@ const UpdateReturn = () => {
   };
 
   const handleUpdatePhoneNumber = async (id: number, updatedNumber: string) => {
+    const formattedNumber = formatPhoneNumber(updatedNumber);
+
+    if (!formattedNumber.trim()) {
+      toasterError("Please enter a valid phone number", 2000, "id");
+      return;
+    }
+
+    if (!validatePhoneNumber(formattedNumber)) {
+      toasterError(
+        "Phone number must be between 10-15 digits with optional + at start",
+        2000,
+        "id"
+      );
+      return;
+    }
+
     try {
       setPhoneLoading(true);
       await api.put(`twilio_bot/api/forwarding-numbers/${id}/`, {
-        phone_number: updatedNumber,
+        phone_number: formattedNumber,
       });
       toasterSuccess("Phone number updated!", 2000, "id");
       fetchPhoneNumbers();
@@ -233,6 +301,22 @@ const UpdateReturn = () => {
   ) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle phone number input change with validation
+  const handlePhoneInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Allow only numbers and plus at the beginning
+    const formatted = formatPhoneNumber(value);
+    setNewPhoneNumber(formatted);
+  };
+
+  // Handle phone number edit input change
+  const handleEditPhoneChange = (value: string, idx: number) => {
+    const formatted = formatPhoneNumber(value);
+    const updated = [...phoneNumbers];
+    updated[idx].phone_number = formatted;
+    setPhoneNumbers(updated);
   };
 
   const validateForm = () => {
@@ -388,18 +472,19 @@ const UpdateReturn = () => {
 
           <div className="flex gap-2 mb-4 flex-col sm:flex-row md:flex-col lg:flex-row">
             <input
-              type="number"
-              placeholder="Add new phone number"
+              type="tel"
+              placeholder="Add new phone number (e.g., +1234567890)"
               value={newPhoneNumber}
-              onChange={(e) => setNewPhoneNumber(e.target.value)}
+              onChange={handlePhoneInputChange}
               className="flex-1 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
             />
             <button
               type="button"
               onClick={handleAddPhoneNumber}
-              className="bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] cursor-pointer"
+              disabled={phoneLoading}
+              className="bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] cursor-pointer disabled:opacity-50"
             >
-              Add New Number
+              {phoneLoading ? "Adding..." : "Add New Number"}
             </button>
           </div>
 
@@ -417,17 +502,12 @@ const UpdateReturn = () => {
                       <input
                         type="tel"
                         value={item.phone_number}
-                        onChange={(e) => {
-                          const onlyNums = e.target.value.replace(
-                            /[^0-9+]/g,
-                            ""
-                          );
-                          const updated = [...phoneNumbers];
-                          updated[idx].phone_number = onlyNums;
-                          setPhoneNumbers(updated);
-                        }}
+                        onChange={(e) =>
+                          handleEditPhoneChange(e.target.value, idx)
+                        }
                         className="flex-1 border rounded px-2 py-1"
                         readOnly={editingIndex !== item.id}
+                        placeholder="+1234567890"
                       />
 
                       <div className="flex gap-2">
@@ -441,7 +521,7 @@ const UpdateReturn = () => {
                               );
                               setEditingIndex(null);
                             }}
-                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                           >
                             Save
                           </button>

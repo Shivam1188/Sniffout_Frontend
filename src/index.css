@@ -40,15 +40,12 @@ option {
   min-width: 200px;
 }
 
-
 @layer base {
-
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
 }
-
 
 /* For Chrome, Edge, Safari */
 input[type="date"]::-webkit-calendar-picker-indicator,
@@ -56,7 +53,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   /* makes dark icon → white */
   cursor: pointer;
-  
 }
 
 /* For Firefox (only works partially) */
@@ -65,3 +61,6 @@ input[type="time"] {
   color-scheme: black;
 }
 
+.plan-sidebar {
+  width: 300px;
+}

@@ -512,7 +512,7 @@ export default function GetDetails() {
         {/* Tabs */}
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-            <div className="flex space-x-1 mb-4 sm:mb-0">
+            <div className="flex justify-center sm:justify-start space-x-1 mb-4 sm:mb-0">
               <button
                 onClick={() => setActiveTab("calls")}
                 className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${

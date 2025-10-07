@@ -181,7 +181,7 @@ const Plans = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full plan-sidebar">
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row justify-center md:justify-between items-center md:items-center text-center md:text-left mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>

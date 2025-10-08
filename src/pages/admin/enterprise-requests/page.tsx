@@ -79,7 +79,7 @@ const EnterPriseRequests = () => {
                     </td>
                   </tr>
                 ) : (
-                  requests.map((request: any, index) => (
+                  requests.map((request: any) => (
                     <tr
                       key={request.id}
                       className={`border-b border-gray-100 transition hover:bg-gray-50`}

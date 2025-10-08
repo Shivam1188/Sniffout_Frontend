@@ -62,13 +62,13 @@ export default function AddUpsell() {
           <div className="min-h-screen flex items-center justify-center px-2 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
               <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                <h2 className="text-xl sm:text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
                   Add Upselling Offer
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Offer On Product
                     </label>
                     <input
@@ -77,13 +77,13 @@ export default function AddUpsell() {
                       value={formData.offer_on_product}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 text-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="e.g., Veg Cheese Burger"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Upsell Product
                     </label>
                     <input
@@ -92,13 +92,13 @@ export default function AddUpsell() {
                       value={formData.upsell_product}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 text-white py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 text-black py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="e.g., Extra Cheese Burst Upgrade"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Price (₹)
                     </label>
                     <input
@@ -108,13 +108,13 @@ export default function AddUpsell() {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Original price"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Offer Price (₹)
                     </label>
                     <input
@@ -124,13 +124,13 @@ export default function AddUpsell() {
                       value={formData.offer_price}
                       onChange={handleChange}
                       required
-                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="offer price"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Description
                     </label>
                     <textarea
@@ -138,13 +138,13 @@ export default function AddUpsell() {
                       value={formData.description}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="E.g., Add extra cheese to your burger for just ₹30!"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-1">
+                    <label className="block text-sm font-medium text-black mb-1">
                       Special Offer Link
                     </label>
                     <input
@@ -152,7 +152,7 @@ export default function AddUpsell() {
                       name="special_offer_link"
                       value={formData.special_offer_link}
                       onChange={handleChange}
-                      className="text-white w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="https://example.com/offer"
                     />
                   </div>

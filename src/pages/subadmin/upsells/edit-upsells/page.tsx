@@ -96,7 +96,7 @@ export default function EditUpsell() {
           <div className="min-h-screen flex items-center justify-center px-2 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
               <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                <h2 className="text-xl sm:text-4xl font-extrabold text-black dark:text-white text-center mb-8 animate-slideInDown">
+                <h2 className="text-xl sm:text-3xl font-extrabold text-black dark:text-white text-center mb-8 animate-slideInDown">
                   Edit Upselling Offer
                 </h2>
 

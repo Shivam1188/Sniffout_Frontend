@@ -119,7 +119,7 @@ function Catering() {
               to={"/subadmin/catering/add-catering"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
-              Add Catering
+              Add Catering vnvgnvn
             </Link>
           </div>
 

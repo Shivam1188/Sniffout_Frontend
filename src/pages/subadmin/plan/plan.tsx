@@ -26,9 +26,7 @@ const PlansDetails = () => {
     fetchData();
   }, []);
 
-  // Filter plans based on selected tab
   const filteredPlans = plans.filter((plan: any) => {
-    // Assuming duration is a string like 'monthly' or 'yearly' (adjust if different)
     return plan.duration.toLowerCase() === selectedDuration;
   });
 
@@ -71,7 +69,6 @@ const PlansDetails = () => {
                 Back To Dashboard
               </Link>
 
-              {/* Overlay and toggle buttons for mobile unchanged */}
               <label
                 htmlFor="sidebar-toggle"
                 className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"

@@ -69,6 +69,7 @@ const Sidebar = () => {
     { label: "Business", route: "/admin/restaurants" },
     { label: "Plans", route: "/admin/plans" },
     { label: "Twilio Records", route: "/admin/twillo-records" },
+    { label: "Enterprise Requests", route: "/admin/enterprise-requests" },
   ];
 
   const subdirMenu: MenuItem[] = [

@@ -60,6 +60,7 @@ import AddUpsells from "./pages/subadmin/upsells/add-upsells/page.tsx";
 import EditUpsells from "./pages/subadmin/upsells/edit-upsells/page.tsx";
 import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
 import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
+import EnterPriseRequests from "./pages/admin/enterprise-requests/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -111,6 +112,15 @@ const AppRouter = () => {
           <Route
             path="/admin/plans"
             element={<ProtectedRoute allowedRole="admin" element={<Plans />} />}
+          />{" "}
+          <Route
+            path="/admin/enterprise-requests"
+            element={
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<EnterPriseRequests />}
+              />
+            }
           />
           <Route
             path="/admin/plans/add-plans"

@@ -236,12 +236,14 @@ const App = () => {
                 {displayed.map((item: any, index) => (
                   <div
                     key={index}
-                    className="flex justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100"
+                    className="flex md:flex-row flex-col justify-between items-center p-4 rounded-xl bg-gray-50 hover:bg-[#f0f4ff] transition border border-gray-100 gap-3"
                   >
                     <div>
                       <p className="font-semibold text-gray-800">
                         📞 Call SID:{" "}
-                        <span className="text-gray-600">{item.call_sid}</span>
+                        <span className="text-gray-600 break-all">
+                          {item.call_sid}
+                        </span>
                       </p>
                       <p className="text-sm text-gray-500">
                         Status: {item.status}

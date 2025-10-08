@@ -448,10 +448,10 @@ const UpdateReturn = () => {
         </div>
 
         <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8">
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
+          <label className="block text-xl font-medium text-gray-700 mb-1">
             Forwarding Phone Numbers
           </label>
-          <h3>
+          <h3 className="tet-[#817979] text-base mt-0 mb-4">
             You can add additional phone numbers to activate the call forwarding
             feature
           </h3>
@@ -462,13 +462,13 @@ const UpdateReturn = () => {
               placeholder="Add new phone number (e.g., +1234567890)"
               value={newPhoneNumber}
               onChange={handlePhoneInputChange}
-              className="flex-1 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+              className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-800 dark:text-white bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
             />
             <button
               type="button"
               onClick={handleAddPhoneNumber}
               disabled={phoneLoading}
-              className="bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] cursor-pointer disabled:opacity-50"
+              className="bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] cursor-pointer disabled:opacity-50 font-medium text-sm"
             >
               {phoneLoading ? "Adding..." : "Add New Number"}
             </button>
@@ -483,7 +483,7 @@ const UpdateReturn = () => {
                   {phoneNumbers.map((item: any, idx: any) => (
                     <li
                       key={item.id}
-                      className="flex items-center flex-col sm:justify-between sm:gap-0 gap-5 sm:flex-row justify-start bg-gray-100 px-4 py-2 rounded-lg shadow-sm"
+                      className="flex items-center flex-col sm:justify-between sm:gap-0 gap-5 sm:flex-row justify-start bg-gray-100 px-4 py-2 rounded-lg shadow-sm "
                     >
                       <input
                         type="tel"
@@ -491,11 +491,10 @@ const UpdateReturn = () => {
                         onChange={(e) =>
                           handleEditPhoneChange(e.target.value, idx)
                         }
-                        className="flex-1 border rounded px-2 py-1"
+                        className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-800 dark:text-white bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200 w-full"
                         readOnly={editingIndex !== item.id}
                         placeholder="+1234567890"
                       />
-
                       <div className="flex gap-2">
                         {editingIndex === item.id ? (
                           <button
@@ -507,7 +506,7 @@ const UpdateReturn = () => {
                               );
                               setEditingIndex(null);
                             }}
-                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            className="cursor-pointer sm:ml-10 ml-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 font-medium text-sm"
                           >
                             Save
                           </button>
@@ -516,7 +515,7 @@ const UpdateReturn = () => {
                             <button
                               type="button"
                               onClick={() => setEditingIndex(item.id)}
-                              className="cursor-pointer ml-10 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61]"
+                              className="cursor-pointer ml-0 sm:ml-2 bg-[#fe6a3c] text-white px-4 py-2 rounded-lg hover:bg-[#fd8f61] font-medium text-sm"
                             >
                               Edit
                             </button>
@@ -524,7 +523,7 @@ const UpdateReturn = () => {
                             <button
                               type="button"
                               onClick={() => handleDeletePhoneNumber(item.id)}
-                              className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                              className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 font-medium"
                             >
                               Delete
                             </button>
@@ -559,7 +558,7 @@ const UpdateReturn = () => {
                     <button
                       disabled={!prevPage}
                       onClick={() => fetchPhoneNumbers(page - 1)}
-                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 font-medium"
                     >
                       Prev
                     </button>
@@ -567,7 +566,7 @@ const UpdateReturn = () => {
                     <button
                       disabled={!nextPage}
                       onClick={() => fetchPhoneNumbers(page + 1)}
-                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40"
+                      className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 font-medium"
                     >
                       Next
                     </button>
@@ -594,7 +593,7 @@ const UpdateReturn = () => {
               <div className="flex justify-end">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className=" cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
+                  className=" cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61] "
                 >
                   Edit
                 </button>
@@ -743,7 +742,7 @@ const UpdateReturn = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2 items-center gap-2">
+              <label className="flex text-sm font-semibold text-gray-700 mb-2 items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-[#fe6a3c]"
@@ -776,7 +775,7 @@ const UpdateReturn = () => {
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                    className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 font-medium"
                     disabled={saving}
                   >
                     Cancel
@@ -784,7 +783,7 @@ const UpdateReturn = () => {
 
                   <button
                     type="submit"
-                    className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
+                    className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61] font-medium"
                     disabled={saving}
                   >
                     {saving ? "Saving..." : "Save Changes"}

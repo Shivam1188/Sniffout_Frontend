@@ -306,7 +306,7 @@ function Feedback() {
                         <th className="py-3 px-4 text-left">Question 1</th>
                         <th className="py-3 px-4 text-left">Question 2</th>
                         <th className="py-3 px-4 text-left">Question 3</th>
-                        <th className="py-3 px-4 text-center">Actions</th>
+                        <th className="py-3 px-4 text-end">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -357,7 +357,7 @@ function Feedback() {
                             <td className="py-3 px-4 text-left">
                               {menu.feedback_question3}
                             </td>
-                            <td className="py-3 px-4 text-center space-x-4">
+                            <td className="py-3 px-4 text-end space-x-4">
                               <button
                                 onClick={() =>
                                   navigate(`/subadmin/edit-feedback/${menu.id}`)
@@ -516,13 +516,13 @@ function Feedback() {
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleDelete}
-                className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition font-medium"
               >
                 Yes, Delete
               </button>
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
+                className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition font-medium"
               >
                 No, Cancel
               </button>

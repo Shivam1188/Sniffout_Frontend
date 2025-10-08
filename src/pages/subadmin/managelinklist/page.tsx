@@ -184,7 +184,7 @@ const ManageLinks = () => {
             )}
             <Link
               to={"/subadmin/dashboard"}
-              className="px-5 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
+              className="px-5 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-md shadow-md text-center sm:text-left"
             >
               Back To Dashboard
             </Link>

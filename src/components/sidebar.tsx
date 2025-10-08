@@ -282,7 +282,7 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      <div className="">
+      <div className="absolute w-[95%] left-0 mt-[-42px] ml-[6px] bottom-[5px] ">
         <hr className="border-[#ffffff3d] mb-3" />
 
         <div

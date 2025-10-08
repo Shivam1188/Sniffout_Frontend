@@ -399,7 +399,7 @@ export default function GetDetails() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 mx-auto max-w-6xl w-full">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 mx-auto  w-full">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-[#4d519e] gap-4 p-4 rounded-2xl mb-6">
           <div className="flex items-center gap-4">

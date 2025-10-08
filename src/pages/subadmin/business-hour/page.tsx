@@ -110,7 +110,7 @@ export default function BusinessHoursList() {
                 onClick={() =>
                   navigate("/subadmin/business-hour/add-business-hour")
                 }
-                className="cursor-pointer text-sm text-white sm:px-5 lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                className="cursor-pointer text-sm text-white sm:px-5 font-medium lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
               >
                 <Plus size={16} className="inline mr-2" /> Add Business Hours
               </button>
@@ -123,7 +123,7 @@ export default function BusinessHoursList() {
                     {/* <th className="py-3 px-4 text-left">Menu</th> */}
                     <th className="py-3 px-4 text-left">Day</th>
                     <th className="py-3 px-4 text-left">Time</th>
-                    <th className="py-3 px-4 text-center">Actions</th>
+                    <th className="py-3 px-4 text-end">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -144,7 +144,7 @@ export default function BusinessHoursList() {
                             ? "Closed All Day"
                             : `${item.opening_time} - ${item.closing_time}`}
                         </td>
-                        <td className="py-3 px-4 text-center space-x-4">
+                        <td className="py-3 px-4 text-end space-x-4 ">
                           <button
                             onClick={() =>
                               navigate(
@@ -190,13 +190,13 @@ export default function BusinessHoursList() {
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleDelete}
-                className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                className="cursor-pointer bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition font-medium"
               >
                 Yes, Delete
               </button>
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
+                className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition font-medium"
               >
                 No, Cancel
               </button>

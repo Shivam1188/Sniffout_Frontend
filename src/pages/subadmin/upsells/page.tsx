@@ -123,7 +123,7 @@ function Upsells() {
                         </td>
                         <td className="py-3 px-4">{menu.upsell_product}</td>
                         <td className="py-3 px-4">
-                          ₹{menu.price} (Offer: ₹{menu.offer_price})
+                          {menu.price} (Offer: {menu.offer_price})
                         </td>
                         <td className="py-3 px-4 whitespace-pre-wrap">
                           {menu.description}

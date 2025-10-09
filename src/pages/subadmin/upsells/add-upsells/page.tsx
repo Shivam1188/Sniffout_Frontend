@@ -99,7 +99,7 @@ export default function AddUpsell() {
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
-                      Price (₹)
+                      Price
                     </label>
                     <input
                       type="number"
@@ -115,7 +115,7 @@ export default function AddUpsell() {
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-1">
-                      Offer Price (₹)
+                      Offer Price
                     </label>
                     <input
                       type="number"
@@ -139,7 +139,7 @@ export default function AddUpsell() {
                       onChange={handleChange}
                       rows={3}
                       className="w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
-                      placeholder="E.g., Add extra cheese to your burger for just ₹30!"
+                      placeholder="E.g., Add extra cheese to your burger for just 30!"
                     />
                   </div>
 

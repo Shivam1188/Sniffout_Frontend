@@ -133,7 +133,7 @@ export default function EditUpsell() {
 
                   <div>
                     <label className="block text-sm font-medium text-black mb-1">
-                      Price (₹)
+                      Price
                     </label>
                     <input
                       type="number"
@@ -149,7 +149,7 @@ export default function EditUpsell() {
 
                   <div>
                     <label className="block text-sm font-medium text-black mb-1">
-                      Offer Price (₹)
+                      Offer Price
                     </label>
                     <input
                       type="number"

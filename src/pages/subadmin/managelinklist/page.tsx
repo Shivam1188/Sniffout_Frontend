@@ -161,7 +161,7 @@ const ManageLinks = () => {
             {!isEditing && records.length > 0 && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="cursor-pointer bg-green-500 text-white px-5 py-2 rounded-md shadow-md"
+                className="cursor-pointer bg-green-500 text-white px-5 py-2 rounded-md shadow-md font-bold"
               >
                 Edit
               </button>

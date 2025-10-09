@@ -173,7 +173,7 @@ export default function EditUpsell() {
                       onChange={handleChange}
                       rows={3}
                       className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
-                      placeholder="E.g., Add extra cheese to your burger for just ₹30!"
+                      placeholder="E.g., Add extra cheese to your burger for just 30!"
                     />
                   </div>
 

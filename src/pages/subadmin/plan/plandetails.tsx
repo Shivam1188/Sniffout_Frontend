@@ -191,10 +191,10 @@ export default function PlansDet() {
           {isEnterprisePlan ? (
             // Enterprise Plan - Show form openly
             <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-800 text-center">
+              <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
                 Enterprise Plan Inquiry
               </h2>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-center mb-4">
                 Please fill out the form below and our sales team will contact
                 you shortly to discuss custom enterprise solutions for your
                 business.

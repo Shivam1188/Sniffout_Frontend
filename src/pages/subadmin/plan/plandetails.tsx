@@ -12,7 +12,8 @@ export default function PlansDet() {
   const token = Cookies.get("token");
   const [plans, setPlans] = useState<any>({});
   const [userPlan, setUserPlan] = useState<any>({});
-
+  const [isCancelled, setIsCancelled] = useState(false); // ✅ New state for cancellation
+  const [successMsg, setSuccessMsg] = useState(""); // ✅ For popup message
   // Form state for enterprise plan - updated field names to match new API
   const [formData, setFormData] = useState({
     name: "",
@@ -46,7 +47,6 @@ export default function PlansDet() {
       console.error("Error fetching user plan", error);
     }
   };
-
   useEffect(() => {
     fetchUserPlan();
   }, []);
@@ -88,8 +88,34 @@ export default function PlansDet() {
       console.error("Add failed", err);
     }
   };
+  const handleCancelSubscription = async () => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/superadmin/cancel-subscription/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  // Handle form input changes
+      const data = await response.json();
+
+      if (data.success) {
+        setIsCancelled(true);
+        setSuccessMsg("Your subscription has been successfully cancelled.");
+        setTimeout(() => setSuccessMsg(""), 5000);
+        fetchUserPlan();
+      } else {
+        alert("Failed to cancel subscription. Please try again.");
+      }
+    } catch (err) {
+      console.error("Cancel failed", err);
+      alert("Error occurred while cancelling. Please try again later.");
+    }
+  };
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -100,7 +126,6 @@ export default function PlansDet() {
     }));
   };
 
-  // Handle form submission for enterprise plan - updated API endpoint and field mapping
   const handleEnterpriseSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -137,7 +162,6 @@ export default function PlansDet() {
     }
   };
 
-  // Check if the plan is enterprise
   const isEnterprisePlan = plans.plan_name
     ?.toLowerCase()
     .includes("enterprise");
@@ -164,6 +188,11 @@ export default function PlansDet() {
               htmlFor="sidebar-toggle"
               className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
             ></label>
+            {successMsg && (
+              <div className="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-bounce">
+                {successMsg}
+              </div>
+            )}
 
             {/* Toggle Button (Arrow) */}
             <label
@@ -332,7 +361,6 @@ export default function PlansDet() {
               </form>
             </div>
           ) : (
-            // Regular Plan - Show all details
             <div className="bg-gray-50 text-gray-800 space-y-8 font-inter">
               <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
                 <div className="bg-white p-6 rounded-2xl shadow-lg space-y-6 border border-gray-100">
@@ -341,33 +369,45 @@ export default function PlansDet() {
                   </h2>
 
                   {userPlan.plan_name ? (
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                      <div className="flex items-center gap-4">
-                        <div className="bg-[#fe6a3c]/20 text-[#fe6a3c] p-3 rounded-full">
-                          <CheckCircle size={24} />
+                    <>
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                          <div className="bg-[#fe6a3c]/20 text-[#fe6a3c] p-3 rounded-full">
+                            <CheckCircle size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-lg">
+                              {userPlan.plan_name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                              Expires on:{" "}
+                              {new Date(
+                                userPlan.expiration_date
+                              ).toLocaleDateString()}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              Remaining days: {userPlan.message}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg">
-                            {userPlan.plan_name}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            Expires on:{" "}
-                            {new Date(
-                              userPlan.expiration_date
-                            ).toLocaleDateString()}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Remaining days: {userPlan.message}
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="text-right space-y-1">
-                        <p className="text-2xl font-bold text-[#fe6a3c]">
-                          Active: {userPlan.has_active_plan ? "Yes" : "No"}
-                        </p>
+                        <div className="text-right space-y-1">
+                          <p className="text-2xl font-bold text-[#fe6a3c]">
+                            Active: {userPlan.has_active_plan ? "Yes" : "No"}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                      {!isCancelled && (
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 border-t border-gray-200">
+                          <button
+                            onClick={handleCancelSubscription}
+                            className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#fe6a3c]/90 transition w-full sm:w-auto"
+                          >
+                            CANCEL SUBSCRIPTION
+                          </button>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <p className="text-sm text-gray-500">
                       You do not have an active plan.

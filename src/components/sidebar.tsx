@@ -43,7 +43,11 @@ const Sidebar = () => {
   const planExpiry = Cookies.get("plan_expiry_date");
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+  // Check if plan is expired or expires today
   const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
+  const isPlanExpiringToday = planExpiry
+    ? new Date().toDateString() === new Date(planExpiry).toDateString()
+    : false;
 
   const iconMap: { [key: string]: React.ReactElement } = {
     Dashboard: <Home size={16} />,
@@ -109,17 +113,19 @@ const Sidebar = () => {
     role === "admin"
       ? adminMenu
       : subdirMenu.filter((item) => {
-          if (isPlanExpired) {
+          if (isPlanExpired && !isPlanExpiringToday) {
             const restrictedItems = [
               "Reservation",
               "Set No of Tables",
               "Create Tables ",
               "Subscribe",
+              "Upselling Offers",
             ];
             return !restrictedItems.includes(item.label);
           }
 
-          if (planName === "pro") return true;
+          // Allow all features for "pro" plan OR when plan expires today
+          if (planName === "pro" || isPlanExpiringToday) return true;
 
           const restrictedItems = [
             "Reservation",

@@ -133,7 +133,7 @@ export default function AddBusinessHour() {
                 name="day"
                 value={formData.day}
                 onChange={handleChange}
-                className="cursor-pointer w-full border rounded-lg px-3 py-2"
+                className="cursor-pointer w-full border border-[#80808026]  rounded-lg px-3 py-2 "
               >
                 <option value="">Select a day</option>
                 {daysOfWeek.map((day) => (
@@ -146,7 +146,7 @@ export default function AddBusinessHour() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 ">
                   Opening Time
                 </label>
                 <input
@@ -155,7 +155,7 @@ export default function AddBusinessHour() {
                   value={formData.opening_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
-                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                  className={`w-full border border-[#80808026]  rounded-lg px-3 py-2 cursor-pointer ${
                     formData.closed_all_day
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : "bg-white text-gray-800"
@@ -172,7 +172,7 @@ export default function AddBusinessHour() {
                   value={formData.closing_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
-                  className={`w-full border rounded-lg px-3 py-2 cursor-pointer ${
+                  className={`w-full border border-[#80808026]  rounded-lg px-3 py-2 cursor-pointer ${
                     formData.closed_all_day
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : "bg-white text-gray-800"
@@ -196,15 +196,15 @@ export default function AddBusinessHour() {
               <button
                 type="button"
                 onClick={() => navigate("/subadmin/business-hour")}
-                className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                className="cursor-pointer bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 font-medium"
               >
-                BACK
+                Back
               </button>
               <button
                 type="submit"
-                className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61]"
+                className="cursor-pointer bg-[#fe6a3c] text-white px-4 py-2 rounded hover:bg-[#fd8f61] font-medium"
               >
-                SAVE
+                Save
               </button>
             </div>
           </form>

@@ -165,7 +165,7 @@ const PlansDetails = () => {
                         <td className="p-2 text-center">
                           <Link
                             to={`/subadmin/plan/plandetails/${r.id}`}
-                            className="cursor-pointer px-6 py-4 text-xs font-medium rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2"
+                            className="cursor-pointer px-6 py-4 text-xs font-bold rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2 "
                           >
                             SEE PLAN DETAILS
                           </Link>

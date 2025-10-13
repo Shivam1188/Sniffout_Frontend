@@ -113,14 +113,14 @@ export default function EditCatering() {
           <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 animate-fadeIn ">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
               <div className="bg-white dark:bg-gray-900  rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                <h2 className="text-xl sm:text-2xl font-bold text-black text-center mb-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-black text-center mb-8 dark:text-white">
                   Edit Catering
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Customer Name */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Customer Name
                     </label>
                     <input
@@ -129,13 +129,13 @@ export default function EditCatering() {
                       value={formData.customer_name}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Customer Email */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Customer Email
                     </label>
                     <input
@@ -144,13 +144,13 @@ export default function EditCatering() {
                       value={formData.customer_email}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Customer Phone */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Customer Phone
                     </label>
                     <input
@@ -159,13 +159,13 @@ export default function EditCatering() {
                       value={formData.customer_phone}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Customer Company */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Customer Company
                     </label>
                     <input
@@ -173,13 +173,13 @@ export default function EditCatering() {
                       name="customer_company"
                       value={formData.customer_company}
                       onChange={handleChange}
-                      className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Number of Guests */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Number of Guests
                     </label>
                     <input
@@ -188,13 +188,13 @@ export default function EditCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Event Date */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Event Date
                     </label>
                     <input
@@ -204,13 +204,13 @@ export default function EditCatering() {
                       onChange={handleChange}
                       required
                       min={new Date().toISOString().split("T")[0]} // disables past dates
-                      className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Event Time */}
                   <div>
-                    <label className="text-black block text-sm font-medium mb-1">
+                    <label className="text-black block text-sm font-medium mb-1 dark:text-white">
                       Event Time
                     </label>
                     <input
@@ -219,13 +219,13 @@ export default function EditCatering() {
                       value={formData.event_time}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Special Instructions */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Special Instructions
                     </label>
                     <textarea
@@ -233,13 +233,13 @@ export default function EditCatering() {
                       value={formData.special_instructions}
                       onChange={handleChange}
                       rows={3}
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Estimated Budget
                     </label>
                     <input
@@ -249,20 +249,20 @@ export default function EditCatering() {
                       value={formData.estimated_budget}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>

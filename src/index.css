@@ -37,7 +37,7 @@ option {
   animation-delay: 0.3s;
 }
 .responsive-table td {
-  min-width: 200px;
+  min-width: 180px;
 }
 
 @layer base {
@@ -75,4 +75,9 @@ input[type="time"] {
     /* display: block; */
     flex-direction: column;
   }
+}
+.table-space td,
+th {
+  padding: 10px;
+  padding-right: 10px;
 }

@@ -462,7 +462,7 @@ const UpdateReturn = () => {
               placeholder="Add new phone number (e.g., +1234567890)"
               value={newPhoneNumber}
               onChange={handlePhoneInputChange}
-              className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-800 dark:text-white bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
+              className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200"
             />
             <button
               type="button"
@@ -491,7 +491,7 @@ const UpdateReturn = () => {
                         onChange={(e) =>
                           handleEditPhoneChange(e.target.value, idx)
                         }
-                        className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-800 dark:text-white bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200 w-full"
+                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-gray-800  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-all duration-200 w-full"
                         readOnly={editingIndex !== item.id}
                         placeholder="+1234567890"
                       />

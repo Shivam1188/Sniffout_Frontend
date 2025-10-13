@@ -77,7 +77,7 @@ export default function AddCatering() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Customer Name */}
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white ">
                       Customer Name
                     </label>
                     <input
@@ -86,14 +86,14 @@ export default function AddCatering() {
                       value={formData.customer_name}
                       onChange={handleChange}
                       required
-                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Enter customer name"
                     />
                   </div>
 
                   {/* Company */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Company
                     </label>
                     <input
@@ -101,14 +101,14 @@ export default function AddCatering() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Enter company name"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Email
                     </label>
                     <input
@@ -117,14 +117,14 @@ export default function AddCatering() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Enter email address"
                     />
                   </div>
 
                   {/* Phone Number */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
                       Phone Number
                     </label>
                     <input
@@ -133,14 +133,14 @@ export default function AddCatering() {
                       value={formData.phone_number}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="+1234567890"
                     />
                   </div>
 
                   {/* Number of Guests */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
                       Number of Guests
                     </label>
                     <input
@@ -149,14 +149,14 @@ export default function AddCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Enter number of guests"
                     />
                   </div>
 
                   {/* Event Date */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1">
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
                       Event Date
                     </label>
                     <input
@@ -166,13 +166,13 @@ export default function AddCatering() {
                       onChange={handleChange}
                       required
                       min={new Date().toISOString().split("T")[0]} // disables past dates
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                     />
                   </div>
 
                   {/* Event Time */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Event Time
                     </label>
                     <input
@@ -181,13 +181,13 @@ export default function AddCatering() {
                       value={formData.event_time}
                       onChange={handleChange}
                       required
-                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                     />
                   </div>
 
                   {/* Special Instructions */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Special Instructions
                     </label>
                     <textarea
@@ -195,13 +195,13 @@ export default function AddCatering() {
                       value={formData.special_instructions}
                       onChange={handleChange}
                       rows={3}
-                      className="text-black  w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Any instructions (e.g., vegan options, outdoor setup)"
                     />
                   </div>
 
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Restaurant Notes
                     </label>
                     <textarea
@@ -209,14 +209,14 @@ export default function AddCatering() {
                       value={formData.restaurant_notes}
                       onChange={handleChange}
                       rows={3}
-                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Any Notes"
                     />
                   </div>
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
                       Estimated Budget
                     </label>
                     <input
@@ -226,21 +226,21 @@ export default function AddCatering() {
                       value={formData.estimated_budget}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
                       placeholder="Enter budget (e.g., 3500.00)"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1">
+                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="text-black  cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="text-black  cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>

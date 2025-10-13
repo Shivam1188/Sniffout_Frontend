@@ -129,7 +129,7 @@ export default function EditBusinessHour() {
                 name="day"
                 value={formData.day}
                 onChange={handleChange}
-                className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-white cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 "
+                className="w-full  border border-[#80808026] rounded-lg px-3 py-2 bg-white   cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 "
               >
                 <option value="">Select a Day</option>
                 {[
@@ -159,7 +159,7 @@ export default function EditBusinessHour() {
                   value={formData.opening_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
-                  className={`w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-white cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200${
+                  className={`w-full border border-[#80808026] rounded-lg px-3 py-2 bg-white  dark:text-white cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200${
                     formData.closed_all_day
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : "bg-white text-gray-800"
@@ -168,7 +168,7 @@ export default function EditBusinessHour() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Closing Time
+                  Closing Time vbvb
                 </label>
                 <input
                   type="time"
@@ -176,7 +176,7 @@ export default function EditBusinessHour() {
                   value={formData.closing_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
-                  className={`w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-900 text-gray-800 dark:text-white cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+                  className={`w-full border  border-[#80808026] rounded-lg px-3 py-2 bg-white  text-gray-800 cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                     formData.closed_all_day
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : "bg-white text-gray-800"

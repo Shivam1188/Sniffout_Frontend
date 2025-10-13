@@ -87,15 +87,15 @@ function MenuData() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Menu
           </h1>
           <Link
             to={"/subadmin/dashboard"}
-            className="px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
+            className="w-full md:w-auto text-center px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
           >
             Back To Dashboard
           </Link>
@@ -150,7 +150,9 @@ function MenuData() {
                 <thead>
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
                     <th className="py-3 px-4 text-left">Name</th>
-                    <th className="py-3 px-4 text-left">Description</th>
+                    <th className="py-3 px-4 text-left w-full md:w-[890px]">
+                      Description
+                    </th>
                     <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
                 </thead>

@@ -299,7 +299,7 @@ const Sidebar = () => {
           <div className="w-6 flex justify-center">
             <LogOut size={16} className="text-[#1d3faa]" />
           </div>
-          <span>Logout</span>
+          <span className="font-medium">Logout</span>
         </div>
       </div>
     </>

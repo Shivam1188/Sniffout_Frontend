@@ -110,21 +110,21 @@ function Catering() {
         </div>
 
         {/* Table */}
-        <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c]">
+        <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] table-space">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa]">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
               Catering Requests
             </h1>
             <Link
               to={"/subadmin/catering/add-catering"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center min-w-[230px]"
             >
-              Add Catering vnvgnvn
+              Add Catering
             </Link>
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-gray-100">
-            <table className="min-w-[1100px] overflow-auto w-full table-auto text-sm text-gray-700">
+            <table className="min-w-[1100px] overflow-auto w-full table-auto text-sm text-gray-700 ">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
                   <th className="py-3 px-4 text-left">Customer</th>

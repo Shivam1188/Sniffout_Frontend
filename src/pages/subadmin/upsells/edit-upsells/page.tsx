@@ -102,7 +102,7 @@ export default function EditUpsell() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Offer On Product
                     </label>
                     <input
@@ -111,13 +111,13 @@ export default function EditUpsell() {
                       value={formData.offer_on_product}
                       onChange={handleChange}
                       required
-                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                       placeholder="e.g., Veg Cheese Burger"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Upsell Product
                     </label>
                     <input
@@ -126,13 +126,13 @@ export default function EditUpsell() {
                       value={formData.upsell_product}
                       onChange={handleChange}
                       required
-                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
-                      placeholder="e.g., Extra Cheese Burst Upgrade"
+                      className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
+                      placeholder="e.g., Extra Cheese Burst Upgrade dark:text-white"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Price
                     </label>
                     <input
@@ -142,13 +142,13 @@ export default function EditUpsell() {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 text-black py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 text-black py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                       placeholder="Original price"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Offer Price
                     </label>
                     <input
@@ -158,13 +158,13 @@ export default function EditUpsell() {
                       value={formData.offer_price}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3  text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3  text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                       placeholder="offer price"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Description
                     </label>
                     <textarea
@@ -172,13 +172,13 @@ export default function EditUpsell() {
                       value={formData.description}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                       placeholder="E.g., Add extra cheese to your burger for just 30!"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
+                    <label className="block text-sm font-medium text-black mb-1 dark:text-white">
                       Special Offer Link
                     </label>
                     <input
@@ -186,7 +186,7 @@ export default function EditUpsell() {
                       name="special_offer_link"
                       value={formData.special_offer_link}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]"
+                      className="w-full px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
                       placeholder="https://example.com/offer"
                     />
                   </div>
@@ -194,7 +194,7 @@ export default function EditUpsell() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105"
+                    className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 "
                   >
                     {loading ? "Updating..." : "Update Upsell Offer"}
                   </button>

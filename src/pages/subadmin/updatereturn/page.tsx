@@ -233,7 +233,6 @@ const UpdateReturn = () => {
       const response = await api.post(`twilio_bot/api/forwarding-numbers/`, {
         phone_number: formattedNumber,
       });
-      console.log(response, "==re");
 
       if (response.success) {
         toasterSuccess("Phone number added successfully!", 2000, "id");

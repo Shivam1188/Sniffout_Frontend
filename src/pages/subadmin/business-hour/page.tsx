@@ -67,18 +67,15 @@ export default function BusinessHoursList() {
             </Link>
           </div>
 
-          {/* Overlay for mobile */}
           <label
             htmlFor="sidebar-toggle"
             className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
           ></label>
 
-          {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
             className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {/* Arrow Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

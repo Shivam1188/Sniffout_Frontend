@@ -43,7 +43,6 @@ const Sidebar = () => {
   const planExpiry = Cookies.get("plan_expiry_date");
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  // Check if plan is expired or expires today
   const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
   const isPlanExpiringToday = planExpiry
     ? new Date().toDateString() === new Date(planExpiry).toDateString()
@@ -91,16 +90,6 @@ const Sidebar = () => {
         { label: "Feedback", route: "/subadmin/feedback" },
       ],
     },
-    // {
-    //   label: "Reservation",
-    //   route: "/subadmin/reservation",
-    //   hasSubmenu: true,
-    //   submenu: [
-    //     { label: "Reservation", route: "/subadmin/reservation" },
-    //     { label: "Set No of Tables", route: "/subadmin/set-table-counting" },
-    //     { label: "Create Tables ", route: "/subadmin/create-tables" },
-    //   ],
-    // },
 
     { label: "Catering", route: "/subadmin/catering" },
     { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },
@@ -124,7 +113,6 @@ const Sidebar = () => {
             return !restrictedItems.includes(item.label);
           }
 
-          // Allow all features for "pro" plan OR when plan expires today
           if (planName === "pro" || isPlanExpiringToday) return true;
 
           const restrictedItems = [
@@ -136,17 +124,27 @@ const Sidebar = () => {
           return !restrictedItems.includes(item.label);
         });
 
-  // Handle parent menu item click
+  const toggleSubmenu = (itemLabel: string) => {
+    setOpenSubmenu(openSubmenu === itemLabel ? null : itemLabel);
+  };
+
   const handleParentMenuClick = (item: MenuItem) => {
     if (item.hasSubmenu && item.submenu && item.submenu.length > 0) {
-      // Navigate to the first submenu item
-      navigate(item.submenu[0].route);
-      // Open the submenu
-      setOpenSubmenu(item.label);
+      toggleSubmenu(item.label);
+
+      if (openSubmenu !== item.label && item.submenu.length > 0) {
+        navigate(item.submenu[0].route);
+      }
+    } else {
+      navigate(item.route);
     }
   };
 
-  // Auto-open submenu when path matches any submenu item
+  const handleArrowClick = (item: MenuItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleSubmenu(item.label);
+  };
+
   useEffect(() => {
     const findParentForCurrentPath = () => {
       for (const item of menuItems) {
@@ -231,11 +229,16 @@ const Sidebar = () => {
                       </div>
                       <span>{item.label}</span>
                     </div>
-                    {openSubmenu === item.label ? (
-                      <ChevronDown size={16} />
-                    ) : (
-                      <ChevronRight size={16} />
-                    )}
+                    <div
+                      onClick={(e) => handleArrowClick(item, e)}
+                      className="flex items-center justify-center w-6 h-6 hover:bg-gray-200 rounded"
+                    >
+                      {openSubmenu === item.label ? (
+                        <ChevronDown size={16} />
+                      ) : (
+                        <ChevronRight size={16} />
+                      )}
+                    </div>
                   </div>
 
                   {openSubmenu === item.label && item.submenu && (

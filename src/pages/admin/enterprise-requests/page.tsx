@@ -10,7 +10,6 @@ const EnterPriseRequests = () => {
     setLoading(true);
     try {
       const response = await api.get("superadmin/enterprise-requests/");
-      // Assuming the API returns an array directly or under 'results' property
       setRequests(response.data.results || response.data);
     } catch (error) {
       console.error("Error fetching enterprise requests", error);
@@ -23,7 +22,6 @@ const EnterPriseRequests = () => {
     fetchData();
   }, []);
 
-  // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",

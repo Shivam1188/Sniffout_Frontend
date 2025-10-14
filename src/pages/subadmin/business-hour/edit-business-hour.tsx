@@ -41,12 +41,10 @@ export default function EditBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Prepare data for submission - override times to null if closed_all_day is true
     const submitData = {
       day: formData.day,
       closed_all_day: formData.closed_all_day,
       menu: formData.menu,
-      // Force opening_time and closing_time to null if closed_all_day is true
       opening_time: formData.closed_all_day ? null : formData.opening_time,
       closing_time: formData.closed_all_day ? null : formData.closing_time,
     };
@@ -56,7 +54,6 @@ export default function EditBusinessHour() {
       return;
     }
 
-    // Only validate times if not closed all day
     if (!submitData.closed_all_day) {
       if (!submitData.opening_time) {
         toasterError("Opening Time is required.", 2000, "id");
@@ -75,7 +72,6 @@ export default function EditBusinessHour() {
     } catch (err: any) {
       console.error("Error updating business hour:", err);
 
-      // Handle actual HTTP errors (network/server issues)
       if (err.response && err.response.data) {
         const errorData = err.response.data;
         toasterError(
@@ -98,12 +94,10 @@ export default function EditBusinessHour() {
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Edit Business Hour
           </h1>
-          {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
             className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {/* Arrow Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

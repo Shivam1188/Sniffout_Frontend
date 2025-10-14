@@ -233,12 +233,17 @@ export default function GetDetails() {
     const statusConfig: Record<string, { class: string; text: string }> = {
       completed: { class: "bg-green-100 text-green-800", text: "Completed" },
       delivered: { class: "bg-green-100 text-green-800", text: "Delivered" },
+      "in-progress": {
+        class: "bg-gray-300 text-gray-800",
+        text: "In progress",
+      },
       failed: { class: "bg-red-100 text-red-800", text: "Failed" },
       canceled: { class: "bg-yellow-100 text-yellow-800", text: "Canceled" },
       busy: { class: "bg-orange-100 text-orange-800", text: "Busy" },
       "no-answer": { class: "bg-blue-100 text-blue-800", text: "No Answer" },
       sent: { class: "bg-blue-100 text-blue-800", text: "Sent" },
       received: { class: "bg-purple-100 text-purple-800", text: "Received" },
+      undelivered: { class: "bg-gray-300 text-gray-800", text: "Undelivered" }, // 🆕 Added
     };
 
     const config = statusConfig[status.toLowerCase()] || {

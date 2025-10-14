@@ -4,7 +4,7 @@ import API from "../lib/Api";
 import { toasterError, toasterSuccess } from "./Toaster";
 import { handleError } from "../lib/errorHandler";
 import Cookies from "js-cookie";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, X } from "lucide-react";
 
 const AuthForm = ({
   title,
@@ -35,6 +35,7 @@ const AuthForm = ({
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -230,6 +231,120 @@ const AuthForm = ({
     }
   };
 
+  const TermsAndConditionsPopup = () => {
+    if (!showTermsPopup) return null;
+
+    return (
+      <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fadeIn">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden transform transition-all duration-300 scale-100">
+          {/* Header */}
+          <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+            <h3 className="cursor-pointer text-2xl font-bold text-gray-800 dark:text-white">
+              Terms and Conditions
+            </h3>
+            <button
+              onClick={() => setShowTermsPopup(false)}
+              className="cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 overflow-y-auto max-h-[60vh]">
+            <div className="space-y-4 text-gray-600 dark:text-gray-300">
+              <p className="text-lg font-semibold text-gray-800 dark:text-white">
+                Please read these terms and conditions carefully before using
+                our service.
+              </p>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  1. Acceptance of Terms
+                </h4>
+                <p>
+                  By accessing and using this service, you accept and agree to
+                  be bound by the terms and provision of this agreement.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  2. User Responsibilities
+                </h4>
+                <p>
+                  You are responsible for maintaining the confidentiality of
+                  your account and password and for restricting access to your
+                  computer.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  3. Privacy Policy
+                </h4>
+                <p>
+                  Your privacy is important to us. Please read our Privacy
+                  Policy to understand how we collect, use, and protect your
+                  personal information.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  4. Service Modifications
+                </h4>
+                <p>
+                  We reserve the right to modify or discontinue, temporarily or
+                  permanently, the service with or without notice.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  5. Limitation of Liability
+                </h4>
+                <p>
+                  We shall not be liable for any indirect, incidental, special,
+                  consequential or punitive damages resulting from your use of
+                  the service.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
+                  6. Governing Law
+                </h4>
+                <p>
+                  These terms shall be governed by and construed in accordance
+                  with the laws of your jurisdiction.
+                </p>
+              </section>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-4">
+                <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+                  <strong>Note:</strong> By creating an account, you agree to
+                  abide by these terms and conditions. If you do not agree with
+                  any part of these terms, you may not use our service.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700">
+            <button
+              onClick={() => setShowTermsPopup(false)}
+              className="cursor-pointer px-6 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200"
+            >
+              I Understand
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] px-4 sm:px-6 lg:px-8 animate-fadeIn">
       <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
@@ -261,9 +376,12 @@ const AuthForm = ({
                     tabIndex={-1}
                   >
                     {showPassword[field.name] ? (
-                      <EyeOff size={20} />
+                      <EyeOff
+                        size={20}
+                        className="cursor-pointer text-gray-600"
+                      />
                     ) : (
-                      <Eye size={20} />
+                      <Eye size={20} className="cursor-pointer text-gray-600" />
                     )}
                   </button>
                 )}
@@ -275,6 +393,7 @@ const AuthForm = ({
               </div>
             ))}
 
+            {/* Login Button */}
             <button
               type="submit"
               disabled={loading}
@@ -282,6 +401,17 @@ const AuthForm = ({
             >
               {loading ? "Processing..." : buttonText}
             </button>
+
+            {/* 1-on-1 Appointment Button - Only show for login */}
+            {isLogin && (
+              <button
+                type="button"
+                onClick={() => navigate("/one-on-one-scheduling")}
+                className="cursor-pointer w-full bg-gradient-to-r from-[#1d3faa] via-[#2d4fbb] to-[#1d3faa] hover:from-[#2d4fbb] hover:to-[#0d2f99] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove"
+              >
+                📅 Want a 1-on-1 Appointment?
+              </button>
+            )}
           </form>
 
           {isLogin && (
@@ -304,8 +434,23 @@ const AuthForm = ({
               {linkLabel}
             </Link>
           </p>
+
+          {/* Terms and Conditions Link - Only show for login */}
+          {isLogin && (
+            <div className="text-center mt-6">
+              <button
+                type="button"
+                onClick={() => setShowTermsPopup(true)}
+                className="cursor-pointer text-sm text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+              >
+                Terms and Conditions
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      <TermsAndConditionsPopup />
     </div>
   );
 };

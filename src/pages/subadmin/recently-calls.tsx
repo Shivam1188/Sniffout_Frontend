@@ -108,50 +108,41 @@ const RecentlyCalls = () => {
       ) : (
         <>
           <div className="space-y-4">
-            {calls.map(
-              (item) => (
-                console.log(item),
-                (
-                  <div
-                    key={item.call_sid}
-                    className="p-4 border border-gray-700 bg-gray-50 rounded-xl hover:bg-[#f0f4ff] transition"
-                  >
-                    <p className="font-semibold text-gray-800">
-                      📞 Call SID:{" "}
-                      <span className="text-sm text-gray-600">
-                        {item.call_sid}
-                      </span>
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Status:{" "}
-                      <span className="font-medium capitalize">
-                        {item.status}
-                      </span>
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Duration: {item.duration ?? "N/A"} sec
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Caller Number: {item.caller_number ?? "Unknown"}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Time: {new Date(item.created_at).toLocaleString()}
-                    </p>
-                    <span className="text-xs bg-green-100 text-green-600 px-2.5 py-1 rounded-full font-medium">
-                      {item.status === "in-progress"
-                        ? `In Progress - ${item.call_sid}`
-                        : item.status === "failed"
-                        ? "Failed"
-                        : item.status === "no-answer"
-                        ? "No Answered"
-                        : item.status === "busy"
-                        ? "Busy"
-                        : "Completed"}
-                    </span>
-                  </div>
-                )
-              )
-            )}
+            {calls.map((item) => (
+              <div
+                key={item.call_sid}
+                className="p-4 border border-gray-700 bg-gray-50 rounded-xl hover:bg-[#f0f4ff] transition"
+              >
+                <p className="font-semibold text-gray-800">
+                  📞 Call SID:{" "}
+                  <span className="text-sm text-gray-600">{item.call_sid}</span>
+                </p>
+                <p className="text-sm text-gray-600">
+                  Status:{" "}
+                  <span className="font-medium capitalize">{item.status}</span>
+                </p>
+                <p className="text-sm text-gray-600">
+                  Duration: {item.duration ?? "N/A"} sec
+                </p>
+                <p className="text-sm text-gray-600">
+                  Caller Number: {item.caller_number ?? "Unknown"}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Time: {new Date(item.created_at).toLocaleString()}
+                </p>
+                <span className="text-xs bg-green-100 text-green-600 px-2.5 py-1 rounded-full font-medium">
+                  {item.status === "in-progress"
+                    ? `In Progress - ${item.call_sid}`
+                    : item.status === "failed"
+                    ? "Failed"
+                    : item.status === "no-answer"
+                    ? "No Answered"
+                    : item.status === "busy"
+                    ? "Busy"
+                    : "Completed"}
+                </span>
+              </div>
+            ))}
           </div>
 
           {(nextUrl || prevUrl) && (

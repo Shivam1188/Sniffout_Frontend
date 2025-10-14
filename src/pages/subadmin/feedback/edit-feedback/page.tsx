@@ -115,18 +115,6 @@ export default function EditFeedback() {
                     />
                   </div>
 
-                  <div>
-                    {/* <input
-                      type="hidden"
-                      name="subadmin_profile"
-                      value={formData.subadmin_profile}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
-                      placeholder="Enter Subadmin Profile ID"
-                      required
-                    /> */}
-                  </div>
-
                   <button
                     type="submit"
                     disabled={loading}

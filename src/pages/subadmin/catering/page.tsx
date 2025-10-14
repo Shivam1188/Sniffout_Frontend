@@ -55,7 +55,6 @@ function Catering() {
         setMenuList((prev) => {
           const updated = prev.filter((item) => item.id !== deleteId);
 
-          // If page becomes empty and not first page, go to previous page
           if (updated.length === 0 && currentPage > 1) {
             setCurrentPage(currentPage - 1);
           }

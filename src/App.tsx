@@ -61,6 +61,7 @@ import EditUpsells from "./pages/subadmin/upsells/edit-upsells/page.tsx";
 import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
 import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
 import EnterPriseRequests from "./pages/admin/enterprise-requests/page.tsx";
+import OnetoOneScheduling from "./pages/auth/one-on-one-scheduling.tsx";
 
 const AppRouter = () => {
   return (
@@ -84,6 +85,7 @@ const AppRouter = () => {
           }
         />
         <Route path="/auth/login" element={<Login />} />
+        <Route path="/one-on-one-scheduling" element={<OnetoOneScheduling />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />

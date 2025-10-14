@@ -37,16 +37,13 @@ export default function AddBusinessHour() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Prepare data for submission
     const submitData = {
       ...formData,
       subadmin_profile: id,
-      // If closed_all_day is true, force opening_time and closing_time to null
       opening_time: formData.closed_all_day ? null : formData.opening_time,
       closing_time: formData.closed_all_day ? null : formData.closing_time,
     };
 
-    // Client-side validation
     if (!submitData.day) {
       toasterError("Day is required.", 2000, "id");
       return;
@@ -66,7 +63,6 @@ export default function AddBusinessHour() {
     try {
       const res: any = await api.post(`subadmin/business-hours/`, submitData);
 
-      // Handle API response regardless of HTTP status
       if (res.data.success) {
         toasterSuccess("Business Hour Added Successfully", 2000, "id");
         navigate("/subadmin/business-hour");
@@ -102,12 +98,10 @@ export default function AddBusinessHour() {
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Add Business Hour
           </h1>
-          {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
             className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
-            {/* Arrow Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

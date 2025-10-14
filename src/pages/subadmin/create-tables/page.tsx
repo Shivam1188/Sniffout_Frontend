@@ -46,7 +46,6 @@ const CreateTables = () => {
     }
   };
 
-  // Open edit modal
   const handleEdit = (table: any) => {
     setEditingTable(table);
     setEditData({
@@ -56,7 +55,6 @@ const CreateTables = () => {
     setIsModalOpen(true);
   };
 
-  // Handle form change in modal
   const handleEditChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -67,7 +65,6 @@ const CreateTables = () => {
     });
   };
 
-  // Submit edit
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

@@ -1,15 +1,16 @@
-import Cookies from "js-cookie";
 import api from "../../../lib/Api";
 import { CheckCircle } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BillingHistory from "../../../components/subadmin/BillingHistory";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 export default function PlansDet() {
   const { id } = useParams();
-  const userId = Cookies.get("id");
-  const token = Cookies.get("token");
+  const userId = getDecryptedItem<string>("id");
+  const token = getDecryptedItem<string>("token");
+
   const [plans, setPlans] = useState<any>({});
   const [userPlan, setUserPlan] = useState<any>({});
   const [isCancelled, setIsCancelled] = useState(false); // ✅ New state for cancellation

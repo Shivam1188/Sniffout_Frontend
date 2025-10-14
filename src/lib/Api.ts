@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import { getDecryptedItem, setEncryptedItem } from '../utils/storageHelper';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const BASE_URL = apiUrl;
@@ -30,7 +30,7 @@ const handleResponse = async (response: Response) => {
 
 
 const refreshAccessToken = async () => {
-  const refreshToken = Cookies.get("refreshToken");
+  const refreshToken = getDecryptedItem("refreshToken");
   if (!refreshToken) return null;
 
   try {
@@ -44,7 +44,7 @@ const refreshAccessToken = async () => {
 
     const json = await res.json();
     if (res.ok && json?.data?.access) {
-      Cookies.set("token", json.data.access, { expires: 1 });
+      setEncryptedItem("token", json.data.access);
       return json.data.access;
     }
 
@@ -62,7 +62,7 @@ const request = async (
   includeToken: boolean = true,
   isFileUpload: boolean = false
 ) => {
-  const token = Cookies.get("token");
+  const token = getDecryptedItem("token");
   const headers: any = includeToken && token
     ? { Authorization: `Bearer ${token}` }
     : {};
@@ -81,7 +81,7 @@ const request = async (
   if (response.status === 401 && includeToken) {
     const newToken = await refreshAccessToken();
     if (newToken) {
-      Cookies.set("token", newToken, { expires: 1 });
+      setEncryptedItem("token", newToken);
       fetchOptions.headers = {
         ...fetchOptions.headers,
         Authorization: `Bearer ${newToken}`,

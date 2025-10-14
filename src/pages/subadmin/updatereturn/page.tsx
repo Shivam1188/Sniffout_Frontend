@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
-import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 const UpdateReturn = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  const token = Cookies.get("token");
+  const token = getDecryptedItem<string>("token");
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,7 @@ const UpdateReturn = () => {
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [prevPage, setPrevPage] = useState<string | null>(null);
   const pageSize = 10;
-  const userId = Cookies.get("id");
+  const userId = getDecryptedItem<string>("id");
 
   const [profile, setProfile] = useState({
     restaurant_name: "",

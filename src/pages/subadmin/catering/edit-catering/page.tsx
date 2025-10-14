@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
 import LoadingSpinner from "../../../../components/Loader";
+import { getDecryptedItem } from "../../../../utils/storageHelper";
 
 export default function EditCatering() {
   const navigate = useNavigate();
   const { id } = useParams(); // catering service ID from route
 
   const [formData, setFormData] = useState({
-    customer: Number(Cookies.get("subadmin_id")) || 1,
+    customer: Number(getDecryptedItem("subadmin_id")),
     customer_name: "",
     customer_email: "",
     customer_phone: "",
@@ -34,7 +34,7 @@ export default function EditCatering() {
         if (res?.data) {
           setFormData({
             customer:
-              res.data.customer || Number(Cookies.get("subadmin_id")) || 1,
+              res.data.customer || Number(getDecryptedItem("subadmin_id")),
             customer_name: res.data.customer_name || "",
             customer_email: res.data.customer_email || "",
             customer_phone: res.data.customer_phone || "",

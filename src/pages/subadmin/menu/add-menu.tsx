@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../../lib/Api"; // Adjust path as needed
-import Cookies from "js-cookie";
 import { toasterSuccess } from "../../../components/Toaster";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 export default function AddMenu() {
   const navigate = useNavigate();
-  const id = Cookies.get("id");
+  const id = getDecryptedItem<string>("id");
 
   const [formData, setFormData] = useState({
     name: "",

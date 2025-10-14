@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
-import Cookies from "js-cookie";
+import { getDecryptedItem } from "../../../../utils/storageHelper";
 
 export default function EditUpsell() {
   const navigate = useNavigate();
   const { id } = useParams(); // get upsell id from URL
-  const userid = Cookies.get("id");
-
+  const userId = getDecryptedItem<string>("id");
   const [formData, setFormData] = useState({
-    subadmin: userid,
+    subadmin: userId,
     offer_on_product: "",
     upsell_product: "",
     price: "",

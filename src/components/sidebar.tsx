@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
-import Cookies from "js-cookie";
+import { getDecryptedItem, removeEncryptedItem } from "../utils/storageHelper";
 import { toasterSuccess } from "./Toaster";
 import "../assets/css/custom.css";
 
@@ -38,14 +38,17 @@ interface MenuItem {
 const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const role = Cookies.get("role");
-  const planName = Cookies.get("plan_name");
-  const planExpiry = Cookies.get("plan_expiry_date");
+  const role = getDecryptedItem("role");
+  const planName = getDecryptedItem("plan_name");
+  const planExpiry = getDecryptedItem("plan_expiry_date");
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
-  const isPlanExpired = planExpiry ? new Date() > new Date(planExpiry) : true;
+  const isPlanExpired = planExpiry
+    ? new Date() > new Date(planExpiry as string)
+    : true;
   const isPlanExpiringToday = planExpiry
-    ? new Date().toDateString() === new Date(planExpiry).toDateString()
+    ? new Date().toDateString() ===
+      new Date(planExpiry as string).toDateString()
     : false;
 
   const iconMap: { [key: string]: React.ReactElement } = {
@@ -76,18 +79,20 @@ const Sidebar = () => {
   ];
 
   const subdirMenu: MenuItem[] = [
+    { label: "Home", route: "/subadmin/home" },
+
     { label: "Dashboard", route: "/subadmin/dashboard" },
     {
       label: "Business Profile",
       route: "/subadmin/business-profile",
       hasSubmenu: true,
       submenu: [
-        { label: "Update Profile", route: "/subadmin/update-profile" },
-        { label: "Business Hours", route: "/subadmin/business-hour" },
         { label: "Add Business Links", route: "/subadmin/manage-restaurants" },
+        { label: "Business Hours", route: "/subadmin/business-hour" },
         { label: "Manage Business List", route: "/subadmin/list" },
         { label: "Menu", route: "/subadmin/menu" },
         { label: "Feedback", route: "/subadmin/feedback" },
+        { label: "Update Profile", route: "/subadmin/update-profile" },
       ],
     },
 
@@ -168,7 +173,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const refreshToken = Cookies.get("refreshToken");
+      const refreshToken = getDecryptedItem<string>("refreshToken");
 
       if (!refreshToken) {
         console.error("No refresh token found");
@@ -182,13 +187,17 @@ const Sidebar = () => {
 
       if (response?.data?.success) {
         toasterSuccess(response?.data?.message, "2000", "id");
-        Cookies.remove("refreshToken");
-        Cookies.remove("token");
-        Cookies.remove("role");
-        Cookies.remove("id");
-        Cookies.remove("email");
-        Cookies.remove("subadmin_id");
-        Cookies.remove("plan_expiry_date");
+
+        // Remove all encrypted items
+        removeEncryptedItem("refreshToken");
+        removeEncryptedItem("token");
+        removeEncryptedItem("role");
+        removeEncryptedItem("id");
+        removeEncryptedItem("email");
+        removeEncryptedItem("subadmin_id");
+        removeEncryptedItem("plan_expiry_date");
+        removeEncryptedItem("plan_name");
+
         navigate("/auth/login");
       } else {
         console.error("Logout failed", response);

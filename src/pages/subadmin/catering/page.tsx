@@ -136,7 +136,6 @@ function Catering() {
                   <th className="py-3 px-4 text-left">Instructions</th>
                   <th className="py-3 px-4 text-left">Status</th>
                   <th className="py-3 px-4 text-left">Budget</th>
-                  <th className="py-3 px-4 text-left">Notes</th>
                   <th className="py-3 px-4 text-center">Actions</th>
                 </tr>
               </thead>
@@ -198,9 +197,7 @@ function Catering() {
                         </span>
                       </td>
                       <td className="py-3 px-4">${item.estimated_budget}</td>
-                      <td className="py-3 px-4">
-                        {item.restaurant_notes || "-"}
-                      </td>
+
                       <td className="py-3 px-4 text-center space-x-4">
                         <button
                           onClick={() =>

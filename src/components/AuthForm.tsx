@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import API from "../lib/Api";
 import { toasterError, toasterSuccess } from "./Toaster";
 import { handleError } from "../lib/errorHandler";
-import Cookies from "js-cookie";
 import { Eye, EyeOff, X } from "lucide-react";
+import { setEncryptedItem } from "../utils/storageHelper";
 
 const AuthForm = ({
   title,
@@ -151,60 +151,52 @@ const AuthForm = ({
           );
           navigate("/");
         } else if (type === "signup") {
-          // Handle signup success - user needs to verify email
           toasterSuccess(
             "Registration successful! Please check your email to activate your account.",
             5000,
             "id"
           );
-          // Redirect to login page after signup
-          setTimeout(() => {
-            navigate("/auth/login");
-          }, 2000);
+          setTimeout(() => navigate("/auth/login"), 2000);
         } else {
-          // Handle login success
-          Cookies.set("token", response?.data?.data?.tokens?.access, {
-            expires: 1,
-          });
-          Cookies.set(
-            "email",
-            response?.data?.data?.email || response?.data?.data?.user?.email,
-            { expires: 1 }
+          // ✅ Store individual encrypted items
+          setEncryptedItem("token", response?.data?.data?.tokens?.access);
+          setEncryptedItem(
+            "refreshToken",
+            response?.data?.data?.tokens?.refresh
           );
-          Cookies.set(
+          setEncryptedItem(
+            "email",
+            response?.data?.data?.email || response?.data?.data?.user?.email
+          );
+          setEncryptedItem(
             "subadmin_id",
             response?.data?.data?.subadmin_id ||
-              response?.data?.data?.user?.subadmin_id,
-            { expires: 1 }
+              response?.data?.data?.user?.subadmin_id
           );
-          Cookies.set(
+          setEncryptedItem(
             "role",
-            response.data?.data?.role || response.data?.data?.user?.role,
-            { expires: 1 }
+            response.data?.data?.role || response.data?.data?.user?.role
           );
-          Cookies.set(
+          setEncryptedItem(
             "plan_name",
             response.data?.data?.plan_name ||
-              response.data?.data?.user?.plan_name,
-            { expires: 1 }
+              response.data?.data?.user?.plan_name
           );
-          Cookies.set(
+          setEncryptedItem(
             "plan_expiry_date",
             response.data?.data?.plan_expiry_date ||
-              response.data?.data?.user?.plan_expiry_date,
-            { expires: 1 }
+              response.data?.data?.user?.plan_expiry_date
           );
-          Cookies.set("refreshToken", response?.data?.data?.tokens?.refresh, {
-            expires: 7,
-          });
-          Cookies.set(
+          setEncryptedItem(
             "id",
-            response?.data?.data?.user_id || response?.data?.data?.user?.id,
-            { expires: 7 }
+            response?.data?.data?.user_id || response?.data?.data?.user?.id
           );
 
+          // Get role for navigation
           const role =
             response.data?.data?.role || response.data?.data?.user?.role;
+
+          // ✅ Navigate based on role
           if (role === "admin") {
             navigate("/admin/dashboard");
           } else if (role === "subdir") {

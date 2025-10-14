@@ -6,12 +6,13 @@ import {
   toasterSuccess,
   toasterInfo,
 } from "../../../components/Toaster";
-import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
 import EventModal from "../../../components/EventModal";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 const VoiceBotDashboard = () => {
-  const id = Cookies.get("id");
+  const id = getDecryptedItem<string>("id");
+
   const [message, setMessage] = useState("");
   const [previewMessage, setPreviewMessage] = useState("");
   const [loading, setLoading] = useState(true);

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import Cookies from "js-cookie";
 import api from "../../../lib/Api";
 import { Link, useNavigate } from "react-router-dom";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 const Managelinks = () => {
   const navigate = useNavigate();
-  const id = Cookies.get("id");
+  const id = getDecryptedItem<string>("id");
+
   const initialFormData = {
     restaurant_name: id,
     direct_ordering_link: "",
@@ -21,7 +22,6 @@ const Managelinks = () => {
   };
   const [formData, setFormData] = useState(initialFormData);
 
-  // Update state when inputs change
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -31,19 +31,19 @@ const Managelinks = () => {
   };
 
   const isValidUrl = (url: string) => {
-    if (!url) return true; // allow empty if that's okay
+    if (!url) return true;
 
     const pattern = new RegExp(
-      "^(https?:\\/\\/)" + // require http:// or https://
-        "(?:\\S+(?::\\S*)?@)?" + // optional user:pass@
+      "^(https?:\\/\\/)" +
+        "(?:\\S+(?::\\S*)?@)?" +
         "(?:" +
-        "localhost" + // localhost
-        "|\\d{1,3}(?:\\.\\d{1,3}){3}" + // IPv4
-        "|\\[[0-9A-Fa-f:.]+\\]" + // IPv6
-        "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" + // domain name
+        "localhost" +
+        "|\\d{1,3}(?:\\.\\d{1,3}){3}" +
+        "|\\[[0-9A-Fa-f:.]+\\]" +
+        "|([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,}" +
         ")" +
-        "(?::\\d{2,5})?" + // optional port
-        "(?:[/?#][^\\s]*)?$", // path/query/fragment
+        "(?::\\d{2,5})?" +
+        "(?:[/?#][^\\s]*)?$",
       "i"
     );
 
@@ -159,7 +159,7 @@ const Managelinks = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
               />
             </div>
-            <div>
+            {/* <div>
               <label className="text-sm font-semibold text-gray-700 block mb-1">
                 DoorDash Link
               </label>
@@ -194,13 +194,16 @@ const Managelinks = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
         <div className="mx-auto py-6 space-y-8">
           <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <div className="space-y-5">
+              <h3 className="text-xl font-semibold text-gray-800">
+                Reservation Links
+              </h3>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                   Direct Reservation Link
@@ -213,7 +216,33 @@ const Managelinks = () => {
                   className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
                 />
               </div>
-              <div>
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Catering Request Form
+                  </label>
+                  <input
+                    type="text"
+                    name="catering_request_form"
+                    value={formData.catering_request_form}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Special Events Form
+                  </label>
+                  <input
+                    type="text"
+                    name="special_events_form"
+                    value={formData.special_events_form}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
+                  />
+                </div>
+              </div>
+              {/* <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
                   OpenTable Link
                 </label>
@@ -236,36 +265,7 @@ const Managelinks = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
                 />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Catering Request Form
-                </label>
-                <input
-                  type="text"
-                  name="catering_request_form"
-                  value={formData.catering_request_form}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Special Events Form
-                </label>
-                <input
-                  type="text"
-                  name="special_events_form"
-                  value={formData.special_events_form}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
-                />
-              </div>
+              </div> */}
             </div>
           </div>
 

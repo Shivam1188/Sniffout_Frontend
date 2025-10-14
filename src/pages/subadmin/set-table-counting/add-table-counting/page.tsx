@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
+import { getDecryptedItem } from "../../../../utils/storageHelper";
 
 export default function AddTableCounting() {
   const navigate = useNavigate();
-  const id = Cookies.get("subadmin_id");
-
+  const id = getDecryptedItem<string>("subadmin_id");
   const [formData, setFormData] = useState({
     number_of_tables: "",
     restaurant: Number(id),

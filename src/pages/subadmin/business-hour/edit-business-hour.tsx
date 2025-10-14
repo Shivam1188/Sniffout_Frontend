@@ -153,7 +153,7 @@ export default function EditBusinessHour() {
                   value={formData.opening_time || ""}
                   onChange={handleChange}
                   disabled={formData.closed_all_day}
-                  className={`w-full border border-[#80808026] rounded-lg px-3 py-2 bg-white  dark:text-white cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200${
+                  className={`w-full border border-[#80808026] rounded-lg px-3 py-2 bg-white  text-gray-800 cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200${
                     formData.closed_all_day
                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                       : "bg-white text-gray-800"

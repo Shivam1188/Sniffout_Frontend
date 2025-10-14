@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
-import Cookies from "js-cookie";
 import LoadingSpinner from "../../../components/Loader";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 interface LinkRecord {
   id: number;
@@ -21,7 +21,7 @@ interface LinkRecord {
 }
 
 const ManageLinks = () => {
-  const userid = Cookies.get("id");
+  const userid = getDecryptedItem<string>("id");
 
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState<LinkRecord[]>([]);
@@ -231,21 +231,19 @@ const ManageLinks = () => {
               className="bg-white rounded-2xl shadow-md p-6 mb-6 border border-gray-200"
             >
               <h2 className="font-bold text-lg mb-4">
-                {index === records.length - 1
-                  ? "Recent Business Links"
-                  : `Restaurant ID: ${rec.restaurant_name}`}
+                {index === records.length - 1 ? "Recent Business Links" : ""}
               </h2>
               {renderInput(rec, "Direct Ordering Link", "direct_ordering_link")}
-              {renderInput(rec, "DoorDash Link", "doordash_link")}
-              {renderInput(rec, "UberEats Link", "ubereats_link")}
-              {renderInput(rec, "GrubHub Link", "grubhub_link")}
+              {/* {renderInput(rec, "DoorDash Link", "doordash_link")} */}
+              {/* {renderInput(rec, "UberEats Link", "ubereats_link")} */}
+              {/* {renderInput(rec, "GrubHub Link", "grubhub_link")} */}
               {renderInput(
                 rec,
                 "Direct Reservation Link",
                 "direct_reservation_link"
               )}
-              {renderInput(rec, "OpenTable Link", "opentable_link")}
-              {renderInput(rec, "Resy Link", "resy_link")}
+              {/* {renderInput(rec, "OpenTable Link", "opentable_link")} */}
+              {/* {renderInput(rec, "Resy Link", "resy_link")} */}
               {renderInput(
                 rec,
                 "Catering Request Form",

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../../../lib/Api";
 import { toasterSuccess } from "../../../../components/Toaster";
-import Cookies from "js-cookie";
+import { getDecryptedItem } from "../../../../utils/storageHelper";
 
 export default function AddUpsell() {
   const navigate = useNavigate();
-  const userid = Cookies.get("id");
+  const userid = getDecryptedItem<string>("id");
 
   const [formData, setFormData] = useState({
     subadmin: userid,

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
+import { getDecryptedItem } from "../../../utils/storageHelper";
 
 export default function AddBusinessHour() {
   const navigate = useNavigate();
-  const id = Cookies.get("id");
+  const id = getDecryptedItem<string>("id");
   const [formData, setFormData] = useState<any>({
     day: "",
     opening_time: null,

@@ -1,5 +1,5 @@
-import Cookies from "js-cookie";
+import { getDecryptedItem } from "./storageHelper";
 
 export const getUserRole = () => {
-  return Cookies.get("role"); 
+  return getDecryptedItem("role");
 };

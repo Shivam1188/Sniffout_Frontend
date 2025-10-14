@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/auth/forgotPassword.tsx";
 import ResetPassword from "./pages/auth/reset-password.tsx";
 import ToastProvider from "./components/ToasterProvider.tsx";
-import Cookies from "js-cookie";
+import { getDecryptedItem } from "./utils/storageHelper";
 
 // Admin pages
 import Plans from "./pages/admin/plans/plans.tsx";
@@ -62,6 +62,7 @@ import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
 import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
 import EnterPriseRequests from "./pages/admin/enterprise-requests/page.tsx";
 import OnetoOneScheduling from "./pages/auth/one-on-one-scheduling.tsx";
+import Home from "./pages/subadmin/home/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -73,8 +74,8 @@ const AppRouter = () => {
         <Route
           path="/"
           element={
-            Cookies.get("token") && Cookies.get("role") ? (
-              Cookies.get("role") === "admin" ? (
+            getDecryptedItem("token") && getDecryptedItem("role") ? (
+              getDecryptedItem("role") === "admin" ? (
                 <Navigate to="/admin/dashboard" replace />
               ) : (
                 <Navigate to="/subadmin/dashboard" replace />
@@ -189,6 +190,10 @@ const AppRouter = () => {
             element={
               <ProtectedRoute allowedRole="subdir" element={<Reservation />} />
             }
+          />
+          <Route
+            path="/subadmin/home"
+            element={<ProtectedRoute allowedRole="subdir" element={<Home />} />}
           />
           <Route
             path="/subadmin/upsells"

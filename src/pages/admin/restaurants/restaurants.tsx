@@ -34,7 +34,7 @@ const Restaurants = () => {
       let url = `superadmin/restaurants/?page=${page}`;
 
       // Add filter parameters to URL
-      const params = new URLSearchParams();
+      const params: any = new URLSearchParams();
       Object.entries(filterParams).forEach(([key, value]) => {
         if (value) {
           params.append(key, value);

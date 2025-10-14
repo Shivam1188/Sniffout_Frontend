@@ -87,7 +87,9 @@ function Subscribe() {
   const handleStatusChange = async (id: number, value: string) => {
     try {
       const res = await api.patch(
-        `subadmin/subscribers/${id}/?is_active=${value}`,
+        `subadmin/subscribers/${id}/?is_active=${
+          value == "active" ? true : false
+        }`,
         {}
       );
 

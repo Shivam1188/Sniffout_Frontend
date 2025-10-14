@@ -79,9 +79,9 @@ const Sidebar = () => {
   ];
 
   const subdirMenu: MenuItem[] = [
-    { label: "Home", route: "/subadmin/home" },
+    // { label: "Home", route: "/subadmin/home" },
 
-    { label: "Dashboard", route: "/subadmin/dashboard" },
+    { label: "Home", route: "/subadmin/dashboard" },
     {
       label: "Business Profile",
       route: "/subadmin/business-profile",

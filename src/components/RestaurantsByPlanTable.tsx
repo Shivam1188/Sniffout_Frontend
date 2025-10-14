@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from "../utils/captilize";
+
 interface PlanStats {
   plan_type: string;
   restaurants: number;
@@ -52,7 +54,7 @@ const RestaurantsByPlanTable = ({ data }: Props) => {
                       }`}
                     >
                       <td className="py-6 px-4 font-medium text-left">
-                        {row.plan_type}
+                        {capitalizeFirstLetter(row.plan_type)}
                       </td>
                       <td className="py-3 px-4 text-center">
                         {row.restaurants}

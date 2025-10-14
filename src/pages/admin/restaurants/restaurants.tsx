@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
 import Restaurantscharts from "../../../components/Charts/Restaurantscharts";
+import { capitalizeFirstLetter } from "../../../utils/captilize";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState<any[]>([]);
@@ -547,7 +548,7 @@ const Restaurants = () => {
                       </td>
                       <td className="p-4">
                         <span className="px-2 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-600">
-                          {r.plan_type || "NO PLAN"}
+                          {capitalizeFirstLetter(r.plan_type) || "NO PLAN"}
                         </span>
                       </td>
                     </tr>

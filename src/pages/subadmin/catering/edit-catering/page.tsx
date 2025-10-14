@@ -239,12 +239,11 @@ export default function EditCatering() {
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white">
-                      Estimated Budget
-                    </label>
+                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white"></label>
                     <input
                       type="number"
-                      step="0.01"
+                      step="1"
+                      min="1"
                       name="estimated_budget"
                       value={formData.estimated_budget}
                       onChange={handleChange}

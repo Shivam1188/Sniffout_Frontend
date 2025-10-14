@@ -221,7 +221,8 @@ export default function AddCatering() {
                     </label>
                     <input
                       type="number"
-                      step="0.01"
+                      step="1"
+                      min="1"
                       name="estimated_budget"
                       value={formData.estimated_budget}
                       onChange={handleChange}

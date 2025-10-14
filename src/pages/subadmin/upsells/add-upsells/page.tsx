@@ -103,7 +103,8 @@ export default function AddUpsell() {
                     </label>
                     <input
                       type="number"
-                      step="0.01"
+                      step="1"
+                      min="1"
                       name="price"
                       value={formData.price}
                       onChange={handleChange}
@@ -119,7 +120,8 @@ export default function AddUpsell() {
                     </label>
                     <input
                       type="number"
-                      step="0.01"
+                      step="1"
+                      min="1"
                       name="offer_price"
                       value={formData.offer_price}
                       onChange={handleChange}

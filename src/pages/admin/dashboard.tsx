@@ -25,8 +25,13 @@ const AdminDashboard = () => {
   const [planDistributionData, setPlanDistributionData] = useState([]);
   const [planStats, setPlanStats] = useState([]);
   const [earningData, setEarningData] = useState<any>(null);
-  const [selectedPeriod, setSelectedPeriod] = useState<any>("daily");
+
+  // Separate state for each chart
+  const [expenditurePeriod, setExpenditurePeriod] = useState<any>("daily");
+  const [subscribersPeriod, setSubscribersPeriod] = useState<any>("daily");
+
   const [loading, setLoading] = useState(false);
+  const [subscribersLoading, setSubscribersLoading] = useState(false);
 
   const displayed = recentlyRes.slice(0, 4);
 
@@ -58,10 +63,10 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchEarningsData = async () => {
-      setLoading(true);
+      setSubscribersLoading(true);
       try {
         let endpoint = "";
-        switch (selectedPeriod) {
+        switch (subscribersPeriod) {
           case "daily":
             endpoint = "superadmin/earnings/daily/";
             break;
@@ -80,12 +85,12 @@ const AdminDashboard = () => {
       } catch (error) {
         console.error("Failed to fetch earnings data:", error);
       } finally {
-        setLoading(false);
+        setSubscribersLoading(false);
       }
     };
 
     fetchEarningsData();
-  }, [selectedPeriod]);
+  }, [subscribersPeriod]); // Use subscribersPeriod here
 
   useEffect(() => {
     const fetchRecentlyOnboarded = async () => {
@@ -105,7 +110,7 @@ const AdminDashboard = () => {
       setLoading(true);
       try {
         let endpoint = "";
-        switch (selectedPeriod) {
+        switch (expenditurePeriod) {
           case "daily":
             endpoint = "subadmin/earnings/daily/";
             break;
@@ -129,7 +134,7 @@ const AdminDashboard = () => {
     };
 
     fetchExpenditureData();
-  }, [selectedPeriod]);
+  }, [expenditurePeriod]); // Use expenditurePeriod here
 
   const barChartData =
     earningData?.plan_breakdown?.map((item: any) => ({
@@ -137,10 +142,10 @@ const AdminDashboard = () => {
       subscribers: item.subscribers,
     })) || [];
 
-  const getPeriodTitle = () => {
+  const getSubscribersPeriodTitle = () => {
     if (!earningData) return "Subscribers Overview";
 
-    switch (selectedPeriod) {
+    switch (subscribersPeriod) {
       case "daily":
         return `Daily Subscribers - ${earningData.date || "Today"}`;
       case "monthly":
@@ -151,8 +156,9 @@ const AdminDashboard = () => {
         return "Subscribers Overview";
     }
   };
-  const getChartTitle = () => {
-    switch (selectedPeriod) {
+
+  const getExpenditureChartTitle = () => {
+    switch (expenditurePeriod) {
       case "daily":
         return "Daily Expenditure";
       case "weekly":
@@ -204,14 +210,14 @@ const AdminDashboard = () => {
           <div className="md:col-span-3 bg-white p-6 rounded-2xl shadow-md">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
               <h2 className="text-xl font-semibold text-gray-800">
-                {getChartTitle()}
+                {getExpenditureChartTitle()}
               </h2>
 
               <div className="flex space-x-2">
                 <button
-                  onClick={() => setSelectedPeriod("daily")}
+                  onClick={() => setExpenditurePeriod("daily")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "daily"
+                    expenditurePeriod === "daily"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -219,9 +225,9 @@ const AdminDashboard = () => {
                   Daily
                 </button>
                 <button
-                  onClick={() => setSelectedPeriod("weekly")}
+                  onClick={() => setExpenditurePeriod("weekly")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "weekly"
+                    expenditurePeriod === "weekly"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -229,9 +235,9 @@ const AdminDashboard = () => {
                   Weekly
                 </button>
                 <button
-                  onClick={() => setSelectedPeriod("monthly")}
+                  onClick={() => setExpenditurePeriod("monthly")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "monthly"
+                    expenditurePeriod === "monthly"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -256,11 +262,11 @@ const AdminDashboard = () => {
                       <XAxis
                         dataKey="period"
                         tick={{ fontSize: 12, fill: "#6b7280" }}
-                        angle={selectedPeriod === "daily" ? -45 : 0}
+                        angle={expenditurePeriod === "daily" ? -45 : 0}
                         textAnchor={
-                          selectedPeriod === "daily" ? "end" : "middle"
+                          expenditurePeriod === "daily" ? "end" : "middle"
                         }
-                        height={selectedPeriod === "daily" ? 80 : undefined}
+                        height={expenditurePeriod === "daily" ? 80 : undefined}
                       />
                       <YAxis tick={{ fontSize: 12, fill: "#6b7280" }} />
                       <Tooltip
@@ -316,14 +322,14 @@ const AdminDashboard = () => {
           <div className="bg-white p-6 rounded-2xl shadow-md md:col-span-2">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
               <h2 className="text-xl font-semibold text-gray-800">
-                {getPeriodTitle()}
+                {getSubscribersPeriodTitle()}
               </h2>
 
               <div className="flex space-x-2">
                 <button
-                  onClick={() => setSelectedPeriod("daily")}
+                  onClick={() => setSubscribersPeriod("daily")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "daily"
+                    subscribersPeriod === "daily"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -331,9 +337,9 @@ const AdminDashboard = () => {
                   Daily
                 </button>
                 <button
-                  onClick={() => setSelectedPeriod("weekly")}
+                  onClick={() => setSubscribersPeriod("weekly")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "weekly"
+                    subscribersPeriod === "weekly"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -341,9 +347,9 @@ const AdminDashboard = () => {
                   Weekly
                 </button>
                 <button
-                  onClick={() => setSelectedPeriod("monthly")}
+                  onClick={() => setSubscribersPeriod("monthly")}
                   className={`cursor-pointer px-3 py-1.5 text-sm rounded-full font-medium transition-all duration-300 ${
-                    selectedPeriod === "monthly"
+                    subscribersPeriod === "monthly"
                       ? "bg-[#1d3faa] text-white shadow-md"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
@@ -353,14 +359,14 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {loading ? (
+            {subscribersLoading ? (
               <div className="h-72 flex items-center justify-center">
                 <div className="text-gray-500">Loading data...</div>
               </div>
             ) : (
               <SubscribersBarChart
                 planData={barChartData}
-                title={getPeriodTitle()}
+                title={getSubscribersPeriodTitle()}
               />
             )}
           </div>

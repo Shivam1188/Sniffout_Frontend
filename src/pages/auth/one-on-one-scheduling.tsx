@@ -122,8 +122,7 @@ const OnetoOneScheduling = () => {
         return 45;
       case "60 Mins":
         return 60;
-      case "90 Mins":
-        return 90;
+
       default:
         return 30;
     }
@@ -222,7 +221,7 @@ const OnetoOneScheduling = () => {
     };
   }, [showSuccessPopup, router]);
 
-  const timeSlots = ["30 Mins", "45 Mins", "60 Mins", "90 Mins"];
+  const timeSlots = ["30 Mins", "45 Mins", "60 Mins"];
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const calendarDays = generateCalendarDays();

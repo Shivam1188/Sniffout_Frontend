@@ -616,7 +616,7 @@ const OnetoOneScheduling = () => {
                     : "hover:scale-105 cursor-pointer"
                 }`}
               >
-                {isLoading ? "Scheduling..." : "Confirm Selection"}
+                {isLoading ? "Scheduling..." : "Schedule Meeting"}
               </button>
             </div>
           </div>

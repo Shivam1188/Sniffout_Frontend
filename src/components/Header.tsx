@@ -1,5 +1,3 @@
-import logo from "../../public/logo1.png";
-
 const Header = () => {
   const handleBack = () => {
     window.location.href = "https://www.sniffout.io/";

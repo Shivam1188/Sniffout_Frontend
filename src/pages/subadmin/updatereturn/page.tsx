@@ -38,7 +38,7 @@ const UpdateReturn = () => {
     zip_code: "",
     country: "",
     website_url: "",
-    google_map_link: "",
+    location_link: "",
   });
 
   const [profileImage, setProfileImage] = useState<string>("");
@@ -66,7 +66,7 @@ const UpdateReturn = () => {
             zip_code: data.zip_code || "",
             country: data.country || "",
             website_url: data.website_url || "",
-            google_map_link: data.google_map_link || "",
+            location_link: data.location_link || "",
           });
 
           setProfileImage(data.profile_image_url || "");
@@ -119,7 +119,7 @@ const UpdateReturn = () => {
         zip_code: profileData.zip_code || "",
         country: profileData.country || "",
         website_url: profileData.website_url || "",
-        google_map_link: profileData.google_map_link || "",
+        location_link: profileData.location_link || "",
       });
 
       const anyFieldFilled = Object.values(profileData).some(
@@ -853,8 +853,8 @@ const UpdateReturn = () => {
 
               <input
                 // type="url"
-                name="google_map_link"
-                value={profile.google_map_link || ""}
+                name="location_link"
+                value={profile.location_link || ""}
                 onChange={handleChange}
                 placeholder="Paste Google Maps embed URL or iframe code"
                 className="w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
@@ -862,9 +862,9 @@ const UpdateReturn = () => {
               />
 
               {/* Show warning for short URLs */}
-              {profile.google_map_link &&
-                (profile.google_map_link.includes("goo.gl/maps") ||
-                  profile.google_map_link.includes("maps.app.goo.gl")) && (
+              {profile.location_link &&
+                (profile.location_link.includes("goo.gl/maps") ||
+                  profile.location_link.includes("maps.app.goo.gl")) && (
                   <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded">
                     <p className="text-sm text-yellow-800">
                       <strong>Short URL Detected</strong>
@@ -879,10 +879,9 @@ const UpdateReturn = () => {
                 )}
 
               {/* Show extracted URL for verification */}
-              {profile.google_map_link &&
-                getEmbedUrl(profile.google_map_link) &&
-                getEmbedUrl(profile.google_map_link) !==
-                  "SHORT_URL_DETECTED" && (
+              {profile.location_link &&
+                getEmbedUrl(profile.location_link) &&
+                getEmbedUrl(profile.location_link) !== "SHORT_URL_DETECTED" && (
                   <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
                     <p className="text-xs text-green-800">
                       <strong>✓ Valid map link detected</strong>
@@ -891,16 +890,16 @@ const UpdateReturn = () => {
                 )}
 
               {/* Google Map Embed */}
-              {profile.google_map_link &&
-              getEmbedUrl(profile.google_map_link) &&
-              getEmbedUrl(profile.google_map_link) !== "SHORT_URL_DETECTED" ? (
+              {profile.location_link &&
+              getEmbedUrl(profile.location_link) &&
+              getEmbedUrl(profile.location_link) !== "SHORT_URL_DETECTED" ? (
                 <div className="mt-4">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Location Preview
                   </label>
                   <div className="w-full h-64 rounded-lg overflow-hidden border border-gray-300">
                     <iframe
-                      src={getEmbedUrl(profile.google_map_link)}
+                      src={getEmbedUrl(profile.location_link)}
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
@@ -911,9 +910,8 @@ const UpdateReturn = () => {
                     ></iframe>
                   </div>
                 </div>
-              ) : profile.google_map_link &&
-                getEmbedUrl(profile.google_map_link) ===
-                  "SHORT_URL_DETECTED" ? (
+              ) : profile.location_link &&
+                getEmbedUrl(profile.location_link) === "SHORT_URL_DETECTED" ? (
                 <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <p className="text-sm text-yellow-800">
                     <strong>Short URLs cannot be embedded</strong>
@@ -931,7 +929,7 @@ const UpdateReturn = () => {
                     5. Copy the iframe code or embed URL
                   </p>
                 </div>
-              ) : profile.google_map_link ? (
+              ) : profile.location_link ? (
                 <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-sm text-red-800">
                     <strong>Unable to extract valid map URL.</strong> Please

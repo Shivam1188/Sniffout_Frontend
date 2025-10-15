@@ -3,10 +3,12 @@ import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import LoadingSpinner from "../../../components/Loader";
 import { getDecryptedItem } from "../../../utils/storageHelper";
+import { useNavigate } from "react-router-dom";
 
 const UpdateReturn = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const token = getDecryptedItem<string>("token");
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,7 +38,7 @@ const UpdateReturn = () => {
     zip_code: "",
     country: "",
     website_url: "",
-    google_map_link: "", // Changed from restaurant_description to google_map_link
+    google_map_link: "",
   });
 
   const [profileImage, setProfileImage] = useState<string>("");
@@ -64,7 +66,7 @@ const UpdateReturn = () => {
             zip_code: data.zip_code || "",
             country: data.country || "",
             website_url: data.website_url || "",
-            google_map_link: data.google_map_link || "", // Updated field
+            google_map_link: data.google_map_link || "",
           });
 
           setProfileImage(data.profile_image_url || "");
@@ -117,7 +119,7 @@ const UpdateReturn = () => {
         zip_code: profileData.zip_code || "",
         country: profileData.country || "",
         website_url: profileData.website_url || "",
-        google_map_link: profileData.google_map_link || "", // Updated field
+        google_map_link: profileData.google_map_link || "",
       });
 
       const anyFieldFilled = Object.values(profileData).some(
@@ -176,54 +178,70 @@ const UpdateReturn = () => {
     return cleaned;
   };
 
-  // Function to extract embed URL from Google Maps link
-  // Improved function to handle different Google Maps URL formats
+  // Improved function to extract embed URL from Google Maps link or iframe code
+  // Improved function to extract embed URL from Google Maps link or iframe code
   const getEmbedUrl = (link: string): string => {
     if (!link) return "";
 
     try {
-      // If it's already an embed URL, return as is
-      if (link.includes("/embed?")) {
+      // If it's already a clean embed URL, return as is
+      if (link.startsWith("https://www.google.com/maps/embed?")) {
         return link;
       }
 
-      // If it's a Google Maps share link, extract the map URL first
-      if (link.includes("share.google.com")) {
-        // Google share links need to be opened to get the actual map URL
-        // For now, return empty as we can't directly convert share links
+      // Extract src from iframe code
+      if (link.includes("<iframe")) {
+        const srcMatch = link.match(/src="([^"]*)"/);
+        if (srcMatch && srcMatch[1]) {
+          const srcUrl = srcMatch[1];
+          // Return only the URL part without any additional attributes
+          return srcUrl.split('"')[0].split(" ")[0];
+        }
         return "";
       }
 
-      // Handle standard Google Maps URLs
-      if (link.includes("google.com/maps")) {
-        const url = new URL(link);
+      // Handle Google Maps short URLs (goo.gl/maps.app.goo.gl)
+      if (link.includes("goo.gl/maps") || link.includes("maps.app.goo.gl")) {
+        // Show message that short URLs need to be converted
+        return "SHORT_URL_DETECTED";
+      }
 
-        // Try to extract place ID or coordinates
-        const placeId =
-          url.searchParams.get("q") || url.pathname.includes("place/")
-            ? url.pathname.split("place/")[1]?.split("/")[0]
-            : null;
+      // If it's a share link or other format, return empty
+      if (link.includes("share.google.com")) {
+        return "";
+      }
 
-        // Extract coordinates from URL like .../@lat,lng,zoom
-        const coordMatch = url.pathname.match(
-          /@([-\d.]+),([-\d.]+),(\d+\.?\d*)z/
-        );
+      // For any other Google Maps link that's not embed format
+      if (link.includes("google.com/maps") && !link.includes("/embed?")) {
+        // Try to convert regular Google Maps URL to embed format
+        try {
+          const url = new URL(link);
+          const placeId =
+            url.searchParams.get("q") || url.pathname.includes("place/")
+              ? url.pathname.split("place/")[1]?.split("/")[0]
+              : null;
 
-        if (placeId) {
-          // For places, use place_id parameter
-          return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=place_id:${placeId}`;
-        } else if (coordMatch) {
-          // For coordinates, use center parameter
-          const [_, lat, lng, zoom] = coordMatch;
-          return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&center=${lat},${lng}&zoom=${zoom}`;
-        } else {
-          // Fallback: try to use the search parameter
-          const searchQuery = url.searchParams.get("q");
-          if (searchQuery) {
-            return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
-              searchQuery
-            )}`;
+          // Extract coordinates from URL like .../@lat,lng,zoom
+          const coordMatch = url.pathname.match(
+            /@([-\d.]+),([-\d.]+),(\d+\.?\d*)z/
+          );
+
+          if (placeId) {
+            return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=place_id:${placeId}`;
+          } else if (coordMatch) {
+            const [_, lat, lng, zoom] = coordMatch;
+            return `https://www.google.com/maps/embed/v1/view?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&center=${lat},${lng}&zoom=${zoom}`;
+          } else {
+            // Fallback: try to use the search parameter
+            const searchQuery = url.searchParams.get("q");
+            if (searchQuery) {
+              return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
+                searchQuery
+              )}`;
+            }
           }
+        } catch (error) {
+          console.error("Error converting map URL:", error);
         }
       }
 
@@ -233,6 +251,7 @@ const UpdateReturn = () => {
       return "";
     }
   };
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
@@ -400,10 +419,6 @@ const UpdateReturn = () => {
       return false;
     }
 
-    // if (!profileImage) {
-    //   toasterError("Profile image is required.", 2000, "id");
-    //   return false;
-    // }
     return true;
   };
 
@@ -441,6 +456,10 @@ const UpdateReturn = () => {
     setIsEditing(false);
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   const anyFieldFilled = Object.values(profile).some(
     (val) => val !== null && val !== ""
   );
@@ -465,43 +484,26 @@ const UpdateReturn = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <div>
-            <h1 className="text-lg sm:text-2xl pr-10 sm:pr-0 font-bold text-white">
-              Update Business Information
-            </h1>
-            <p className="text-sm text-white pr-10 sm:pr-0">
-              Modify your business details to keep your profile up to date
-            </p>
-          </div>
-
-          {/* Overlay for mobile */}
-          <label
-            htmlFor="sidebar-toggle"
-            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
-          ></label>
-
-          {/* Toggle Button (Arrow) */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+        {/* Header with Back Button */}
+        <div className="flex items-center mb-6">
+          <button
+            onClick={handleBackClick}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors duration-200 cursor-pointer"
           >
-            {/* Arrow Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                fillRule="evenodd"
+                d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+                clipRule="evenodd"
               />
             </svg>
-          </label>
+            <span className="font-medium">Back</span>
+          </button>
         </div>
 
         <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] space-y-8">
@@ -799,6 +801,7 @@ const UpdateReturn = () => {
             </div>
 
             {/* Google Maps Link Section */}
+            {/* Google Maps Link Section */}
             <div>
               <label className="flex text-sm font-semibold text-gray-700 mb-2 items-center gap-2">
                 <svg
@@ -823,18 +826,74 @@ const UpdateReturn = () => {
                 </svg>
                 <span>Google Maps Link</span>
               </label>
+
+              <div className="mb-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>How to get the correct link:</strong>
+                  <br />
+                  1. Go to{" "}
+                  <a
+                    href="https://maps.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  >
+                    Google Maps
+                  </a>
+                  <br />
+                  2. Find your business location
+                  <br />
+                  3. Click <strong>"Share"</strong> →{" "}
+                  <strong>"Embed a map"</strong> → Copy the iframe URL
+                  <br />
+                  4. <strong>Do not use short URLs</strong> (maps.app.goo.gl or
+                  goo.gl/maps)
+                </p>
+              </div>
+
               <input
-                type="url"
+                // type="url"
                 name="google_map_link"
                 value={profile.google_map_link || ""}
                 onChange={handleChange}
-                placeholder="Paste your Google Maps link here (e.g., https://maps.google.com/...)"
+                placeholder="Paste Google Maps embed URL or iframe code"
                 className="w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                 readOnly={!isEditing}
               />
 
+              {/* Show warning for short URLs */}
+              {profile.google_map_link &&
+                (profile.google_map_link.includes("goo.gl/maps") ||
+                  profile.google_map_link.includes("maps.app.goo.gl")) && (
+                  <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                    <p className="text-sm text-yellow-800">
+                      <strong>Short URL Detected</strong>
+                      <br />
+                      Short URLs (goo.gl/maps or maps.app.goo.gl) cannot be
+                      embedded.
+                      <br />
+                      Please use the "Embed a map" option from Google Maps
+                      instead.
+                    </p>
+                  </div>
+                )}
+
+              {/* Show extracted URL for verification */}
+              {profile.google_map_link &&
+                getEmbedUrl(profile.google_map_link) &&
+                getEmbedUrl(profile.google_map_link) !==
+                  "SHORT_URL_DETECTED" && (
+                  <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                    <p className="text-xs text-green-800">
+                      <strong>✓ Valid map link detected</strong>
+                    </p>
+                  </div>
+                )}
+
               {/* Google Map Embed */}
-              {profile.google_map_link && (
+              {profile.google_map_link &&
+              getEmbedUrl(profile.google_map_link) &&
+              getEmbedUrl(profile.google_map_link) !== "SHORT_URL_DETECTED" ? (
                 <div className="mt-4">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Location Preview
@@ -851,12 +910,38 @@ const UpdateReturn = () => {
                       title="Business Location"
                     ></iframe>
                   </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Note: For best results, use a Google Maps embed URL or
-                    standard Google Maps link
+                </div>
+              ) : profile.google_map_link &&
+                getEmbedUrl(profile.google_map_link) ===
+                  "SHORT_URL_DETECTED" ? (
+                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Short URLs cannot be embedded</strong>
+                    <br />
+                    Please follow these steps to get the correct embed URL:
+                    <br />
+                    1. Open your short URL in a browser
+                    <br />
+                    2. Wait for it to redirect to the full Google Maps page
+                    <br />
+                    3. Click the <strong>"Share"</strong> button
+                    <br />
+                    4. Choose <strong>"Embed a map"</strong>
+                    <br />
+                    5. Copy the iframe code or embed URL
                   </p>
                 </div>
-              )}
+              ) : profile.google_map_link ? (
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-800">
+                    <strong>Unable to extract valid map URL.</strong> Please
+                    use:
+                    <br />
+                    • Google Maps embed URL, or
+                    <br />• Complete iframe code
+                  </p>
+                </div>
+              ) : null}
             </div>
 
             <div className="flex justify-end gap-4">

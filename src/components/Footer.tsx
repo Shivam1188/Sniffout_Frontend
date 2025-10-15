@@ -16,11 +16,14 @@ const Footer = () => {
         <div className="w-full mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Left: Logo + Social */}
           <div>
-            <h2 className="text-2xl font-bold text-blue-700">
-              <span className="text-orange-500">Sniff</span>Out{" "}
-              <span className="text-orange-500">AI</span>
-            </h2>
-            <div className="flex justify-center md:justify-start gap-4 mt-6">
+            {/* <h2 className="text-2xl font-bold text-blue-700 "> */}
+            <img
+              src="/logo1.png"
+              alt="Logo"
+              className="w-[300px] h-[80px] object-contain"
+            />
+            {/* </h2> */}
+            <div className="flex justify-center md:justify-start gap-4 mt-6 ml-8">
               {[
                 { icon: <FaFacebook />, color: "#1877F2" },
                 { icon: <FaTwitter />, color: "#1DA1F2" },
@@ -43,18 +46,20 @@ const Footer = () => {
           </div>
 
           {/* Center: Links */}
-          <div className="flex flex-col   gap-2">
-            <a
-              href="#"
+          <div className="flex flex-col gap-2">
+            {/* <a
+              href="#" // Terms of Service (keep or update your link)
               className="font-semibold text-gray-800 hover:text-blue-600"
             >
               Terms of Service
-            </a>
+            </a> */}
             <a
-              href="#"
-              className="font-semibold text-gray-800 hover:text-blue-600"
+              href="https://www.sniffout.io/privacy-policy/"
+              target="_blank" // opens in a new tab (optional)
+              rel="noopener noreferrer"
+              className="font-semibold text-gray-800 hover:text-blue-600 mt-6"
             >
-              Privacy
+              Privacy Policy
             </a>
           </div>
 
@@ -83,7 +88,10 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="text-center text-sm py-4 text-gray-600">
           Delivered by{" "}
-          <a href="#" className="text-blue-700 font-semibold hover:underline">
+          <a
+            href="https://devexhub.com/"
+            className="text-blue-700 font-semibold hover:underline"
+          >
             DevexHub
           </a>{" "}
           / Copywriting © 2025

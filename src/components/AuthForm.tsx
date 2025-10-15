@@ -5,6 +5,7 @@ import { toasterError, toasterSuccess } from "./Toaster";
 import { handleError } from "../lib/errorHandler";
 import { Eye, EyeOff, X } from "lucide-react";
 import { setEncryptedItem } from "../utils/storageHelper";
+import Header from "./Header";
 
 const AuthForm = ({
   title,
@@ -338,7 +339,8 @@ const AuthForm = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] px-4 sm:px-6 lg:px-8 animate-fadeIn">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] px-4 sm:px-6 lg:px-8 animate-fadeIn">
+      {isLogin && <Header />}
       <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
           <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
@@ -399,7 +401,7 @@ const AuthForm = ({
               <button
                 type="button"
                 onClick={() => navigate("/one-on-one-scheduling")}
-                className="cursor-pointer w-full bg-gradient-to-r from-[#1d3faa] via-[#2d4fbb] to-[#1d3faa] hover:from-[#2d4fbb] hover:to-[#0d2f99] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove"
+                className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 📅 Want a 1-on-1 Appointment?
               </button>

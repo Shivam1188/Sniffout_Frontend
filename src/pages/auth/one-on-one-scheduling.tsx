@@ -279,7 +279,7 @@ const OnetoOneScheduling = () => {
     <>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-8 relative">
+          <div className="bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] text-white p-8 relative">
             <button
               onClick={handleBack}
               className="cursor-pointer absolute left-6 top-6 flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all duration-200 backdrop-blur-sm"
@@ -353,12 +353,12 @@ const OnetoOneScheduling = () => {
                         }
                         ${
                           isSelected
-                            ? "bg-blue-600 text-white shadow-lg transform scale-105"
+                            ? "bg-[#fe6a3c] text-white shadow-lg transform scale-105"
                             : ""
                         }
                         ${
                           isTodayDate && !isSelected
-                            ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                            ? "bg-blue-100 text-[#fe6a3c] border-2 border-blue-300"
                             : ""
                         }
                         ${isDifferentMonth ? "text-gray-400" : "text-gray-700"}
@@ -528,7 +528,7 @@ const OnetoOneScheduling = () => {
                         cursor-pointer p-4 rounded-xl border-2 text-center transition-all duration-200
                         ${
                           selectedTime === time
-                            ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
+                            ? "border-[#fe6a3c]  bg-blue-50 text-[#fe6a3c] shadow-md"
                             : "border-gray-200 text-gray-700 hover:border-gray-300"
                         }
                       `}
@@ -610,7 +610,7 @@ const OnetoOneScheduling = () => {
               <button
                 onClick={handleSubmit}
                 disabled={isLoading}
-                className={`w-full bg-gradient-to-r from-blue-600 to-purple-700 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform transition-all duration-200 ${
+                className={`w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform transition-all duration-200 ${
                   isLoading
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:scale-105 cursor-pointer"

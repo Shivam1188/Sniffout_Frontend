@@ -20,6 +20,7 @@ const AuthForm = ({
   const navigate = useNavigate();
 
   const isLogin = type === "login";
+  const isRegister = type === "signup";
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -38,6 +39,7 @@ const AuthForm = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false); // New state for checkbox
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -70,6 +72,11 @@ const AuthForm = ({
       newErrors.confirmpassword = "Passwords do not match";
     }
 
+    // Add validation for terms and conditions checkbox for signup
+    if (isRegister && !acceptedTerms) {
+      newErrors.terms = "You must accept the Terms and Conditions";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -88,19 +95,31 @@ const AuthForm = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({
+    // Handle checkbox separately
+    if (type === "checkbox") {
+      setAcceptedTerms(checked);
+      // Clear terms error when checkbox is checked
+      if (checked && errors.terms) {
+        setErrors((prev) => ({
+          ...prev,
+          terms: "",
+        }));
+      }
+    } else {
+      setFormData((prev) => ({
         ...prev,
-        [name]: "",
+        [name]: value,
       }));
+
+      // Clear error for this field when user starts typing
+      if (errors[name]) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: "",
+        }));
+      }
     }
   };
 
@@ -245,90 +264,183 @@ const AuthForm = ({
           </div>
 
           {/* Content */}
-          <div className="p-6 overflow-y-auto max-h-[60vh]">
-            <div className="space-y-4 text-gray-600 dark:text-gray-300">
-              <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                Please read these terms and conditions carefully before using
-                our service.
-              </p>
+          <div className="p-6 overflow-y-auto max-h-[80vh] text-gray-700 dark:text-gray-200">
+            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+              SniffoutAI – Terms and Conditions (United States)
+            </h2>
+            <p className="text-sm mb-4 italic">
+              Effective Date: October 14, 2025
+            </p>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  1. Acceptance of Terms
-                </h4>
-                <p>
-                  By accessing and using this service, you accept and agree to
-                  be bound by the terms and provision of this agreement.
-                </p>
-              </section>
+            <p className="mb-4">
+              Welcome to SniffoutAI! These Terms and Conditions ("Terms") govern
+              your access to and use of SniffoutAI's website, software, AI call
+              systems, and services ("Services"). By using our Services, you
+              agree to be bound by these Terms.
+            </p>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  2. User Responsibilities
-                </h4>
-                <p>
-                  You are responsible for maintaining the confidentiality of
-                  your account and password and for restricting access to your
-                  computer.
-                </p>
-              </section>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              1. About SniffoutAI
+            </h3>
+            <p className="mb-4">
+              SniffoutAI is an AI-driven communication and automation platform
+              for businesses. It enables users to manage voice-based customer
+              interactions, SMS campaigns, and analytics through an online
+              dashboard.
+            </p>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  3. Privacy Policy
-                </h4>
-                <p>
-                  Your privacy is important to us. Please read our Privacy
-                  Policy to understand how we collect, use, and protect your
-                  personal information.
-                </p>
-              </section>
+            <h3 className="text-xl font-semibold mt-6 mb-2">2. Eligibility</h3>
+            <p className="mb-4">
+              You must be at least 18 years old and legally capable of entering
+              into binding agreements under U.S. law to use SniffoutAI Services.
+            </p>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  4. Service Modifications
-                </h4>
-                <p>
-                  We reserve the right to modify or discontinue, temporarily or
-                  permanently, the service with or without notice.
-                </p>
-              </section>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              3. Account Registration
+            </h3>
+            <p className="mb-4">
+              To use our Services, you must create an account, provide accurate
+              information, and keep your credentials secure. You are responsible
+              for all activities under your account.
+            </p>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  5. Limitation of Liability
-                </h4>
-                <p>
-                  We shall not be liable for any indirect, incidental, special,
-                  consequential or punitive damages resulting from your use of
-                  the service.
-                </p>
-              </section>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              4. Plans and Payments
+            </h3>
+            <ul className="list-disc pl-6 mb-4 space-y-1">
+              <li>
+                <strong>Plans:</strong> Users can select from Starter, Pro, or
+                Enterprise plans. Enterprise plan pricing and terms are
+                customized.
+              </li>
+              <li>
+                <strong>Payment Processor:</strong> All payments are securely
+                processed via Stripe. SniffoutAI does not store credit card
+                details.
+              </li>
+            </ul>
 
-              <section>
-                <h4 className="font-bold text-gray-800 dark:text-white mb-2">
-                  6. Governing Law
-                </h4>
-                <p>
-                  These terms shall be governed by and construed in accordance
-                  with the laws of your jurisdiction.
-                </p>
-              </section>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              5. Use of Services
+            </h3>
+            <p className="mb-4">
+              You agree to use SniffoutAI Services lawfully and only for your
+              business purposes. You may not misuse, reverse-engineer, or
+              exploit the AI system or APIs.
+            </p>
 
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-4">
-                <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                  <strong>Note:</strong> By creating an account, you agree to
-                  abide by these terms and conditions. If you do not agree with
-                  any part of these terms, you may not use our service.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              6. Communication Data
+            </h3>
+            <p className="mb-2">
+              SniffoutAI processes certain call and SMS data to provide
+              analytics and automation:
+            </p>
+            <ul className="list-disc pl-6 mb-4 space-y-1">
+              <li>
+                Call information (duration, timestamps, caller ID) is logged but
+                not recorded.
+              </li>
+              <li>
+                SMS records (content, sender, recipient, timestamps) are
+                securely stored for business purposes.
+              </li>
+            </ul>
+            <p className="mb-4">
+              You agree to comply with all applicable U.S. telecommunications
+              laws, including the Telephone Consumer Protection Act (TCPA).
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              7. AI System and Accuracy Disclaimer
+            </h3>
+            <p className="mb-4">
+              SniffoutAI uses AI and automation systems that may generate
+              responses or actions based on trained models. While we strive for
+              accuracy and reliability, SniffoutAI makes no guarantees regarding
+              the correctness, reliability, or suitability of AI-generated
+              responses.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              8. Limitation of Liability
+            </h3>
+            <p className="mb-4">
+              To the fullest extent permitted by law, SniffoutAI and its
+              affiliates are not liable for indirect, incidental, or
+              consequential damages, including lost profits, business
+              interruptions, or data loss. Total liability shall not exceed the
+              total fees paid by you within the past 12 months.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              9. Intellectual Property
+            </h3>
+            <p className="mb-4">
+              All SniffoutAI trademarks, logos, and platform content are
+              protected intellectual property. You may not copy, reproduce, or
+              distribute without prior written consent.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">10. Termination</h3>
+            <p className="mb-4">
+              We may suspend or terminate your access if you breach these Terms
+              or misuse our Services. You may terminate your account anytime
+              through your dashboard.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              11. Modifications to Service
+            </h3>
+            <p className="mb-4">
+              SniffoutAI may modify, suspend, or discontinue portions of the
+              Services with notice. Continued use after updates constitutes
+              acceptance of new Terms.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              12. Governing Law and Dispute Resolution
+            </h3>
+            <p className="mb-4">
+              These Terms are governed by and construed under the laws of the
+              State of California, U.S.A. Any disputes will be resolved in the
+              courts located in San Francisco County, California.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              13. Contact Information
+            </h3>
+            <p className="mb-4">For questions about these Terms, contact:</p>
+            <p className="mb-4">
+              <strong>SniffoutAI Office</strong>
+              <br />
+              Email:{" "}
+              <a
+                href="mailto:sniffout.ai@gmail.com"
+                className="text-blue-600 dark:text-blue-400"
+              >
+                sniffout.ai@gmail.com
+              </a>
+              <br />
+              Website:{" "}
+              <a
+                href="https://sniffout.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400"
+              >
+                https://sniffout.io
+              </a>
+            </p>
           </div>
 
           {/* Footer */}
           <div className="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700">
             <button
-              onClick={() => setShowTermsPopup(false)}
+              onClick={() => {
+                setShowTermsPopup(false);
+                setAcceptedTerms(true); // Auto-check the checkbox when user clicks "I Understand"
+              }}
               className="cursor-pointer px-6 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200"
             >
               I Understand
@@ -341,7 +453,7 @@ const AuthForm = ({
 
   return (
     <div className="relative min-h-screen flex flex-col  items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa]  animate-fadeIn">
-      {isLogin && <Header />}
+      {(isLogin || isRegister) && <Header />}
       <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl my-[60px]">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] ">
           <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
@@ -388,10 +500,41 @@ const AuthForm = ({
               </div>
             ))}
 
-            {/* Login Button */}
+            {/* Terms and Conditions Checkbox - Only show for signup */}
+            {isRegister && (
+              <div className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  checked={acceptedTerms}
+                  onChange={handleChange}
+                  disabled={loading}
+                  className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-sm text-gray-700 dark:text-gray-300"
+                >
+                  I agree to the{" "}
+                  <button
+                    type="button"
+                    onClick={() => setShowTermsPopup(true)}
+                    className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                  >
+                    Terms and Conditions
+                  </button>
+                </label>
+              </div>
+            )}
+            {errors.terms && (
+              <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
+            )}
+
+            {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || (isRegister && !acceptedTerms)} // Disable if terms not accepted for signup
               className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? "Processing..." : buttonText}
@@ -429,22 +572,9 @@ const AuthForm = ({
               {linkLabel}
             </Link>
           </p>
-
-          {/* Terms and Conditions Link - Only show for login */}
-          {isLogin && (
-            <div className="text-center mt-6">
-              <button
-                type="button"
-                onClick={() => setShowTermsPopup(true)}
-                className="cursor-pointer text-sm text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
-              >
-                Terms and Conditions
-              </button>
-            </div>
-          )}
         </div>
       </div>
-      {isLogin && <Footer />}
+      {(isLogin || isRegister) && <Footer />}
       <TermsAndConditionsPopup />
     </div>
   );

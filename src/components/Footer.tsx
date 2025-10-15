@@ -67,16 +67,16 @@ const Footer = () => {
           <div className="flex flex-col   gap-3 text-gray-700">
             <div className="flex items-center gap-2">
               <FaPhoneAlt className="text-orange-500" />
-              <span>(+91) 9875654321</span>
+              <span>+1 267-279-9509</span>
             </div>
             <div className="flex items-center  gap-2">
               <FaEnvelope className="text-orange-500" />
-              <span>admin@gmail.com</span>
+              <span>info@sniffout.ai</span>
             </div>
             <div className="flex items-start gap-2">
               <FaMapMarkerAlt className="text-orange-500 mt-1" />
               <span>
-                1234 Elm Street Springfield, IL 62704 <br />
+                PO Box 152, Pottstown Pa.19464 <br />
                 United States
               </span>
             </div>

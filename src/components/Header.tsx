@@ -1,6 +1,6 @@
 const Header = () => {
   const handleBack = () => {
-    window.location.href = "https://www.sniffout.io/";
+    window.location.href = "https://www.sniffout.ai/";
   };
 
   return (

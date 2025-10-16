@@ -424,12 +424,12 @@ const AuthForm = ({
               <br />
               Website:{" "}
               <a
-                href="https://sniffout.io"
+                href="https://sniffout.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 dark:text-blue-400"
               >
-                https://sniffout.io
+                https://sniffout.ai
               </a>
             </p>
           </div>

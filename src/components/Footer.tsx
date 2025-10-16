@@ -54,7 +54,7 @@ const Footer = () => {
               Terms of Service
             </a> */}
             <a
-              href="https://www.sniffout.io/privacy-policy/"
+              href="https://www.sniffout.ai/privacy-policy/"
               target="_blank" // opens in a new tab (optional)
               rel="noopener noreferrer"
               className="font-semibold text-gray-800 hover:text-blue-600 mt-6"

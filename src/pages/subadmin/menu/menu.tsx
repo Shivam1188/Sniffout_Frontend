@@ -81,7 +81,7 @@ function MenuData() {
 
   const handlePageChange = (url: string | null, type: "next" | "prev") => {
     if (!url) return;
-    fetchMenus(url.replace("http://api.sniffout.io/api/", "")); // remove base if your api already adds it
+    fetchMenus(url.replace("http://api.sniffout.ai/api/", "")); // remove base if your api already adds it
     setCurrentPage((prev) => (type === "next" ? prev + 1 : prev - 1));
   };
 

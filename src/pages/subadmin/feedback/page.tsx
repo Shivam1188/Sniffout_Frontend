@@ -138,7 +138,7 @@ function Feedback() {
       try {
         setRatingsLoading(true);
         const res = await api.get(
-          fetchUrl.replace("http://api.sniffout.io/api/", "")
+          fetchUrl.replace("http://api.sniffout.ai/api/", "")
         );
 
         if (res.data && Array.isArray(res.data.results)) {

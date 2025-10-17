@@ -11,7 +11,8 @@ const Header = () => {
           <img
             src="/logo1.png"
             alt="Logo"
-            className="w-[300px] h-[80px] object-contain"
+            className="cursor-pointer w-[300px] h-[80px] object-contain"
+            onClick={handleBack}
           />
         </div>
 

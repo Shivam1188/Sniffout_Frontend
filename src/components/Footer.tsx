@@ -1,14 +1,37 @@
 import {
-  FaFacebook,
   FaTwitter,
   FaYoutube,
   FaLinkedin,
+  FaInstagram,
   FaPhoneAlt,
   FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
 const Footer = () => {
+  const handleBack = () => {
+    window.location.href = "https://www.sniffout.ai/";
+  };
+
+  const socialLinks = [
+    {
+      icon: <FaInstagram />,
+      color: "#E4405F",
+      link: "https://www.instagram.com/sniffout.ai/",
+    },
+    { icon: <FaTwitter />, color: "#1DA1F2", link: "https://x.com/SniffOutAI" },
+    {
+      icon: <FaYoutube />,
+      color: "#FF0000",
+      link: "https://www.youtube.com/@SniffOut-AI",
+    },
+    {
+      icon: <FaLinkedin />,
+      color: "#0A66C2",
+      link: "https://www.linkedin.com/company/sniffoutai/",
+    },
+  ];
+
   return (
     <footer className="bg-white border-t border-gray-200 w-full">
       <div className="container max-w-[1120px] mx-auto">
@@ -16,23 +39,19 @@ const Footer = () => {
         <div className="w-full mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Left: Logo + Social */}
           <div>
-            {/* <h2 className="text-2xl font-bold text-blue-700 "> */}
             <img
               src="/logo1.png"
               alt="Logo"
-              className="w-[300px] h-[80px] object-contain"
+              className="cursor-pointer w-[300px] h-[80px] object-contain"
+              onClick={handleBack}
             />
-            {/* </h2> */}
             <div className="flex justify-center md:justify-start gap-4 mt-6 ml-8">
-              {[
-                { icon: <FaFacebook />, color: "#1877F2" },
-                { icon: <FaTwitter />, color: "#1DA1F2" },
-                { icon: <FaYoutube />, color: "#FF0000" },
-                { icon: <FaLinkedin />, color: "#0A66C2" },
-              ].map((item, index) => (
+              {socialLinks.map((item, index) => (
                 <a
                   key={index}
-                  href="#"
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-orange-500 shadow-md hover:scale-110 transition-all duration-300"
                   style={{
                     border: `2px solid ${item.color}`,
@@ -47,15 +66,9 @@ const Footer = () => {
 
           {/* Center: Links */}
           <div className="flex flex-col gap-2">
-            {/* <a
-              href="#" // Terms of Service (keep or update your link)
-              className="font-semibold text-gray-800 hover:text-blue-600"
-            >
-              Terms of Service
-            </a> */}
             <a
               href="https://www.sniffout.ai/privacy-policy/"
-              target="_blank" // opens in a new tab (optional)
+              target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-gray-800 hover:text-blue-600 mt-6"
             >
@@ -64,12 +77,12 @@ const Footer = () => {
           </div>
 
           {/* Right: Contact Info */}
-          <div className="flex flex-col   gap-3 text-gray-700">
+          <div className="flex flex-col gap-3 text-gray-700">
             <div className="flex items-center gap-2">
               <FaPhoneAlt className="text-orange-500" />
               <span>+1 267-279-9509</span>
             </div>
-            <div className="flex items-center  gap-2">
+            <div className="flex items-center gap-2">
               <FaEnvelope className="text-orange-500" />
               <span>info@sniffout.ai</span>
             </div>

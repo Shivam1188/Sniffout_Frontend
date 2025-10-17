@@ -64,6 +64,7 @@ export default function PlansDet() {
     const formData = {
       plan: plans.plan_name,
       subadmin: userId,
+      duration: plans.duration,
     };
 
     try {

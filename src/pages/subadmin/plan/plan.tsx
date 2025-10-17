@@ -162,7 +162,7 @@ const PlansDetails = () => {
                             {r.created_at.slice(0, 10)}
                           </span>
                         </td>
-                        <td className="p-2 text-center">
+                        <td className="p-2 text-center text-nowrap">
                           <Link
                             to={`/subadmin/plan/plandetails/${r.id}`}
                             className="cursor-pointer px-6 py-4 text-xs font-bold rounded-full bg-[#1d3faa]/10 text-[#1d3faa] hover:bg-[#1d3faa]/20 mr-2 "

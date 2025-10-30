@@ -179,7 +179,6 @@ const AuthForm = ({
           );
           setTimeout(() => navigate("/auth/login"), 2000);
         } else {
-          // ✅ Store individual encrypted items
           setEncryptedItem("token", response?.data?.data?.tokens?.access);
           setEncryptedItem(
             "refreshToken",
@@ -217,7 +216,6 @@ const AuthForm = ({
           const role =
             response.data?.data?.role || response.data?.data?.user?.role;
 
-          // ✅ Navigate based on role
           if (role === "admin") {
             navigate("/admin/dashboard");
           } else if (role === "subdir") {

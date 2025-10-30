@@ -16,6 +16,13 @@ import {
   FileText,
   ChevronDown,
   ChevronRight,
+  QrCode,
+  BarChart3,
+  Users,
+  Tag, // For Offers
+  History, // For Redemption History
+  Scan, // For Staff Redemption
+  PieChart, // For Analytics
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
@@ -68,6 +75,21 @@ const Sidebar = () => {
     "Create Tables ": <Table size={16} />,
     Reservation: <Calendar size={16} />,
     Catering: <Utensils size={16} />,
+
+    // QR Survey System Icons
+    "QR Survey": <QrCode size={16} />,
+    "Survey Questions": <FileText size={16} />,
+    "Survey Responses": <Users size={16} />,
+    "Survey Analytics": <BarChart3 size={16} />,
+    "QR Code Manager": <QrCode size={16} />,
+
+    // QR Offers System Icons
+    "QR Offers": <Tag size={16} />,
+    "All Offers": <Tag size={16} />,
+    "Create Offer": <Tag size={16} />,
+    "Redemption History": <History size={16} />,
+    Analytics: <PieChart size={16} />,
+    "Staff Redemption": <Scan size={16} />,
   };
 
   const adminMenu: MenuItem[] = [
@@ -79,8 +101,6 @@ const Sidebar = () => {
   ];
 
   const subdirMenu: MenuItem[] = [
-    // { label: "Home", route: "/subadmin/home" },
-
     { label: "Home", route: "/subadmin/dashboard" },
     {
       label: "Business Profile",
@@ -93,6 +113,32 @@ const Sidebar = () => {
         { label: "Menu", route: "/subadmin/menu" },
         { label: "Feedback", route: "/subadmin/feedback" },
         { label: "Update Profile", route: "/subadmin/update-profile" },
+      ],
+    },
+
+    // QR Survey System Menu
+    {
+      label: "QR Survey",
+      route: "/subadmin/survey",
+      hasSubmenu: true,
+      submenu: [
+        { label: "Survey Questions", route: "/subadmin/survey/questions" },
+        { label: "Survey Analytics", route: "/subadmin/survey/analytics" },
+        { label: "QR Code Manager", route: "/subadmin/survey/qr-code" },
+      ],
+    },
+
+    // QR Offers System Menu
+    {
+      label: "QR Offers",
+      route: "/subadmin/offers",
+      hasSubmenu: true,
+      submenu: [
+        { label: "All Offers", route: "/subadmin/offers/list" },
+        { label: "Create Offer", route: "/subadmin/offers/create" },
+        { label: "Redemption History", route: "/subadmin/offers/redemptions" },
+        { label: "Analytics", route: "/subadmin/offers/analytics" },
+        { label: "Staff Redemption", route: "/subadmin/offers/staff" },
       ],
     },
 
@@ -114,6 +160,8 @@ const Sidebar = () => {
               "Create Tables ",
               "Subscribe",
               "Upselling Offers",
+              // Optionally restrict QR features based on plan
+              // "QR Survey", "QR Offers", etc.
             ];
             return !restrictedItems.includes(item.label);
           }
@@ -125,6 +173,7 @@ const Sidebar = () => {
             "Set No of Tables",
             "Create Tables ",
             "Subscribe",
+            // Optionally restrict some QR features for basic plans
           ];
           return !restrictedItems.includes(item.label);
         });
@@ -222,11 +271,11 @@ const Sidebar = () => {
                   <div
                     onClick={() => handleParentMenuClick(item)}
                     className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition 
-    ${
-      isSubmenuActive(item.submenu)
-        ? "bg-white text-[#1d3faa] font-semibold"
-        : "hover:bg-[#5e5696]"
-    }`}
+                      ${
+                        isSubmenuActive(item.submenu)
+                          ? "bg-white text-[#1d3faa] font-semibold"
+                          : "hover:bg-[#5e5696]"
+                      }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
@@ -257,11 +306,11 @@ const Sidebar = () => {
                           to={subItem.route}
                           key={subItem.label}
                           className={`flex items-center gap-3 p-2 rounded cursor-pointer transition text-sm
-          ${
-            pathname === subItem.route
-              ? "bg-white text-[#1d3faa] font-semibold"
-              : "hover:bg-[#5e5696]"
-          }`}
+                            ${
+                              pathname === subItem.route
+                                ? "bg-white text-[#1d3faa] font-semibold"
+                                : "hover:bg-[#5e5696]"
+                            }`}
                         >
                           <div
                             className={`w-6 flex justify-center ${
@@ -301,7 +350,7 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      <div className="absolute w-[95%] left-0 mt-[-42px] ml-[6px] bottom-[5px] ">
+      <div className="absolute w-[95%] left-0 mt-[-42px] ml-[6px] bottom-[5px]">
         <hr className="border-[#ffffff3d] mb-3" />
 
         <div

@@ -13,9 +13,8 @@ export default function PlansDet() {
 
   const [plans, setPlans] = useState<any>({});
   const [userPlan, setUserPlan] = useState<any>({});
-  const [isCancelled, setIsCancelled] = useState(false); // ✅ New state for cancellation
-  const [successMsg, setSuccessMsg] = useState(""); // ✅ For popup message
-  // Form state for enterprise plan - updated field names to match new API
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     company_name: "",

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
 import { toasterSuccess } from "../../../components/Toaster";
 import LoadingSpinner from "../../../components/Loader";
+import { ExportButtonAdvanced } from "../../../components/ExportButton";
 
 function Subscribe() {
   const [subscribers, setSubscribers] = useState<any[]>([]);
@@ -10,7 +11,6 @@ function Subscribe() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [exportLoading, setExportLoading] = useState(false);
   const pageSize = 10;
 
   useEffect(() => {
@@ -30,57 +30,28 @@ function Subscribe() {
     }
   };
 
-  const exportToExcel = async () => {
+  // Fix: Create a function that doesn't require parameters
+  const exportAllSubscribers = useCallback(async (): Promise<any[]> => {
     try {
-      setExportLoading(true);
-
-      // Fetch all subscribers data
+      // Get all subscribers at once with a large page_size
       const res = await api.get(
-        `subadmin/subscribers/?page=1&page_size=${count}`
+        `subadmin/subscribers/?page_size=${count || 1000}`
       );
-      const allSubscribers = res.data?.results || [];
-
-      // Convert to CSV format
-      const headers = ["Name", "Email", "Phone", "Status", "Created At"];
-      const csvData = allSubscribers.map((subscriber: any) => [
-        subscriber.name || "",
-        subscriber.email || "",
-        subscriber.phone_number || "",
-        subscriber.is_active ? "Active" : "Inactive",
-        subscriber.created_at?.substring(0, 10) || "",
-      ]);
-
-      // Create CSV content
-      const csvContent = [
-        headers.join(","),
-        ...csvData.map((row: any) =>
-          row.map((field: any) => `"${field}"`).join(",")
-        ),
-      ].join("\n");
-
-      // Create and download file
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-
-      link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `subscribers_${new Date().toISOString().split("T")[0]}.csv`
-      );
-      link.style.visibility = "hidden";
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      toasterSuccess("Subscribers exported successfully!", 2000, "id");
-    } catch (err) {
-      console.error("Failed to export subscribers", err);
-    } finally {
-      setExportLoading(false);
+      return res.data?.results || [];
+    } catch (error) {
+      console.error("Export failed:", error);
+      return [];
     }
-  };
+  }, [count]);
+
+  // Custom data mapper for subscribers
+  const subscriberMapper = (subscriber: any) => [
+    subscriber.name || "",
+    subscriber.email || "",
+    subscriber.phone_number || "",
+    subscriber.is_active ? "Active" : "Inactive",
+    subscriber.created_at?.substring(0, 10) || "",
+  ];
 
   const totalPages = Math.ceil(count / pageSize);
 
@@ -118,34 +89,19 @@ function Subscribe() {
             </h1>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-            <button
-              onClick={exportToExcel}
-              disabled={exportLoading || count === 0}
-              className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold rounded-full shadow-md transition-all duration-300 flex items-center justify-center gap-2"
-            >
-              {exportLoading ? (
-                <>
-                  <LoadingSpinner size="sm" />
-                  Exporting...
-                </>
-              ) : (
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Export All List
-                </>
-              )}
-            </button>
+            <ExportButtonAdvanced
+              exportFunction={exportAllSubscribers}
+              config={{
+                headers: ["Name", "Email", "Phone", "Status", "Created At"],
+                dataMapper: subscriberMapper,
+                filename: "subscribers",
+                format: "csv",
+              }}
+              buttonText="Export All List"
+              variant="success"
+              size="lg"
+              disabled={count === 0}
+            />
             <Link
               to={"/subadmin/dashboard"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center"
@@ -163,13 +119,13 @@ function Subscribe() {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
               className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
               />
             </svg>

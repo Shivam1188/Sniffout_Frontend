@@ -67,7 +67,7 @@ const VoiceBotDashboard = () => {
       } else {
         // No record found → user can create a new one
         setIsDataLoaded(false);
-        setIsFlagActive(false); // ✅ enable buttons when no data
+        setIsFlagActive(false);
       }
 
       // Fetch voice bot statistics and SMS fallback status

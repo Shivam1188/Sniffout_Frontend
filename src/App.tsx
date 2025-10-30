@@ -18,6 +18,9 @@ import RecentlyOnboardedPage from "./pages/admin/recently-onboarded.tsx";
 import AddRestaurant from "./pages/admin/restaurants/add-restaurants.tsx";
 import EditRestaurant from "./pages/admin/restaurants/edit-restaurants.tsx";
 import RestaurantsDashboard from "./pages/admin/restaurants/restaurantsdashboard.tsx";
+import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
+import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
+import EnterPriseRequests from "./pages/admin/enterprise-requests/page.tsx";
 
 // Subadmin pages
 import Layout from "./components/Layout.tsx";
@@ -58,11 +61,21 @@ import EditCatering from "./pages/subadmin/catering/edit-catering/page.tsx";
 import Upsells from "./pages/subadmin/upsells/page.tsx";
 import AddUpsells from "./pages/subadmin/upsells/add-upsells/page.tsx";
 import EditUpsells from "./pages/subadmin/upsells/edit-upsells/page.tsx";
-import TwilloRecord from "./pages/admin/twillo-records/page.tsx";
-import GetDetails from "./pages/admin/twillo-records/get-details/page.tsx";
-import EnterPriseRequests from "./pages/admin/enterprise-requests/page.tsx";
+
 import OnetoOneScheduling from "./pages/auth/one-on-one-scheduling.tsx";
 import Home from "./pages/subadmin/home/page.tsx";
+import SurveyQuestions from "./pages/subadmin/survey/questions/page.tsx";
+import SurveyQrCode from "./pages/subadmin/survey/qr-code/page.tsx";
+import SurveyAnalytics from "./pages/subadmin/survey/analytics/page.tsx";
+import OffersList from "./pages/subadmin/offers/OffersList/page.tsx";
+import CreateOffer from "./pages/subadmin/offers/CreateOffer/page.tsx";
+import EditOffer from "./pages/subadmin/offers/EditOffer/page.tsx";
+import OfferDetails from "./pages/subadmin/offers/OfferDetails/page.tsx";
+import RedemptionHistory from "./pages/subadmin/offers/RedemptionHistory/page.tsx";
+import StaffRedemption from "./pages/subadmin/offers/StaffRedemption/page.tsx";
+import OfferAnalytics from "./pages/subadmin/offers/OfferAnalytics/page.tsx";
+import OfferAnalyticsDetail from "./pages/subadmin/offers/OfferAnalytics/detail/page.tsx";
+import PublicQRRedemptionPage from "./pages/public/QrRedemption/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -85,6 +98,8 @@ const AppRouter = () => {
             )
           }
         />
+        <Route path="/offer/:uniqueCode" element={<PublicQRRedemptionPage />} />
+
         <Route path="/auth/login" element={<Login />} />
         <Route path="/one-on-one-scheduling" element={<OnetoOneScheduling />} />
         <Route path="/auth/signup" element={<Signup />} />
@@ -185,6 +200,95 @@ const AppRouter = () => {
           element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}
         >
           {/* Subadmin Routes */}
+          {/* QR Offers Routes */}
+          <Route
+            path="/subadmin/offers/list"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<OffersList />} />
+            }
+          />
+          <Route
+            path="/subadmin/offers/create"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<CreateOffer />} />
+            }
+          />
+          <Route
+            path="/subadmin/offers/edit/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditOffer />} />
+            }
+          />
+          <Route
+            path="/subadmin/offers/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<OfferDetails />} />
+            }
+          />
+
+          <Route
+            path="/subadmin/offers/:id/analytics"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<OfferAnalyticsDetail />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/offers/analytics"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<OfferAnalytics />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/offers/redemptions"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<RedemptionHistory />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/offers/staff"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<StaffRedemption />}
+              />
+            }
+          />
+          {/* Survey Routes */}
+          <Route
+            path="/subadmin/survey/questions"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<SurveyQuestions />}
+              />
+            }
+          />
+
+          <Route
+            path="/subadmin/survey/analytics"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<SurveyAnalytics />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/survey/qr-code"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<SurveyQrCode />} />
+            }
+          />
+          {/* Other Subadmin Routes */}
           <Route
             path="/subadmin/reservation"
             element={
@@ -207,14 +311,12 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<Subscribe />} />
             }
           />
-
           <Route
             path="/subadmin/create-tables"
             element={
               <ProtectedRoute allowedRole="subdir" element={<CraeteTables />} />
             }
           />
-
           <Route
             path="/subadmin/upsells/add-upsells"
             element={
@@ -236,7 +338,6 @@ const AppRouter = () => {
               />
             }
           />
-
           <Route
             path="/subadmin/catering"
             element={
@@ -270,7 +371,6 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<AddTables />} />
             }
           />
-
           <Route
             path="/subadmin/dashboard"
             element={

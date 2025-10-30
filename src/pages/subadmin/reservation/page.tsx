@@ -46,7 +46,6 @@ const Reservation = () => {
         )
       );
 
-      // ✅ Show success toaster
       if (!currentStatus) {
         toasterSuccess("Table booked successfully!", 2000, "id");
       } else {
@@ -160,7 +159,7 @@ const Reservation = () => {
                           key={table.id}
                           onClick={() =>
                             handleConfirm(table.id, table.is_booked)
-                          } // ✅ FIXED
+                          }
                           className={`h-12 w-50 flex items-center justify-center font-bold rounded-lg text-white ${
                             table.is_booked
                               ? "bg-red-500 cursor-pointer"

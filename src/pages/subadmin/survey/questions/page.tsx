@@ -31,16 +31,33 @@ const SurveyQuestions: React.FC = () => {
       setLoading(false);
     }
   };
-
   const handleCreateQuestion = async (data: Partial<any>): Promise<void> => {
     try {
+      console.log("Creating question with data:", data);
+
+      // Check if we need to validate order uniqueness
+      if (data.order !== undefined) {
+        const existingQuestions = await apiService.getQuestions();
+        console.log(existingQuestions, "==existingQuestions");
+        const existingOrder = existingQuestions?.questions?.find(
+          (q: any) => q.order === data.order
+        );
+
+        if (existingOrder) {
+          toasterError(
+            `Question with order ${data.order} already exists. Please use a different order number.`
+          );
+          return;
+        }
+      }
+
       await apiService.createQuestion(data);
       toasterSuccess("Question created successfully", 2000, "id");
       setShowForm(false);
       fetchQuestions();
-    } catch (error) {
-      toasterError("Failed to create question");
+    } catch (error: any) {
       console.error("Error creating question:", error);
+      toasterError(error.message);
     }
   };
 

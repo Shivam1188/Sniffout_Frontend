@@ -2,10 +2,8 @@ import { getDecryptedItem, setEncryptedItem } from '../utils/storageHelper';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-console.log("API Base URL:", API_BASE_URL);
 
 const handleResponse = async (response: Response) => {
-    console.log("Response status:", response.status, response.statusText);
 
     if (response.status === 204 || response.status === 205) {
         return {
@@ -16,7 +14,6 @@ const handleResponse = async (response: Response) => {
     }
 
     const rawText = await response.text();
-    console.log("Raw response text:", rawText);
 
     let data;
     try {
@@ -26,10 +23,38 @@ const handleResponse = async (response: Response) => {
         throw new Error("Failed to parse JSON response.");
     }
 
+    // Handle error responses properly
+    if (!response.ok) {
+        console.error("❌ API Error Response:", data);
+
+        // Extract error message from different possible structures
+        let errorMessage = 'Something went wrong';
+
+        if (data.errors) {
+            // Handle nested errors object like { errors: { order: ["message"] } }
+            const errorKeys = Object.keys(data.errors);
+            if (errorKeys.length > 0) {
+                const firstErrorKey = errorKeys[0];
+                const firstError = data.errors[firstErrorKey];
+                errorMessage = Array.isArray(firstError) ? firstError[0] : firstError;
+            }
+        } else if (data.detail) {
+            errorMessage = data.detail;
+        } else if (data.message) {
+            errorMessage = data.message;
+        } else if (data.error) {
+            errorMessage = data.error;
+        } else if (typeof data === 'string') {
+            errorMessage = data;
+        }
+
+        throw new Error(errorMessage);
+    }
+
     return {
-        success: response.ok,
-        data: response.ok ? data : null,
-        error: !response.ok ? data?.error || { message: 'Something went wrong' } : null,
+        success: true,
+        data: data,
+        error: null,
     };
 };
 
@@ -38,7 +63,6 @@ const refreshAccessToken = async () => {
     if (!refreshToken) return null;
 
     try {
-        console.log("Refreshing token...");
         const res = await fetch(`${API_BASE_URL}auth/refresh/`, {
             method: "POST",
             headers: {
@@ -85,15 +109,12 @@ const request = async (
     };
 
     const fullUrl = `${API_BASE_URL}${url}`;
-    console.log(`🌐 Making ${method} request to:`, fullUrl);
-    console.log("Request headers:", headers);
+
 
     try {
         let response = await fetch(fullUrl, fetchOptions);
-        console.log("Response received:", response.status);
 
         if (response.status === 401 && includeToken) {
-            console.log("Token expired, attempting refresh...");
             const newToken = await refreshAccessToken();
             if (newToken) {
                 setEncryptedItem("token", newToken);
@@ -101,7 +122,6 @@ const request = async (
                     ...fetchOptions.headers,
                     Authorization: `Bearer ${newToken}`,
                 };
-                console.log("Retrying request with new token...");
                 response = await fetch(fullUrl, fetchOptions);
             }
         }
@@ -148,12 +168,18 @@ class ApiService {
         return response.data;
     }
 
-    // Create survey question
-    async createQuestion(data: any): Promise<any> {
-        const response = await request("POST", "subadmin/survey/questions/", data);
-        return response.data;
-    }
 
+    async createQuestion(data: any): Promise<any> {
+        try {
+            const response = await request("POST", "subadmin/survey/questions/", data);
+            return response.data;
+        } catch (error: any) {
+            console.error("❌ Create question error:", error);
+
+
+            throw error;
+        }
+    }
     // Update survey question
     async updateQuestion(id: number, data: any): Promise<any> {
         const response = await request("PUT", `subadmin/survey/questions/${id}/`, data);
@@ -222,11 +248,9 @@ class ApiService {
 
     async getOffers(params: any = {}): Promise<any> {
         try {
-            console.log("📦 Fetching offers with params:", params);
             const queryString = new URLSearchParams(params).toString();
             const url = queryString ? `subadmin/offers/?${queryString}` : "subadmin/offers/";
             const response = await request("GET", url);
-            console.log("✅ Offers fetched successfully");
             return response.data;
         } catch (error) {
             console.error("❌ getOffers failed:", error);

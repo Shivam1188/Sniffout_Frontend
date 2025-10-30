@@ -76,6 +76,7 @@ import StaffRedemption from "./pages/subadmin/offers/StaffRedemption/page.tsx";
 import OfferAnalytics from "./pages/subadmin/offers/OfferAnalytics/page.tsx";
 import OfferAnalyticsDetail from "./pages/subadmin/offers/OfferAnalytics/detail/page.tsx";
 import PublicQRRedemptionPage from "./pages/public/QrRedemption/page.tsx";
+import PubliceSurveyPage from "./pages/public/servey/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -99,6 +100,7 @@ const AppRouter = () => {
           }
         />
         <Route path="/offer/:uniqueCode" element={<PublicQRRedemptionPage />} />
+        <Route path="/survey/:uniqueCode" element={<PubliceSurveyPage />} />
 
         <Route path="/auth/login" element={<Login />} />
         <Route path="/one-on-one-scheduling" element={<OnetoOneScheduling />} />

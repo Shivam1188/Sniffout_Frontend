@@ -89,7 +89,7 @@ const Sidebar = () => {
     "Create Offer": <Tag size={16} />,
     "Redemption History": <History size={16} />,
     Analytics: <PieChart size={16} />,
-    "Staff Redemption": <Scan size={16} />,
+    "Validate Redemption Code": <Scan size={16} />,
   };
 
   const adminMenu: MenuItem[] = [
@@ -138,7 +138,7 @@ const Sidebar = () => {
         { label: "Create Offer", route: "/subadmin/offers/create" },
         { label: "Redemption History", route: "/subadmin/offers/redemptions" },
         { label: "Analytics", route: "/subadmin/offers/analytics" },
-        { label: "Staff Redemption", route: "/subadmin/offers/staff" },
+        { label: "Valid Redemption Code", route: "/subadmin/offers/staff" },
       ],
     },
 

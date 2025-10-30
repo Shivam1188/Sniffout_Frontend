@@ -552,7 +552,7 @@ const OfferDetails: React.FC = () => {
                   <Eye className="text-purple-600" size={20} />
                   <div>
                     <p className="font-medium text-purple-900">
-                      Staff Redemption
+                      Valid Redemption Code
                     </p>
                     <p className="text-sm text-purple-600">Validate codes</p>
                   </div>

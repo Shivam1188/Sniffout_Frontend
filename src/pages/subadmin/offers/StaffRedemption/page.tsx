@@ -69,7 +69,7 @@ const StaffRedemption: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
-            Staff Redemption
+            Valid Redemption Code
           </h1>
           <Link
             to="/subadmin/offers/list"

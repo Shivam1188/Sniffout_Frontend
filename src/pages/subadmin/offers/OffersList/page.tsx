@@ -29,7 +29,8 @@ import {
   Scan,
   ArrowUpRight,
   Sparkle,
-  Zap as Lightning,
+  Filter,
+  ArrowLeft,
 } from "lucide-react";
 import { apiService } from "../../../../services/api";
 import { toasterSuccess, toasterError } from "../../../../components/Toaster";
@@ -50,6 +51,19 @@ const OffersList: React.FC = () => {
     hasPrevious: false,
   });
   const [showDropdown, setShowDropdown] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (showDropdown !== null) {
+        setShowDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   useEffect(() => {
     fetchOffers();
@@ -80,7 +94,7 @@ const OffersList: React.FC = () => {
 
       if (response.results && response.results.offers) {
         allOffers = response.results.offers;
-        totalCount = response.count || allOffers.length;
+        totalCount = response.count;
         totalPages = Math.ceil(totalCount / pagination.pageSize);
       } else if (response.offers) {
         allOffers = response.offers;
@@ -96,8 +110,8 @@ const OffersList: React.FC = () => {
         totalPages = 0;
       }
 
-      const hasNext = pagination.currentPage < totalPages;
-      const hasPrevious = pagination.currentPage > 1;
+      const hasNext = !!response.next;
+      const hasPrevious = !!response.previous;
 
       setOffers(allOffers);
       setPagination((prev) => ({
@@ -167,7 +181,7 @@ const OffersList: React.FC = () => {
   const getStatusIcon = (offer: any) => {
     if (!offer.is_active) return <Shield size={14} />;
     if (!offer.is_valid_now) return <Clock size={14} />;
-    return <Lightning size={14} />;
+    return <Zap size={14} />;
   };
 
   const getStatusText = (offer: any) => {
@@ -178,13 +192,13 @@ const OffersList: React.FC = () => {
 
   const getOfferTypeIcon = (offerType: string) => {
     const icons: any = {
-      percentage: <TrendingUp size={16} />,
-      fixed: <BadgeCheck size={16} />,
-      bogo: <Gift size={16} />,
-      free_item: <Award size={16} />,
-      combo: <Layers size={16} />,
+      percentage: <TrendingUp size={20} />,
+      fixed: <BadgeCheck size={20} />,
+      bogo: <Gift size={20} />,
+      free_item: <Award size={20} />,
+      combo: <Layers size={20} />,
     };
-    return icons[offerType] || <Tag size={16} />;
+    return icons[offerType] || <Tag size={20} />;
   };
 
   const getOfferTypeColor = (offerType: string) => {
@@ -233,35 +247,13 @@ const OffersList: React.FC = () => {
     return diffDays > 0 ? diffDays : 0;
   };
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-    let startPage = Math.max(
-      1,
-      pagination.currentPage - Math.floor(maxVisiblePages / 2)
-    );
-    let endPage = Math.min(
-      pagination.totalPages,
-      startPage + maxVisiblePages - 1
-    );
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-    return pages;
-  };
-
   const StatsCard = ({ icon, label, value, trend, gradient }: any) => (
     <div className="relative group">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-      <div className="relative bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 transition-all duration-300">
+      <div className="relative bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 transition-all duration-300 hover:shadow-lg">
         <div className="flex items-center justify-between mb-4">
           <div
-            className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-sm`}
+            className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg`}
           >
             {icon}
           </div>
@@ -283,49 +275,39 @@ const OffersList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
       {/* Header */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-75"></div>
-                <div className="relative bg-white p-4 rounded-2xl shadow-lg border border-slate-200">
-                  <QrCode className="h-8 w-8 text-blue-600" />
-                </div>
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  QR Offers
-                </h1>
-                <p className="text-slate-600 text-lg mt-2 font-medium">
-                  Manage your promotional campaigns with style
-                </p>
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-white/10 rounded-xl">
+              <QrCode className="text-white" size={28} />
             </div>
-            <Link
-              to="/subadmin/offers/create"
-              className="group relative inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              <div className="relative">
-                <Plus
-                  size={20}
-                  className="group-hover:rotate-90 transition-transform duration-300"
-                />
-              </div>
-              <span className="text-lg">Create Offer</span>
-              <Sparkle
-                size={16}
-                className="text-yellow-300 group-hover:animate-pulse"
-              />
-            </Link>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                QR Offers
+              </h1>
+              <p className="text-blue-100 text-lg mt-1">
+                Manage your promotional campaigns with style
+              </p>
+            </div>
           </div>
+          <Link
+            to="/subadmin/offers/create"
+            className="group inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-[#fe6a3c] to-[#ff8a65] text-white font-semibold rounded-xl hover:from-[#fe6a3c]/90 hover:to-[#ff8a65]/90 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <Plus
+              size={20}
+              className="group-hover:rotate-90 transition-transform duration-300"
+            />
+            <span className="text-lg">Create Offer</span>
+            <Sparkle
+              size={16}
+              className="text-yellow-300 group-hover:animate-pulse"
+            />
+          </Link>
         </div>
-      </div>
 
-      {/* Stats Overview */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Stats Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatsCard
             icon={<Target className="h-6 w-6 text-white" />}
             label="Total Offers"
@@ -358,28 +340,26 @@ const OffersList: React.FC = () => {
             gradient="from-orange-500 to-red-500"
           />
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        {/* Main Content */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-slate-200/60">
           {/* Filters Bar */}
-          <div className="p-8 border-b border-slate-200/60">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="p-6 border-b border-slate-200/60">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-bold text-slate-900">
                   All Offers
                 </h2>
-                <p className="text-slate-600 text-lg mt-2 font-medium">
+                <p className="text-slate-600 text-lg mt-2">
                   {pagination.totalCount} total offers •{" "}
-                  <span className="text-emerald-600">
+                  <span className="text-emerald-600 font-semibold">
                     {offers.filter((o) => o.is_active && o.is_valid_now).length}{" "}
                     active
                   </span>
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 {/* Search Box */}
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
@@ -390,28 +370,33 @@ const OffersList: React.FC = () => {
                     onChange={(e) =>
                       handleFilterChange("search", e.target.value)
                     }
-                    className="pl-12 pr-4 py-3.5 w-full sm:w-80 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-slate-700 placeholder-slate-400 font-medium"
+                    className="pl-12 pr-4 py-3 w-full sm:w-80 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-slate-700 placeholder-slate-400 font-medium"
                   />
                 </div>
 
                 {/* Status Filter */}
-                <select
-                  value={filters.status}
-                  onChange={(e) => handleFilterChange("status", e.target.value)}
-                  className="px-4 py-3.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 font-medium text-slate-700"
-                >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="expired">Expired</option>
-                  <option value="upcoming">Upcoming</option>
-                </select>
+                <div className="relative">
+                  <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+                  <select
+                    value={filters.status}
+                    onChange={(e) =>
+                      handleFilterChange("status", e.target.value)
+                    }
+                    className="pl-12 pr-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 font-medium text-slate-700 appearance-none cursor-pointer"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="expired">Expired</option>
+                    <option value="upcoming">Upcoming</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Offers Grid */}
-          <div className="p-8">
+          <div className="p-6">
             {loading ? (
               <div className="flex justify-center items-center py-20">
                 <div className="text-center">
@@ -429,7 +414,7 @@ const OffersList: React.FC = () => {
               </div>
             ) : offers.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {offers.map((offer) => (
                     <div
                       key={offer.id}
@@ -459,7 +444,10 @@ const OffersList: React.FC = () => {
                             </span>
                             <div className="relative">
                               <button
-                                onClick={() => toggleDropdown(offer.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleDropdown(offer.id);
+                                }}
                                 className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all duration-200"
                               >
                                 <MoreVertical size={18} />
@@ -523,7 +511,7 @@ const OffersList: React.FC = () => {
                             <img
                               src={offer.qr_code_url || offer.qr_code_image}
                               alt={`QR Code for ${offer.title}`}
-                              className="relative w-24 h-24 rounded-2xl border-4 border-white shadow-xl cursor-pointer hover:scale-105 transition-transform duration-300"
+                              className="relative w-20 h-20 rounded-2xl border-4 border-white shadow-xl cursor-pointer hover:scale-105 transition-transform duration-300"
                               onClick={() =>
                                 openQRCodeInNewTab(
                                   offer.qr_code_url || offer.qr_code_image
@@ -531,7 +519,7 @@ const OffersList: React.FC = () => {
                               }
                             />
                             <button
-                              className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                              className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-1.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 openQRCodeInNewTab(
@@ -540,7 +528,7 @@ const OffersList: React.FC = () => {
                               }}
                               title="Open QR Code"
                             >
-                              <ExternalLink size={14} />
+                              <ExternalLink size={12} />
                             </button>
                           </div>
 
@@ -548,7 +536,7 @@ const OffersList: React.FC = () => {
                             <div className="text-xs text-slate-500 font-medium mb-2">
                               UNIQUE CODE
                             </div>
-                            <div className="font-mono font-bold text-slate-900 text-lg mb-4 tracking-wider">
+                            <div className="font-mono font-bold text-slate-900 text-lg mb-3 tracking-wider">
                               {offer.unique_code}
                             </div>
                             <button
@@ -557,9 +545,9 @@ const OffersList: React.FC = () => {
                                   offer.qr_code_url || offer.qr_code_image
                                 )
                               }
-                              className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-slate-700 rounded-xl hover:bg-slate-50 border border-slate-200 transition-all duration-200 text-sm font-semibold shadow-sm hover:shadow"
+                              className="inline-flex items-center gap-2 px-3 py-2 bg-white text-slate-700 rounded-lg hover:bg-slate-50 border border-slate-200 transition-all duration-200 text-sm font-semibold shadow-sm hover:shadow"
                             >
-                              <Download size={16} />
+                              <Download size={14} />
                               Download QR
                             </button>
                           </div>
@@ -568,14 +556,14 @@ const OffersList: React.FC = () => {
 
                       {/* Stats Footer */}
                       <div className="relative p-6">
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-3 gap-4">
                           <div className="text-center">
                             <div className="flex items-center justify-center mb-2">
                               <div className="p-2 bg-blue-100 rounded-lg">
-                                <Users size={18} className="text-blue-600" />
+                                <Users size={16} className="text-blue-600" />
                               </div>
                             </div>
-                            <div className="text-xl font-bold text-slate-900">
+                            <div className="text-lg font-bold text-slate-900">
                               {offer.total_redemptions || 0}
                             </div>
                             <div className="text-xs text-slate-600 font-medium">
@@ -585,10 +573,10 @@ const OffersList: React.FC = () => {
                           <div className="text-center">
                             <div className="flex items-center justify-center mb-2">
                               <div className="p-2 bg-purple-100 rounded-lg">
-                                <Scan size={18} className="text-purple-600" />
+                                <Scan size={16} className="text-purple-600" />
                               </div>
                             </div>
-                            <div className="text-xl font-bold text-slate-900">
+                            <div className="text-lg font-bold text-slate-900">
                               {offer.scan_count || 0}
                             </div>
                             <div className="text-xs text-slate-600 font-medium">
@@ -599,12 +587,12 @@ const OffersList: React.FC = () => {
                             <div className="flex items-center justify-center mb-2">
                               <div className="p-2 bg-orange-100 rounded-lg">
                                 <Calendar
-                                  size={18}
+                                  size={16}
                                   className="text-orange-600"
                                 />
                               </div>
                             </div>
-                            <div className="text-xl font-bold text-slate-900">
+                            <div className="text-lg font-bold text-slate-900">
                               {getRemainingDays(offer.valid_until)}
                             </div>
                             <div className="text-xs text-slate-600 font-medium">
@@ -612,7 +600,7 @@ const OffersList: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="mt-6 pt-4 border-t border-slate-100">
+                        <div className="mt-4 pt-4 border-t border-slate-100">
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-slate-600 font-medium">
                               Valid until
@@ -629,8 +617,8 @@ const OffersList: React.FC = () => {
 
                 {/* Pagination */}
                 {pagination.totalPages > 1 && (
-                  <div className="mt-12 pt-8 border-t border-slate-200/60">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+                  <div className="mt-8 pt-6 border-t border-slate-200/60">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
                       <div className="text-sm text-slate-600 font-medium">
                         Showing{" "}
                         <span className="font-bold text-slate-900">
@@ -651,38 +639,27 @@ const OffersList: React.FC = () => {
                         offers
                       </div>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         {/* Previous Button */}
                         <button
                           onClick={() =>
                             handlePageChange(pagination.currentPage - 1)
                           }
                           disabled={!pagination.hasPrevious}
-                          className={`flex items-center gap-2 px-5 py-3 rounded-xl border transition-all duration-200 font-semibold ${
+                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200 font-semibold ${
                             pagination.hasPrevious
-                              ? "bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow"
+                              ? "cursor-pointer bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow"
                               : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
                           }`}
                         >
-                          <ChevronLeft size={18} />
+                          <ChevronLeft size={16} />
                           <span>Previous</span>
                         </button>
 
-                        {/* Page Numbers */}
-                        <div className="flex items-center gap-2">
-                          {getPageNumbers().map((page) => (
-                            <button
-                              key={page}
-                              onClick={() => handlePageChange(page)}
-                              className={`px-4 py-3 rounded-xl border transition-all duration-200 font-semibold min-w-[48px] ${
-                                page === pagination.currentPage
-                                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-transparent shadow-lg"
-                                  : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400"
-                              }`}
-                            >
-                              {page}
-                            </button>
-                          ))}
+                        {/* Page Info */}
+                        <div className="px-4 py-2.5 text-sm font-semibold text-slate-700">
+                          Page {pagination.currentPage} of{" "}
+                          {pagination.totalPages}
                         </div>
 
                         {/* Next Button */}
@@ -691,14 +668,14 @@ const OffersList: React.FC = () => {
                             handlePageChange(pagination.currentPage + 1)
                           }
                           disabled={!pagination.hasNext}
-                          className={`flex items-center gap-2 px-5 py-3 rounded-xl border transition-all duration-200 font-semibold ${
+                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200 font-semibold ${
                             pagination.hasNext
-                              ? "bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow"
+                              ? "cursor-pointer bg-white text-slate-700 border-slate-300 hover:bg-slate-50 hover:border-slate-400 hover:shadow"
                               : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
                           }`}
                         >
                           <span>Next</span>
-                          <ChevronRight size={18} />
+                          <ChevronRight size={16} />
                         </button>
                       </div>
                     </div>
@@ -706,7 +683,7 @@ const OffersList: React.FC = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-20">
+              <div className="text-center py-16">
                 <div className="max-w-md mx-auto">
                   <div className="relative inline-flex">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-lg opacity-25"></div>
@@ -714,10 +691,10 @@ const OffersList: React.FC = () => {
                       <QrCode className="h-16 w-16 text-slate-400 mx-auto" />
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mt-8 mb-3">
+                  <h3 className="text-2xl font-bold text-slate-900 mt-6 mb-3">
                     No offers found
                   </h3>
-                  <p className="text-slate-600 text-lg mb-8 font-medium">
+                  <p className="text-slate-600 text-lg mb-6">
                     {filters.search || filters.status !== "all"
                       ? "Try adjusting your search filters to find what you're looking for."
                       : "Get started by creating your first promotional offer."}
@@ -725,15 +702,15 @@ const OffersList: React.FC = () => {
                   {!filters.search && filters.status === "all" && (
                     <Link
                       to="/subadmin/offers/create"
-                      className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      className="group inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
                       <Plus
-                        size={20}
+                        size={18}
                         className="group-hover:rotate-90 transition-transform duration-300"
                       />
-                      <span className="text-lg">Create First Offer</span>
+                      <span>Create First Offer</span>
                       <Rocket
-                        size={18}
+                        size={16}
                         className="group-hover:animate-bounce"
                       />
                     </Link>

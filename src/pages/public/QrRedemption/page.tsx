@@ -33,7 +33,7 @@ const PublicQRRedemptionPage = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.sniffout.io/api/subadmin/public/offer/${uniqueCode}/`
+        `https://api.sniffout.io/api/subadmin/public/survey/${uniqueCode}/`
       );
       setOfferDetails(response.data);
       setError("");
@@ -67,7 +67,7 @@ const PublicQRRedemptionPage = () => {
 
     try {
       const response = await axios.post(
-        `https://api.sniffout.io/api/subadmin/public/offer/${uniqueCode}/redeem/`,
+        `https://api.sniffout.io/api/subadmin/public/survey/${uniqueCode}/redeem/`,
         formData
       );
 
@@ -95,7 +95,7 @@ const PublicQRRedemptionPage = () => {
 
     try {
       const response = await axios.post(
-        `https://api.sniffout.io/api/subadmin/public/offer/verify-otp/`,
+        `https://api.sniffout.io/api/subadmin/public/survey/verify-otp/`,
         otpData
       );
 
@@ -124,7 +124,7 @@ const PublicQRRedemptionPage = () => {
 
     try {
       const response = await axios.post(
-        `https://api.sniffout.io/api/subadmin/public/offer/${uniqueCode}/redeem/`,
+        `https://api.sniffout.io/api/subadmin/public/survey/${uniqueCode}/redeem/`,
         formData
       );
 

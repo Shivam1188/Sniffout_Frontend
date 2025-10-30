@@ -43,7 +43,6 @@ interface CustomerInfo {
 
 const PublicSurveyPage: React.FC = () => {
   const { uniqueCode } = useParams<{ uniqueCode: string }>();
-  const navigate = useNavigate();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [restaurant, setRestaurant] = useState<any>(null);

@@ -30,7 +30,6 @@ import {
   ArrowUpRight,
   Sparkle,
   Filter,
-  ArrowLeft,
 } from "lucide-react";
 import { apiService } from "../../../../services/api";
 import { toasterSuccess, toasterError } from "../../../../components/Toaster";

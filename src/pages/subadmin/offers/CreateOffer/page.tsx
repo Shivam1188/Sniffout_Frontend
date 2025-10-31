@@ -245,7 +245,6 @@ const CreateOffer: React.FC = () => {
     }
   };
 
-  // Helper function to get minimum datetime for end date (start date + 1 minute)
   const getMinEndDate = () => {
     if (!formData.valid_from) return "";
     const startDate = new Date(formData.valid_from);
@@ -253,7 +252,6 @@ const CreateOffer: React.FC = () => {
     return startDate.toISOString().slice(0, 16);
   };
 
-  // Helper function to get minimum datetime for start date (current time)
   const getMinStartDate = () => {
     const now = new Date();
     return now.toISOString().slice(0, 16);
@@ -400,7 +398,6 @@ const CreateOffer: React.FC = () => {
                 </div>
               </div>
 
-              {/* Progress Bar */}
               <div className="mb-6">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div

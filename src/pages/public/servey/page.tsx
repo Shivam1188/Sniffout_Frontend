@@ -89,10 +89,10 @@ const PublicSurveyPage: React.FC = () => {
       setQuestions(response.questions || []);
       setRestaurant(response.restaurant);
 
-      // Initialize character counts for text questions
+      // Initialize character counts for text and textarea questions
       const initialCounts: { [key: number]: number } = {};
       response.questions?.forEach((q: Question) => {
-        if (q.question_type === "text") {
+        if (q.question_type === "text" || q.question_type === "textarea") {
           initialCounts[q.id] = 0;
         }
       });
@@ -153,7 +153,7 @@ const PublicSurveyPage: React.FC = () => {
       [questionId]: value,
     }));
 
-    // Update character count for text questions
+    // Update character count for text and textarea questions
     if (typeof value === "string") {
       setCharacterCount((prev) => ({
         ...prev,
@@ -171,9 +171,10 @@ const PublicSurveyPage: React.FC = () => {
       return;
     }
 
-    // Validate text length if it's a text question with max_length
+    // Validate text length if it's a text or textarea question with max_length
     if (
-      currentQuestion.question_type === "text" &&
+      (currentQuestion.question_type === "text" ||
+        currentQuestion.question_type === "textarea") &&
       currentQuestion.max_length
     ) {
       const response = responses[currentQuestion.id] || "";
@@ -216,7 +217,9 @@ const PublicSurveyPage: React.FC = () => {
 
     // Validate text responses length
     const textQuestions = questions.filter(
-      (q) => q.question_type === "text" && q.max_length
+      (q) =>
+        (q.question_type === "text" || q.question_type === "textarea") &&
+        q.max_length
     );
     const invalidTextResponses = textQuestions.filter((q) => {
       const response = responses[q.id] || "";
@@ -289,6 +292,20 @@ const PublicSurveyPage: React.FC = () => {
     if (current < 50) return "Good start! Consider adding more details";
     if (current < max * 0.8) return "Great! Your response is getting there";
     if (current < max) return "Excellent! Almost at the maximum";
+    return "Maximum character limit reached";
+  };
+
+  const getTextareaCharacterCountMessage = (
+    current: number,
+    max: number
+  ): string => {
+    if (current < 10)
+      return `Minimum 10 characters required (${10 - current} more needed)`;
+    if (current < 50) return "Good start! Consider adding more details";
+    if (current < 100) return "Getting better! More details would be helpful";
+    if (current < 200) return "Good detail level!";
+    if (current < max * 0.8) return "Excellent detail!";
+    if (current < max) return "Outstanding! Almost at the maximum";
     return "Maximum character limit reached";
   };
 
@@ -454,54 +471,54 @@ const PublicSurveyPage: React.FC = () => {
         );
 
       case "text":
-        const maxLength = question.max_length || 500;
-        const isUnderMinimum = currentCharCount < 10;
-        const isOverMaximum = currentCharCount > maxLength;
+        const textMaxLength = question.max_length || 200;
+        const isTextUnderMinimum = currentCharCount < 10;
+        const isTextOverMaximum = currentCharCount > textMaxLength;
 
         return (
           <div className="mt-6">
             <div className="relative">
-              <textarea
+              <input
+                type="text"
                 value={currentResponse || ""}
                 onChange={(e) =>
                   handleResponseChange(question.id, e.target.value)
                 }
-                placeholder="Share your detailed thoughts here... (minimum 10 characters)"
-                maxLength={maxLength}
-                className={`w-full p-4 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 hover:border-gray-300 ${
-                  isUnderMinimum
+                placeholder="Enter your response here... (minimum 10 characters)"
+                maxLength={textMaxLength}
+                className={`w-full p-4 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 hover:border-gray-300 ${
+                  isTextUnderMinimum
                     ? "border-orange-300 bg-orange-50"
-                    : isOverMaximum
+                    : isTextOverMaximum
                     ? "border-red-300 bg-red-50"
                     : "border-gray-200"
                 }`}
-                rows={4}
               />
-              {isUnderMinimum && (
-                <div className="absolute top-2 right-2">
+              {isTextUnderMinimum && (
+                <div className="absolute top-3 right-3">
                   <AlertCircle size={20} className="text-orange-500" />
                 </div>
               )}
             </div>
 
-            {/* Character Counter */}
+            {/* Character Counter for text input */}
             <div className="mt-3 space-y-2">
               <div className="flex justify-between items-center text-sm">
                 <span
                   className={getCharacterCountColor(
                     currentCharCount,
-                    maxLength
+                    textMaxLength
                   )}
                 >
-                  {getCharacterCountMessage(currentCharCount, maxLength)}
+                  {getCharacterCountMessage(currentCharCount, textMaxLength)}
                 </span>
                 <span
                   className={`font-medium ${getCharacterCountColor(
                     currentCharCount,
-                    maxLength
+                    textMaxLength
                   )}`}
                 >
-                  {currentCharCount} / {maxLength}
+                  {currentCharCount} / {textMaxLength}
                 </span>
               </div>
 
@@ -509,15 +526,15 @@ const PublicSurveyPage: React.FC = () => {
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    isUnderMinimum
+                    isTextUnderMinimum
                       ? "bg-orange-500"
-                      : isOverMaximum
+                      : isTextOverMaximum
                       ? "bg-red-500"
                       : "bg-green-500"
                   }`}
                   style={{
                     width: `${Math.min(
-                      (currentCharCount / maxLength) * 100,
+                      (currentCharCount / textMaxLength) * 100,
                       100
                     )}%`,
                   }}
@@ -527,7 +544,7 @@ const PublicSurveyPage: React.FC = () => {
 
             {/* Help Text */}
             <div className="mt-2 text-xs text-gray-500">
-              {isUnderMinimum && (
+              {isTextUnderMinimum && (
                 <p className="text-orange-600">
                   💡 Please provide more details to help us understand your
                   feedback better
@@ -539,6 +556,108 @@ const PublicSurveyPage: React.FC = () => {
                 </p>
               )}
               {currentCharCount >= 30 && (
+                <p className="text-green-600">
+                  🌟 Thank you for the detailed feedback!
+                </p>
+              )}
+            </div>
+          </div>
+        );
+
+      case "textarea":
+        const textareaMaxLength = question.max_length || 1000;
+        const isTextareaUnderMinimum = currentCharCount < 10;
+        const isTextareaOverMaximum = currentCharCount > textareaMaxLength;
+
+        return (
+          <div className="mt-6">
+            <div className="relative">
+              <textarea
+                value={currentResponse || ""}
+                onChange={(e) =>
+                  handleResponseChange(question.id, e.target.value)
+                }
+                placeholder="Share your detailed thoughts here... (minimum 10 characters)"
+                maxLength={textareaMaxLength}
+                className={`w-full p-4 border-2 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200 hover:border-gray-300 ${
+                  isTextareaUnderMinimum
+                    ? "border-orange-300 bg-orange-50"
+                    : isTextareaOverMaximum
+                    ? "border-red-300 bg-red-50"
+                    : "border-gray-200"
+                }`}
+                rows={6}
+              />
+              {isTextareaUnderMinimum && (
+                <div className="absolute top-3 right-3">
+                  <AlertCircle size={20} className="text-orange-500" />
+                </div>
+              )}
+            </div>
+
+            {/* Character Counter for textarea */}
+            <div className="mt-3 space-y-2">
+              <div className="flex justify-between items-center text-sm">
+                <span
+                  className={getCharacterCountColor(
+                    currentCharCount,
+                    textareaMaxLength
+                  )}
+                >
+                  {getTextareaCharacterCountMessage(
+                    currentCharCount,
+                    textareaMaxLength
+                  )}
+                </span>
+                <span
+                  className={`font-medium ${getCharacterCountColor(
+                    currentCharCount,
+                    textareaMaxLength
+                  )}`}
+                >
+                  {currentCharCount} / {textareaMaxLength}
+                </span>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    isTextareaUnderMinimum
+                      ? "bg-orange-500"
+                      : isTextareaOverMaximum
+                      ? "bg-red-500"
+                      : "bg-green-500"
+                  }`}
+                  style={{
+                    width: `${Math.min(
+                      (currentCharCount / textareaMaxLength) * 100,
+                      100
+                    )}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Help Text */}
+            <div className="mt-2 text-xs text-gray-500">
+              {isTextareaUnderMinimum && (
+                <p className="text-orange-600">
+                  💡 Please provide more details to help us understand your
+                  feedback better
+                </p>
+              )}
+              {currentCharCount >= 10 && currentCharCount < 50 && (
+                <p className="text-green-600">
+                  ✅ Good start! Consider adding more details
+                </p>
+              )}
+              {currentCharCount >= 50 && currentCharCount < 200 && (
+                <p className="text-green-600">
+                  📝 Great! Your response is getting there
+                </p>
+              )}
+              {currentCharCount >= 200 && (
                 <p className="text-green-600">
                   🌟 Thank you for the detailed feedback!
                 </p>
@@ -566,6 +685,8 @@ const PublicSurveyPage: React.FC = () => {
         return <Users className="text-indigo-500" size={20} />;
       case "text":
         return <Utensils className="text-orange-500" size={20} />;
+      case "textarea":
+        return <span className="text-lg">📝</span>; // Using emoji for textarea
       default:
         return <Sparkles className="text-gray-500" size={20} />;
     }

@@ -33,10 +33,10 @@ const QRCodeManager: React.FC = () => {
         const processedQRCode = {
           ...response.qr_code,
           qr_code_url: response.qr_code.qr_code_url
-            ? `${"https://api.sniffout.io"}${response.qr_code.qr_code_url}`
+            ? `${response.qr_code.qr_code_url}`
             : null,
           survey_url: response.qr_code.survey_url
-            ? `${"https://api.sniffout.io"}${response.qr_code.survey_url}`
+            ? `${response.qr_code.survey_url}`
             : null,
         };
         setQRCode(processedQRCode);
@@ -62,10 +62,10 @@ const QRCodeManager: React.FC = () => {
         const processedQRCode = {
           ...response.qr_code,
           qr_code_url: response.qr_code.qr_code_url
-            ? `${"https://api.sniffout.io"}${response.qr_code.qr_code_url}`
+            ? `${response.qr_code.qr_code_url}`
             : null,
           survey_url: response.qr_code.survey_url
-            ? `${"https://api.sniffout.io"}${response.qr_code.survey_url}`
+            ? `${response.qr_code.survey_url}`
             : null,
         };
         setQRCode(processedQRCode);

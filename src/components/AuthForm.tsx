@@ -537,17 +537,6 @@ const AuthForm = ({
             >
               {loading ? "Processing..." : buttonText}
             </button>
-
-            {/* 1-on-1 Appointment Button - Only show for login */}
-            {isLogin && (
-              <button
-                type="button"
-                onClick={() => navigate("/one-on-one-scheduling")}
-                className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                📅 Want a 1-on-1 Appointment?
-              </button>
-            )}
           </form>
 
           {isLogin && (
@@ -570,6 +559,15 @@ const AuthForm = ({
               {linkLabel}
             </Link>
           </p>
+          {isLogin && (
+            <button
+              type="button"
+              onClick={() => navigate("/one-on-one-scheduling")}
+              className="mt-4 cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              📅 Want a 1-on-1 Appointment?
+            </button>
+          )}
         </div>
       </div>
       {(isLogin || isRegister) && <Footer />}

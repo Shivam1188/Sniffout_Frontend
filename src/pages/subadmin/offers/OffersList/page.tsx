@@ -34,7 +34,6 @@ import {
 import { apiService } from "../../../../services/api";
 import { toasterSuccess, toasterError } from "../../../../components/Toaster";
 
-
 const OffersList: React.FC = () => {
   const [offers, setOffers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +41,7 @@ const OffersList: React.FC = () => {
     status: "all",
     search: "",
   });
-  
+
   const [pagination, setPagination] = useState({
     currentPage: 1,
     pageSize: 6,
@@ -54,9 +53,23 @@ const OffersList: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState<number | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (showDropdown !== null) {
-        setShowDropdown(null);
+        const dropdownElement = document.querySelector(
+          `[data-dropdown="${showDropdown}"]`
+        );
+        const buttonElement = document.querySelector(
+          `[data-dropdown-button="${showDropdown}"]`
+        );
+
+        if (
+          dropdownElement &&
+          buttonElement &&
+          !dropdownElement.contains(event.target as Node) &&
+          !buttonElement.contains(event.target as Node)
+        ) {
+          setShowDropdown(null);
+        }
       }
     };
 
@@ -449,13 +462,17 @@ const OffersList: React.FC = () => {
                                   e.stopPropagation();
                                   toggleDropdown(offer.id);
                                 }}
-                                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all duration-200"
+                                data-dropdown-button={offer.id}
+                                className="cursor-pointer p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all duration-200"
                               >
                                 <MoreVertical size={18} />
                               </button>
 
                               {showDropdown === offer.id && (
-                                <div className="absolute right-0 top-12 bg-white border border-slate-200 rounded-xl shadow-2xl z-20 min-w-[180px] py-2">
+                                <div
+                                  data-dropdown={offer.id}
+                                  className="absolute right-0 top-12 bg-white border border-slate-200 rounded-xl shadow-2xl z-20 min-w-[180px] py-2"
+                                >
                                   <Link
                                     to={`/subadmin/offers/${offer.id}`}
                                     className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 transition-colors"

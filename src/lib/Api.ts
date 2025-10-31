@@ -1,8 +1,6 @@
 import { getDecryptedItem, setEncryptedItem } from '../utils/storageHelper';
 const apiUrl = import.meta.env.VITE_API_URL;
 
-console.log(apiUrl)
-
 const BASE_URL = apiUrl;
 const handleResponse = async (response: Response) => {
   if (response.status === 204 || response.status === 205) {
@@ -40,7 +38,6 @@ const refreshAccessToken = async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'ngrok-skip-browser-warning': 'true',
       },
       body: JSON.stringify({ refresh: refreshToken }),
     });

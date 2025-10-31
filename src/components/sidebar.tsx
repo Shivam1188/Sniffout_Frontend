@@ -148,35 +148,70 @@ const Sidebar = () => {
     { label: "Plans", route: "/subadmin/plan" },
     { label: "Subscribe", route: "/subadmin/subscribe" },
   ];
+  const getFilteredMenu = () => {
+    if (role === "admin") return adminMenu;
 
-  const menuItems =
-    role === "admin"
-      ? adminMenu
-      : subdirMenu.filter((item) => {
-          if (isPlanExpired && !isPlanExpiringToday) {
-            const restrictedItems = [
-              "Reservation",
-              "Set No of Tables",
-              "Create Tables ",
-              "Subscribe",
-              "Upselling Offers",
-              // Optionally restrict QR features based on plan
-              // "QR Survey", "QR Offers", etc.
-            ];
-            return !restrictedItems.includes(item.label);
-          }
+    // If we don't have plan data yet, return all subdir menus
+    const hasPlanData =
+      getDecryptedItem("plan_name") || getDecryptedItem("plan_expiry_date");
+    if (!hasPlanData) {
+      return subdirMenu;
+    }
 
-          if (planName === "pro" || isPlanExpiringToday) return true;
+    // Apply filtering only when we have plan data
+    return subdirMenu.filter((item) => {
+      if (isPlanExpired && !isPlanExpiringToday) {
+        const restrictedItems = [
+          "Reservation",
+          "Set No of Tables",
+          "Create Tables ",
+          "Subscribe",
+          "Upselling Offers",
+        ];
+        return !restrictedItems.includes(item.label);
+      }
 
-          const restrictedItems = [
-            "Reservation",
-            "Set No of Tables",
-            "Create Tables ",
-            "Subscribe",
-            // Optionally restrict some QR features for basic plans
-          ];
-          return !restrictedItems.includes(item.label);
-        });
+      if (planName === "pro" || isPlanExpiringToday) return true;
+
+      const restrictedItems = [
+        "Reservation",
+        "Set No of Tables",
+        "Create Tables ",
+        "Subscribe",
+      ];
+      return !restrictedItems.includes(item.label);
+    });
+  };
+
+  const menuItems = getFilteredMenu();
+  // const menuItems =
+  //   role === "admin"
+  //     ? adminMenu
+  //     : subdirMenu.filter((item) => {
+  //         if (isPlanExpired && !isPlanExpiringToday) {
+  //           const restrictedItems = [
+  //             "Reservation",
+  //             "Set No of Tables",
+  //             "Create Tables ",
+  //             "Subscribe",
+  //             "Upselling Offers",
+  //             // Optionally restrict QR features based on plan
+  //             // "QR Survey", "QR Offers", etc.
+  //           ];
+  //           return !restrictedItems.includes(item.label);
+  //         }
+
+  //         if (planName === "pro" || isPlanExpiringToday) return true;
+
+  //         const restrictedItems = [
+  //           "Reservation",
+  //           "Set No of Tables",
+  //           "Create Tables ",
+  //           "Subscribe",
+  //           // Optionally restrict some QR features for basic plans
+  //         ];
+  //         return !restrictedItems.includes(item.label);
+  //       });
 
   const toggleSubmenu = (itemLabel: string) => {
     setOpenSubmenu(openSubmenu === itemLabel ? null : itemLabel);

@@ -227,8 +227,7 @@ const CreateOffer: React.FC = () => {
         submitData.valid_time_end = formData.valid_time_end;
       }
 
-      const response: any = await apiService.createOffer(submitData);
-      console.log(response);
+      await apiService.createOffer(submitData);
       toasterSuccess("Offer created successfully!", 2000, "id");
       navigate("/subadmin/offers/list");
     } catch (error) {

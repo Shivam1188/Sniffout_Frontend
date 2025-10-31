@@ -175,16 +175,10 @@ const OnetoOneScheduling = () => {
       }
 
       const result = await response.json();
-
-      // Handle successful response
-      console.log("Meeting scheduled successfully:", result);
-
-      // Show success popup with the message from API
       setSuccessMessage(result.message || "Meeting scheduled successfully!");
       setMeetingDetails(result.meeting);
       setShowSuccessPopup(true);
 
-      // Reset form
       setUserDetails({
         name: "",
         email: "",
@@ -204,11 +198,9 @@ const OnetoOneScheduling = () => {
     }
   };
 
-  // Effect to handle redirect after success
   useEffect(() => {
     let redirectTimer: any;
     if (showSuccessPopup) {
-      // Redirect after 2 minutes (120000 milliseconds)
       redirectTimer = setTimeout(() => {
         router("/auth/login");
       }, 120000); // 2 minutes
@@ -256,7 +248,6 @@ const OnetoOneScheduling = () => {
     return dateUTC < todayUTC;
   };
 
-  // Function to check if a date is today (UTC)
   const isToday = (date: Date) => {
     const today = new Date();
     return (
@@ -266,7 +257,6 @@ const OnetoOneScheduling = () => {
     );
   };
 
-  // Format month display in UTC
   const formatMonthYear = (date: Date) => {
     return date.toLocaleDateString("en-US", {
       month: "long",

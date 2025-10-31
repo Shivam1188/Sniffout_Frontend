@@ -26,7 +26,6 @@ const QRCodeManager: React.FC = () => {
     try {
       setLoading(true);
       const response = await apiService.getQRCode();
-      console.log("QR Code API Response:", response); // Debug log
 
       if (response?.qr_code) {
         // Convert relative URLs to absolute URLs
@@ -55,10 +54,8 @@ const QRCodeManager: React.FC = () => {
     try {
       setRegenerating(true);
       const response = await apiService.regenerateQRCode();
-      console.log("Regenerate QR Code Response:", response); // Debug log
 
       if (response?.qr_code) {
-        // Convert relative URLs to absolute URLs
         const processedQRCode = {
           ...response.qr_code,
           qr_code_url: response.qr_code.qr_code_url

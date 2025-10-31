@@ -33,12 +33,9 @@ const SurveyQuestions: React.FC = () => {
   };
   const handleCreateQuestion = async (data: Partial<any>): Promise<void> => {
     try {
-      console.log("Creating question with data:", data);
-
       // Check if we need to validate order uniqueness
       if (data.order !== undefined) {
         const existingQuestions = await apiService.getQuestions();
-        console.log(existingQuestions, "==existingQuestions");
         const existingOrder = existingQuestions?.questions?.find(
           (q: any) => q.order === data.order
         );

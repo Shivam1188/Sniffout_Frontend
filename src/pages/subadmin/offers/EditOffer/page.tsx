@@ -149,10 +149,10 @@ const EditOffer: React.FC = () => {
           is_active: offerData.is_active,
         });
       } else {
-        toasterError("Failed to fetch offer data");
+        toasterError("Failed to fetch offer data", 2000, "id");
       }
     } catch (error) {
-      toasterError("Failed to fetch offer");
+      toasterError("Failed to fetch offer", 2000, "id");
       console.error("Error fetching offer:", error);
     } finally {
       setLoading(false);
@@ -271,7 +271,7 @@ const EditOffer: React.FC = () => {
       toasterSuccess("Offer updated successfully!");
       navigate("/subadmin/offers/list");
     } catch (error) {
-      toasterError("Failed to update offer");
+      toasterError("Failed to update offer", 2000, "id");
       console.error("Error updating offer:", error);
     } finally {
       setSubmitting(false);

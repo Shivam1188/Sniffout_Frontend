@@ -69,7 +69,7 @@ const OfferAnalyticsDetail: React.FC = () => {
       setLoading(true);
 
       if (!id) {
-        toasterError("Offer ID is required");
+        toasterError("Offer ID is required", 2000, "id");
         return;
       }
 
@@ -90,11 +90,11 @@ const OfferAnalyticsDetail: React.FC = () => {
       if (analyticsData) {
         setAnalytics(analyticsData);
       } else {
-        toasterError("Failed to fetch analytics data");
+        toasterError("Failed to fetch analytics data", 2000, "id");
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
-      toasterError("Error loading analytics data");
+      toasterError("Error loading analytics data", 2000, "id");
     } finally {
       setLoading(false);
     }

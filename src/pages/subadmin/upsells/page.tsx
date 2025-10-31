@@ -40,7 +40,7 @@ function Upsells() {
       if (res?.success) {
         toasterSuccess(
           res.data?.message || "Upsell deleted successfully",
-          "2000",
+          2000,
           "id"
         );
 

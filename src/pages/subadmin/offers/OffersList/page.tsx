@@ -173,13 +173,13 @@ const OffersList: React.FC = () => {
       setShowDropdown(null);
     } catch (error) {
       console.error("Error deleting offer:", error);
-      toasterError("Failed to delete offer");
+      toasterError("Failed to delete offer", 2000, "id");
     }
   };
 
   const openQRCodeInNewTab = (qrCodeUrl: string) => {
     if (!qrCodeUrl) {
-      toasterError("QR code URL is not available");
+      toasterError("QR code URL is not available", 2000, "id");
       return;
     }
     window.open(qrCodeUrl, "_blank", "noopener,noreferrer");

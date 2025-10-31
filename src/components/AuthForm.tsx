@@ -151,7 +151,7 @@ const AuthForm = ({
     };
 
     if (!(type in endpointMap)) {
-      toasterError("Invalid form type", "2000", "id");
+      toasterError("Invalid form type", 2000, "id");
       return;
     }
 
@@ -230,13 +230,13 @@ const AuthForm = ({
         }
       } else {
         const errorMsg = handleError(response?.error);
-        toasterError(errorMsg, "2000", "id");
+        toasterError(errorMsg, 2000, "id");
       }
     } catch (err: any) {
       console.error("API Error:", err);
       const errorMsg =
         handleError(err?.error) || "An error occurred. Please try again.";
-      toasterError(errorMsg, "2000", "id");
+      toasterError(errorMsg, 2000, "id");
     } finally {
       setLoading(false);
     }

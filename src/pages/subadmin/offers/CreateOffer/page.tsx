@@ -231,7 +231,7 @@ const CreateOffer: React.FC = () => {
       toasterSuccess("Offer created successfully!", 2000, "id");
       navigate("/subadmin/offers/list");
     } catch (error) {
-      toasterError("Failed to create offer");
+      toasterError("Failed to create offer", 2000, "id");
       console.error("Error creating offer:", error);
     } finally {
       setLoading(false);

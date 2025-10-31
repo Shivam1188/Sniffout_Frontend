@@ -55,11 +55,11 @@ const OfferDetails: React.FC = () => {
       if (offerData) {
         setOffer(offerData);
       } else {
-        toasterError("Failed to fetch offer details");
+        toasterError("Failed to fetch offer details", 2000, "id");
       }
     } catch (error) {
       console.error("Error fetching offer:", error);
-      toasterError("Failed to fetch offer details");
+      toasterError("Failed to fetch offer details", 2000, "id");
     } finally {
       setLoading(false);
     }
@@ -67,7 +67,7 @@ const OfferDetails: React.FC = () => {
 
   const handleDownloadQR = async () => {
     if (!offer?.qr_code_url) {
-      toasterError("QR code URL is not available");
+      toasterError("QR code URL is not available", 2000, "id");
       return;
     }
 
@@ -76,7 +76,7 @@ const OfferDetails: React.FC = () => {
       toasterSuccess("QR code downloaded successfully!", 2000, "id");
     } catch (error) {
       console.error("Error downloading QR code:", error);
-      toasterError("Failed to download QR code");
+      toasterError("Failed to download QR code", 2000, "id");
     }
   };
 
@@ -109,11 +109,11 @@ const OfferDetails: React.FC = () => {
           "id"
         );
       } else {
-        toasterError("Failed to update offer status");
+        toasterError("Failed to update offer status", 2000, "id");
       }
     } catch (error) {
       console.error("Error toggling offer status:", error);
-      toasterError("Failed to update offer status");
+      toasterError("Failed to update offer status", 2000, "id");
     } finally {
       setActionLoading(false);
     }
@@ -155,11 +155,11 @@ const OfferDetails: React.FC = () => {
         toasterSuccess("Offer duplicated successfully!", 2000, "id");
         navigate(`/subadmin/offers/${duplicatedOffer.id}`);
       } else {
-        toasterError("Failed to duplicate offer");
+        toasterError("Failed to duplicate offer", 2000, "id");
       }
     } catch (error) {
       console.error("Error duplicating offer:", error);
-      toasterError("Failed to duplicate offer");
+      toasterError("Failed to duplicate offer", 2000, "id");
     } finally {
       setActionLoading(false);
     }
@@ -169,7 +169,7 @@ const OfferDetails: React.FC = () => {
     if (offer?.qr_code_url) {
       window.open(offer.qr_code_url, "_blank", "noopener,noreferrer");
     } else {
-      toasterError("QR code URL is not available");
+      toasterError("QR code URL is not available", 2000, "id");
     }
   };
 

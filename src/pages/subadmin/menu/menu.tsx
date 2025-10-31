@@ -50,7 +50,7 @@ function MenuData() {
       if (res?.success) {
         toasterSuccess(
           res?.data?.message || "Menu deleted successfully",
-          "2000",
+          2000,
           "id"
         );
 

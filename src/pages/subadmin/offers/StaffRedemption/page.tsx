@@ -23,7 +23,7 @@ const StaffRedemption: React.FC = () => {
     e.preventDefault();
 
     if (!redemptionCode.trim()) {
-      toasterError("Please enter a redemption code");
+      toasterError("Please enter a redemption code", 2000, "id");
       return;
     }
 

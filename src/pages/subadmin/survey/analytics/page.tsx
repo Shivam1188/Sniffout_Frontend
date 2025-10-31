@@ -21,7 +21,7 @@ const SurveyAnalytics: React.FC = () => {
       const response = await apiService.getAnalytics({ days: timeRange });
       setAnalytics(response.analytics);
     } catch (error) {
-      toasterError("Failed to fetch analytics");
+      toasterError("Failed to fetch analytics", 2000, "id");
       console.error("Error fetching analytics:", error);
     } finally {
       setLoading(false);

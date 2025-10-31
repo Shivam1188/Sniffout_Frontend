@@ -92,7 +92,7 @@ const Redemptions: React.FC = () => {
         setOffers(response.results.offers);
       }
     } catch (error) {
-      toasterError("Failed to fetch offers");
+      toasterError("Failed to fetch offers", 2000, "id");
       console.error("Error fetching offers:", error);
     } finally {
       setLoading(false);
@@ -115,7 +115,7 @@ const Redemptions: React.FC = () => {
 
       setRedemptions(redemptionsData);
     } catch (error) {
-      toasterError("Failed to fetch redemption history");
+      toasterError("Failed to fetch redemption history", 2000, "id");
       console.error("Error fetching redemptions:", error);
     } finally {
       setLoadingRedemptions(false);
@@ -165,7 +165,7 @@ const Redemptions: React.FC = () => {
 
   const exportToCSV = () => {
     if (redemptions.length === 0) {
-      toasterError("No redemptions to export");
+      toasterError("No redemptions to export", 2000, "id");
       return;
     }
 

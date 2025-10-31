@@ -56,7 +56,7 @@ const RedemptionView: React.FC = () => {
     if (id) {
       fetchRedemptionDetails();
     } else {
-      toasterError("Invalid redemption ID");
+      toasterError("Invalid redemption ID", 2000, "id");
       navigate("/subadmin/offers/redemptions");
     }
   }, [id, navigate]);
@@ -64,7 +64,7 @@ const RedemptionView: React.FC = () => {
   const fetchRedemptionDetails = async () => {
     // Add null check for id
     if (!id) {
-      toasterError("Invalid redemption ID");
+      toasterError("Invalid redemption ID", 2000, "id");
       navigate("/subadmin/offers/redemptions");
       return;
     }
@@ -100,7 +100,7 @@ const RedemptionView: React.FC = () => {
           // FIX: Add proper type checking and handle undefined id
           const redemptionId = parseInt(id);
           if (isNaN(redemptionId)) {
-            toasterError("Invalid redemption ID format");
+            toasterError("Invalid redemption ID format", 2000, "id");
             navigate("/subadmin/offers/redemptions");
             return;
           }
@@ -133,7 +133,7 @@ const RedemptionView: React.FC = () => {
       if (redemptionFound) {
         setRedemption(redemptionFound);
       } else {
-        toasterError("Redemption not found");
+        toasterError("Redemption not found", 2000, "id");
         navigate("/subadmin/offers/redemptions");
       }
     } catch (error) {

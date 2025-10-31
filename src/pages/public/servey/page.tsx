@@ -26,7 +26,14 @@ import { toasterError, toasterSuccess } from "../../../components/Toaster";
 interface Question {
   id: number;
   question_text: string;
-  question_type: "rating" | "yes_no" | "scale" | "text" | "checkbox" | "mcq";
+  question_type:
+    | "rating"
+    | "yes_no"
+    | "scale"
+    | "text"
+    | "checkbox"
+    | "mcq"
+    | "textarea";
   options?: string[];
   is_required: boolean;
   min_value?: number;
@@ -74,7 +81,7 @@ const PublicSurveyPage: React.FC = () => {
     try {
       setLoading(true);
       if (!uniqueCode) {
-        toasterError("Invalid survey link");
+        toasterError("Invalid survey link", 2000, "id");
         return;
       }
 
@@ -92,7 +99,7 @@ const PublicSurveyPage: React.FC = () => {
       setCharacterCount(initialCounts);
     } catch (error: any) {
       console.error("Error fetching survey:", error);
-      toasterError(error.message || "Failed to load survey");
+      toasterError(error.message || "Failed to load survey", 2000, "id");
     } finally {
       setLoading(false);
     }
@@ -110,24 +117,24 @@ const PublicSurveyPage: React.FC = () => {
 
   const validateCustomerInfo = (): boolean => {
     if (!customerInfo.customer_name.trim()) {
-      toasterError("Please enter your name");
+      toasterError("Please enter your name", 2000, "id");
       return false;
     }
 
     if (!customerInfo.customer_email.trim()) {
-      toasterError("Please enter your email");
+      toasterError("Please enter your email", 2000, "id");
       return false;
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(customerInfo.customer_email)) {
-      toasterError("Please enter a valid email address");
+      toasterError("Please enter a valid email address", 2000, "id");
       return false;
     }
 
     if (!customerInfo.customer_phone.trim()) {
-      toasterError("Please enter your phone number");
+      toasterError("Please enter your phone number", 2000, "id");
       return false;
     }
 
@@ -160,7 +167,7 @@ const PublicSurveyPage: React.FC = () => {
     const currentQuestion = questions[currentQuestionIndex];
 
     if (currentQuestion.is_required && !responses[currentQuestion.id]) {
-      toasterError("This question is required");
+      toasterError("This question is required", 2000, "id");
       return;
     }
 
@@ -171,7 +178,11 @@ const PublicSurveyPage: React.FC = () => {
     ) {
       const response = responses[currentQuestion.id] || "";
       if (response.length < 10) {
-        toasterError(`Please provide at least 10 characters for your response`);
+        toasterError(
+          `Please provide at least 10 characters for your response`,
+          2000,
+          "id"
+        );
         return;
       }
     }
@@ -195,7 +206,7 @@ const PublicSurveyPage: React.FC = () => {
     const missingRequired = requiredQuestions.filter((q) => !responses[q.id]);
 
     if (missingRequired.length > 0) {
-      toasterError(`Please answer all required questions`);
+      toasterError(`Please answer all required questions`, 2000, "id");
       const firstMissing = questions.findIndex(
         (q) => q.id === missingRequired[0].id
       );
@@ -213,7 +224,11 @@ const PublicSurveyPage: React.FC = () => {
     });
 
     if (invalidTextResponses.length > 0) {
-      toasterError(`Please provide at least 10 characters for text responses`);
+      toasterError(
+        `Please provide at least 10 characters for text responses`,
+        2000,
+        "id"
+      );
       const firstInvalid = questions.findIndex(
         (q) => q.id === invalidTextResponses[0].id
       );
@@ -255,7 +270,7 @@ const PublicSurveyPage: React.FC = () => {
       toasterSuccess("Thank you for your valuable feedback!", 3000);
     } catch (error: any) {
       console.error("Error submitting survey:", error);
-      toasterError(error.message || "Failed to submit survey");
+      toasterError(error.message || "Failed to submit survey", 2000, "id");
     } finally {
       setSubmitting(false);
     }

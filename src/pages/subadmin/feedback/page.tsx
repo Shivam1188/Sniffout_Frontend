@@ -114,7 +114,7 @@ function Feedback() {
       if (res?.success) {
         toasterSuccess(
           res?.data?.message || "Questions deleted successfully",
-          "2000",
+          2000,
           "id"
         );
 

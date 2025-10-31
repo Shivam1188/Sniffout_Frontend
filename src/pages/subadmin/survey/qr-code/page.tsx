@@ -43,7 +43,7 @@ const QRCodeManager: React.FC = () => {
         setQRCode(null);
       }
     } catch (error) {
-      toasterError("Failed to fetch QR code");
+      toasterError("Failed to fetch QR code", 2000, "id");
       console.error("Error fetching QR code:", error);
     } finally {
       setLoading(false);
@@ -69,7 +69,7 @@ const QRCodeManager: React.FC = () => {
         toasterSuccess("QR code regenerated successfully", 2000, "id");
       }
     } catch (error) {
-      toasterError("Failed to regenerate QR code");
+      toasterError("Failed to regenerate QR code", 2000, "id");
       console.error("Error regenerating QR code:", error);
     } finally {
       setRegenerating(false);
@@ -87,7 +87,7 @@ const QRCodeManager: React.FC = () => {
       document.body.removeChild(link);
       toasterSuccess("QR code downloaded", 2000, "id");
     } else {
-      toasterError("QR code URL not available");
+      toasterError("QR code URL not available", 2000, "id");
     }
   };
 
@@ -96,7 +96,7 @@ const QRCodeManager: React.FC = () => {
       navigator.clipboard.writeText(qrCode.survey_url);
       toasterSuccess("Survey link copied to clipboard", 2000, "id");
     } else {
-      toasterError("Survey URL not available");
+      toasterError("Survey URL not available", 2000, "id");
     }
   };
 
@@ -104,7 +104,7 @@ const QRCodeManager: React.FC = () => {
     if (qrCode?.survey_url) {
       window.open(qrCode.survey_url, "_blank", "noopener,noreferrer");
     } else {
-      toasterError("Survey URL not available");
+      toasterError("Survey URL not available", 2000, "id");
     }
   };
 
@@ -112,7 +112,7 @@ const QRCodeManager: React.FC = () => {
     if (qrCode?.qr_code_url) {
       window.open(qrCode.qr_code_url, "_blank", "noopener,noreferrer");
     } else {
-      toasterError("QR code URL not available");
+      toasterError("QR code URL not available", 2000, "id");
     }
   };
 

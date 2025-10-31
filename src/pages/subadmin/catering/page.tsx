@@ -48,7 +48,7 @@ function Catering() {
       if (res?.success) {
         toasterSuccess(
           res?.data?.message || "Catering deleted successfully",
-          "2000",
+          2000,
           "id"
         );
 

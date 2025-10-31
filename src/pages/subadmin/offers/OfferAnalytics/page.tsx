@@ -121,7 +121,7 @@ const OfferAnalytics: React.FC = () => {
       return [];
     } catch (error) {
       console.error("Error exporting analytics:", error);
-      toasterError("Failed to export analytics data");
+      toasterError("Failed to export analytics data", 2000, "id");
       return [];
     }
   };
@@ -183,11 +183,11 @@ const OfferAnalytics: React.FC = () => {
       if (analyticsData) {
         setAnalytics(analyticsData);
       } else {
-        toasterError("Failed to fetch analytics data");
+        toasterError("Failed to fetch analytics data", 2000, "id");
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
-      toasterError("Failed to fetch analytics");
+      toasterError("Failed to fetch analytics", 2000, "id");
     } finally {
       setLoading(false);
     }

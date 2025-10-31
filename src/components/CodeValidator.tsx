@@ -12,7 +12,7 @@ const CodeValidator: React.FC = () => {
 
   const validateCode = async () => {
     if (!redemptionCode.trim()) {
-      toasterError("Please enter a redemption code");
+      toasterError("Please enter a redemption code", 2000, "id");
       return;
     }
 
@@ -35,7 +35,7 @@ const CodeValidator: React.FC = () => {
         setRedemptionCode("");
       } else {
         setValidationResult(response);
-        toasterError(response.error || "Validation failed");
+        toasterError(response.error || "Validation failed", 2000, "id");
       }
     } catch (error: any) {
       const errorResult: any = {
@@ -44,7 +44,7 @@ const CodeValidator: React.FC = () => {
         status_code: error.response?.data?.status_code,
       };
       setValidationResult(errorResult);
-      toasterError(errorResult.error);
+      toasterError(errorResult.error, 2000, "id");
     } finally {
       setLoading(false);
     }

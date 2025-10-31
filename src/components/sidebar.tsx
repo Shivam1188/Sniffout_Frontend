@@ -270,7 +270,7 @@ const Sidebar = () => {
       });
 
       if (response?.data?.success) {
-        toasterSuccess(response?.data?.message, "2000", "id");
+        toasterSuccess(response?.data?.message, 2000, "id");
 
         // Remove all encrypted items
         removeEncryptedItem("refreshToken");

@@ -77,12 +77,14 @@ const EditRestaurant = () => {
         navigate("/admin/restaurants");
       } else {
         toasterError(
-          response.data.message || "Update failed. Please try again."
+          response.data.message || "Update failed. Please try again.",
+          2000,
+          "id"
         );
       }
     } catch (err) {
       console.error(err);
-      toasterError("Something went wrong.");
+      toasterError("Something went wrong.", 2000, "id");
     }
   };
 

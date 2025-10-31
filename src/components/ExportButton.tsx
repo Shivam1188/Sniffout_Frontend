@@ -63,7 +63,7 @@ const ExportButtonAdvanced: React.FC<ExportButtonAdvancedProps> = ({
       const data = await exportFunction();
 
       if (!data || data.length === 0) {
-        toasterError("No data available to export");
+        toasterError("No data available to export", 2000, "id");
         return;
       }
 
@@ -74,7 +74,7 @@ const ExportButtonAdvanced: React.FC<ExportButtonAdvancedProps> = ({
       }
     } catch (error) {
       console.error("Export failed:", error);
-      toasterError("Failed to export data");
+      toasterError("Failed to export data", 2000, "id");
     } finally {
       setExportLoading(false);
     }

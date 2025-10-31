@@ -34,6 +34,7 @@ import {
 import { apiService } from "../../../../services/api";
 import { toasterSuccess, toasterError } from "../../../../components/Toaster";
 
+
 const OffersList: React.FC = () => {
   const [offers, setOffers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ const OffersList: React.FC = () => {
     status: "all",
     search: "",
   });
+  
   const [pagination, setPagination] = useState({
     currentPage: 1,
     pageSize: 6,

@@ -264,170 +264,154 @@ const AuthForm = ({
           {/* Content */}
           <div className="p-6 overflow-y-auto max-h-[80vh] text-gray-700 dark:text-gray-200">
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              SniffoutAI – Terms and Conditions (United States)
+              SniffOut.ai – Terms and Conditions
             </h2>
             <p className="text-sm mb-4 italic">
-              Effective Date: October 14, 2025
+              Effective Date: November 2, 2025
             </p>
 
+            <h3 className="text-xl font-semibold mt-6 mb-2">1. Introduction</h3>
             <p className="mb-4">
-              Welcome to SniffoutAI! These Terms and Conditions ("Terms") govern
-              your access to and use of SniffoutAI's website, software, AI call
-              systems, and services ("Services"). By using our Services, you
-              agree to be bound by these Terms.
+              Welcome to <strong>SniffOut.ai</strong>. These terms and
+              conditions (“Terms”) govern your use of our AI-powered
+              communication platform, including SMS, email, and voice
+              notifications, on behalf of participating restaurants, agencies,
+              or partners.
+            </p>
+            <p className="mb-4">
+              By using the Service, you agree to comply with and be bound by
+              these Terms. If you do not accept any part of these Terms, please
+              do not use our services.
             </p>
 
             <h3 className="text-xl font-semibold mt-6 mb-2">
-              1. About SniffoutAI
+              2. Services Provided
             </h3>
             <p className="mb-4">
-              SniffoutAI is an AI-driven communication and automation platform
-              for businesses. It enables users to manage voice-based customer
-              interactions, SMS campaigns, and analytics through an online
-              dashboard.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">2. Eligibility</h3>
-            <p className="mb-4">
-              You must be at least 18 years old and legally capable of entering
-              into binding agreements under U.S. law to use SniffoutAI Services.
+              SniffOut.ai enables automated delivery of notifications, offers,
+              updates, reservations, loyalty program details, and promotional
+              messages via SMS, email, and voice. Services may be accessed
+              through restaurant websites, marketing campaigns, partner
+              integrations, or other approved channels.
             </p>
 
             <h3 className="text-xl font-semibold mt-6 mb-2">
-              3. Account Registration
-            </h3>
-            <p className="mb-4">
-              To use our Services, you must create an account, provide accurate
-              information, and keep your credentials secure. You are responsible
-              for all activities under your account.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              4. Plans and Payments
-            </h3>
-            <ul className="list-disc pl-6 mb-4 space-y-1">
-              <li>
-                <strong>Plans:</strong> Users can select from Starter, Pro, or
-                Enterprise plans. Enterprise plan pricing and terms are
-                customized.
-              </li>
-              <li>
-                <strong>Payment Processor:</strong> All payments are securely
-                processed via Stripe. SniffoutAI does not store credit card
-                details.
-              </li>
-            </ul>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              5. Use of Services
-            </h3>
-            <p className="mb-4">
-              You agree to use SniffoutAI Services lawfully and only for your
-              business purposes. You may not misuse, reverse-engineer, or
-              exploit the AI system or APIs.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              6. Communication Data
+              3. User Consent and Opt-In
             </h3>
             <p className="mb-2">
-              SniffoutAI processes certain call and SMS data to provide
-              analytics and automation:
+              You must provide explicit, documented consent before receiving
+              automated messages. Opt-in may be collected through:
             </p>
             <ul className="list-disc pl-6 mb-4 space-y-1">
               <li>
-                Call information (duration, timestamps, caller ID) is logged but
-                not recorded.
+                Checkbox or digital acceptance on restaurant/partner websites
               </li>
               <li>
-                SMS records (content, sender, recipient, timestamps) are
-                securely stored for business purposes.
+                Responding to SMS keywords (with a confirmation message
+                outlining terms)
               </li>
+              <li>API-based or integration workflow confirmations</li>
             </ul>
             <p className="mb-4">
-              You agree to comply with all applicable U.S. telecommunications
-              laws, including the Telephone Consumer Protection Act (TCPA).
+              By opting in, you authorize SniffOut.ai and its partners to send
+              you recurring messages or calls unless you opt out.
             </p>
 
             <h3 className="text-xl font-semibold mt-6 mb-2">
-              7. AI System and Accuracy Disclaimer
+              4. Message, Data, and Call Rates
             </h3>
             <p className="mb-4">
-              SniffoutAI uses AI and automation systems that may generate
-              responses or actions based on trained models. While we strive for
-              accuracy and reliability, SniffoutAI makes no guarantees regarding
-              the correctness, reliability, or suitability of AI-generated
-              responses.
+              Standard SMS, email, and voice rates may apply based on your
+              carrier and service provider. SniffOut.ai is not responsible for
+              these charges.
             </p>
 
             <h3 className="text-xl font-semibold mt-6 mb-2">
-              8. Limitation of Liability
+              5. Opt-Out and Support
             </h3>
             <p className="mb-4">
-              To the fullest extent permitted by law, SniffoutAI and its
-              affiliates are not liable for indirect, incidental, or
-              consequential damages, including lost profits, business
-              interruptions, or data loss. Total liability shall not exceed the
-              total fees paid by you within the past 12 months.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              9. Intellectual Property
-            </h3>
-            <p className="mb-4">
-              All SniffoutAI trademarks, logos, and platform content are
-              protected intellectual property. You may not copy, reproduce, or
-              distribute without prior written consent.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">10. Termination</h3>
-            <p className="mb-4">
-              We may suspend or terminate your access if you breach these Terms
-              or misuse our Services. You may terminate your account anytime
-              through your dashboard.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              11. Modifications to Service
-            </h3>
-            <p className="mb-4">
-              SniffoutAI may modify, suspend, or discontinue portions of the
-              Services with notice. Continued use after updates constitutes
-              acceptance of new Terms.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              12. Governing Law and Dispute Resolution
-            </h3>
-            <p className="mb-4">
-              These Terms are governed by and construed under the laws of the
-              State of California, U.S.A. Any disputes will be resolved in the
-              courts located in San Francisco County, California.
-            </p>
-
-            <h3 className="text-xl font-semibold mt-6 mb-2">
-              13. Contact Information
-            </h3>
-            <p className="mb-4">For questions about these Terms, contact:</p>
-            <p className="mb-4">
-              <strong>SniffoutAI Office</strong>
-              <br />
-              Email:{" "}
+              You may opt out at any time by replying <strong>STOP</strong>{" "}
+              (SMS), using unsubscribe links (email), or following voice opt-out
+              prompts. For help, reply <strong>HELP</strong> or email{" "}
               <a
-                href="mailto:sniffout.ai@gmail.com"
+                href="mailto:info@sniffout.ai"
                 className="text-blue-600 dark:text-blue-400"
               >
-                sniffout.ai@gmail.com
+                info@sniffout.ai
               </a>
-              <br />
-              Website:{" "}
+              . Upon opting out, you will no longer receive automated
+              communications.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              6. Privacy and Data Protection
+            </h3>
+            <p className="mb-4">
+              SniffOut.ai collects and uses personal data (e.g., phone number,
+              email, call/audio logs) only for platform operations and service
+              improvement. We never sell or share personal information with
+              third parties except as required for regulatory compliance or
+              service delivery. Please review our Privacy Policy for full
+              details.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              7. Acceptable Use
+            </h3>
+            <p className="mb-4">
+              Users must not use the Service for unlawful, abusive, or
+              fraudulent activity. No spamming, harassment, or sharing of
+              illegal content is tolerated. Accounts may be suspended or
+              terminated for violations.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              8. Intellectual Property
+            </h3>
+            <p className="mb-4">
+              All content, technology, branding, and materials from SniffOut.ai
+              are the exclusive property of SniffOut.ai or its licensors. Users
+              may not copy, modify, or distribute assets without written
+              permission.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              9. Limitation of Liability
+            </h3>
+            <p className="mb-4">
+              SniffOut.ai and its partners are not liable for damages resulting
+              from service interruptions, delivery delays, or third-party
+              failures, except where prohibited by law.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              10. Modifications and Interruptions
+            </h3>
+            <p className="mb-4">
+              We reserve the right to change service content, suspend access, or
+              update the Terms anytime. Changes take effect upon posting;
+              continued use constitutes acceptance.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              11. Governing Law
+            </h3>
+            <p className="mb-4">
+              These Terms are governed by the laws of Montgomery County,
+              Pennsylvania. Disputes are subject to arbitration or local courts
+              as applicable.
+            </p>
+
+            <h3 className="text-xl font-semibold mt-6 mb-2">
+              12. Contact Information
+            </h3>
+            <p className="mb-4">
+              Questions or concerns? Please contact:{" "}
               <a
-                href="https://sniffout.ai"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:info@sniffout.ai"
                 className="text-blue-600 dark:text-blue-400"
               >
-                https://sniffout.ai
+                info@sniffout.ai
               </a>
             </p>
           </div>

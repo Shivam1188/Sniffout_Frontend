@@ -77,6 +77,8 @@ import OfferAnalytics from "./pages/subadmin/offers/OfferAnalytics/page.tsx";
 import OfferAnalyticsDetail from "./pages/subadmin/offers/OfferAnalytics/detail/page.tsx";
 import PublicQRRedemptionPage from "./pages/public/QrRedemption/page.tsx";
 import PubliceSurveyPage from "./pages/public/servey/page.tsx";
+import Tickets from "./pages/subadmin/tickets/page.tsx";
+import AdminTicket from "./pages/admin/tickets/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -111,6 +113,12 @@ const AppRouter = () => {
           element={<ProtectedRoute allowedRole="admin" element={<Layout />} />}
         >
           {/* Admin Routes */}
+          <Route
+            path="/admin/tickets"
+            element={
+              <ProtectedRoute allowedRole="admin" element={<AdminTicket />} />
+            }
+          />{" "}
           <Route
             path="/admin/dashboard"
             element={
@@ -201,72 +209,8 @@ const AppRouter = () => {
         <Route
           element={<ProtectedRoute allowedRole="subdir" element={<Layout />} />}
         >
-          {/* Subadmin Routes */}
-          {/* QR Offers Routes */}
           <Route
-            path="/subadmin/offers/list"
-            element={
-              <ProtectedRoute allowedRole="subdir" element={<OffersList />} />
-            }
-          />
-          <Route
-            path="/subadmin/offers/create"
-            element={
-              <ProtectedRoute allowedRole="subdir" element={<CreateOffer />} />
-            }
-          />
-          <Route
-            path="/subadmin/offers/edit/:id"
-            element={
-              <ProtectedRoute allowedRole="subdir" element={<EditOffer />} />
-            }
-          />
-          <Route
-            path="/subadmin/offers/:id"
-            element={
-              <ProtectedRoute allowedRole="subdir" element={<OfferDetails />} />
-            }
-          />
-
-          <Route
-            path="/subadmin/offers/:id/analytics"
-            element={
-              <ProtectedRoute
-                allowedRole="subdir"
-                element={<OfferAnalyticsDetail />}
-              />
-            }
-          />
-          <Route
-            path="/subadmin/offers/analytics"
-            element={
-              <ProtectedRoute
-                allowedRole="subdir"
-                element={<OfferAnalytics />}
-              />
-            }
-          />
-          <Route
-            path="/subadmin/offers/redemptions"
-            element={
-              <ProtectedRoute
-                allowedRole="subdir"
-                element={<RedemptionHistory />}
-              />
-            }
-          />
-          <Route
-            path="/subadmin/offers/staff"
-            element={
-              <ProtectedRoute
-                allowedRole="subdir"
-                element={<StaffRedemption />}
-              />
-            }
-          />
-          {/* Survey Routes */}
-          <Route
-            path="/subadmin/survey/questions"
+            path="/subadmin/qr-codes/survey/questions"
             element={
               <ProtectedRoute
                 allowedRole="subdir"
@@ -274,9 +218,15 @@ const AppRouter = () => {
               />
             }
           />
+          <Route
+            path="/subadmin/tickets"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<Tickets />} />
+            }
+          />
 
           <Route
-            path="/subadmin/survey/analytics"
+            path="/subadmin/qr-codes/survey/analytics"
             element={
               <ProtectedRoute
                 allowedRole="subdir"
@@ -285,10 +235,130 @@ const AppRouter = () => {
             }
           />
           <Route
-            path="/subadmin/survey/qr-code"
+            path="/subadmin/qr-codes/survey/qr-code"
             element={
               <ProtectedRoute allowedRole="subdir" element={<SurveyQrCode />} />
             }
+          />
+          {/* QR Offers Routes */}
+          <Route
+            path="/subadmin/qr-codes/offers/list"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<OffersList />} />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/create"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<CreateOffer />} />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/edit/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<EditOffer />} />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/:id"
+            element={
+              <ProtectedRoute allowedRole="subdir" element={<OfferDetails />} />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/:id/analytics"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<OfferAnalyticsDetail />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/analytics"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<OfferAnalytics />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/redemptions"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<RedemptionHistory />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/qr-codes/offers/staff"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<StaffRedemption />}
+              />
+            }
+          />
+          {/* Redirect old QR routes to new ones for backward compatibility */}
+          <Route
+            path="/subadmin/survey/questions"
+            element={
+              <Navigate to="/subadmin/qr-codes/survey/questions" replace />
+            }
+          />
+          <Route
+            path="/subadmin/survey/analytics"
+            element={
+              <Navigate to="/subadmin/qr-codes/survey/analytics" replace />
+            }
+          />
+          <Route
+            path="/subadmin/survey/qr-code"
+            element={
+              <Navigate to="/subadmin/qr-codes/survey/qr-code" replace />
+            }
+          />
+          <Route
+            path="/subadmin/offers/list"
+            element={<Navigate to="/subadmin/qr-codes/offers/list" replace />}
+          />
+          <Route
+            path="/subadmin/offers/create"
+            element={<Navigate to="/subadmin/qr-codes/offers/create" replace />}
+          />
+          <Route
+            path="/subadmin/offers/edit/:id"
+            element={
+              <Navigate to="/subadmin/qr-codes/offers/edit/:id" replace />
+            }
+          />
+          <Route
+            path="/subadmin/offers/:id"
+            element={<Navigate to="/subadmin/qr-codes/offers/:id" replace />}
+          />
+          <Route
+            path="/subadmin/offers/:id/analytics"
+            element={
+              <Navigate to="/subadmin/qr-codes/offers/:id/analytics" replace />
+            }
+          />
+          <Route
+            path="/subadmin/offers/analytics"
+            element={
+              <Navigate to="/subadmin/qr-codes/offers/analytics" replace />
+            }
+          />
+          <Route
+            path="/subadmin/offers/redemptions"
+            element={
+              <Navigate to="/subadmin/qr-codes/offers/redemptions" replace />
+            }
+          />
+          <Route
+            path="/subadmin/offers/staff"
+            element={<Navigate to="/subadmin/qr-codes/offers/staff" replace />}
           />
           {/* Other Subadmin Routes */}
           <Route

@@ -5,11 +5,21 @@ const Login = () => {
     <AuthForm
       title="Welcome Back"
       fields={[
-        { name: "email", label: "Email", type: "email", placeholder: "you@example.com" },
-        { name: "password", label: "Password", type: "password", placeholder: "••••••••" }
+        {
+          name: "loginIdentifier",
+          label: "Email or Phone Number",
+          type: "text",
+          placeholder: "you@example.com or 1234567890",
+        },
+        {
+          name: "password",
+          label: "Password",
+          type: "password",
+          placeholder: "••••••••",
+        },
       ]}
       buttonText="🔐 Login"
-      linkText="Don’t have an account?"
+      linkText="Don't have an account?"
       linkPath="/auth/signup"
       linkLabel="Sign up"
       type="login"

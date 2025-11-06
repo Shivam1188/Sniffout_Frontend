@@ -24,6 +24,12 @@ const SignUp = () => {
           placeholder: "Enter email",
         },
         {
+          name: "office_number",
+          label: "Phone Number",
+          type: "tel",
+          placeholder: "123-456-7890",
+        },
+        {
           name: "password",
           label: "Password",
           type: "password",

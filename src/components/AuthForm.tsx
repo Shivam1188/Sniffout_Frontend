@@ -25,9 +25,11 @@ const AuthForm = ({
     firstname: "",
     lastname: "",
     email: "",
+    office_number: "",
     password: "",
     confirmpassword: "",
     role: "",
+    loginIdentifier: "",
   });
 
   const [showPassword, setShowPassword] = useState<{
@@ -39,7 +41,7 @@ const AuthForm = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false); // New state for checkbox
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
@@ -52,10 +54,35 @@ const AuthForm = ({
       newErrors.lastname = "Last name is required";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!formData.email.match(/^\S+@\S+\.\S+$/)) {
-      newErrors.email = "Please enter a valid email address";
+    if (isLogin) {
+      if (!formData.loginIdentifier.trim()) {
+        newErrors.loginIdentifier = "Email or Phone number is required";
+      } else {
+        const isEmail = formData.loginIdentifier.match(/^\S+@\S+\.\S+$/);
+        const cleanPhone = formData.loginIdentifier.replace(/\D/g, "");
+        const isPhone = cleanPhone.length === 10;
+
+        if (!isEmail && !isPhone) {
+          newErrors.loginIdentifier =
+            "Please enter a valid email address or 10-digit phone number";
+        }
+      }
+    } else {
+      if (!formData.email.trim()) {
+        newErrors.email = "Email is required";
+      } else if (!formData.email.match(/^\S+@\S+\.\S+$/)) {
+        newErrors.email = "Please enter a valid email address";
+      }
+    }
+
+    if (isRegister && !formData.office_number.trim()) {
+      newErrors.office_number = "Phone number is required";
+    } else if (
+      isRegister &&
+      formData.office_number.trim() &&
+      !formData.office_number.match(/^\d{10}$/)
+    ) {
+      newErrors.office_number = "Please enter a valid 10-digit phone number";
     }
 
     if (type !== "forgot-password" && !formData.password.trim()) {
@@ -72,7 +99,6 @@ const AuthForm = ({
       newErrors.confirmpassword = "Passwords do not match";
     }
 
-    // Add validation for terms and conditions checkbox for signup
     if (isRegister && !acceptedTerms) {
       newErrors.terms = "You must accept the Terms and Conditions";
     }
@@ -97,10 +123,8 @@ const AuthForm = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
 
-    // Handle checkbox separately
     if (type === "checkbox") {
       setAcceptedTerms(checked);
-      // Clear terms error when checkbox is checked
       if (checked && errors.terms) {
         setErrors((prev) => ({
           ...prev,
@@ -108,12 +132,19 @@ const AuthForm = ({
         }));
       }
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      if (name === "office_number") {
+        const numericValue = value.replace(/\D/g, "").slice(0, 10);
+        setFormData((prev) => ({
+          ...prev,
+          [name]: numericValue,
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
 
-      // Clear error for this field when user starts typing
       if (errors[name]) {
         setErrors((prev) => ({
           ...prev,
@@ -129,13 +160,14 @@ const AuthForm = ({
 
     const endpointMap: Record<string, (data: typeof formData) => any> = {
       login: (data) => ({
-        email: data.email,
+        email_or_phone: data.loginIdentifier,
         password: data.password,
       }),
       signup: (data) => ({
         first_name: data.firstname,
         last_name: data.lastname,
         email: data.email,
+        office_number: data.office_number,
         password: data.password,
         role: "subdir",
       }),
@@ -187,6 +219,11 @@ const AuthForm = ({
           setEncryptedItem(
             "email",
             response?.data?.data?.email || response?.data?.data?.user?.email
+          );
+          setEncryptedItem(
+            "office_number",
+            response?.data?.data?.office_number ||
+              response?.data?.data?.user?.office_number
           );
           setEncryptedItem(
             "subadmin_id",
@@ -273,7 +310,7 @@ const AuthForm = ({
             <h3 className="text-xl font-semibold mt-6 mb-2">1. Introduction</h3>
             <p className="mb-4">
               Welcome to <strong>SniffOut.ai</strong>. These terms and
-              conditions (“Terms”) govern your use of our AI-powered
+              conditions ("Terms") govern your use of our AI-powered
               communication platform, including SMS, email, and voice
               notifications, on behalf of participating restaurants, agencies,
               or partners.
@@ -421,7 +458,7 @@ const AuthForm = ({
             <button
               onClick={() => {
                 setShowTermsPopup(false);
-                setAcceptedTerms(true); // Auto-check the checkbox when user clicks "I Understand"
+                setAcceptedTerms(true);
               }}
               className="cursor-pointer px-6 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200"
             >
@@ -431,6 +468,17 @@ const AuthForm = ({
         </div>
       </div>
     );
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    const numbers = value.replace(/\D/g, "");
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 6)
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(
+      6,
+      10
+    )}`;
   };
 
   return (
@@ -448,15 +496,30 @@ const AuthForm = ({
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   {field.label}
                 </label>
-                <input
-                  name={field.name}
-                  value={formData[field.name as keyof typeof formData] || ""}
-                  type={getInputType(field.name, field.type)}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                  placeholder={field.placeholder}
-                />
+                {field.name === "office_number" ? (
+                  <input
+                    name={field.name}
+                    value={formatPhoneNumber(
+                      formData[field.name as keyof typeof formData] || ""
+                    )}
+                    type="tel"
+                    onChange={handleChange}
+                    disabled={loading}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    placeholder="123-456-7890"
+                    maxLength={12}
+                  />
+                ) : (
+                  <input
+                    name={field.name}
+                    value={formData[field.name as keyof typeof formData] || ""}
+                    type={getInputType(field.name, field.type)}
+                    onChange={handleChange}
+                    disabled={loading}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    placeholder={field.placeholder}
+                  />
+                )}
                 {field.type === "password" && (
                   <button
                     type="button"
@@ -482,7 +545,6 @@ const AuthForm = ({
               </div>
             ))}
 
-            {/* Terms and Conditions Checkbox - Only show for signup */}
             {isRegister && (
               <div className="flex items-start space-x-3">
                 <input
@@ -513,10 +575,9 @@ const AuthForm = ({
               <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading || (isRegister && !acceptedTerms)} // Disable if terms not accepted for signup
+              disabled={loading || (isRegister && !acceptedTerms)}
               className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? "Processing..." : buttonText}

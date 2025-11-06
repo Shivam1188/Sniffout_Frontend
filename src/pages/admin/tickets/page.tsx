@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  Search,
   Filter,
-  Eye,
   XCircle,
   Paperclip,
-  ArrowUpDown,
   ArchiveIcon,
+  MessageCircle,
+  ArrowUpDown,
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
@@ -50,39 +49,52 @@ const SubAdminTickets = () => {
   const pageSize = 10;
   const totalPages = Math.ceil(count / pageSize);
 
+  // Fetch tickets with proper filter handling
   const fetchTickets = async (page = 1, filterParams = {}) => {
     setLoading(true);
     try {
-      let url = `subadmin/support-tickets/?page=${page}&ordering=${
-        sortOrder === "desc" ? "-" : ""
-      }${sortBy}`;
+      // Build URL with proper query parameters
+      let url = `subadmin/support-tickets/`;
 
-      // Add filter parameters
-      const params: any = new URLSearchParams();
-      Object.entries(filterParams).forEach(([key, value]) => {
-        if (value) {
-          params.append(key, value);
-        }
-      });
+      const params = new URLSearchParams();
 
-      if (params.toString()) {
-        url += `&${params.toString()}`;
+      // Add pagination
+      params.append("page", page.toString());
+
+      // Add ordering
+      const ordering = sortOrder === "desc" ? `-${sortBy}` : sortBy;
+      if (sortBy) {
+        params.append("ordering", ordering);
       }
 
-      const response = await api.get(url);
+      // Add filters - use the correct parameter names from API docs
+      const activeFilters = { ...filters, ...filterParams };
 
-      // Debug log to see the actual response structure
-      console.log("API Response:", response);
+      if (activeFilters.status) {
+        params.append("status", activeFilters.status);
+      }
+      if (activeFilters.priority) {
+        params.append("priority", activeFilters.priority);
+      }
+      if (activeFilters.search) {
+        params.append("search", activeFilters.search);
+      }
 
-      // Handle both response formats
-      if (response.data && response.data.results) {
-        // Standard Django REST framework format
-        setTickets(response.data.results);
-        setCount(response.data.count || 0);
-      } else if (Array.isArray(response.data)) {
+      // Construct final URL
+      const finalUrl = `${url}?${params.toString()}`;
+      console.log("Fetching tickets from:", finalUrl);
+
+      const response = await api.get(finalUrl);
+
+      // Handle response format
+      if (response.data && Array.isArray(response.data)) {
         // Direct array response
         setTickets(response.data);
         setCount(response.data.length || 0);
+      } else if (response.data && response.data.results) {
+        // Standard Django REST framework format
+        setTickets(response.data.results);
+        setCount(response.data.count || 0);
       } else {
         // Fallback
         setTickets(response.data || []);
@@ -93,6 +105,8 @@ const SubAdminTickets = () => {
     } catch (error) {
       console.error("Error fetching tickets:", error);
       toasterError("Failed to load tickets", 3000);
+      setTickets([]);
+      setCount(0);
     } finally {
       setLoading(false);
     }
@@ -101,6 +115,15 @@ const SubAdminTickets = () => {
   useEffect(() => {
     fetchTickets(1);
   }, [sortBy, sortOrder]);
+
+  // Apply filters immediately when they change (for search)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchTickets(1);
+    }, 500); // Debounce search by 500ms
+
+    return () => clearTimeout(timeoutId);
+  }, [filters.search]);
 
   // Create new ticket
   const handleCreateTicket = async (e: React.FormEvent) => {
@@ -186,7 +209,45 @@ const SubAdminTickets = () => {
     }
   };
 
-  // Delete ticket
+  const handleUpdateStatus = async (ticketId: number, newStatus: string) => {
+    try {
+      const response = await api.post(
+        `subadmin/support-tickets/${ticketId}/update_status/`,
+        { status: newStatus }
+      );
+      if (response.success) {
+        toasterSuccess(`Ticket status updated to ${newStatus}`, 2000);
+
+        setTickets((prev) =>
+          prev.map((ticket) =>
+            ticket.id === ticketId
+              ? { ...ticket, status: newStatus, ...response.data }
+              : ticket
+          )
+        );
+
+        // If the modal is open, update the selected ticket
+        if (selectedTicket && selectedTicket.id === ticketId) {
+          setSelectedTicket((prev: any) => ({
+            ...prev,
+            status: newStatus,
+            ...response.data,
+          }));
+        }
+      } else {
+        console.error("Status update failed:", response);
+        toasterError("Failed to update ticket status", 3000);
+      }
+    } catch (error: any) {
+      console.error("Error updating ticket status:", error);
+      if (error.response?.status === 403) {
+        toasterError("Only administrators can update ticket status", 3000);
+      } else {
+        toasterError("Failed to update ticket status", 3000);
+      }
+    }
+  };
+
   const confirmDelete = (id: any) => {
     setDeleteId(id);
     setShowDeleteModal(true);
@@ -219,13 +280,8 @@ const SubAdminTickets = () => {
 
   // Filter functions
   const applyFilters = () => {
-    const filterParams: any = {};
-    if (filters.status) filterParams.status = filters.status;
-    if (filters.priority) filterParams.priority = filters.priority;
-    if (filters.search) filterParams.search = filters.search;
-
     setShowFilterModal(false);
-    fetchTickets(1, filterParams);
+    fetchTickets(1);
   };
 
   const clearFilters = () => {
@@ -246,26 +302,30 @@ const SubAdminTickets = () => {
   // Utility functions
   const getPriorityBadge = (priority: string) => {
     const styles = {
-      low: "bg-green-100 text-green-800",
-      medium: "bg-yellow-100 text-yellow-800",
-      high: "bg-orange-100 text-orange-800",
-      urgent: "bg-red-100 text-red-800",
+      low: "bg-green-100 text-green-800 border border-green-200",
+      medium: "bg-yellow-100 text-yellow-800 border border-yellow-200",
+      high: "bg-orange-100 text-orange-800 border border-orange-200",
+      urgent: "bg-red-100 text-red-800 border border-red-200",
     };
     return (
-      styles[priority as keyof typeof styles] || "bg-gray-100 text-gray-800"
+      styles[priority as keyof typeof styles] ||
+      "bg-gray-100 text-gray-800 border border-gray-200"
     );
   };
 
   const getStatusBadge = (status: string) => {
     const styles = {
-      pending: "bg-yellow-100 text-yellow-800",
-      in_progress: "bg-purple-100 text-purple-800",
-      resolved: "bg-green-100 text-green-800",
-      completed: "bg-blue-100 text-blue-800",
-      closed: "bg-gray-100 text-gray-800",
-      cancelled: "bg-red-100 text-red-800",
+      pending: "bg-yellow-100 text-yellow-800 border border-yellow-200",
+      in_progress: "bg-purple-100 text-purple-800 border border-purple-200",
+      resolved: "bg-green-100 text-green-800 border border-green-200",
+      completed: "bg-blue-100 text-blue-800 border border-blue-200",
+      closed: "bg-gray-100 text-gray-800 border border-gray-200",
+      cancelled: "bg-red-100 text-red-800 border border-red-200",
     };
-    return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800";
+    return (
+      styles[status as keyof typeof styles] ||
+      "bg-gray-100 text-gray-800 border border-gray-200"
+    );
   };
 
   const formatDate = (dateString: string) => {
@@ -290,32 +350,12 @@ const SubAdminTickets = () => {
           </h1>
           <div className="flex-shrink-0">
             <Link
-              to={"/subadmin/dashboard"}
+              to={"/admin/dashboard"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
               Back to Dashboard
             </Link>
           </div>
-          {/* Toggle Button */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-              />
-            </svg>
-          </label>
         </div>
 
         {/* Main Content */}
@@ -326,57 +366,118 @@ const SubAdminTickets = () => {
             </h1>
           </div>
 
-          {/* Filters and Search */}
           <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-200">
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Search */}
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Search tickets..."
-                    value={filters.search}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        search: e.target.value,
-                      }))
-                    }
-                    onKeyPress={(e) => e.key === "Enter" && applyFilters()}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-                  />
-                </div>
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+              {/* Left side - Filter controls */}
+              <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                {/* Filter Button */}
+                <button
+                  onClick={() => setShowFilterModal(true)}
+                  className={`cursor-pointer flex items-center gap-2 px-6 py-3 border-2 rounded-xl transition-all duration-200 ${
+                    isFilterActive
+                      ? "bg-blue-500 text-white border-blue-500 shadow-lg shadow-blue-200"
+                      : "bg-white text-gray-700 border-gray-300 hover:border-blue-300 hover:shadow-md"
+                  }`}
+                >
+                  <Filter className="w-5 h-5" />
+                  <span className="font-semibold">Filters</span>
+                  {isFilterActive && (
+                    <span className="bg-white text-blue-600 text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                      !
+                    </span>
+                  )}
+                </button>
+
+                {/* Active Filters Display */}
+                {isFilterActive && (
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-sm font-medium text-gray-600">
+                      Active filters:
+                    </span>
+                    <div className="flex gap-2 flex-wrap">
+                      {filters.status && (
+                        <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-medium border border-blue-200">
+                          Status: {filters.status.replace("_", " ")}
+                          <button
+                            onClick={() =>
+                              setFilters((prev) => ({ ...prev, status: "" }))
+                            }
+                            className="cursor-pointer text-blue-600 hover:text-blue-800 ml-1"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )}
+                      {filters.priority && (
+                        <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 px-3 py-1.5 rounded-full text-sm font-medium border border-green-200">
+                          Priority: {filters.priority}
+                          <button
+                            onClick={() =>
+                              setFilters((prev) => ({ ...prev, priority: "" }))
+                            }
+                            className="text-green-600 hover:text-green-800 ml-1"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )}
+                      {filters.search && (
+                        <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 px-3 py-1.5 rounded-full text-sm font-medium border border-purple-200">
+                          Search: {filters.search}
+                          <button
+                            onClick={() =>
+                              setFilters((prev) => ({ ...prev, search: "" }))
+                            }
+                            className="text-purple-600 hover:text-purple-800 ml-1"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Filter Button */}
-              <button
-                onClick={() => setShowFilterModal(true)}
-                className={`flex items-center gap-2 px-4 py-2.5 border rounded-lg transition-colors ${
-                  isFilterActive
-                    ? "bg-blue-100 text-blue-700 border-blue-300"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                }`}
-              >
-                <Filter className="w-4 h-4" />
-                Filter
-                {isFilterActive && (
-                  <span className="bg-[#fe6a3c] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    !
-                  </span>
-                )}
-              </button>
-
-              {/* Clear Filters */}
+              {/* Right side - Clear All button */}
               {isFilterActive && (
                 <button
                   onClick={clearFilters}
-                  className="px-4 py-2.5 text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
+                  className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-200 shadow-lg shadow-red-200 font-semibold whitespace-nowrap"
                 >
-                  Clear
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                  Clear All
                 </button>
               )}
             </div>
+
+            {/* Filter Summary */}
+            {isFilterActive && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-600">
+                    Showing {tickets.length} of {count} tickets
+                    {filters.search && ` matching "${filters.search}"`}
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Filter className="w-4 h-4" />
+                    <span>Filters applied</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Tickets Table */}
@@ -385,7 +486,7 @@ const SubAdminTickets = () => {
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs tracking-wide">
                   <th
-                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
+                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200 transition-colors"
                     onClick={() => handleSort("ticket_number")}
                   >
                     <div className="flex items-center gap-1">
@@ -395,7 +496,7 @@ const SubAdminTickets = () => {
                   </th>
                   <th className="py-3 px-4 text-left">Subject</th>
                   <th
-                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
+                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200 transition-colors"
                     onClick={() => handleSort("priority")}
                   >
                     <div className="flex items-center gap-1">
@@ -404,7 +505,7 @@ const SubAdminTickets = () => {
                     </div>
                   </th>
                   <th
-                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
+                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200 transition-colors"
                     onClick={() => handleSort("status")}
                   >
                     <div className="flex items-center gap-1">
@@ -413,7 +514,7 @@ const SubAdminTickets = () => {
                     </div>
                   </th>
                   <th
-                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
+                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200 transition-colors"
                     onClick={() => handleSort("created_at")}
                   >
                     <div className="flex items-center gap-1">
@@ -449,13 +550,13 @@ const SubAdminTickets = () => {
                             {item.subject}
                           </div>
                           <div className="text-gray-500 text-xs truncate">
-                            {item.message.substring(0, 60)}...
+                            {item.message?.substring(0, 60)}...
                           </div>
                         </div>
                       </td>
                       <td className="py-3 px-4">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs font-semibold capitalize ${getPriorityBadge(
+                          className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPriorityBadge(
                             item.priority
                           )}`}
                         >
@@ -464,7 +565,7 @@ const SubAdminTickets = () => {
                       </td>
                       <td className="py-3 px-4">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs font-semibold capitalize ${getStatusBadge(
+                          className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusBadge(
                             item.status
                           )}`}
                         >
@@ -476,12 +577,15 @@ const SubAdminTickets = () => {
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
+                          <MessageCircle className="w-4 h-4 text-gray-400" />
                           <span className="text-sm">
                             {item.reply_count || 0}
                           </span>
                           {item.unread_replies > 0 && (
                             <span className="bg-[#fe6a3c] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                              {item.unread_replies}
+                              {item.unread_replies > 99
+                                ? "99+"
+                                : item.unread_replies}
                             </span>
                           )}
                         </div>
@@ -493,13 +597,15 @@ const SubAdminTickets = () => {
                             setShowTicketModal(true);
                             fetchTicketDetails(item.id);
                           }}
-                          className="cursor-pointer text-blue-600 hover:text-blue-800 text-sm"
+                          className="cursor-pointer text-green-600 hover:text-green-800 text-sm"
+                          title="Quick View"
                         >
-                          <Eye size={18} />
+                          <MessageCircle size={18} />
                         </button>
                         <button
                           onClick={() => confirmDelete(item.id)}
                           className="text-red-600 hover:text-red-800 text-sm cursor-pointer"
+                          title="Delete Ticket"
                         >
                           <ArchiveIcon size={18} />
                         </button>
@@ -509,7 +615,9 @@ const SubAdminTickets = () => {
                 ) : (
                   <tr>
                     <td colSpan={7} className="text-center py-6 text-gray-500">
-                      No Support Tickets Available.
+                      {isFilterActive
+                        ? "No tickets match your filters. Try adjusting your search criteria."
+                        : "No Support Tickets Available."}
                     </td>
                   </tr>
                 )}
@@ -517,6 +625,7 @@ const SubAdminTickets = () => {
             </table>
           </div>
 
+          {/* Pagination */}
           {count > pageSize && (
             <div className="flex flex-col md:flex-row items-center justify-between mt-4 bg-white p-3 rounded-xl shadow">
               <p className="text-sm text-gray-600">
@@ -535,7 +644,7 @@ const SubAdminTickets = () => {
                 <button
                   disabled={currentPage === 1}
                   onClick={() => fetchTickets(currentPage - 1)}
-                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 hover:bg-gray-50"
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 hover:bg-gray-50 transition-colors"
                 >
                   Prev
                 </button>
@@ -543,7 +652,7 @@ const SubAdminTickets = () => {
                 <button
                   disabled={currentPage === totalPages}
                   onClick={() => fetchTickets(currentPage + 1)}
-                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 hover:bg-gray-50"
+                  className="cursor-pointer px-3 py-1.5 border rounded-lg disabled:opacity-40 hover:bg-gray-50 transition-colors"
                 >
                   Next
                 </button>
@@ -574,6 +683,7 @@ const SubAdminTickets = () => {
           setReplyAttachment={setReplyAttachment}
           replying={replying}
           onReply={handleAddReply}
+          onUpdateStatus={handleUpdateStatus}
           onClose={() => {
             setShowTicketModal(false);
             setSelectedTicket(null);
@@ -597,7 +707,7 @@ const SubAdminTickets = () => {
 
       {/* Delete Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50">
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Are you sure you want to delete this ticket?
@@ -623,25 +733,16 @@ const SubAdminTickets = () => {
   );
 };
 
-// Create Ticket Modal Component
-const CreateTicketModal = ({
-  newTicket,
-  setNewTicket,
-  loading,
-  onSubmit,
+// Filter Modal Component
+const FilterModal = ({
+  filters,
+  setFilters,
+  onApply,
+  onClear,
   onClose,
 }: any) => {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setNewTicket((prev: any) => ({
-        ...prev,
-        attachment: e.target.files![0],
-      }));
-    }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setNewTicket((prev: any) => ({
+  const handleFilterChange = (field: string, value: string) => {
+    setFilters((prev: any) => ({
       ...prev,
       [field]: value,
     }));
@@ -649,35 +750,35 @@ const CreateTicketModal = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-t-8 border-[#fe6a3c]">
+      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border-t-8 border-[#fe6a3c]">
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Create Support Ticket
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900">Filter Tickets</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
             >
               <XCircle className="w-6 h-6" />
             </button>
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="p-6 space-y-6">
+        <div className="p-6 space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Subject *
+              Status
             </label>
-            <input
-              type="text"
-              value={newTicket.subject}
-              onChange={(e) => handleInputChange("subject", e.target.value)}
-              required
-              maxLength={255}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-              placeholder="Brief description of your issue"
-            />
+            <select
+              value={filters.status}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] cursor-pointer"
+            >
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
           </div>
 
           <div>
@@ -685,10 +786,11 @@ const CreateTicketModal = ({
               Priority
             </label>
             <select
-              value={newTicket.priority}
-              onChange={(e) => handleInputChange("priority", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+              value={filters.priority}
+              onChange={(e) => handleFilterChange("priority", e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] cursor-pointer"
             >
+              <option value="">All Priorities</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -696,58 +798,27 @@ const CreateTicketModal = ({
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Message *
-            </label>
-            <textarea
-              value={newTicket.message}
-              onChange={(e) => handleInputChange("message", e.target.value)}
-              required
-              rows={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] resize-none"
-              placeholder="Please describe your issue in detail..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Attachment (Optional)
-            </label>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-              accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Supported formats: JPG, PNG, GIF, PDF, DOC, DOCX, TXT (Max 10MB)
-            </p>
-          </div>
-
           <div className="flex gap-3 pt-4">
             <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              onClick={onClear}
+              className=" flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
             >
-              Cancel
+              Clear All
             </button>
             <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
+              onClick={onApply}
+              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors cursor-pointer"
             >
-              {loading ? "Creating..." : "Create Ticket"}
+              Apply Filters
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
-// Ticket Details Modal Component
+// Enhanced Ticket Details Modal Component with Edit Button
 const TicketDetailsModal = ({
   ticket,
   replyMessage,
@@ -757,12 +828,65 @@ const TicketDetailsModal = ({
   onReply,
   onClose,
   formatDate,
+  onUpdateStatus,
 }: any) => {
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const [localTicket, setLocalTicket] = useState(ticket);
+
+  // Update local ticket when prop changes
+  useEffect(() => {
+    setLocalTicket(ticket);
+  }, [ticket]);
+
+  const handleStatusChange = async (newStatus: string) => {
+    if (!onUpdateStatus || updatingStatus || newStatus === localTicket.status) {
+      setShowStatusDropdown(false);
+      return;
+    }
+
+    setUpdatingStatus(true);
+    try {
+      setLocalTicket((prev: any) => ({ ...prev, status: newStatus }));
+
+      await onUpdateStatus(localTicket.id, newStatus);
+    } catch (error) {
+      // Revert on error
+      setLocalTicket((prev: any) => ({ ...prev, status: ticket.status }));
+      toasterError("Failed to update status", 3000);
+    } finally {
+      setUpdatingStatus(false);
+      setShowStatusDropdown(false);
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setReplyAttachment(e.target.files[0]);
     }
   };
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+      in_progress: "bg-purple-100 text-purple-800 border-purple-200",
+      resolved: "bg-green-100 text-green-800 border-green-200",
+      completed: "bg-blue-100 text-blue-800 border-blue-200",
+      closed: "bg-gray-100 text-gray-800 border-gray-200",
+      cancelled: "bg-red-100 text-red-800 border-red-200",
+    };
+    return (
+      styles[status as keyof typeof styles] ||
+      "bg-gray-100 text-gray-800 border-gray-200"
+    );
+  };
+
+  const getStatusDisplay = (status: string) => {
+    return status.replace("_", " ");
+  };
+
+  // Use localTicket instead of ticket for display
+  const displayTicket = localTicket || ticket;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
@@ -771,64 +895,147 @@ const TicketDetailsModal = ({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
-                {ticket.subject}
+                {displayTicket.subject}
               </h2>
-              <p className="text-gray-600">Ticket #{ticket.ticket_number}</p>
+              <p className="text-gray-600">
+                Ticket #{displayTicket.ticket_number}
+              </p>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
             >
-              <XCircle className="w-6 h-6 cursor-pointer" />
+              <XCircle className="w-6 h-6" />
             </button>
           </div>
         </div>
 
         <div className="p-6 space-y-6">
-          {/* Ticket Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
-            <div>
-              <p className="text-sm text-gray-500">Status</p>
-              <span
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  ticket.status === "pending"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.status === "in_progress"
-                    ? "bg-purple-100 text-purple-800"
-                    : ticket.status === "resolved"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {ticket.status.replace("_", " ")}
-              </span>
+          {/* Ticket Info - Updated with Edit Button for Status */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            {/* Status Field with Edit Button */}
+            <div className="relative">
+              <p className="text-sm text-gray-500 mb-2">Status</p>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium capitalize border ${getStatusBadge(
+                    displayTicket.status
+                  )}`}
+                >
+                  {getStatusDisplay(displayTicket.status)}
+                </span>
+                <button
+                  onClick={() => setShowStatusDropdown(!showStatusDropdown)}
+                  disabled={updatingStatus}
+                  className={`p-1.5 rounded-lg border transition-colors ${
+                    updatingStatus
+                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                      : "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-700 border-gray-300 cursor-pointer"
+                  }`}
+                  title="Change Status"
+                >
+                  {updatingStatus ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                  ) : (
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              {/* Status Dropdown */}
+              {showStatusDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                  <div className="p-2 space-y-1">
+                    {[
+                      {
+                        value: "pending",
+                        label: "Pending",
+                        color: "bg-yellow-100 text-yellow-800",
+                      },
+                      {
+                        value: "in_progress",
+                        label: "In Progress",
+                        color: "bg-purple-100 text-purple-800",
+                      },
+                      {
+                        value: "resolved",
+                        label: "Resolved",
+                        color: "bg-green-100 text-green-800",
+                      },
+                    ].map((statusOption) => (
+                      <button
+                        key={statusOption.value}
+                        onClick={() => handleStatusChange(statusOption.value)}
+                        disabled={updatingStatus}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium capitalize transition-colors ${
+                          statusOption.color
+                        } ${
+                          displayTicket.status === statusOption.value
+                            ? "ring-2 ring-offset-1 ring-blue-300"
+                            : "hover:opacity-90"
+                        } ${
+                          updatingStatus
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer"
+                        }`}
+                      >
+                        {statusOption.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/* Priority Field */}
             <div>
               <p className="text-sm text-gray-500">Priority</p>
               <span
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  ticket.priority === "low"
-                    ? "bg-green-100 text-green-800"
-                    : ticket.priority === "medium"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.priority === "high"
-                    ? "bg-orange-100 text-orange-800"
-                    : "bg-red-100 text-red-800"
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
+                  displayTicket.priority === "low"
+                    ? "bg-green-100 text-green-800 border border-green-200"
+                    : displayTicket.priority === "medium"
+                    ? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+                    : displayTicket.priority === "high"
+                    ? "bg-orange-100 text-orange-800 border border-orange-200"
+                    : "bg-red-100 text-red-800 border border-red-200"
                 }`}
               >
-                {ticket.priority}
+                {displayTicket.priority}
               </span>
             </div>
+
+            {/* Created Date */}
             <div>
               <p className="text-sm text-gray-500">Created</p>
-              <p className="text-sm font-medium">
-                {formatDate(ticket.created_at)}
+              <p className="text-sm font-medium text-gray-900">
+                {formatDate(displayTicket.created_at)}
               </p>
             </div>
+
+            {/* Last Updated Date */}
             <div>
               <p className="text-sm text-gray-500">Last Updated</p>
-              <p className="text-sm font-medium">
-                {formatDate(ticket.updated_at)}
+              <p className="text-sm font-medium text-gray-900">
+                {formatDate(displayTicket.updated_at)}
               </p>
             </div>
           </div>
@@ -837,25 +1044,27 @@ const TicketDetailsModal = ({
           <div className="border rounded-lg p-4">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
-                {ticket.subadmin_name?.charAt(0) || "U"}
+                {displayTicket.subadmin_name?.charAt(0) || "U"}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="font-semibold">{ticket.subadmin_name}</span>
+                  <span className="font-semibold">
+                    {displayTicket.subadmin_name}
+                  </span>
                   <span className="text-xs text-gray-500">
-                    {formatDate(ticket.created_at)}
+                    {formatDate(displayTicket.created_at)}
                   </span>
                 </div>
                 <p className="text-gray-700 whitespace-pre-wrap">
-                  {ticket.message}
+                  {displayTicket.message}
                 </p>
-                {ticket.attachment && (
+                {displayTicket.attachment && (
                   <div className="mt-2">
                     <a
-                      href={ticket.attachment}
+                      href={displayTicket.attachment}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm cursor-pointer"
                     >
                       <Paperclip className="w-4 h-4" />
                       View Attachment
@@ -867,12 +1076,12 @@ const TicketDetailsModal = ({
           </div>
 
           {/* Replies */}
-          {ticket.replies && ticket.replies.length > 0 && (
+          {displayTicket.replies && displayTicket.replies.length > 0 && (
             <div className="space-y-4">
               <h3 className="font-semibold text-gray-900">
-                Replies ({ticket.replies.length})
+                Replies ({displayTicket.replies.length})
               </h3>
-              {ticket.replies.map((reply: any) => (
+              {displayTicket.replies.map((reply: any) => (
                 <div
                   key={reply.id}
                   className={`border rounded-lg p-4 ${
@@ -912,7 +1121,7 @@ const TicketDetailsModal = ({
                             href={reply.attachment}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
+                            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm cursor-pointer"
                           >
                             <Paperclip className="w-4 h-4" />
                             View Attachment
@@ -949,7 +1158,7 @@ const TicketDetailsModal = ({
               <input
                 type="file"
                 onChange={handleFileChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] cursor-pointer"
                 accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
               />
             </div>
@@ -965,7 +1174,7 @@ const TicketDetailsModal = ({
               <button
                 type="submit"
                 disabled={replying || !replyMessage.trim()}
-                className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
+                className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {replying ? "Sending..." : "Send Reply"}
               </button>
@@ -977,16 +1186,25 @@ const TicketDetailsModal = ({
   );
 };
 
-// Filter Modal Component
-const FilterModal = ({
-  filters,
-  setFilters,
-  onApply,
-  onClear,
+// Create Ticket Modal Component
+const CreateTicketModal = ({
+  newTicket,
+  setNewTicket,
+  loading,
+  onSubmit,
   onClose,
 }: any) => {
-  const handleFilterChange = (field: string, value: string) => {
-    setFilters((prev: any) => ({
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setNewTicket((prev: any) => ({
+        ...prev,
+        attachment: e.target.files![0],
+      }));
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setNewTicket((prev: any) => ({
       ...prev,
       [field]: value,
     }));
@@ -994,35 +1212,35 @@ const FilterModal = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border-t-8 border-[#fe6a3c]">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-t-8 border-[#fe6a3c]">
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">Filter Tickets</h2>
+            <h2 className="text-2xl font-bold text-gray-900">
+              Create Support Ticket
+            </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="cursor-pointer text-gray-400 hover:text-gray-600"
             >
               <XCircle className="w-6 h-6" />
             </button>
           </div>
         </div>
 
-        <div className="p-6 space-y-6">
+        <form onSubmit={onSubmit} className="p-6 space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Status
+              Subject *
             </label>
-            <select
-              value={filters.status}
-              onChange={(e) => handleFilterChange("status", e.target.value)}
+            <input
+              type="text"
+              value={newTicket.subject}
+              onChange={(e) => handleInputChange("subject", e.target.value)}
+              required
+              maxLength={255}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-            >
-              <option value="">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="resolved">Resolved</option>
-              <option value="closed">Closed</option>
-            </select>
+              placeholder="Brief description of your issue"
+            />
           </div>
 
           <div>
@@ -1030,11 +1248,10 @@ const FilterModal = ({
               Priority
             </label>
             <select
-              value={filters.priority}
-              onChange={(e) => handleFilterChange("priority", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+              value={newTicket.priority}
+              onChange={(e) => handleInputChange("priority", e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] cursor-pointer"
             >
-              <option value="">All Priorities</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
@@ -1042,21 +1259,52 @@ const FilterModal = ({
             </select>
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Message *
+            </label>
+            <textarea
+              value={newTicket.message}
+              onChange={(e) => handleInputChange("message", e.target.value)}
+              required
+              rows={6}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] resize-none"
+              placeholder="Please describe your issue in detail..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Attachment (Optional)
+            </label>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] cursor-pointer"
+              accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Supported formats: JPG, PNG, GIF, PDF, DOC, DOCX, TXT (Max 10MB)
+            </p>
+          </div>
+
           <div className="flex gap-3 pt-4">
             <button
-              onClick={onClear}
-              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              type="button"
+              onClick={onClose}
+              className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              Clear All
+              Back
             </button>
             <button
-              onClick={onApply}
-              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors"
+              type="submit"
+              disabled={loading}
+              className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Apply Filters
+              {loading ? "Creating..." : "Create Ticket"}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

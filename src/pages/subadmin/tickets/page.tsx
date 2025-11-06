@@ -4,10 +4,11 @@ import {
   Plus,
   Search,
   Filter,
+  Eye,
   XCircle,
   Paperclip,
-  ArrowUpDown,
   ArchiveIcon,
+  MessageCircle,
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
@@ -22,6 +23,10 @@ const SubAdminTickets = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<any>(null);
 
+  // Sorting state variables
+  const [sortBy, setSortBy] = useState<string>("created_at");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
   // Filter states
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [filters, setFilters] = useState({
@@ -29,8 +34,6 @@ const SubAdminTickets = () => {
     priority: "",
     search: "",
   });
-  const [sortBy, setSortBy] = useState("created_at");
-  const [sortOrder, setSortOrder] = useState("desc");
 
   // New ticket form state
   const [newTicket, setNewTicket] = useState({
@@ -72,9 +75,6 @@ const SubAdminTickets = () => {
 
       const response = await api.get(url);
 
-      // Debug log to see the actual response structure
-      console.log("API Response:", response);
-
       // Handle both response formats
       if (response.data && response.data.results) {
         // Standard Django REST framework format
@@ -98,12 +98,7 @@ const SubAdminTickets = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    console.log("Current tickets state:", tickets);
-    console.log("Current count:", count);
-    console.log("Current page:", currentPage);
-    console.log("Total pages:", totalPages);
-  }, [tickets, count, currentPage, totalPages]);
+
   useEffect(() => {
     fetchTickets(1);
   }, [sortBy, sortOrder]);
@@ -192,7 +187,6 @@ const SubAdminTickets = () => {
     }
   };
 
-  // Delete ticket
   const confirmDelete = (id: any) => {
     setDeleteId(id);
     setShowDeleteModal(true);
@@ -292,7 +286,7 @@ const SubAdminTickets = () => {
         {/* Header */}
         <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
-            Ticket List{" "}
+            Support Tickets
           </h1>
           <div className="flex-shrink-0">
             <Link
@@ -302,33 +296,13 @@ const SubAdminTickets = () => {
               Back to Dashboard
             </Link>
           </div>
-          {/* Toggle Button */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-              />
-            </svg>
-          </label>
         </div>
 
         {/* Main Content */}
         <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] table-space">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
             <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
-              Ticket Lists
+              Support Tickets
             </h1>
             <button
               onClick={() => setShowCreateModal(true)}
@@ -401,38 +375,38 @@ const SubAdminTickets = () => {
                     className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
                     onClick={() => handleSort("ticket_number")}
                   >
-                    <div className="flex items-center gap-1">
-                      Ticket ID
-                      <ArrowUpDown className="w-4 h-4" />
-                    </div>
+                    Ticket ID{" "}
+                    {sortBy === "ticket_number" &&
+                      (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
-                  <th className="py-3 px-4 text-left">Subject</th>
+                  <th
+                    className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSort("subject")}
+                  >
+                    Subject{" "}
+                    {sortBy === "subject" && (sortOrder === "asc" ? "↑" : "↓")}
+                  </th>
                   <th
                     className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
                     onClick={() => handleSort("priority")}
                   >
-                    <div className="flex items-center gap-1">
-                      Priority
-                      <ArrowUpDown className="w-4 h-4" />
-                    </div>
+                    Priority{" "}
+                    {sortBy === "priority" && (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
                   <th
                     className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
                     onClick={() => handleSort("status")}
                   >
-                    <div className="flex items-center gap-1">
-                      Status
-                      <ArrowUpDown className="w-4 h-4" />
-                    </div>
+                    Status{" "}
+                    {sortBy === "status" && (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
                   <th
                     className="py-3 px-4 text-left cursor-pointer hover:bg-gray-200"
                     onClick={() => handleSort("created_at")}
                   >
-                    <div className="flex items-center gap-1">
-                      Created
-                      <ArrowUpDown className="w-4 h-4" />
-                    </div>
+                    Created{" "}
+                    {sortBy === "created_at" &&
+                      (sortOrder === "asc" ? "↑" : "↓")}
                   </th>
                   <th className="py-3 px-4 text-left">Replies</th>
                   <th className="py-3 px-4 text-center">Actions</th>
@@ -489,6 +463,7 @@ const SubAdminTickets = () => {
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
+                          <MessageCircle className="w-4 h-4 text-gray-400" />
                           <span className="text-sm">
                             {item.reply_count || 0}
                           </span>
@@ -501,8 +476,20 @@ const SubAdminTickets = () => {
                       </td>
                       <td className="py-3 px-4 text-center space-x-4">
                         <button
+                          onClick={() => {
+                            setSelectedTicket(item);
+                            setShowTicketModal(true);
+                            fetchTicketDetails(item.id);
+                          }}
+                          className="cursor-pointer text-blue-600 hover:text-blue-800 text-sm"
+                          title="View Ticket"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button
                           onClick={() => confirmDelete(item.id)}
                           className="text-red-600 hover:text-red-800 text-sm cursor-pointer"
+                          title="Delete Ticket"
                         >
                           <ArchiveIcon size={18} />
                         </button>
@@ -557,6 +544,86 @@ const SubAdminTickets = () => {
         </div>
       </div>
 
+      {/* Filter Modal */}
+      {showFilterModal && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border-t-8 border-[#1d3faa]">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-gray-900">
+                  Filter Tickets
+                </h2>
+                <button
+                  onClick={() => setShowFilterModal(false)}
+                  className="cursor-pointer text-gray-400 hover:text-gray-600"
+                >
+                  <XCircle className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <select
+                  value={filters.status}
+                  onChange={(e) =>
+                    setFilters((prev) => ({ ...prev, status: e.target.value }))
+                  }
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+                >
+                  <option value="">All Status</option>
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="resolved">Resolved</option>
+                  <option value="completed">Completed</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Priority
+                </label>
+                <select
+                  value={filters.priority}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      priority: e.target.value,
+                    }))
+                  }
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+                >
+                  <option value="">All Priority</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={clearFilters}
+                  className="cursor-pointer flex-1 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Clear All
+                </button>
+                <button
+                  onClick={applyFilters}
+                  className="cursor-pointer flex-1 px-4 py-2.5 bg-[#1d3faa] text-white rounded-lg hover:bg-[#1d3faa]/90 transition-colors"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Create Ticket Modal */}
       {showCreateModal && (
         <CreateTicketModal
@@ -588,17 +655,6 @@ const SubAdminTickets = () => {
         />
       )}
 
-      {/* Filter Modal */}
-      {showFilterModal && (
-        <FilterModal
-          filters={filters}
-          setFilters={setFilters}
-          onApply={applyFilters}
-          onClear={clearFilters}
-          onClose={() => setShowFilterModal(false)}
-        />
-      )}
-
       {/* Delete Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50">
@@ -627,7 +683,238 @@ const SubAdminTickets = () => {
   );
 };
 
-// Create Ticket Modal Component
+// Enhanced Ticket Details Modal Component
+const TicketDetailsModal = ({
+  ticket,
+  replyMessage,
+  setReplyMessage,
+  setReplyAttachment,
+  replying,
+  onReply,
+  onClose,
+  formatDate,
+}: any) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setReplyAttachment(e.target.files[0]);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-t-8 border-[#fe6a3c]">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {ticket.subject}
+              </h2>
+              <p className="text-gray-600">Ticket #{ticket.ticket_number}</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="cursor-pointer text-gray-400 hover:text-gray-600"
+            >
+              <XCircle className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div>
+              <p className="text-sm text-gray-500">Status</p>
+              <span
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
+                  ticket.status === "pending"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : ticket.status === "in_progress"
+                    ? "bg-purple-100 text-purple-800"
+                    : ticket.status === "resolved"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-gray-100 text-gray-800"
+                }`}
+              >
+                {ticket.status.replace("_", " ")}
+              </span>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Priority</p>
+              <span
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
+                  ticket.priority === "low"
+                    ? "bg-green-100 text-green-800"
+                    : ticket.priority === "medium"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : ticket.priority === "high"
+                    ? "bg-orange-100 text-orange-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {ticket.priority}
+              </span>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Created</p>
+              <p className="text-sm font-medium text-gray-900">
+                {formatDate(ticket.created_at)}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-gray-500">Last Updated</p>
+              <p className="text-sm font-medium text-gray-900">
+                {formatDate(ticket.updated_at)}
+              </p>
+            </div>
+          </div>
+
+          {/* Original Message */}
+          <div className="border rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
+                {ticket.subadmin_name?.charAt(0) || "U"}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-semibold">{ticket.subadmin_name}</span>
+                  <span className="text-xs text-gray-500">
+                    {formatDate(ticket.created_at)}
+                  </span>
+                </div>
+                <p className="text-gray-700 whitespace-pre-wrap">
+                  {ticket.message}
+                </p>
+                {ticket.attachment && (
+                  <div className="mt-2">
+                    <a
+                      href={ticket.attachment}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
+                    >
+                      <Paperclip className="w-4 h-4" />
+                      View Attachment
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Replies */}
+          {ticket.replies && ticket.replies.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="font-semibold text-gray-900">
+                Replies ({ticket.replies.length})
+              </h3>
+              {ticket.replies.map((reply: any) => (
+                <div
+                  key={reply.id}
+                  className={`border rounded-lg p-4 ${
+                    reply.is_admin_reply
+                      ? "bg-blue-50 border-blue-200"
+                      : "bg-gray-50 border-gray-200"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        reply.is_admin_reply
+                          ? "bg-blue-100 text-blue-600"
+                          : "bg-gray-200 text-gray-600"
+                      } font-semibold`}
+                    >
+                      {reply.user_name?.charAt(0) || "U"}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-semibold">{reply.user_name}</span>
+                        <span className="text-xs text-gray-500">
+                          {formatDate(reply.created_at)}
+                        </span>
+                        {reply.is_admin_reply && (
+                          <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-xs">
+                            Admin
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-gray-700 whitespace-pre-wrap">
+                        {reply.message}
+                      </p>
+                      {reply.attachment && (
+                        <div className="mt-2">
+                          <a
+                            href={reply.attachment}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
+                          >
+                            <Paperclip className="w-4 h-4" />
+                            View Attachment
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Reply Form */}
+          <form onSubmit={onReply} className="border-t pt-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Add Reply</h3>
+            <div className="space-y-4">
+              <div>
+                <textarea
+                  value={replyMessage}
+                  onChange={(e) => setReplyMessage(e.target.value)}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] resize-none"
+                  placeholder="Type your reply here..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Attachment (Optional)
+                </label>
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
+                  accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  disabled={replying || !replyMessage.trim()}
+                  className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
+                >
+                  {replying ? "Sending..." : "Send Reply"}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const CreateTicketModal = ({
   newTicket,
   setNewTicket,
@@ -746,321 +1033,6 @@ const CreateTicketModal = ({
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  );
-};
-
-// Ticket Details Modal Component
-const TicketDetailsModal = ({
-  ticket,
-  replyMessage,
-  setReplyMessage,
-  setReplyAttachment,
-  replying,
-  onReply,
-  onClose,
-  formatDate,
-}: any) => {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setReplyAttachment(e.target.files[0]);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-t-8 border-[#fe6a3c]">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">
-                {ticket.subject}
-              </h2>
-              <p className="text-gray-600">Ticket #{ticket.ticket_number}</p>
-            </div>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <XCircle className="w-6 h-6 cursor-pointer" />
-            </button>
-          </div>
-        </div>
-
-        <div className="p-6 space-y-6">
-          {/* Ticket Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
-            <div>
-              <p className="text-sm text-gray-500">Status</p>
-              <span
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  ticket.status === "pending"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.status === "in_progress"
-                    ? "bg-purple-100 text-purple-800"
-                    : ticket.status === "resolved"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {ticket.status.replace("_", " ")}
-              </span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Priority</p>
-              <span
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  ticket.priority === "low"
-                    ? "bg-green-100 text-green-800"
-                    : ticket.priority === "medium"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.priority === "high"
-                    ? "bg-orange-100 text-orange-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {ticket.priority}
-              </span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Created</p>
-              <p className="text-sm font-medium">
-                {formatDate(ticket.created_at)}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Last Updated</p>
-              <p className="text-sm font-medium">
-                {formatDate(ticket.updated_at)}
-              </p>
-            </div>
-          </div>
-
-          {/* Original Message */}
-          <div className="border rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
-                {ticket.subadmin_name?.charAt(0) || "U"}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="font-semibold">{ticket.subadmin_name}</span>
-                  <span className="text-xs text-gray-500">
-                    {formatDate(ticket.created_at)}
-                  </span>
-                </div>
-                <p className="text-gray-700 whitespace-pre-wrap">
-                  {ticket.message}
-                </p>
-                {ticket.attachment && (
-                  <div className="mt-2">
-                    <a
-                      href={ticket.attachment}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
-                    >
-                      <Paperclip className="w-4 h-4" />
-                      View Attachment
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Replies */}
-          {ticket.replies && ticket.replies.length > 0 && (
-            <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">
-                Replies ({ticket.replies.length})
-              </h3>
-              {ticket.replies.map((reply: any) => (
-                <div
-                  key={reply.id}
-                  className={`border rounded-lg p-4 ${
-                    reply.is_admin_reply
-                      ? "bg-blue-50 border-blue-200"
-                      : "bg-gray-50 border-gray-200"
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        reply.is_admin_reply
-                          ? "bg-blue-100 text-blue-600"
-                          : "bg-gray-200 text-gray-600"
-                      } font-semibold`}
-                    >
-                      {reply.user_name?.charAt(0) || "U"}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-semibold">{reply.user_name}</span>
-                        <span className="text-xs text-gray-500">
-                          {formatDate(reply.created_at)}
-                        </span>
-                        {reply.is_admin_reply && (
-                          <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-xs">
-                            Admin
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-gray-700 whitespace-pre-wrap">
-                        {reply.message}
-                      </p>
-                      {reply.attachment && (
-                        <div className="mt-2">
-                          <a
-                            href={reply.attachment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
-                          >
-                            <Paperclip className="w-4 h-4" />
-                            View Attachment
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Reply Form */}
-          <form onSubmit={onReply} className="border-t pt-6">
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Reply *
-              </label>
-              <textarea
-                value={replyMessage}
-                onChange={(e) => setReplyMessage(e.target.value)}
-                required
-                rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] resize-none"
-                placeholder="Type your reply here..."
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Attachment (Optional)
-              </label>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-                accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt"
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                disabled={replying || !replyMessage.trim()}
-                className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
-              >
-                {replying ? "Sending..." : "Send Reply"}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Filter Modal Component
-const FilterModal = ({
-  filters,
-  setFilters,
-  onApply,
-  onClear,
-  onClose,
-}: any) => {
-  const handleFilterChange = (field: string, value: string) => {
-    setFilters((prev: any) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl border-t-8 border-[#fe6a3c]">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">Filter Tickets</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <XCircle className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-
-        <div className="p-6 space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Status
-            </label>
-            <select
-              value={filters.status}
-              onChange={(e) => handleFilterChange("status", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-            >
-              <option value="">All Statuses</option>
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="resolved">Resolved</option>
-              <option value="closed">Closed</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Priority
-            </label>
-            <select
-              value={filters.priority}
-              onChange={(e) => handleFilterChange("priority", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa]"
-            >
-              <option value="">All Priorities</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-
-          <div className="flex gap-3 pt-4">
-            <button
-              onClick={onClear}
-              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={onApply}
-              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors"
-            >
-              Apply Filters
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

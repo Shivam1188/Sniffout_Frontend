@@ -3,7 +3,6 @@ import {
   Send,
   MessageCircle,
   Phone,
-  Clock,
   CheckCircle,
   Shield,
   Zap,
@@ -12,11 +11,19 @@ import {
   Bell,
   Paperclip,
   AlertCircle,
+  QrCode,
+  Utensils,
+  Mail,
+  CreditCard,
+  UserCheck,
+  Ticket,
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const router = useNavigate();
   const [ticketForm, setTicketForm] = useState({
     subject: "",
     message: "",
@@ -167,63 +174,95 @@ const Home = () => {
     {
       step: 1,
       icon: <Users className="w-8 h-8" />,
-      title: "Sign Up & Onboarding",
+      title: "Business Profile",
       description:
-        "Create your account and complete the quick onboarding process to set up your business profile.",
+        "Manage your business profile, operating hours, menu data, and customer feedback configuration.",
       features: [
-        "5-minute setup",
-        "Business profile creation",
-        "Platform orientation",
+        "Manage business links and operating hours",
+        "Add and update menu data",
+        "Configure feedback questions",
+        "Update profile details",
       ],
+      iconColor: "text-blue-600",
+      bgColor: "bg-blue-100",
+      gradient: "from-blue-500 to-blue-600",
     },
     {
       step: 2,
-      icon: <Zap className="w-8 h-8" />,
-      title: "Configure Automation",
+      icon: <QrCode className="w-8 h-8" />,
+      title: "QR Codes",
       description:
-        "Set up your automated marketing workflows, SMS campaigns, and customer engagement rules.",
+        "Create and manage QR codes for surveys, promotions, and track customer engagement analytics.",
       features: [
-        "Workflow setup",
-        "Campaign configuration",
-        "Automation rules",
+        "Add survey questions and regenerate survey QR codes",
+        "Create promotional QR offers for any item",
+        "View analytics and redeem offers",
       ],
+      iconColor: "text-green-600",
+      bgColor: "bg-green-100",
+      gradient: "from-green-500 to-green-600",
     },
     {
       step: 3,
-      icon: <MessageCircle className="w-8 h-8" />,
-      title: "Launch Campaigns",
+      icon: <Utensils className="w-8 h-8" />,
+      title: "Catering",
       description:
-        "Start your automated marketing campaigns and begin engaging with your customers instantly.",
-      features: [
-        "Campaign activation",
-        "Real-time analytics",
-        "Customer engagement",
-      ],
+        "Handle all catering operations and manage customer requests efficiently.",
+      features: ["View and manage all catering requests"],
+      iconColor: "text-purple-600",
+      bgColor: "bg-purple-100",
+      gradient: "from-purple-500 to-purple-600",
     },
     {
       step: 4,
-      icon: <CheckCircle className="w-8 h-8" />,
-      title: "Monitor & Optimize",
+      icon: <Mail className="w-8 h-8" />,
+      title: "Bulk SMS Campaign",
       description:
-        "Track performance, analyze results, and optimize your campaigns for maximum ROI.",
-      features: [
-        "Performance tracking",
-        "Analytics dashboard",
-        "ROI optimization",
-      ],
+        "Execute targeted SMS marketing campaigns to engage customers and drive growth.",
+      features: ["Send and schedule bulk SMS messages"],
+      iconColor: "text-orange-600",
+      bgColor: "bg-orange-100",
+      gradient: "from-orange-500 to-orange-600",
+    },
+    {
+      step: 5,
+      icon: <CreditCard className="w-8 h-8" />,
+      title: "Plans",
+      description:
+        "Manage your subscription plans and upgrade as your business grows.",
+      features: ["Purchase or upgrade plans anytime"],
+      iconColor: "text-indigo-600",
+      bgColor: "bg-indigo-100",
+      gradient: "from-indigo-500 to-indigo-600",
+    },
+    {
+      step: 6,
+      icon: <UserCheck className="w-8 h-8" />,
+      title: "Subscribers",
+      description:
+        "Monitor and manage your loyalty program subscribers and their engagement.",
+      features: ["View loyalty subscriber list"],
+      iconColor: "text-pink-600",
+      bgColor: "bg-pink-100",
+      gradient: "from-pink-500 to-pink-600",
+    },
+    {
+      step: 7,
+      icon: <Ticket className="w-8 h-8" />,
+      title: "Tickets",
+      description:
+        "Access support and track all your customer service interactions.",
+      features: ["View and track all raised support tickets"],
+      iconColor: "text-red-600",
+      bgColor: "bg-red-100",
+      gradient: "from-red-500 to-red-600",
     },
   ];
 
   const supportFeatures = [
     {
-      icon: <Clock className="w-6 h-6" />,
-      title: "24/7 Support",
-      description:
-        "Round-the-clock assistance for all your queries and concerns",
-    },
-    {
       icon: <Phone className="w-6 h-6" />,
-      title: "Quick Response",
+      title: "Priority Based Quick Response",
       description: "Typically respond within 2-4 hours during business hours",
     },
     {
@@ -262,11 +301,11 @@ const Home = () => {
         <div className="flex justify-between items-center mb-12">
           <div className="text-center flex-1">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Support & How It Works
+              Support & Platform Features
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get help when you need it and discover how our platform transforms
-              your business operations
+              Get help when you need it and explore all the powerful features
+              that transform your business operations
             </p>
           </div>
 
@@ -276,7 +315,7 @@ const Home = () => {
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
             >
-              <Bell className="w-6 h-6 text-gray-600" />
+              <Bell className="w-6 h-6 text-gray-600 cursor-pointer" />
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {unreadCount}
@@ -290,7 +329,7 @@ const Home = () => {
                 <div className="p-4 border-b">
                   <div className="flex justify-between items-center">
                     <h3 className="font-semibold text-gray-900">
-                      Notifications
+                      Recent Notifications
                     </h3>
                     {unreadCount > 0 && (
                       <button
@@ -347,11 +386,11 @@ const Home = () => {
                 <div className="p-4 border-t">
                   <button
                     onClick={() => {
-                      window.location.href = "/subadmin/tickets";
+                      window.location.href = "/subadmin/view-all-notifications";
                     }}
-                    className="w-full text-center text-sm text-blue-600 hover:text-blue-700"
+                    className="cursor-pointer w-full text-center text-sm text-blue-600 hover:text-blue-700"
                   >
-                    View All Tickets
+                    View All Notifications
                   </button>
                 </div>
               </div>
@@ -547,33 +586,35 @@ const Home = () => {
             </div>
           </div>
 
-          {/* How It Works Section */}
+          {/* Platform Features Section */}
           <div className="space-y-8">
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-green-200">
               <div className="flex items-center mb-8">
                 <Zap className="w-8 h-8 text-green-600 mr-3" />
                 <h2 className="text-3xl font-bold text-gray-900">
-                  How Our Application Works
+                  Platform Features
                 </h2>
               </div>
 
               <p className="text-gray-600 mb-8 text-lg">
-                Transform your business operations in just four simple steps
-                with our powerful automation platform.
+                Discover all the powerful features that help you manage and grow
+                your business efficiently.
               </p>
 
-              <div className="space-y-8">
+              <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
                 {applicationSteps.map((step, index) => (
                   <div key={step.step} className="relative">
                     {/* Connecting Line */}
                     {index < applicationSteps.length - 1 && (
-                      <div className="absolute left-6 top-16 w-0.5 h-8 bg-green-200 z-0"></div>
+                      <div className="absolute left-6 top-16 w-0.5 h-8 bg-gray-200 z-0"></div>
                     )}
 
                     <div className="flex space-x-6 relative z-10">
                       {/* Step Number */}
                       <div className="flex-shrink-0">
-                        <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                        <div
+                          className={`w-12 h-12 bg-gradient-to-r ${step.gradient} rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg`}
+                        >
                           {step.step}
                         </div>
                       </div>
@@ -581,7 +622,9 @@ const Home = () => {
                       {/* Content */}
                       <div className="flex-1 bg-gray-50 rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow">
                         <div className="flex items-center mb-4">
-                          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mr-3">
+                          <div
+                            className={`w-10 h-10 ${step.bgColor} rounded-lg flex items-center justify-center ${step.iconColor} mr-3`}
+                          >
                             {step.icon}
                           </div>
                           <h3 className="text-xl font-bold text-gray-900">
@@ -613,15 +656,18 @@ const Home = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold mb-2">
-                      Ready to Get Started?
+                      Ready to Explore Features?
                     </h3>
                     <p className="text-green-100">
-                      Join thousands of businesses already automating their
-                      operations
+                      Start using these powerful tools to transform your
+                      business operations
                     </p>
                   </div>
-                  <button className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center">
-                    Start Free Trial
+                  <button
+                    onClick={() => router("/subadmin/dashboard")}
+                    className="cursor-pointer bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center"
+                  >
+                    Get Started
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
                 </div>
@@ -636,7 +682,7 @@ const Home = () => {
               <div className="grid md:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 text-blue-600" />
-                  <span>Real-time ticket updates</span>
+                  <span>Ticket Updates</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 text-blue-600" />
@@ -648,7 +694,7 @@ const Home = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 text-blue-600" />
-                  <span>Email and in-app notifications</span>
+                  <span>Email Notifications</span>
                 </div>
               </div>
             </div>

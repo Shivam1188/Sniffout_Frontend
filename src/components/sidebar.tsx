@@ -187,7 +187,7 @@ const Sidebar = () => {
     { label: "Plans", route: "/subadmin/plan" },
 
     { label: "Subscribe", route: "/subadmin/subscribe" },
-    { label: "Tickets List", route: "/subadmin/tickets" },
+    { label: "Support Tickets List", route: "/subadmin/tickets" },
   ];
 
   const getFilteredMenu = () => {

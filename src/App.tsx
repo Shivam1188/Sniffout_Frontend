@@ -79,6 +79,8 @@ import PublicQRRedemptionPage from "./pages/public/QrRedemption/page.tsx";
 import PubliceSurveyPage from "./pages/public/servey/page.tsx";
 import Tickets from "./pages/subadmin/tickets/page.tsx";
 import AdminTicket from "./pages/admin/tickets/page.tsx";
+import NotificationsPage from "./pages/subadmin/view-all-notifications/page.tsx";
+import TicketDetailsPage from "./pages/subadmin/tickets/ticketDetails/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -224,13 +226,21 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<Tickets />} />
             }
           />
-
           <Route
             path="/subadmin/qr-codes/survey/analytics"
             element={
               <ProtectedRoute
                 allowedRole="subdir"
                 element={<SurveyAnalytics />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/support-tickets/:id"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<TicketDetailsPage />}
               />
             }
           />
@@ -280,6 +290,15 @@ const AppRouter = () => {
               <ProtectedRoute
                 allowedRole="subdir"
                 element={<OfferAnalytics />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/view-all-notifications"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<NotificationsPage />}
               />
             }
           />

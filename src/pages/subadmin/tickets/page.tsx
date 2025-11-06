@@ -4,7 +4,6 @@ import {
   Plus,
   Search,
   Filter,
-  Eye,
   XCircle,
   Paperclip,
   ArrowUpDown,

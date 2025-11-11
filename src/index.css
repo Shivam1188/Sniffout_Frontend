@@ -81,3 +81,11 @@ th {
   padding: 10px;
   padding-right: 10px;
 }
+@media only screen and (max-width: 768px) {
+  .form-filed {
+    padding: 19px 10px;
+  }
+  .footer-logo {
+    margin: 0 auto;
+  }
+}

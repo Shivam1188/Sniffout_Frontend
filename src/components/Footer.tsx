@@ -36,13 +36,13 @@ const Footer = () => {
     <footer className="bg-white border-t border-gray-200 w-full">
       <div className="container max-w-[1120px] mx-auto">
         {/* Main Footer Section */}
-        <div className="w-full mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        <div className="w-full mx-auto px-6 py-5 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Left: Logo + Social */}
-          <div>
+          <div className="footer-logo">
             <img
               src="/logo1.png"
               alt="Logo"
-              className="cursor-pointer w-[300px] h-[80px] object-contain"
+              className="cursor-pointer w-[300px] object-contain"
               onClick={handleBack}
             />
             <div className="flex justify-center md:justify-start gap-4 mt-6 ml-8">

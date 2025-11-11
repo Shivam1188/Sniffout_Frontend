@@ -482,137 +482,144 @@ const AuthForm = ({
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col  items-center justify-center bg-gradient-to-r from-[#fe6a3c] to-[#1d3faa]  animate-fadeIn">
+    <div className="relative  flex flex-col  items-center justify-center   animate-fadeIn">
       {(isLogin || isRegister) && <Header />}
-      <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl my-[60px]">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] ">
-          <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
-            {title}
-          </h2>
+      <div className="w-full flex justify-center items-center px-4 py-0 lg:py-20 bg-gradient-to-r from-[#ff884d9c] to-[#153cab70]">
+        <div className="relative p-[2px] rounded-2xl animate-borderMove w-full max-w-xl my-[60px]">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] form-filed ">
+            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+              {title}
+            </h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {fields.map((field: any, index: any) => (
-              <div key={index} className="relative">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  {field.label}
-                </label>
-                {field.name === "office_number" ? (
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {fields.map((field: any, index: any) => (
+                <div key={index} className="relative">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    {field.label}
+                  </label>
+                  {field.name === "office_number" ? (
+                    <input
+                      name={field.name}
+                      value={formatPhoneNumber(
+                        formData[field.name as keyof typeof formData] || ""
+                      )}
+                      type="tel"
+                      onChange={handleChange}
+                      disabled={loading}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      placeholder="123-456-7890"
+                      maxLength={12}
+                    />
+                  ) : (
+                    <input
+                      name={field.name}
+                      value={
+                        formData[field.name as keyof typeof formData] || ""
+                      }
+                      type={getInputType(field.name, field.type)}
+                      onChange={handleChange}
+                      disabled={loading}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      placeholder={field.placeholder}
+                    />
+                  )}
+                  {field.type === "password" && (
+                    <button
+                      type="button"
+                      className="absolute right-3 top-[38px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                      onClick={() => togglePasswordVisibility(field.name)}
+                      tabIndex={-1}
+                    >
+                      {showPassword[field.name] ? (
+                        <EyeOff
+                          size={20}
+                          className="cursor-pointer text-gray-600"
+                        />
+                      ) : (
+                        <Eye
+                          size={20}
+                          className="cursor-pointer text-gray-600"
+                        />
+                      )}
+                    </button>
+                  )}
+                  {errors[field.name] && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors[field.name]}
+                    </p>
+                  )}
+                </div>
+              ))}
+
+              {isRegister && (
+                <div className="flex items-start space-x-3">
                   <input
-                    name={field.name}
-                    value={formatPhoneNumber(
-                      formData[field.name as keyof typeof formData] || ""
-                    )}
-                    type="tel"
+                    type="checkbox"
+                    id="terms"
+                    name="terms"
+                    checked={acceptedTerms}
                     onChange={handleChange}
                     disabled={loading}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    placeholder="123-456-7890"
-                    maxLength={12}
+                    className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                ) : (
-                  <input
-                    name={field.name}
-                    value={formData[field.name as keyof typeof formData] || ""}
-                    type={getInputType(field.name, field.type)}
-                    onChange={handleChange}
-                    disabled={loading}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    placeholder={field.placeholder}
-                  />
-                )}
-                {field.type === "password" && (
-                  <button
-                    type="button"
-                    className="absolute right-3 top-[38px] text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    onClick={() => togglePasswordVisibility(field.name)}
-                    tabIndex={-1}
+                  <label
+                    htmlFor="terms"
+                    className="text-sm text-gray-700 dark:text-gray-300"
                   >
-                    {showPassword[field.name] ? (
-                      <EyeOff
-                        size={20}
-                        className="cursor-pointer text-gray-600"
-                      />
-                    ) : (
-                      <Eye size={20} className="cursor-pointer text-gray-600" />
-                    )}
-                  </button>
-                )}
-                {errors[field.name] && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors[field.name]}
-                  </p>
-                )}
-              </div>
-            ))}
+                    I agree to the{" "}
+                    <button
+                      type="button"
+                      onClick={() => setShowTermsPopup(true)}
+                      className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                    >
+                      Terms and Conditions
+                    </button>
+                  </label>
+                </div>
+              )}
+              {errors.terms && (
+                <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
+              )}
 
-            {isRegister && (
-              <div className="flex items-start space-x-3">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  name="terms"
-                  checked={acceptedTerms}
-                  onChange={handleChange}
-                  disabled={loading}
-                  className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  htmlFor="terms"
-                  className="text-sm text-gray-700 dark:text-gray-300"
+              <button
+                type="submit"
+                disabled={loading || (isRegister && !acceptedTerms)}
+                className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {loading ? "Processing..." : buttonText}
+              </button>
+            </form>
+
+            {isLogin && (
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
+                <Link
+                  to="/auth/forgot-password"
+                  className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
                 >
-                  I agree to the{" "}
-                  <button
-                    type="button"
-                    onClick={() => setShowTermsPopup(true)}
-                    className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
-                  >
-                    Terms and Conditions
-                  </button>
-                </label>
-              </div>
-            )}
-            {errors.terms && (
-              <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
+                  Forgot your password?
+                </Link>
+              </p>
             )}
 
-            <button
-              type="submit"
-              disabled={loading || (isRegister && !acceptedTerms)}
-              className="cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {loading ? "Processing..." : buttonText}
-            </button>
-          </form>
-
-          {isLogin && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-8 text-center">
+              {linkText}{" "}
               <Link
-                to="/auth/forgot-password"
+                to={linkPath}
                 className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
               >
-                Forgot your password?
+                {linkLabel}
               </Link>
             </p>
-          )}
-
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-8 text-center">
-            {linkText}{" "}
-            <Link
-              to={linkPath}
-              className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
-            >
-              {linkLabel}
-            </Link>
-          </p>
-          {isLogin && (
-            <button
-              type="button"
-              onClick={() => navigate("/one-on-one-scheduling")}
-              className="mt-4 cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              📅 Want a 1-on-1 Appointment?
-            </button>
-          )}
+            {isLogin && (
+              <button
+                type="button"
+                onClick={() => navigate("/one-on-one-scheduling")}
+                className="mt-4 cursor-pointer w-full bg-gradient-to-r from-[#fe6a3c] via-[#ff884d] to-[#fe6a3c] hover:from-[#ff884d] hover:to-[#e65a2d] text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-2xl animate-gradientMove disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                📅 Want a 1-on-1 Appointment?
+              </button>
+            )}
+          </div>
         </div>
       </div>
       {(isLogin || isRegister) && <Footer />}

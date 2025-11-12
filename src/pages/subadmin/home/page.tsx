@@ -17,6 +17,7 @@ import {
   CreditCard,
   UserCheck,
   Ticket,
+  Play,
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
@@ -32,6 +33,7 @@ const Home = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   // Notification state
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -297,19 +299,38 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Notifications */}
-        <div className="flex justify-between items-center mb-12">
-          <div className="text-center flex-1">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Support & Platform Features
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get help when you need it and explore all the powerful features
-              that transform your business operations
-            </p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
+          <div>
+            <h1 className="text-xl font-bold text-white sm:text-2xl">Home</h1>
+            <p className="text-sm text-white"></p>
           </div>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
 
-          {/* Notification Bell */}
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
@@ -398,6 +419,85 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Header with Notifications */}
+
+        {/* Video Section */}
+        <div className="mb-12">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-200">
+            <div className="flex items-center mb-6">
+              <Play className="w-8 h-8 text-purple-600 mr-3" />
+              <h2 className="text-3xl font-bold text-gray-900">
+                See Our App in Action
+              </h2>
+            </div>
+
+            <p className="text-gray-600 mb-8 text-lg">
+              Watch this demo video to see how our platform can transform your
+              restaurant operations and customer engagement.
+            </p>
+
+            <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+              {showVideo ? (
+                <div className="aspect-w-16 aspect-h-9">
+                  <video
+                    controls
+                    autoPlay
+                    className="w-full h-full"
+                    poster="/video-poster.jpg" // Add a poster image if available
+                  >
+                    <source src="/demo-video.mp4" type="video/mp4" />
+                    <source src="/demo-video.webm" type="video/webm" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              ) : (
+                <div
+                  className="aspect-w-16 aspect-h-9 bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700 transition-colors"
+                  onClick={() => setShowVideo(true)}
+                >
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-purple-700 transition-colors">
+                      <Play className="w-8 h-8 text-white" />
+                    </div>
+                    <p className="text-white text-lg font-semibold">
+                      Click to watch demo video
+                    </p>
+                    <p className="text-gray-400 text-sm mt-2">
+                      See how our platform works
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 grid md:grid-cols-3 gap-4 text-center">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <CheckCircle className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-700">Easy to Use</p>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg">
+                <Zap className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-700">Time Saving</p>
+              </div>
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <Users className="w-6 h-6 text-orange-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-700">Customer Focused</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mb-12">
+          <div className="text-center flex-1">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Support & Platform Features
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Get help when you need it and explore all the powerful features
+              that transform your business operations
+            </p>
+          </div>
+        </div>
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Create Support Ticket Section */}
           <div className="space-y-8">

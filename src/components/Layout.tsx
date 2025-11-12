@@ -5,7 +5,7 @@ import logo from "../../public/favicon1.png";
 
 const Layout = () => {
   return (
-    <div className="flex">
+    <div className="flex mobil-block">
       {/* Hidden checkbox for toggle */}
       <input type="checkbox" id="sidebar-toggle" className="hidden peer" />
 

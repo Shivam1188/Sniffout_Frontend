@@ -81,6 +81,15 @@ th {
   padding: 10px;
   padding-right: 10px;
 }
+@media only screen and (max-width: 976px) {
+  .mobil-popup {
+    margin-bottom: 20px;
+  }
+  .mob-left {
+    left: 0;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .form-filed {
     padding: 19px 10px;
@@ -88,4 +97,14 @@ th {
   .footer-logo {
     margin: 0 auto;
   }
+  .mob-left {
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }
+  .mobil-block {
+    flex-direction: column;
+  }
+}
+input#attachment {
+  width: 100%;
 }

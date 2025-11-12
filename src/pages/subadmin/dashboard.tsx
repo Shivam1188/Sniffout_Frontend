@@ -96,7 +96,7 @@ const App = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
           <div>
             <h1 className="text-xl font-bold text-white sm:text-2xl">
-              SubAdmin Dashboard
+              Dashboard
             </h1>
             <p className="text-sm text-white">
               Overview of platform statistics and performance

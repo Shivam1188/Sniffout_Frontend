@@ -304,13 +304,20 @@ const SubAdminTickets = () => {
             <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
               Support Tickets
             </h1>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center min-w-[230px]"
-            >
-              <Plus className="w-5 h-5 inline mr-2" />
-              New Ticket
-            </button>
+            <div className="relative group inline-block">
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center min-w-[230px]"
+              >
+                <Plus className="w-5 h-5 inline mr-2" />
+                New Ticket
+              </button>
+
+              {/* Tooltip */}
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-max bg-gray-800 text-white text-sm rounded-md py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                Create a new support ticket
+              </span>
+            </div>
           </div>
 
           {/* Filters and Search */}

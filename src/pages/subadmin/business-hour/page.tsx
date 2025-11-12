@@ -103,14 +103,22 @@ export default function BusinessHoursList() {
                 Business Hours List
               </h1>
 
-              <button
-                onClick={() =>
-                  navigate("/subadmin/business-hour/add-business-hour")
-                }
-                className="cursor-pointer text-sm text-white sm:px-5 font-medium lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
-              >
-                <Plus size={16} className="inline mr-2" /> Add Business Hours
-              </button>
+              <div className="relative group inline-block">
+                <button
+                  onClick={() =>
+                    navigate("/subadmin/business-hour/add-business-hour")
+                  }
+                  className="cursor-pointer text-sm text-white sm:px-5 font-medium lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                >
+                  <Plus size={16} className="inline mr-2" /> Add Business Hours
+                </button>
+
+                {/* Tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-48 text-center z-10 pointer-events-none">
+                  Set your restaurant's operating hours and special schedules
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                </div>
+              </div>
             </div>
 
             <div className="overflow-x-auto rounded-xl border border-gray-100">

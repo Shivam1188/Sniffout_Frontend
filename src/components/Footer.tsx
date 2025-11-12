@@ -60,7 +60,7 @@ const Footer = () => {
           {/* Center: Links */}
           <div className="flex flex-col justify-center items-center space-y-2 font-semibold mt-4 md:mt-0">
             <a
-              href="https://www.sniffout.ai/terms-and-conditions/"
+              href="https://www.sniffout.ai/term-conditions/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-800 hover:text-orange-500"

@@ -570,13 +570,15 @@ const AuthForm = ({
                   />
                   <label htmlFor="terms" className="text-sm text-gray-700 ">
                     I agree to the{" "}
-                    <button
-                      type="button"
-                      onClick={() => setShowTermsPopup(true)}
-                      className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                    <a
+                      href="https://www.sniffout.ai/term-conditions/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-800 hover:text-orange-500"
+                      // className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
                     >
                       Terms and Conditions
-                    </button>
+                    </a>
                   </label>
                 </div>
               )}

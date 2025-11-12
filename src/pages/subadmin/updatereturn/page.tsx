@@ -267,7 +267,7 @@ const UpdateReturn = () => {
       formData.append("profile_image", file);
 
       const response = await fetch(
-        `https://api.sniffout.ai/api/subadmin/profile/${userId}/update-profile-image/`,
+        `https://api.sniffout.io/api/subadmin/profile/${userId}/update-profile-image/`,
         {
           method: "PUT",
           headers: { Authorization: `Bearer ${token}` },

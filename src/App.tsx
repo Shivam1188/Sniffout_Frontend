@@ -81,6 +81,7 @@ import Tickets from "./pages/subadmin/tickets/page.tsx";
 import AdminTicket from "./pages/admin/tickets/page.tsx";
 import NotificationsPage from "./pages/subadmin/view-all-notifications/page.tsx";
 import TicketDetailsPage from "./pages/subadmin/tickets/ticketDetails/page.tsx";
+import RedemptionView from "./pages/subadmin/offers/RedemptionHistory/view/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -151,7 +152,7 @@ const AppRouter = () => {
                 element={<EnterPriseRequests />}
               />
             }
-          />
+          />{" "}
           <Route
             path="/admin/plans/add-plans"
             element={
@@ -217,6 +218,15 @@ const AppRouter = () => {
               <ProtectedRoute
                 allowedRole="subdir"
                 element={<SurveyQuestions />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/offers/redemptions/view/:id"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<RedemptionView />}
               />
             }
           />

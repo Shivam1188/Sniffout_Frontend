@@ -314,7 +314,7 @@ Offer Code: ${redemption.offer_code}
           <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={downloadReceipt}
-              className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <Download size={16} />
               Download Receipt

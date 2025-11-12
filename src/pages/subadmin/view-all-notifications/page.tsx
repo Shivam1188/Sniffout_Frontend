@@ -14,7 +14,6 @@ const NotificationsPage = () => {
     setLoading(true);
     try {
       const response = await api.get("subadmin/notifications/");
-      console.log("Notifications API Response:", response); // Debug log
 
       if (response.success) {
         // Handle different response formats
@@ -63,7 +62,6 @@ const NotificationsPage = () => {
   const fetchUnreadCount = async () => {
     try {
       const response = await api.get("subadmin/notifications/unread_count/");
-      console.log("Unread count response:", response); // Debug log
 
       if (response.success) {
         // Handle different response formats for unread count

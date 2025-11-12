@@ -66,9 +66,7 @@ export default function AddBusinessHour() {
         toasterSuccess("Business Hour Added Successfully", 2000, "id");
         navigate("/subadmin/business-hour");
       } else {
-        // Determine error message
         let errorMessage = "Failed to add business hour";
-        console.log("Response error:", res.error);
 
         if (
           res.error &&
@@ -90,7 +88,6 @@ export default function AddBusinessHour() {
 
       if (err.response && err.response.data) {
         const errorData = err.response.data;
-        console.log("Error response data:", errorData);
 
         let errorMessage = "Failed to add business hour";
 

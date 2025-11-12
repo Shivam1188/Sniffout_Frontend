@@ -492,15 +492,15 @@ const AuthForm = ({
       {(isLogin || isRegister) && <Header />}
       <div className="w-full flex justify-center items-center px-4 py-0 lg:py-20 bg-gradient-to-r from-[#ff884d9c] to-[#153cab70]">
         <div className="relative p-[2px] rounded-2xl animate-borderMove w-full max-w-xl my-[60px]">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] form-filed ">
-            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+          <div className="bg-white  rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] form-filed ">
+            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown fff">
               {title}
             </h2>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               {fields.map((field: any, index: any) => (
                 <div key={index} className="relative">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     {field.label}
                   </label>
                   {field.name === "office_number" ? (
@@ -512,7 +512,7 @@ const AuthForm = ({
                       type="tel"
                       onChange={handleChange}
                       disabled={loading}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]   disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="123-456-7890"
                       maxLength={12}
                     />
@@ -525,7 +525,7 @@ const AuthForm = ({
                       type={getInputType(field.name, field.type)}
                       onChange={handleChange}
                       disabled={loading}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]  disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder={field.placeholder}
                     />
                   )}
@@ -568,10 +568,7 @@ const AuthForm = ({
                     disabled={loading}
                     className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm text-gray-700 dark:text-gray-300"
-                  >
+                  <label htmlFor="terms" className="text-sm text-gray-700 ">
                     I agree to the{" "}
                     <button
                       type="button"
@@ -607,7 +604,7 @@ const AuthForm = ({
               </p>
             )}
 
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-8 text-center">
+            <p className="text-sm text-gray-600 mt-8 text-center">
               {linkText}{" "}
               <Link
                 to={linkPath}

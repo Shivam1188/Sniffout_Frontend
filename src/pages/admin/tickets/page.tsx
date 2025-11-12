@@ -82,7 +82,6 @@ const SubAdminTickets = () => {
 
       // Construct final URL
       const finalUrl = `${url}?${params.toString()}`;
-      console.log("Fetching tickets from:", finalUrl);
 
       const response = await api.get(finalUrl);
 

@@ -62,29 +62,49 @@ export default function AddBusinessHour() {
 
     try {
       const res: any = await api.post(`subadmin/business-hours/`, submitData);
-
-      if (res.data.success) {
+      if (res.success) {
         toasterSuccess("Business Hour Added Successfully", 2000, "id");
         navigate("/subadmin/business-hour");
       } else {
-        // Show backend validation error
-        toasterError(
-          res.data.error || res.data.message || "Failed to add business hour",
-          2000,
-          "id"
-        );
+        let errorMessage = "Failed to add business hour";
+
+        if (
+          res.error &&
+          res.error.includes(
+            "The fields subadmin_profile, day must make a unique set"
+          )
+        ) {
+          errorMessage = "Day already exists. Please add another one.";
+        } else if (res.message) {
+          errorMessage = res.message;
+        } else if (res.error) {
+          errorMessage = res.error;
+        }
+
+        toasterError(errorMessage, 2000, "id");
       }
     } catch (err: any) {
       console.error("API Error:", err);
 
-      // Handle actual HTTP errors (network/server issues)
       if (err.response && err.response.data) {
         const errorData = err.response.data;
-        toasterError(
-          errorData.error || errorData.message || "Failed to add business hour",
-          2000,
-          "id"
-        );
+
+        let errorMessage = "Failed to add business hour";
+
+        if (
+          errorData.error &&
+          errorData.error.includes(
+            "The fields subadmin_profile, day must make a unique set"
+          )
+        ) {
+          errorMessage = "Day already exists. Please add another one.";
+        } else if (errorData.message) {
+          errorMessage = errorData.message;
+        } else if (errorData.error) {
+          errorMessage = errorData.error;
+        }
+
+        toasterError(errorMessage, 2000, "id");
       } else {
         toasterError("Failed to add business hour", 2000, "id");
       }

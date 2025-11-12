@@ -45,6 +45,8 @@ const AuthForm = ({
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{8,}$/;
 
     if (type !== "forgot-password" && !isLogin && !formData.firstname.trim()) {
       newErrors.firstname = "First name is required";
@@ -87,8 +89,12 @@ const AuthForm = ({
 
     if (type !== "forgot-password" && !formData.password.trim()) {
       newErrors.password = "Password is required";
-    } else if (type !== "forgot-password" && formData.password.length < 5) {
-      newErrors.password = "Password must be at least 5 characters";
+    } else if (
+      type !== "forgot-password" &&
+      !strongPasswordRegex.test(formData.password)
+    ) {
+      newErrors.password =
+        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character";
     }
 
     if (
@@ -256,7 +262,7 @@ const AuthForm = ({
           if (role === "admin") {
             navigate("/admin/dashboard");
           } else if (role === "subdir") {
-            navigate("/subadmin/dashboard");
+            navigate("/subadmin/home");
           }
 
           toasterSuccess(

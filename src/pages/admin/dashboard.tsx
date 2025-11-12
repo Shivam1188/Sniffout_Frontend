@@ -418,7 +418,7 @@ const AdminDashboard = () => {
                       {hasImage ? (
                         <img
                           alt={item.restaurant_name || item.email}
-                          src={`https://api.sniffout.ai${item.profile_image}`}
+                          src={`https://api.sniffout.io${item.profile_image}`}
                           className="w-10 h-10 rounded-full object-cover"
                         />
                       ) : (

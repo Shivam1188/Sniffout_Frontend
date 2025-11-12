@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleBack = () => {
     window.location.href = "https://www.sniffout.ai/";
+  };
+
+  const handleNavigation = (section: string) => {
+    if (section === "home") {
+      window.location.href = "https://www.sniffout.ai/";
+    } else if (section === "price") {
+      window.location.href = "https://www.sniffout.ai/#price-table";
+    } else if (section === "how-it-works") {
+      window.location.href = "https://www.sniffout.ai/#how-work";
+    } else if (section === "blog") {
+      window.location.href = "https://www.sniffout.ai/blog/";
+    } else if (section === "book-demo") {
+      window.location.href = "https://www.sniffout.ai/#form-trial";
+    }
   };
 
   return (
@@ -26,32 +40,44 @@ const Header = () => {
         <div className="hidden md:flex items-center space-x-6 font-semibold">
           <ul className="flex space-x-6">
             <li>
-              <a href="#" className="hover:text-orange-500">
+              <button
+                onClick={() => handleNavigation("home")}
+                className="cursor-pointer hover:text-orange-500 transition-colors"
+              >
                 Home
-              </a>
+              </button>
             </li>
             <li>
-              <a href="#" className="hover:text-orange-500">
+              <button
+                onClick={() => handleNavigation("price")}
+                className="cursor-pointer hover:text-orange-500 transition-colors"
+              >
                 Price
-              </a>
+              </button>
             </li>
             <li>
-              <a href="#" className="text-orange-500">
+              <button
+                onClick={() => handleNavigation("how-it-works")}
+                className="cursor-pointer hover:text-orange-600 transition-colors"
+              >
                 How It Works
-              </a>
+              </button>
             </li>
             <li>
-              <a href="#" className="hover:text-orange-500">
+              <button
+                onClick={() => handleNavigation("blog")}
+                className="cursor-pointer hover:text-orange-500 transition-colors"
+              >
                 Blog
-              </a>
+              </button>
             </li>
           </ul>
-          <a
-            href="#"
-            className="bg-gradient-to-r from-blue-600 to-blue-400 text-white font-semibold px-4 py-2 rounded-full shadow-md hover:opacity-90 transition"
+          <button
+            onClick={() => handleNavigation("book-demo")}
+            className="cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 text-white font-semibold px-4 py-2 rounded-full shadow-md hover:opacity-90 transition"
           >
             Book Demo
-          </a>
+          </button>
         </div>
 
         {/* Mobile Toggle */}
@@ -98,33 +124,51 @@ const Header = () => {
         }`}
       >
         <div className="flex flex-col bg-white font-semibold text-start shadow-sm border-t border-gray-200">
-          <a
-            href="#"
-            className="py-3 px-4 border-b border-gray-200 text-orange-500 hover:text-orange-500"
+          <button
+            onClick={() => {
+              handleNavigation("home");
+              setMenuOpen(false);
+            }}
+            className="py-3 px-4 border-b border-gray-200 text-orange-500 hover:text-orange-600 text-left transition-colors"
           >
             Home
-          </a>
-          <a
-            href="#"
-            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500"
+          </button>
+          <button
+            onClick={() => {
+              handleNavigation("price");
+              setMenuOpen(false);
+            }}
+            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500 text-left transition-colors"
           >
             Price
-          </a>
-          <a
-            href="#"
-            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500"
+          </button>
+          <button
+            onClick={() => {
+              handleNavigation("how-it-works");
+              setMenuOpen(false);
+            }}
+            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500 text-left transition-colors"
           >
             How It Works
-          </a>
-          <a
-            href="#"
-            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500"
+          </button>
+          <button
+            onClick={() => {
+              handleNavigation("blog");
+              setMenuOpen(false);
+            }}
+            className="py-3 px-4 border-b border-gray-200 hover:text-orange-500 text-left transition-colors"
           >
             Blog
-          </a>
-          <a href="#" className="py-3 px-4 hover:text-orange-500">
+          </button>
+          <button
+            onClick={() => {
+              handleNavigation("book-demo");
+              setMenuOpen(false);
+            }}
+            className="py-3 px-4 hover:text-orange-500 text-left transition-colors"
+          >
             Book Demo
-          </a>
+          </button>
         </div>
       </div>
     </header>

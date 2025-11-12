@@ -652,7 +652,7 @@ const OfferAnalytics: React.FC = () => {
                         </div>
 
                         <Link
-                          to={`/subadmin/offers/${offer.id}/analytics`}
+                          to={`/subadmin/qr-codes/offers/${offer.id}/analytics`}
                           className="ml-4 p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           title="View Offer"
                         >

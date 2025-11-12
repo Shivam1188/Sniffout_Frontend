@@ -21,10 +21,11 @@ import {
   Star,
   Crown,
   Rocket,
+  Play,
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const router = useNavigate();
@@ -36,6 +37,7 @@ const Home = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   // Notification state
   const [notifications, setNotifications] = useState<any[]>([]);
@@ -324,6 +326,165 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+          Home
+        </h1>
+        <div className="relative">
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-4 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 rounded-2xl"></div>
+            <Bell className="w-7 h-7 text-[#4d519e] group-hover:text-[#3a3f8c] transition-colors relative z-10" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-gradient-to-br from-[#fe6a3c] to-[#e55a2c] text-white text-sm rounded-full w-7 h-7 flex items-center justify-center font-bold shadow-lg animate-bounce">
+                {unreadCount}
+              </span>
+            )}
+          </button>
+
+          {/* Notifications Dropdown */}
+          {showNotifications && (
+            <div className="mob-left absolute right-0 mt-3 w-80 sm:w-96 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 z-50 animate-in fade-in-0 zoom-in-95">
+              <div className="p-6 border-b border-white/20 bg-gradient-to-r from-[#4d519e]/5 to-transparent">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-black text-gray-900 text-lg flex items-center gap-2">
+                    <Bell className="w-5 h-5 text-[#4d519e]" />
+                    Recent Notifications
+                  </h3>
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={markAllAsRead}
+                      className="text-sm font-semibold text-[#4d519e] hover:text-[#3a3f8c] transition-colors"
+                    >
+                      Mark all as read
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="max-h-96 overflow-y-auto">
+                {!notifications || notifications.length === 0 ? (
+                  <div className="p-8 text-center text-gray-500">
+                    <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Bell className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <p className="font-medium">No notifications</p>
+                  </div>
+                ) : (
+                  notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`p-4 border-b border-gray-100 hover:bg-[#4d519e]/5 cursor-pointer transition-all duration-300 ${
+                        !notification.is_read ? "bg-[#4d519e]/5" : ""
+                      }`}
+                      onClick={() => markAsRead(notification.id)}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div
+                          className={`w-3 h-3 rounded-full mt-2 flex-shrink-0 ${
+                            !notification.is_read
+                              ? "bg-[#fe6a3c] animate-pulse"
+                              : "bg-gray-300"
+                          }`}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-gray-900 text-sm">
+                            {notification.title}
+                          </p>
+                          <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+                            {notification.message}
+                          </p>
+                          <p className="text-gray-400 text-xs mt-2 font-medium">
+                            {new Date(notification.created_at).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="p-4 border-t border-white/20 bg-gradient-to-r from-transparent to-[#fe6a3c]/5">
+                <button
+                  onClick={() => {
+                    window.location.href = "/subadmin/view-all-notifications";
+                  }}
+                  className="cursor-pointer w-full text-center text-sm font-semibold text-[#4d519e] hover:text-[#3a3f8c] transition-colors py-2"
+                >
+                  View All Notifications
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="mb-12">
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-purple-200">
+          <div className="flex items-center mb-6">
+            <Play className="w-8 h-8 text-purple-600 mr-3" />
+            <h2 className="text-3xl font-bold text-gray-900">
+              See Our App in Action
+            </h2>
+          </div>
+
+          <p className="text-gray-600 mb-8 text-lg">
+            Watch this demo video to see how our platform can transform your
+            restaurant operations and customer engagement.
+          </p>
+
+          <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+            {showVideo ? (
+              <div className="aspect-w-16 aspect-h-9">
+                <video
+                  controls
+                  autoPlay
+                  className="w-full h-full"
+                  poster="/video-poster.jpg" // Add a poster image if available
+                >
+                  <source src="/demo-video.mp4" type="video/mp4" />
+                  <source src="/demo-video.webm" type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            ) : (
+              <div
+                className="aspect-w-16 aspect-h-9 bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700 transition-colors"
+                onClick={() => setShowVideo(true)}
+              >
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-purple-700 transition-colors">
+                    <Play className="w-8 h-8 text-white" />
+                  </div>
+                  <p className="text-white text-lg font-semibold">
+                    Click to watch demo video
+                  </p>
+                  <p className="text-gray-400 text-sm mt-2">
+                    See how our platform works
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-6 grid md:grid-cols-3 gap-4 text-center">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <CheckCircle className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+              <p className="text-sm text-gray-700">Easy to Use</p>
+            </div>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <Zap className="w-6 h-6 text-green-600 mx-auto mb-2" />
+              <p className="text-sm text-gray-700">Time Saving</p>
+            </div>
+            <div className="bg-orange-50 p-4 rounded-lg">
+              <Users className="w-6 h-6 text-orange-600 mx-auto mb-2" />
+              <p className="text-sm text-gray-700">Customer Focused</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-[#4d519e]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#fe6a3c]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
@@ -351,99 +512,33 @@ const Home = () => {
               </span>
             </p>
           </div>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
 
-          {/* Notification Bell */}
-          <div className="relative">
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-4 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 rounded-2xl"></div>
-              <Bell className="w-7 h-7 text-[#4d519e] group-hover:text-[#3a3f8c] transition-colors relative z-10" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-br from-[#fe6a3c] to-[#e55a2c] text-white text-sm rounded-full w-7 h-7 flex items-center justify-center font-bold shadow-lg animate-bounce">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-
-            {/* Notifications Dropdown */}
-            {showNotifications && (
-              <div className="mob-left absolute right-0 mt-3 w-80 sm:w-96 bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 z-50 animate-in fade-in-0 zoom-in-95">
-                <div className="p-6 border-b border-white/20 bg-gradient-to-r from-[#4d519e]/5 to-transparent">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-black text-gray-900 text-lg flex items-center gap-2">
-                      <Bell className="w-5 h-5 text-[#4d519e]" />
-                      Recent Notifications
-                    </h3>
-                    {unreadCount > 0 && (
-                      <button
-                        onClick={markAllAsRead}
-                        className="text-sm font-semibold text-[#4d519e] hover:text-[#3a3f8c] transition-colors"
-                      >
-                        Mark all as read
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="max-h-96 overflow-y-auto">
-                  {!notifications || notifications.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">
-                      <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Bell className="w-8 h-8 text-gray-400" />
-                      </div>
-                      <p className="font-medium">No notifications</p>
-                    </div>
-                  ) : (
-                    notifications.map((notification) => (
-                      <div
-                        key={notification.id}
-                        className={`p-4 border-b border-gray-100 hover:bg-[#4d519e]/5 cursor-pointer transition-all duration-300 ${
-                          !notification.is_read ? "bg-[#4d519e]/5" : ""
-                        }`}
-                        onClick={() => markAsRead(notification.id)}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div
-                            className={`w-3 h-3 rounded-full mt-2 flex-shrink-0 ${
-                              !notification.is_read
-                                ? "bg-[#fe6a3c] animate-pulse"
-                                : "bg-gray-300"
-                            }`}
-                          />
-                          <div className="flex-1 min-w-0">
-                            <p className="font-bold text-gray-900 text-sm">
-                              {notification.title}
-                            </p>
-                            <p className="text-gray-600 text-sm mt-1 line-clamp-2">
-                              {notification.message}
-                            </p>
-                            <p className="text-gray-400 text-xs mt-2 font-medium">
-                              {new Date(
-                                notification.created_at
-                              ).toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                <div className="p-4 border-t border-white/20 bg-gradient-to-r from-transparent to-[#fe6a3c]/5">
-                  <button
-                    onClick={() => {
-                      window.location.href = "/subadmin/view-all-notifications";
-                    }}
-                    className="cursor-pointer w-full text-center text-sm font-semibold text-[#4d519e] hover:text-[#3a3f8c] transition-colors py-2"
-                  >
-                    View All Notifications
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">

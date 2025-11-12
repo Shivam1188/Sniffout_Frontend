@@ -11,12 +11,7 @@ const Managelinks = () => {
   const initialFormData = {
     restaurant_name: id,
     direct_ordering_link: "",
-    doordash_link: "",
-    ubereats_link: "",
-    grubhub_link: "",
     direct_reservation_link: "",
-    opentable_link: "",
-    resy_link: "",
     catering_request_form: "",
     special_events_form: "",
   };
@@ -148,53 +143,42 @@ const Managelinks = () => {
 
           <div className="space-y-6">
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">
-                Direct Ordering Link
-              </label>
+              <div className="flex items-center gap-2 mb-1">
+                <label className="text-sm font-semibold text-gray-700 block">
+                  Direct Ordering Link
+                </label>
+                <div className="group relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 text-gray-500 cursor-help"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                    />
+                  </svg>
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-64 text-center z-10">
+                    Your main online ordering URL (e.g., from Uber Eats,
+                    DoorDash, or your own website)
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                  </div>
+                </div>
+              </div>
+
               <input
                 type="text"
                 name="direct_ordering_link"
                 value={formData.direct_ordering_link}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
+                placeholder="https://www.ubereats.com/your-restaurant"
               />
             </div>
-            {/* <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">
-                DoorDash Link
-              </label>
-              <input
-                type="text"
-                name="doordash_link"
-                value={formData.doordash_link}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">
-                UberEats Link
-              </label>
-              <input
-                type="text"
-                name="ubereats_link"
-                value={formData.ubereats_link}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-1">
-                GrubHub Link
-              </label>
-              <input
-                type="text"
-                name="grubhub_link"
-                value={formData.grubhub_link}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm shadow-sm"
-              />
-            </div> */}
           </div>
         </div>
 
@@ -204,68 +188,122 @@ const Managelinks = () => {
               <h3 className="text-xl font-semibold text-gray-800">
                 Reservation Links
               </h3>
+
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Direct Reservation Link
-                </label>
+                <div className="flex items-center gap-2 mb-1">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Direct Reservation Link
+                  </label>
+                  <div className="group relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4 text-gray-500 cursor-help"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                      />
+                    </svg>
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-64 text-center z-10">
+                      URL for table reservations (e.g., OpenTable, Resy, or your
+                      booking system)
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                    </div>
+                  </div>
+                </div>
+
                 <input
                   type="text"
                   name="direct_reservation_link"
                   value={formData.direct_reservation_link}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
+                  placeholder="https://www.opentable.com/your-restaurant"
                 />
               </div>
+
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Catering Request Form
-                  </label>
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700">
+                      Catering Request Form
+                    </label>
+                    <div className="group relative">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-4 h-4 text-gray-500 cursor-help"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                        />
+                      </svg>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-64 text-center z-10">
+                        Form or page for catering inquiries and large group
+                        orders
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                      </div>
+                    </div>
+                  </div>
+
                   <input
                     type="text"
                     name="catering_request_form"
                     value={formData.catering_request_form}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
+                    placeholder="https://yourwebsite.com/catering-request"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
-                    Special Events Form
-                  </label>
+                  <div className="flex items-center gap-2 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700">
+                      Special Events Form
+                    </label>
+                    <div className="group relative">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-4 h-4 text-gray-500 cursor-help"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                        />
+                      </svg>
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-64 text-center z-10">
+                        Form for private events, parties, and special occasion
+                        bookings
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                      </div>
+                    </div>
+                  </div>
+
                   <input
                     type="text"
                     name="special_events_form"
                     value={formData.special_events_form}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
+                    placeholder="https://yourwebsite.com/private-events"
                   />
                 </div>
               </div>
-              {/* <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  OpenTable Link
-                </label>
-                <input
-                  type="text"
-                  name="opentable_link"
-                  value={formData.opentable_link}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  Resy Link
-                </label>
-                <input
-                  type="text"
-                  name="resy_link"
-                  value={formData.resy_link}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-md border-gray-300 text-sm"
-                />
-              </div> */}
             </div>
           </div>
 

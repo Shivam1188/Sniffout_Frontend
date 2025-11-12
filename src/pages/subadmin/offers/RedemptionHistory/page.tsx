@@ -66,7 +66,7 @@ const Redemptions: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const [filters, setFilters] = useState({
-    status: "all",
+    status: "",
     search: "",
     date_from: "",
     date_to: "",
@@ -132,7 +132,7 @@ const Redemptions: React.FC = () => {
     setView("offers");
     setRedemptions([]);
     setFilters({
-      status: "all",
+      status: "",
       search: "",
       date_from: "",
       date_to: "",
@@ -212,7 +212,7 @@ const Redemptions: React.FC = () => {
 
   const clearFilters = () => {
     setFilters({
-      status: "all",
+      status: "",
       search: "",
       date_from: "",
       date_to: "",
@@ -221,7 +221,7 @@ const Redemptions: React.FC = () => {
 
   const getActiveFiltersCount = () => {
     let count = 0;
-    if (filters.status !== "all") count++;
+    if (filters.status !== "") count++;
     if (filters.search) count++;
     if (filters.date_from) count++;
     if (filters.date_to) count++;
@@ -286,7 +286,7 @@ const Redemptions: React.FC = () => {
       redemption.redemption_code?.toLowerCase().includes(searchLower);
 
     const matchesStatus =
-      filters.status === "all" || redemption.status === filters.status;
+      filters.status === "" || redemption.status === filters.status;
 
     let matchesDate = true;
     if (filters.date_from && redemption.created_at) {
@@ -581,7 +581,7 @@ const Redemptions: React.FC = () => {
                       }
                       className="border border-slate-300 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 font-medium text-slate-700"
                     >
-                      <option value="all">All Status</option>
+                      <option value="">All Status</option>
                       <option value="used">Redeemed</option>
                       <option value="verified">Verified</option>
                       <option value="otp_sent">OTP Sent</option>
@@ -618,12 +618,12 @@ const Redemptions: React.FC = () => {
                         Active Filters:
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {filters.status !== "all" && (
+                        {filters.status !== "" && (
                           <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
                             Status: {filters.status}
                             <button
                               onClick={() =>
-                                setFilters({ ...filters, status: "all" })
+                                setFilters({ ...filters, status: "" })
                               }
                               className="hover:text-blue-900"
                             >

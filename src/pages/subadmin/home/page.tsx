@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const router = useNavigate();
@@ -326,14 +326,14 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
+      <div className="flex md:flex-row align-items-center md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
         <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
           Home
         </h1>
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-4 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
+            className="relative p-0.5 md:p-2 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 rounded-2xl"></div>
             <Bell className="w-7 h-7 text-[#4d519e] group-hover:text-[#3a3f8c] transition-colors relative z-10" />
@@ -418,6 +418,35 @@ const Home = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className="mob-view-btn">
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-[51px] right-[39px] z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
       </div>
       <div className="mb-12">
@@ -512,33 +541,6 @@ const Home = () => {
               </span>
             </p>
           </div>
-          {/* Overlay for mobile */}
-          <label
-            htmlFor="sidebar-toggle"
-            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
-          ></label>
-
-          {/* Toggle Button (Arrow) */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
-          >
-            {/* Arrow Icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-              />
-            </svg>
-          </label>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -925,7 +927,7 @@ const Home = () => {
         </div>
       </div>
 
-      <style>{`
+      <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

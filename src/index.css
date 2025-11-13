@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 tr:nth-child(even) {
   background-color: #f4f5fa;
 }
@@ -12,35 +13,43 @@ option {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes slideIn {
   from {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
+
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out;
 }
+
 .animate-slideIn {
   animation: slideIn 0.5s ease-out;
 }
+
 .delay-300 {
   animation-delay: 0.3s;
 }
+
 .responsive-table td {
   min-width: 180px;
 }
 
 @layer base {
+
   input[type="date"]::-webkit-calendar-picker-indicator,
   input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
@@ -64,27 +73,32 @@ input[type="time"] {
 .plan-sidebar {
   width: 300px;
 }
+
 @media only screen and (max-width: 1024px) {
   .grid-colun-mob {
     flex-direction: column;
     gap: 20px;
     text-align: center;
   }
-  .grid-colun-mob > div {
+
+  .grid-colun-mob>div {
     width: 100%;
     /* display: block; */
     flex-direction: column;
   }
 }
+
 .table-space td,
 th {
   padding: 10px;
   padding-right: 10px;
 }
+
 @media only screen and (max-width: 976px) {
   .mobil-popup {
     margin-bottom: 20px;
   }
+
   .mob-left {
     left: 0;
   }
@@ -94,17 +108,29 @@ th {
   .form-filed {
     padding: 19px 10px;
   }
+
+  .mob-view-btn {
+    display: block !important;
+  }
+
   .footer-logo {
     margin: 0 auto;
   }
+
   .mob-left {
     left: 50%;
     transform: translate(-50%, 0%);
   }
+
   .mobil-block {
     flex-direction: column;
   }
 }
+
 input#attachment {
   width: 100%;
+}
+
+.mob-view-btn {
+  display: none;
 }

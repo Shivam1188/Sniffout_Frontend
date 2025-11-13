@@ -493,7 +493,7 @@ const AuthForm = ({
       <div className="w-full flex justify-center items-center px-4 py-0 lg:py-20 bg-gradient-to-r from-[#ff884d9c] to-[#153cab70]">
         <div className="relative p-[2px] rounded-2xl animate-borderMove w-full max-w-xl my-[60px]">
           <div className="bg-white  rounded-2xl p-10 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] form-filed ">
-            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown fff">
+            <h2 className="text-4xl font-extrabold text-gray-800 dark:text-gray-800 text-center mb-8 animate-slideInDown ">
               {title}
             </h2>
 
@@ -579,7 +579,7 @@ const AuthForm = ({
                       href="https://www.sniffout.ai/term-conditions/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-800 hover:text-orange-500"
+                      className="text-orange-500 hover:text-orange-500"
                       // className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
                     >
                       Terms and Conditions
@@ -604,7 +604,7 @@ const AuthForm = ({
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-4 text-center">
                 <Link
                   to="/auth/forgot-password"
-                  className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                  className="text-[#fe6a3c] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
                 >
                   Forgot your password?
                 </Link>
@@ -615,7 +615,7 @@ const AuthForm = ({
               {linkText}{" "}
               <Link
                 to={linkPath}
-                className="text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                className="text-[#fe6a3c] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
               >
                 {linkLabel}
               </Link>

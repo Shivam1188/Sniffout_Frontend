@@ -63,7 +63,7 @@ const Footer = () => {
               href="https://www.sniffout.ai/term-conditions/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-800 hover:text-orange-500"
+              className="text-orange-500 hover:text-orange-500"
             >
               Terms and Conditions
             </a>
@@ -71,7 +71,7 @@ const Footer = () => {
               href="https://www.sniffout.ai/privacy-policy/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-800 hover:text-orange-500"
+              className="text-orange-500 hover:text-orange-500"
             >
               Privacy Policy
             </a>

@@ -569,7 +569,12 @@ const AuthForm = ({
                     className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label htmlFor="terms" className="text-sm text-gray-700 ">
-                    I agree to the{" "}
+                    By submitting this form, I agree to receive SMS updates and
+                    notifications from Sniffout.ai and its affiliates. Message
+                    frequency may vary. Message and data rates may apply. You
+                    can unsubscribe at any time by replying STOP. Your
+                    information will be handled according to the Privacy Policy
+                    and{" "}
                     <a
                       href="https://www.sniffout.ai/term-conditions/"
                       target="_blank"

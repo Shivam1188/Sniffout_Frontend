@@ -568,22 +568,39 @@ const AuthForm = ({
                     disabled={loading}
                     className="cursor-pointer mt-1 w-4 h-4 text-[#1d3faa] bg-gray-100 border-gray-300 rounded focus:ring-[#1d3faa] dark:focus:ring-[#fe6a3c] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label htmlFor="terms" className="text-sm text-gray-700 ">
+                  <label htmlFor="terms" className="text-sm text-gray-700">
                     By submitting this form, I agree to receive SMS updates and
-                    notifications from Sniffout.ai and its affiliates. Message
-                    frequency may vary. Message and data rates may apply. You
-                    can unsubscribe at any time by replying STOP. Your
-                    information will be handled according to the Privacy Policy
+                    notifications from{" "}
+                    <a
+                      href="https://www.sniffout.ai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-orange-500 hover:underline font-semibold"
+                    >
+                      Sniffout.ai
+                    </a>{" "}
+                    and its affiliates. Message frequency may vary. Message and
+                    data rates may apply. You can unsubscribe at any time by
+                    replying STOP. Your information will be handled according to
+                    the{" "}
+                    <a
+                      href="https://www.sniffout.ai/privacy-policy/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-orange-500 hover:underline font-semibold"
+                    >
+                      Privacy Policy
+                    </a>{" "}
                     and{" "}
                     <a
                       href="https://www.sniffout.ai/term-conditions/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-orange-500 hover:text-orange-500"
-                      // className="cursor-pointer text-[#1d3faa] hover:underline font-medium transition duration-200 hover:text-[#fe6a3c]"
+                      className="text-orange-500 hover:underline font-semibold"
                     >
                       Terms and Conditions
                     </a>
+                    .
                   </label>
                 </div>
               )}

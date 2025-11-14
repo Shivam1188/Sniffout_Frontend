@@ -307,6 +307,34 @@ const OfferAnalytics: React.FC = () => {
               <ArrowLeft size={18} />
               Back to Offers
             </Link>
+
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
         </div>
 
@@ -496,7 +524,7 @@ const OfferAnalytics: React.FC = () => {
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-xl border-t-4 border-[#fe6a3c]">
             {/* Overview Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 ff">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
                 <div className="flex items-center justify-between">
                   <div>

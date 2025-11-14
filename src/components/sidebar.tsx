@@ -407,7 +407,7 @@ const Sidebar = () => {
                   </div>
 
                   {openSubmenu === item.label && item.submenu && (
-                    <div className="ml-6 mt-1 space-y-1">
+                    <div className=" mt-1 space-y-1">
                       {item.submenu.map((subItem) => (
                         <div key={subItem.label}>
                           {subItem.hasSubmenu ? (
@@ -452,7 +452,7 @@ const Sidebar = () => {
 
                               {openNestedSubmenu === subItem.label &&
                                 subItem.submenu && (
-                                  <div className="ml-6 mt-1 space-y-1">
+                                  <div className=" mt-1 space-y-1">
                                     {subItem.submenu.map((nestedSubItem) => (
                                       <Link
                                         to={nestedSubItem.route}

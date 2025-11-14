@@ -126,7 +126,7 @@ const QRCodeManager: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full ">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
@@ -138,6 +138,33 @@ const QRCodeManager: React.FC = () => {
           >
             Back To Dashboard
           </Link>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {/* Content Box */}
@@ -193,25 +220,42 @@ const QRCodeManager: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row justify-center gap-3 mb-4">
+                      {/* Download QR */}
                       <button
                         onClick={downloadQRCode}
-                        className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors w-full sm:w-auto"
+                        className="cursor-pointer flex items-center justify-center gap-2 px-6 py-2.5 w-full sm:w-auto
+               text-white font-semibold rounded-lg shadow-md transition-all duration-300 
+               bg-gradient-to-br from-[#1d3faa] via-[#52539c] to-[#1d3faa]
+               hover:from-[#1d3faa] hover:via-[#3f4bbf] hover:to-[#5b6cff] 
+               hover:shadow-lg hover:scale-105"
                       >
-                        <Download size={16} />
+                        <Download size={18} />
                         Download QR
                       </button>
+
+                      {/* Copy Link */}
                       <button
                         onClick={copySurveyLink}
-                        className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full sm:w-auto"
+                        className="cursor-pointer flex items-center justify-center gap-2 px-6 py-2.5 w-full sm:w-auto
+               text-white font-semibold rounded-lg shadow-md transition-all duration-300
+               bg-gradient-to-br from-[#fe6a3c] via-[#d26b63] to-[#fe6a3c]
+               hover:from-[#ff7b4e] hover:via-[#f47a62] hover:to-[#ff946e]
+               hover:shadow-lg hover:scale-105"
                       >
-                        <Copy size={16} />
+                        <Copy size={18} />
                         Copy Link
                       </button>
+
+                      {/* Open Survey */}
                       <button
                         onClick={openSurveyLink}
-                        className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors w-full sm:w-auto"
+                        className="cursor-pointer flex items-center justify-center gap-2 px-6 py-2.5 w-full sm:w-auto
+               text-white font-semibold rounded-lg shadow-md transition-all duration-300
+               bg-gradient-to-br from-[#52539c] via-[#1d3faa] to-[#5c5ed1]
+               hover:from-[#6668e5] hover:via-[#3a54ec] hover:to-[#7a7cff]
+               hover:shadow-lg hover:scale-105"
                       >
-                        <ExternalLink size={16} />
+                        <ExternalLink size={18} />
                         Open Survey
                       </button>
                     </div>

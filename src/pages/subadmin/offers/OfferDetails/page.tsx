@@ -306,6 +306,7 @@ const OfferDetails: React.FC = () => {
               <ArrowLeft size={16} />
               Back to Offers
             </Link>
+            
           </div>
         </div>
 

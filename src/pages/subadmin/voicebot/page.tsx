@@ -204,6 +204,33 @@ const VoiceBotDashboard = () => {
             >
               Back To Dashboard
             </Link>
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
         </div>
 

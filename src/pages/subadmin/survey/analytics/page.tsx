@@ -42,9 +42,9 @@ const SurveyAnalytics: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full lg:max-w-3xl xl:max-w-full sm:w-full fff">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7 ">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Survey Analytics
           </h1>
@@ -54,6 +54,33 @@ const SurveyAnalytics: React.FC = () => {
           >
             Back To Dashboard
           </Link>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {/* Content Box */}
@@ -75,9 +102,13 @@ const SurveyAnalytics: React.FC = () => {
                 </select>
                 <button
                   onClick={exportToCSV}
-                  className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                  className="flex items-center justify-center gap-2 px-6 py-2.5 
+             rounded-md text-white font-medium 
+             bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c]
+             hover:from-[#3a54ec] hover:to-[#ff7b4e]
+             transition-all duration-300 shadow-sm hover:shadow-md"
                 >
-                  <Download size={16} />
+                  <Download size={18} />
                   Export
                 </button>
               </div>

@@ -127,7 +127,7 @@ const SurveyQuestions: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="w-full flex-1 p-4 overflow-hidden">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
@@ -139,6 +139,33 @@ const SurveyQuestions: React.FC = () => {
           >
             Back To Dashboard
           </Link>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {/* Content Box */}
@@ -201,7 +228,7 @@ const SurveyQuestions: React.FC = () => {
                               )}
                             </div>
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="py-3 px-4 flex">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getQuestionTypeColor(
                                 question.question_type
@@ -215,7 +242,7 @@ const SurveyQuestions: React.FC = () => {
                               </span>
                             )}
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="py-3 ">
                             <button
                               onClick={() => handleToggleActive(question)}
                               className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -227,7 +254,7 @@ const SurveyQuestions: React.FC = () => {
                               {question.is_active ? "Active" : "Inactive"}
                             </button>
                           </td>
-                          <td className="py-3 px-4 text-center space-x-3">
+                          <td className="py-3 px-4 text-center space-x-3 flex">
                             <button
                               onClick={() => setEditingQuestion(question)}
                               className="text-blue-600 cursor-pointer hover:text-blue-800"

@@ -28,7 +28,7 @@ const Layout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 w-[200px]">
+      <main className="flex-1 all-title w-0">
         <Outlet />
       </main>
     </div>

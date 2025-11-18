@@ -483,7 +483,7 @@ const UpdateReturn = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
+      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header with Back Button */}
         <div className="flex items-center mb-6">
           <button

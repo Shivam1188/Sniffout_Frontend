@@ -127,7 +127,7 @@ const SurveyQuestions: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="w-full flex-1 p-4 overflow-hidden">
+      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
@@ -185,8 +185,8 @@ const SurveyQuestions: React.FC = () => {
             </div>
 
             {/* Table */}
-            <div className="overflow-x-auto rounded-xl border border-gray-100">
-              <table className="min-w-full table-auto text-sm text-gray-700">
+            <div className="overflow-x-auto rounded-xl border border-gray-100  ">
+              <table className="min-w-full table-auto text-sm text-gray-700 list-table">
                 <thead>
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
                     <th className="py-3 px-4 text-left">Order</th>

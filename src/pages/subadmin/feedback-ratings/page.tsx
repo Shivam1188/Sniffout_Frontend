@@ -105,7 +105,7 @@ function FeedbackRatings() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">

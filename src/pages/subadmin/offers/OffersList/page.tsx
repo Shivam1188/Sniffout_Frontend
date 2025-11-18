@@ -193,9 +193,9 @@ const OffersList: React.FC = () => {
   };
 
   const getStatusIcon = (offer: any) => {
-    if (!offer.is_active) return <Shield size={14} />;
-    if (!offer.is_valid_now) return <Clock size={14} />;
-    return <Zap size={14} />;
+    if (!offer.is_active) return <Shield size={12} />;
+    if (!offer.is_valid_now) return <Clock size={12} />;
+    return <Zap size={12} />;
   };
 
   const getStatusText = (offer: any) => {
@@ -206,13 +206,13 @@ const OffersList: React.FC = () => {
 
   const getOfferTypeIcon = (offerType: string) => {
     const icons: any = {
-      percentage: <TrendingUp size={20} />,
-      fixed: <BadgeCheck size={20} />,
-      bogo: <Gift size={20} />,
-      free_item: <Award size={20} />,
-      combo: <Layers size={20} />,
+      percentage: <TrendingUp size={16} />,
+      fixed: <BadgeCheck size={16} />,
+      bogo: <Gift size={16} />,
+      free_item: <Award size={16} />,
+      combo: <Layers size={16} />,
     };
-    return icons[offerType] || <Tag size={20} />;
+    return icons[offerType] || <Tag size={16} />;
   };
 
   const getOfferTypeColor = (offerType: string) => {
@@ -263,24 +263,24 @@ const OffersList: React.FC = () => {
 
   const StatsCard = ({ icon, label, value, trend, gradient }: any) => (
     <div className="relative group">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
-      <div className="relative bg-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:shadow-lg backdrop-blur-sm">
-        <div className="flex items-center justify-between mb-2">
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+      <div className="relative bg-white rounded-xl p-4 border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:shadow-md backdrop-blur-sm">
+        <div className="flex items-center justify-between mb-1">
           <div
-            className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg text-white`}
+            className={`p-2 rounded-lg bg-gradient-to-br ${gradient} shadow-md text-white`}
           >
             {icon}
           </div>
           {trend && (
-            <div className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full">
-              <ArrowUpRight size={12} />
+            <div className="flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">
+              <ArrowUpRight size={10} />
               <span>{trend}</span>
             </div>
           )}
         </div>
-        <div className="space-y-1">
-          <div className="text-2xl font-bold text-gray-900">{value}</div>
-          <p className="text-sm text-gray-600 font-medium">{label}</p>
+        <div className="space-y-0.5">
+          <div className="text-lg font-bold text-gray-900">{value}</div>
+          <p className="text-xs text-gray-600 font-medium">{label}</p>
         </div>
       </div>
     </div>
@@ -289,8 +289,8 @@ const OffersList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20">
       {/* Header */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#1d3faa] to-[#2d4fba] gap-6 p-2 rounded-3xl shadow-2xl mb-8 relative overflow-hidden">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#1d3faa] to-[#2d4fba] gap-4 p-4 rounded-2xl shadow-lg mb-6 relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div
@@ -302,32 +302,30 @@ const OffersList: React.FC = () => {
             ></div>
           </div>
 
-          <div className="flex items-center gap-4 relative z-10">
-            <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-sm">
-              <QrCode className="text-white" size={20} />
+          <div className="flex items-center gap-3 relative z-10 justify-between">
+            <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm">
+              <QrCode className="text-white" size={18} />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-2xl font-bold text-white mb-2">
-                QR Offers
-              </h1>
-              <p className="text-blue-100 text-lg opacity-90">
-                Manage your promotional campaigns with style
+              <h1 className="text-xl font-bold text-white mb-1">QR Offers</h1>
+              <p className="text-blue-100 text-sm opacity-90">
+                Manage your promotional campaigns
               </p>
             </div>
           </div>
 
           <Link
             to="/subadmin/offers/create"
-            className="group relative inline-flex items-center gap-3 px-2 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#ff7a4c] text-white font-semibold rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-1 shadow-lg z-10 overflow-hidden"
+            className="group relative inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#ff7a4c] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-md z-10 overflow-hidden"
           >
             <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             <Plus
-              size={20}
+              size={16}
               className="group-hover:rotate-90 transition-transform duration-300 relative z-10"
             />
-            <span className="text-lg relative z-10">Create Offer</span>
+            <span className="text-sm relative z-10">Create Offer</span>
             <Sparkle
-              size={16}
+              size={14}
               className="text-yellow-300 group-hover:animate-pulse relative z-10"
             />
           </Link>
@@ -340,7 +338,7 @@ const OffersList: React.FC = () => {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top-2 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -361,30 +359,30 @@ const OffersList: React.FC = () => {
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <StatsCard
-            icon={<Target className="h-6 w-6 text-white" />}
+            icon={<Target className="h-5 w-5 text-white" />}
             label="Total Offers"
             value={pagination.totalCount}
             trend="+12%"
             gradient="from-[#1d3faa] to-[#3d5fca]"
           />
           <StatsCard
-            icon={<Zap className="h-6 w-6 text-white" />}
+            icon={<Zap className="h-5 w-5 text-white" />}
             label="Active Offers"
             value={offers.filter((o) => o.is_active && o.is_valid_now).length}
             trend="+8%"
             gradient="from-[#fe6a3c] to-[#ff8a5c]"
           />
           <StatsCard
-            icon={<Scan className="h-6 w-6 text-white" />}
+            icon={<Scan className="h-5 w-5 text-white" />}
             label="Total Scans"
             value={offers.reduce((sum, o) => sum + (o.scan_count || 0), 0)}
             trend="+24%"
             gradient="from-[#8B5CF6] to-[#A78BFA]"
           />
           <StatsCard
-            icon={<Users className="h-6 w-6 text-white" />}
+            icon={<Users className="h-5 w-5 text-white" />}
             label="Redemptions"
             value={offers.reduce(
               (sum, o) => sum + (o.total_redemptions || 0),
@@ -396,15 +394,15 @@ const OffersList: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-100/60 overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100/60 overflow-hidden">
           {/* Filters Bar */}
-          <div className="p-8 border-b border-gray-200/60 bg-gradient-to-r from-gray-50 to-white">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="p-6 border-b border-gray-200/60 bg-gradient-to-r from-gray-50 to-white">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-xl font-bold text-gray-900 mb-1">
                   All Offers
                 </h2>
-                <p className="text-gray-600 text-lg">
+                <p className="text-gray-600 text-sm">
                   {pagination.totalCount} total offers •{" "}
                   <span className="text-green-600 font-semibold">
                     {offers.filter((o) => o.is_active && o.is_valid_now).length}{" "}
@@ -413,10 +411,10 @@ const OffersList: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 {/* Search Box */}
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <input
                     type="text"
                     placeholder="Search offers..."
@@ -424,19 +422,19 @@ const OffersList: React.FC = () => {
                     onChange={(e) =>
                       handleFilterChange("search", e.target.value)
                     }
-                    className="pl-12 pr-4 py-3.5 w-full sm:w-80 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] transition-all duration-300 text-gray-700 placeholder-gray-400 font-medium shadow-sm hover:shadow-md"
+                    className="pl-10 pr-3 py-2.5 w-full sm:w-64 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] transition-all duration-300 text-gray-700 placeholder-gray-400 font-medium shadow-sm hover:shadow-md text-sm"
                   />
                 </div>
 
                 {/* Status Filter */}
                 <div className="relative">
-                  <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <select
                     value={filters.status}
                     onChange={(e) =>
                       handleFilterChange("status", e.target.value)
                     }
-                    className="w-full sm:w-auto pl-12 pr-4 py-3.5 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] transition-all duration-300 font-medium text-gray-700 appearance-none cursor-pointer shadow-sm hover:shadow-md"
+                    className="w-full sm:w-auto pl-10 pr-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1d3faa] focus:border-[#1d3faa] transition-all duration-300 font-medium text-gray-700 appearance-none cursor-pointer shadow-sm hover:shadow-md text-sm"
                   >
                     <option value="all">All Status</option>
                     <option value="active">Active</option>
@@ -450,46 +448,46 @@ const OffersList: React.FC = () => {
           </div>
 
           {/* Offers Grid */}
-          <div className="p-8">
+          <div className="p-6">
             {loading ? (
-              <div className="flex justify-center items-center py-20">
+              <div className="flex justify-center items-center py-16">
                 <div className="text-center">
                   <div className="relative">
-                    <div className="w-16 h-16 border-4 border-[#1d3faa]/20 border-t-[#1d3faa] rounded-full animate-spin"></div>
+                    <div className="w-12 h-12 border-3 border-[#1d3faa]/20 border-t-[#1d3faa] rounded-full animate-spin"></div>
                     <Sparkle
-                      className="absolute -top-2 -right-2 text-[#1d3faa] animate-pulse"
-                      size={20}
+                      className="absolute -top-1 -right-1 text-[#1d3faa] animate-pulse"
+                      size={16}
                     />
                   </div>
-                  <p className="mt-6 text-gray-600 text-lg font-medium">
+                  <p className="mt-4 text-gray-600 text-sm font-medium">
                     Loading offers...
                   </p>
                 </div>
               </div>
             ) : offers.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {offers.map((offer) => (
                     <div
                       key={offer.id}
-                      className="group relative bg-white rounded-3xl border border-gray-200 hover:border-gray-300 hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2"
+                      className="group relative bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
                     >
                       {/* Background Gradient Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-orange-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-orange-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                       {/* Offer Card Header */}
-                      <div className="relative p-6 border-b border-gray-100">
-                        <div className="flex items-start justify-between mb-4">
+                      <div className="relative p-4 border-b border-gray-100">
+                        <div className="flex items-start justify-between mb-3">
                           <div
-                            className={`p-3 rounded-xl bg-gradient-to-br ${getOfferTypeColor(
+                            className={`p-2 rounded-lg bg-gradient-to-br ${getOfferTypeColor(
                               offer.offer_type
-                            )} shadow-lg text-white`}
+                            )} shadow-md text-white`}
                           >
                             {getOfferTypeIcon(offer.offer_type)}
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <span
-                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold border ${getStatusColor(
+                              className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold border ${getStatusColor(
                                 offer
                               )}`}
                             >
@@ -503,46 +501,46 @@ const OffersList: React.FC = () => {
                                   toggleDropdown(offer.id);
                                 }}
                                 data-dropdown-button={offer.id}
-                                className="cursor-pointer p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-200"
+                                className="cursor-pointer p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
                               >
-                                <MoreVertical size={18} />
+                                <MoreVertical size={16} />
                               </button>
 
                               {showDropdown === offer.id && (
                                 <div
                                   data-dropdown={offer.id}
-                                  className="absolute right-0 top-12 bg-white border border-gray-200 rounded-xl shadow-2xl z-20 min-w-[180px] py-2 animate-in fade-in-0 zoom-in-95"
+                                  className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-20 min-w-[160px] py-1 animate-in fade-in-0 zoom-in-95 text-sm"
                                 >
                                   <Link
                                     to={`/subadmin/offers/${offer.id}`}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >
-                                    <Eye size={16} />
+                                    <Eye size={14} />
                                     View Details
                                   </Link>
                                   <Link
                                     to={`/subadmin/offers/${offer.id}/analytics`}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >
-                                    <BarChart3 size={16} />
+                                    <BarChart3 size={14} />
                                     Analytics
                                   </Link>
                                   <Link
                                     to={`/subadmin/offers/edit/${offer.id}`}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >
-                                    <Edit2 size={16} />
+                                    <Edit2 size={14} />
                                     Edit Offer
                                   </Link>
                                   <div className="border-t border-gray-100 my-1"></div>
                                   <button
                                     onClick={() => handleDelete(offer.id)}
-                                    className="flex items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 w-full text-left transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 w-full text-left transition-colors"
                                   >
-                                    <Trash2 size={16} />
+                                    <Trash2 size={14} />
                                     Delete
                                   </button>
                                 </div>
@@ -551,25 +549,25 @@ const OffersList: React.FC = () => {
                           </div>
                         </div>
 
-                        <h3 className="font-bold text-gray-900 text-xl mb-3 line-clamp-2 leading-tight">
+                        <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
                           {offer.title}
                         </h3>
 
-                        <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#fe6a3c] to-[#ff8a5c] text-white rounded-xl font-bold text-sm shadow-lg">
-                          <Sparkle size={14} className="mr-2" />
+                        <div className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-[#fe6a3c] to-[#ff8a5c] text-white rounded-lg font-bold text-xs shadow-md">
+                          <Sparkle size={12} className="mr-1.5" />
                           {getDiscountDisplay(offer)}
                         </div>
                       </div>
 
                       {/* QR Code Section */}
-                      <div className="relative p-6 bg-gradient-to-br from-gray-50 to-blue-50/50 border-b border-gray-100">
-                        <div className="flex items-center gap-4">
+                      <div className="relative p-4 bg-gradient-to-br from-gray-50 to-blue-50/50 border-b border-gray-100">
+                        <div className="flex items-center gap-3">
                           <div className="relative flex-shrink-0 w-1/2">
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-2xl blur-md opacity-20"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-lg blur-md opacity-20"></div>
                             <img
                               src={offer.qr_code_url || offer.qr_code_image}
                               alt={`QR Code for ${offer.title}`}
-                              className="relative w-20 h-20 rounded-2xl border-4 border-white shadow-xl cursor-pointer hover:scale-105 transition-transform duration-300"
+                              className="relative w-16 h-16 rounded-lg border-2 border-white shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
                               onClick={() =>
                                 openQRCodeInNewTab(
                                   offer.qr_code_url || offer.qr_code_image
@@ -577,7 +575,7 @@ const OffersList: React.FC = () => {
                               }
                             />
                             <button
-                              className="absolute -top-2 -right-2 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] text-white p-1.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                              className="absolute -top-1 -right-1 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] text-white p-1 rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:scale-110"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 openQRCodeInNewTab(
@@ -586,15 +584,15 @@ const OffersList: React.FC = () => {
                               }}
                               title="Open QR Code"
                             >
-                              <ExternalLink size={12} />
+                              <ExternalLink size={10} />
                             </button>
                           </div>
 
-                          <div className="flex-1">
-                            <div className="text-xs text-gray-500 font-medium mb-2">
+                          <div className="flex-1 justify-end">
+                            <div className="text-xs text-gray-500 font-medium mb-1">
                               UNIQUE CODE
                             </div>
-                            <div className="font-mono font-bold text-gray-900 text-lg mb-3 tracking-wider">
+                            <div className="font-mono font-bold text-gray-900 text-base mb-2 tracking-wider">
                               {offer.unique_code}
                             </div>
                             <button
@@ -603,9 +601,9 @@ const OffersList: React.FC = () => {
                                   offer.qr_code_url || offer.qr_code_image
                                 )
                               }
-                              className="inline-flex items-center gap-2 px-3 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 border border-gray-200 transition-all duration-200 text-sm font-semibold shadow-sm hover:shadow"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white text-gray-700 rounded-md hover:bg-gray-50 border border-gray-200 transition-all duration-200 text-xs font-semibold shadow-sm hover:shadow"
                             >
-                              <Download size={14} />
+                              <Download size={12} />
                               Download QR
                             </button>
                           </div>
@@ -613,15 +611,15 @@ const OffersList: React.FC = () => {
                       </div>
 
                       {/* Stats Footer */}
-                      <div className="relative p-6">
-                        <div className="grid grid-cols-3 gap-4">
+                      <div className="relative p-4">
+                        <div className="grid grid-cols-3 gap-3">
                           <div className="text-center">
-                            <div className="flex items-center justify-center mb-2">
-                              <div className="p-2 bg-blue-100 rounded-lg">
-                                <Users size={16} className="text-blue-600" />
+                            <div className="flex items-center justify-center mb-1">
+                              <div className="p-1.5 bg-blue-100 rounded-md">
+                                <Users size={14} className="text-blue-600" />
                               </div>
                             </div>
-                            <div className="text-lg font-bold text-gray-900">
+                            <div className="text-base font-bold text-gray-900">
                               {offer.total_redemptions || 0}
                             </div>
                             <div className="text-xs text-gray-600 font-medium">
@@ -629,12 +627,12 @@ const OffersList: React.FC = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="flex items-center justify-center mb-2">
-                              <div className="p-2 bg-purple-100 rounded-lg">
-                                <Scan size={16} className="text-purple-600" />
+                            <div className="flex items-center justify-center mb-1">
+                              <div className="p-1.5 bg-purple-100 rounded-md">
+                                <Scan size={14} className="text-purple-600" />
                               </div>
                             </div>
-                            <div className="text-lg font-bold text-gray-900">
+                            <div className="text-base font-bold text-gray-900">
                               {offer.scan_count || 0}
                             </div>
                             <div className="text-xs text-gray-600 font-medium">
@@ -642,15 +640,15 @@ const OffersList: React.FC = () => {
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="flex items-center justify-center mb-2">
-                              <div className="p-2 bg-orange-100 rounded-lg">
+                            <div className="flex items-center justify-center mb-1">
+                              <div className="p-1.5 bg-orange-100 rounded-md">
                                 <Calendar
-                                  size={16}
+                                  size={14}
                                   className="text-orange-600"
                                 />
                               </div>
                             </div>
-                            <div className="text-lg font-bold text-gray-900">
+                            <div className="text-base font-bold text-gray-900">
                               {getRemainingDays(offer.valid_until)}
                             </div>
                             <div className="text-xs text-gray-600 font-medium">
@@ -658,8 +656,8 @@ const OffersList: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-gray-100">
-                          <div className="flex items-center justify-between text-sm">
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <div className="flex items-center justify-between text-xs">
                             <span className="text-gray-600 font-medium">
                               Valid until
                             </span>
@@ -675,9 +673,9 @@ const OffersList: React.FC = () => {
 
                 {/* Pagination */}
                 {pagination.totalPages > 1 && (
-                  <div className="mt-8 pt-6 border-t border-gray-200/60">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-                      <div className="text-sm text-gray-600 font-medium">
+                  <div className="mt-6 pt-4 border-t border-gray-200/60">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-3">
+                      <div className="text-xs text-gray-600 font-medium">
                         Showing{" "}
                         <span className="font-bold text-gray-900">
                           {(pagination.currentPage - 1) * pagination.pageSize +
@@ -697,25 +695,25 @@ const OffersList: React.FC = () => {
                         offers
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         {/* Previous Button */}
                         <button
                           onClick={() =>
                             handlePageChange(pagination.currentPage - 1)
                           }
                           disabled={!pagination.hasPrevious}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200 font-semibold ${
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border transition-all duration-200 font-semibold text-sm ${
                             pagination.hasPrevious
                               ? "cursor-pointer bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:shadow"
                               : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                           }`}
                         >
-                          <ChevronLeft size={16} />
+                          <ChevronLeft size={14} />
                           <span>Previous</span>
                         </button>
 
                         {/* Page Info */}
-                        <div className="px-4 py-2.5 text-sm font-semibold text-gray-700">
+                        <div className="px-3 py-1.5 text-sm font-semibold text-gray-700">
                           Page {pagination.currentPage} of{" "}
                           {pagination.totalPages}
                         </div>
@@ -726,14 +724,14 @@ const OffersList: React.FC = () => {
                             handlePageChange(pagination.currentPage + 1)
                           }
                           disabled={!pagination.hasNext}
-                          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200 font-semibold ${
+                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border transition-all duration-200 font-semibold text-sm ${
                             pagination.hasNext
                               ? "cursor-pointer bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:shadow"
                               : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                           }`}
                         >
                           <span>Next</span>
-                          <ChevronRight size={16} />
+                          <ChevronRight size={14} />
                         </button>
                       </div>
                     </div>
@@ -741,18 +739,18 @@ const OffersList: React.FC = () => {
                 )}
               </>
             ) : (
-              <div className="text-center py-16">
+              <div className="text-center py-12">
                 <div className="max-w-md mx-auto">
                   <div className="relative inline-flex">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-2xl blur-lg opacity-20"></div>
-                    <div className="relative bg-white p-6 rounded-2xl shadow-xl border border-gray-200">
-                      <QrCode className="h-16 w-16 text-gray-400 mx-auto" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] rounded-xl blur-lg opacity-20"></div>
+                    <div className="relative bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+                      <QrCode className="h-12 w-12 text-gray-400 mx-auto" />
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-6 mb-3">
+                  <h3 className="text-xl font-bold text-gray-900 mt-4 mb-2">
                     No offers found
                   </h3>
-                  <p className="text-gray-600 text-lg mb-6">
+                  <p className="text-gray-600 text-sm mb-4">
                     {filters.search || filters.status !== "all"
                       ? "Try adjusting your search filters to find what you're looking for."
                       : "Get started by creating your first promotional offer."}
@@ -760,15 +758,15 @@ const OffersList: React.FC = () => {
                   {!filters.search && filters.status === "all" && (
                     <Link
                       to="/subadmin/offers/create"
-                      className="group inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      className="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#1d3faa] to-[#fe6a3c] text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 text-sm"
                     >
                       <Plus
-                        size={18}
+                        size={16}
                         className="group-hover:rotate-90 transition-transform duration-300"
                       />
                       <span>Create First Offer</span>
                       <Rocket
-                        size={16}
+                        size={14}
                         className="group-hover:animate-bounce"
                       />
                     </Link>

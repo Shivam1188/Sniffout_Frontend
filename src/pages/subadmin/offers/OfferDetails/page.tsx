@@ -270,7 +270,7 @@ const OfferDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 mx-auto w-full max-w-6xl">
+      <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
           <div className="flex items-center gap-3">
@@ -306,7 +306,6 @@ const OfferDetails: React.FC = () => {
               <ArrowLeft size={16} />
               Back to Offers
             </Link>
-            
           </div>
         </div>
 

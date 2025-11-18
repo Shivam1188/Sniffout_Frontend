@@ -479,11 +479,11 @@ const Home = () => {
               </div>
             ) : (
               <div
-                className="aspect-w-16 aspect-h-9 bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700 transition-colors"
+                className="aspect-w-16 aspect-h-9 bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700 transition-colors py-[40px]"
                 onClick={() => setShowVideo(true)}
               >
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-purple-700 transition-colors">
+                  <div className="w-20 h-20 bg-[#ea6135] rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-[#53539b] transition-colors">
                     <Play className="w-8 h-8 text-white" />
                   </div>
                   <p className="text-white text-lg font-semibold">
@@ -500,15 +500,17 @@ const Home = () => {
           <div className="mt-6 grid md:grid-cols-3 gap-4 text-center">
             <div className="bg-blue-50 p-4 rounded-lg">
               <CheckCircle className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-700">Easy to Use</p>
+              <p className="text-sm text-gray-700 font-medium">Easy to Use</p>
             </div>
             <div className="bg-green-50 p-4 rounded-lg">
               <Zap className="w-6 h-6 text-green-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-700">Time Saving</p>
+              <p className="text-sm text-gray-700 font-medium">Time Saving</p>
             </div>
             <div className="bg-orange-50 p-4 rounded-lg">
               <Users className="w-6 h-6 text-orange-600 mx-auto mb-2" />
-              <p className="text-sm text-gray-700">Customer Focused</p>
+              <p className="text-sm text-gray-700 font-medium">
+                Customer Focused
+              </p>
             </div>
           </div>
         </div>

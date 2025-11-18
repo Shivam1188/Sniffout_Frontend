@@ -99,7 +99,7 @@ const SupportTickets = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-5 rounded-xl shadow-sm">

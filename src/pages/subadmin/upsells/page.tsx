@@ -55,7 +55,7 @@ function Upsells() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main className="flex-1 py-4  mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
@@ -76,7 +76,7 @@ function Upsells() {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top- right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -112,7 +112,7 @@ function Upsells() {
             </div>
 
             {/* Table */}
-            <div className="overflow-x-auto rounded-xl border border-gray-100">
+            <div className="overflow-x-auto rounded-xl border border-gray-100 Upselling">
               <table className="min-w-[600px] w-full table-auto text-sm text-gray-700">
                 <thead>
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">

@@ -80,7 +80,7 @@ function Subscribe() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-5xl 2xl:max-w-full max-w-[100vw] sm:w-full">
+      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
           <div>

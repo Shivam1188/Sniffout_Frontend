@@ -55,7 +55,10 @@ function Upsells() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 py-4  mx-auto overflow-hidden md:max-w-lg lg:max-w-3xl xl:max-w-full max-w-sm sm:w-full">
+      <main
+        className="
+flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full"
+      >
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
@@ -76,7 +79,7 @@ function Upsells() {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top- right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top- right-10 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -99,13 +102,14 @@ function Upsells() {
         {/* Content Box */}
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-4 sm:p-6 lg:p-10 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa]">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa] text-center sm:text-left">
                 Upselling Offers List
               </h1>
+
               <Link
                 to="/subadmin/upsells/add-upsells"
-                className="text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                className="w-full sm:w-auto text-center text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61]"
               >
                 Add Upselling Offers
               </Link>

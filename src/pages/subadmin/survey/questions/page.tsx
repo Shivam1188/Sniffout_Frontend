@@ -31,9 +31,9 @@ const SurveyQuestions: React.FC = () => {
       setLoading(false);
     }
   };
+
   const handleCreateQuestion = async (data: Partial<any>): Promise<void> => {
     try {
-      // Check if we need to validate order uniqueness
       if (data.order !== undefined) {
         const existingQuestions = await apiService.getQuestions();
         const existingOrder = existingQuestions?.questions?.find(
@@ -84,7 +84,6 @@ const SurveyQuestions: React.FC = () => {
       await apiService.deleteQuestion(deleteId);
       toasterSuccess("Question deleted successfully", 2000, "id");
 
-      // Optimistically update UI
       setQuestions((prev: any) =>
         prev.filter((item: any) => item.id !== deleteId)
       );
@@ -126,9 +125,9 @@ const SurveyQuestions: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
-        {/* Header */}
+    <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
+      {/* CHANGED */}
+      <main className="flex-1 p-0 w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Survey Questions
@@ -139,42 +138,42 @@ const SurveyQuestions: React.FC = () => {
           >
             Back To Dashboard
           </Link>
-          {/* Overlay for mobile */}
+
           <label
             htmlFor="sidebar-toggle"
             className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
           ></label>
 
-          {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
             className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
-            {/* Arrow Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
               className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
               />
             </svg>
           </label>
         </div>
 
-        {/* Content Box */}
-        <div className="text-gray-800 font-sans rounded">
-          <div className="mx-auto bg-white p-4 sm:p-6 lg:p-10 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
+        {/* CHANGED */}
+        <div className="text-gray-800 font-sans rounded w-full">
+          {/* CHANGED */}
+          <div className="w-full bg-white p-4 sm:p-6 lg:p-10 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa]">
                 Questions List
               </h1>
+
               <button
                 onClick={() => setShowForm(true)}
                 className="cursor-pointer text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61] flex items-center gap-2"
@@ -184,8 +183,7 @@ const SurveyQuestions: React.FC = () => {
               </button>
             </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto rounded-xl border border-gray-100  ">
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
               <table className="min-w-full table-auto text-sm text-gray-700 list-table">
                 <thead>
                   <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
@@ -196,6 +194,7 @@ const SurveyQuestions: React.FC = () => {
                     <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {loading ? (
                     <tr>
@@ -228,6 +227,7 @@ const SurveyQuestions: React.FC = () => {
                               )}
                             </div>
                           </td>
+
                           <td className="py-3 px-4 flex">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getQuestionTypeColor(
@@ -242,6 +242,7 @@ const SurveyQuestions: React.FC = () => {
                               </span>
                             )}
                           </td>
+
                           <td className="py-3 ">
                             <button
                               onClick={() => handleToggleActive(question)}
@@ -254,6 +255,7 @@ const SurveyQuestions: React.FC = () => {
                               {question.is_active ? "Active" : "Inactive"}
                             </button>
                           </td>
+
                           <td className="py-3 px-4 text-center space-x-3 flex">
                             <button
                               onClick={() => setEditingQuestion(question)}
@@ -261,6 +263,7 @@ const SurveyQuestions: React.FC = () => {
                             >
                               <Edit2 size={18} />
                             </button>
+
                             <button
                               onClick={() => confirmDelete(question.id)}
                               className="text-red-600 cursor-pointer hover:text-red-800"
@@ -300,7 +303,6 @@ const SurveyQuestions: React.FC = () => {
         </div>
       </main>
 
-      {/* Delete Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/20 z-50 p-4">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
@@ -314,6 +316,7 @@ const SurveyQuestions: React.FC = () => {
               >
                 Yes, Delete
               </button>
+
               <button
                 onClick={() => setShowDeleteModal(false)}
                 className="cursor-pointer bg-gray-300 text-gray-800 px-4 py-2 rounded"
@@ -325,7 +328,6 @@ const SurveyQuestions: React.FC = () => {
         </div>
       )}
 
-      {/* Question Form Modal */}
       {(showForm || editingQuestion) && (
         <QuestionForm
           question={editingQuestion || undefined}

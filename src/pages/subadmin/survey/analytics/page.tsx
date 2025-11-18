@@ -280,111 +280,106 @@ const SurveyAnalytics: React.FC = () => {
 
                   {/* Question Breakdown Charts */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {analytics.question_breakdown?.map(
-                      (question: any, index: number) => (
-                        <div
-                          key={question.question_id}
-                          className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
-                        >
-                          <h3 className="text-lg font-semibold text-gray-800 mb-4 line-clamp-2">
-                            {question.question_text}
-                          </h3>
+                    {analytics.question_breakdown?.map((question: any) => (
+                      <div
+                        key={question.question_id}
+                        className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
+                      >
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4 line-clamp-2">
+                          {question.question_text}
+                        </h3>
 
-                          {question.question_type === "rating" && (
-                            <div className="text-center">
-                              <div className="flex items-center justify-center mb-4">
-                                <div className="text-4xl font-bold text-blue-600 mr-2">
-                                  {question.average_rating?.toFixed(1)}
-                                </div>
-                                <div className="text-lg text-gray-500">/5</div>
+                        {question.question_type === "rating" && (
+                          <div className="text-center">
+                            <div className="flex items-center justify-center mb-4">
+                              <div className="text-4xl font-bold text-blue-600 mr-2">
+                                {question.average_rating?.toFixed(1)}
                               </div>
-                              <div className="text-sm text-gray-600">
-                                Average from {question.total_responses}{" "}
-                                responses
-                              </div>
+                              <div className="text-lg text-gray-500">/5</div>
                             </div>
-                          )}
+                            <div className="text-sm text-gray-600">
+                              Average from {question.total_responses} responses
+                            </div>
+                          </div>
+                        )}
 
-                          {question.question_type === "mcq" &&
-                            Object.keys(question.answer_distribution).length >
-                              0 && (
-                              <div className="h-64">
-                                <ResponsiveContainer width="100%" height="100%">
-                                  <PieChart>
-                                    <Pie
-                                      data={Object.entries(
-                                        question.answer_distribution
-                                      ).map(([name, value]) => ({
-                                        name,
-                                        value,
-                                      }))}
-                                      cx="50%"
-                                      cy="50%"
-                                      labelLine={false}
-                                      label={({ name, percent }: any) =>
-                                        `${name} (${(percent * 100).toFixed(
-                                          0
-                                        )}%)`
-                                      }
-                                      outerRadius={80}
-                                      fill="#8884d8"
-                                      dataKey="value"
-                                    >
-                                      {Object.keys(
-                                        question.answer_distribution
-                                      ).map((entry, index) => (
-                                        <Cell
-                                          key={`cell-${index}`}
-                                          fill={COLORS[index % COLORS.length]}
-                                        />
-                                      ))}
-                                    </Pie>
-                                    <Tooltip />
-                                    <Legend />
-                                  </PieChart>
-                                </ResponsiveContainer>
-                              </div>
-                            )}
-
-                          {question.question_type === "yes_no" &&
-                            Object.keys(question.answer_distribution).length >
-                              0 && (
-                              <div className="h-64">
-                                <ResponsiveContainer width="100%" height="100%">
-                                  <BarChart
+                        {question.question_type === "mcq" &&
+                          Object.keys(question.answer_distribution).length >
+                            0 && (
+                            <div className="h-64">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                  <Pie
                                     data={Object.entries(
                                       question.answer_distribution
                                     ).map(([name, value]) => ({
                                       name,
-                                      count: value,
+                                      value,
                                     }))}
-                                    layout="vertical"
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    label={({ name, percent }: any) =>
+                                      `${name} (${(percent * 100).toFixed(0)}%)`
+                                    }
+                                    outerRadius={80}
+                                    fill="#8884d8"
+                                    dataKey="value"
                                   >
-                                    <CartesianGrid
-                                      strokeDasharray="3 3"
-                                      className="opacity-30"
-                                    />
-                                    <XAxis type="number" />
-                                    <YAxis
-                                      type="category"
-                                      dataKey="name"
-                                      width={80}
-                                      fontSize={12}
-                                    />
-                                    <Tooltip />
-                                    <Bar
-                                      dataKey="count"
-                                      name="Responses"
-                                      fill={CHART_COLORS.secondary}
-                                      radius={[0, 4, 4, 0]}
-                                    />
-                                  </BarChart>
-                                </ResponsiveContainer>
-                              </div>
-                            )}
-                        </div>
-                      )
-                    )}
+                                    {Object.keys(
+                                      question.answer_distribution
+                                    ).map((index: any) => (
+                                      <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length]}
+                                      />
+                                    ))}
+                                  </Pie>
+                                  <Tooltip />
+                                  <Legend />
+                                </PieChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
+
+                        {question.question_type === "yes_no" &&
+                          Object.keys(question.answer_distribution).length >
+                            0 && (
+                            <div className="h-64">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                  data={Object.entries(
+                                    question.answer_distribution
+                                  ).map(([name, value]) => ({
+                                    name,
+                                    count: value,
+                                  }))}
+                                  layout="vertical"
+                                >
+                                  <CartesianGrid
+                                    strokeDasharray="3 3"
+                                    className="opacity-30"
+                                  />
+                                  <XAxis type="number" />
+                                  <YAxis
+                                    type="category"
+                                    dataKey="name"
+                                    width={80}
+                                    fontSize={12}
+                                  />
+                                  <Tooltip />
+                                  <Bar
+                                    dataKey="count"
+                                    name="Responses"
+                                    fill={CHART_COLORS.secondary}
+                                    radius={[0, 4, 4, 0]}
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </>

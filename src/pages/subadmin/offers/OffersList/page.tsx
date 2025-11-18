@@ -512,7 +512,7 @@ const OffersList: React.FC = () => {
                                   className="absolute right-0 top-8 bg-white border border-gray-200 rounded-lg shadow-lg z-20 min-w-[160px] py-1 animate-in fade-in-0 zoom-in-95 text-sm"
                                 >
                                   <Link
-                                    to={`/subadmin/offers/${offer.id}`}
+                                    to={`/subadmin/qr-codes/offers/${offer.id}`}
                                     className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >
@@ -520,7 +520,7 @@ const OffersList: React.FC = () => {
                                     View Details
                                   </Link>
                                   <Link
-                                    to={`/subadmin/offers/${offer.id}/analytics`}
+                                    to={`/subadmin/qr-codes/offers/${offer.id}/analytics`}
                                     className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >
@@ -528,7 +528,7 @@ const OffersList: React.FC = () => {
                                     Analytics
                                   </Link>
                                   <Link
-                                    to={`/subadmin/offers/edit/${offer.id}`}
+                                    to={`/subadmin/qr-codes/offers/edit/${offer.id}`}
                                     className="flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                                     onClick={() => setShowDropdown(null)}
                                   >

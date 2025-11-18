@@ -19,10 +19,10 @@ import {
   QrCode,
   BarChart3,
   Users,
-  Tag, // For Offers
-  History, // For Redemption History
-  Scan, // For Staff Redemption
-  PieChart, // For Analytics
+  Tag,
+  History,
+  Scan,
+  PieChart,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/Api";
@@ -50,6 +50,7 @@ const Sidebar = () => {
   const role = getDecryptedItem("role");
   const planName = getDecryptedItem("plan_name");
   const planExpiry = getDecryptedItem("plan_expiry_date");
+
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [openNestedSubmenu, setOpenNestedSubmenu] = useState<string | null>(
     null
@@ -65,6 +66,7 @@ const Sidebar = () => {
 
   const iconMap: { [key: string]: React.ReactElement } = {
     Dashboard: <Home size={16} />,
+    Home: <Home size={16} />,
     Business: <Building2 size={16} />,
     Plans: <ClipboardList size={16} />,
     "Add Business Links": <Settings size={16} />,
@@ -80,23 +82,18 @@ const Sidebar = () => {
     "Create Tables ": <Table size={16} />,
     Reservation: <Calendar size={16} />,
     Catering: <Utensils size={16} />,
-
-    // QR Codes Main Section
     "QR Codes": <QrCode size={16} />,
-
-    // QR Survey System Icons
     "QR Survey": <QrCode size={16} />,
     "Survey Questions": <FileText size={16} />,
     "Survey Responses": <Users size={16} />,
     "Survey Analytics": <BarChart3 size={16} />,
     "QR Code Manager": <QrCode size={16} />,
-
-    // QR Offers System Icons
     "QR Offers": <Tag size={16} />,
     "All Offers": <Tag size={16} />,
     "Create Offer": <Tag size={16} />,
     "Redemption History": <History size={16} />,
     Analytics: <PieChart size={16} />,
+    "Valid Redemption Code": <Scan size={16} />,
     "Validate Redemption Code": <Scan size={16} />,
   };
 
@@ -111,7 +108,6 @@ const Sidebar = () => {
 
   const subdirMenu: MenuItem[] = [
     { label: "Home", route: "/subadmin/home" },
-
     { label: "Dashboard", route: "/subadmin/dashboard" },
     {
       label: "Business Profile",
@@ -126,14 +122,11 @@ const Sidebar = () => {
         { label: "Update Profile", route: "/subadmin/update-profile" },
       ],
     },
-
-    // QR Codes Main Section with Nested Structure
     {
       label: "QR Codes",
       route: "/subadmin/qr-codes",
       hasSubmenu: true,
       submenu: [
-        // QR Survey Submenu
         {
           label: "QR Survey",
           route: "/subadmin/qr-codes/survey",
@@ -153,7 +146,6 @@ const Sidebar = () => {
             },
           ],
         },
-        // QR Offers Submenu
         {
           label: "QR Offers",
           route: "/subadmin/qr-codes/offers",
@@ -180,12 +172,10 @@ const Sidebar = () => {
         },
       ],
     },
-
     { label: "Catering", route: "/subadmin/catering" },
     { label: "Bulk SMS Campaign", route: "/subadmin/voice-bot" },
     { label: "Upselling Offers", route: "/subadmin/upsells" },
     { label: "Plans", route: "/subadmin/plan" },
-
     { label: "Subscribe", route: "/subadmin/subscribe" },
     { label: "Support Tickets List", route: "/subadmin/tickets" },
   ];
@@ -193,14 +183,10 @@ const Sidebar = () => {
   const getFilteredMenu = () => {
     if (role === "admin") return adminMenu;
 
-    // If we don't have plan data yet, return all subdir menus
     const hasPlanData =
       getDecryptedItem("plan_name") || getDecryptedItem("plan_expiry_date");
-    if (!hasPlanData) {
-      return subdirMenu;
-    }
+    if (!hasPlanData) return subdirMenu;
 
-    // Apply filtering only when we have plan data
     return subdirMenu.filter((item) => {
       if (isPlanExpired && !isPlanExpiringToday) {
         const restrictedItems = [
@@ -214,7 +200,6 @@ const Sidebar = () => {
         ];
         return !restrictedItems.includes(item.label);
       }
-
       if (planName === "pro" || isPlanExpiringToday) return true;
 
       const restrictedItems = [
@@ -244,7 +229,6 @@ const Sidebar = () => {
     if (item.hasSubmenu && item.submenu && item.submenu.length > 0) {
       toggleSubmenu(item.label);
 
-      // Navigate to the first submenu item when opening main menu
       if (openSubmenu !== item.label && item.submenu.length > 0) {
         const firstSubItem = item.submenu[0];
         if (
@@ -252,7 +236,6 @@ const Sidebar = () => {
           firstSubItem.submenu &&
           firstSubItem.submenu.length > 0
         ) {
-          // If first item has nested submenu, navigate to its first child
           navigate(firstSubItem.submenu[0].route);
           setOpenNestedSubmenu(firstSubItem.label);
         } else {
@@ -267,8 +250,6 @@ const Sidebar = () => {
   const handleNestedMenuClick = (item: SubMenuItem) => {
     if (item.hasSubmenu && item.submenu && item.submenu.length > 0) {
       toggleNestedSubmenu(item.label);
-
-      // Navigate to the first nested submenu item when opening
       if (openNestedSubmenu !== item.label && item.submenu.length > 0) {
         navigate(item.submenu[0].route);
       }
@@ -287,266 +268,264 @@ const Sidebar = () => {
     toggleNestedSubmenu(item.label);
   };
 
-  // Find active parent menu based on current path
+  // Auto-open correct menus based on current path
   useEffect(() => {
-    const findActiveMenus = () => {
-      for (const item of menuItems) {
-        if (item.hasSubmenu && item.submenu) {
-          // Check if any direct submenu item matches
-          const directMatch = item.submenu.some(
-            (subItem) => pathname === subItem.route
-          );
-
-          if (directMatch) {
-            setOpenSubmenu(item.label);
-            return;
-          }
-
-          // Check nested submenus
-          for (const subItem of item.submenu) {
-            if (subItem.hasSubmenu && subItem.submenu) {
-              const nestedMatch = subItem.submenu.some(
-                (nestedSubItem) => pathname === nestedSubItem.route
-              );
-              if (nestedMatch) {
-                setOpenSubmenu(item.label);
-                setOpenNestedSubmenu(subItem.label);
-                return;
-              }
+    for (const item of menuItems) {
+      if (item.hasSubmenu && item.submenu) {
+        for (const subItem of item.submenu) {
+          if (subItem.hasSubmenu && subItem.submenu) {
+            const hasActiveNested = subItem.submenu.some((nested) =>
+              pathname.startsWith(nested.route)
+            );
+            if (hasActiveNested || pathname.startsWith(subItem.route)) {
+              setOpenSubmenu(item.label);
+              setOpenNestedSubmenu(subItem.label);
+              return;
             }
+          } else if (pathname.startsWith(subItem.route)) {
+            setOpenSubmenu(item.label);
           }
         }
       }
-    };
-
-    findActiveMenus();
+    }
   }, [pathname, menuItems]);
 
   const handleLogout = async () => {
     try {
       const refreshToken = getDecryptedItem<string>("refreshToken");
-
       if (!refreshToken) {
-        console.error("No refresh token found");
         navigate("/auth/login");
         return;
       }
-
       const response = await api.post("auth/logout/", {
         refresh: refreshToken,
       });
-
       if (response?.data?.success) {
         toasterSuccess(response?.data?.message, 2000, "id");
-
-        // Remove all encrypted items
-        removeEncryptedItem("refreshToken");
-        removeEncryptedItem("token");
-        removeEncryptedItem("role");
-        removeEncryptedItem("id");
-        removeEncryptedItem("email");
-        removeEncryptedItem("subadmin_id");
-        removeEncryptedItem("plan_expiry_date");
-        removeEncryptedItem("plan_name");
-        removeEncryptedItem("office_number");
-
+        const keys = [
+          "refreshToken",
+          "token",
+          "role",
+          "id",
+          "email",
+          "subadmin_id",
+          "plan_expiry_date",
+          "plan_name",
+          "office_number",
+        ];
+        keys.forEach(removeEncryptedItem);
         navigate("/auth/login");
-      } else {
-        console.error("Logout failed", response);
       }
     } catch (error) {
       console.error("Error logging out", error);
+      navigate("/auth/login");
     }
-  };
-
-  const isSubmenuActive = (submenu?: SubMenuItem[]) => {
-    return submenu?.some((sub) => pathname === sub.route);
-  };
-
-  const isNestedSubmenuActive = (submenu?: SubMenuItem[]) => {
-    return submenu?.some((sub) => pathname === sub.route);
   };
 
   return (
     <>
-      <nav className="space-y-1 mb-8 overflow-y-auto h-screen scrollbar-hide">
+      <nav className="space-y-1 mb-8 overflow-y-auto h-screen scrollbar-hide pr-2">
         <div className="space-y-2 text-white">
-          {menuItems.map((item) => (
-            <div key={item.label}>
-              {item.hasSubmenu ? (
-                <>
-                  <div
-                    onClick={() => handleParentMenuClick(item)}
-                    className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition 
-                      ${
-                        isSubmenuActive(item.submenu)
-                          ? "bg-white text-[#1d3faa] font-semibold"
-                          : "hover:bg-[#5e5696]"
-                      }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-6 flex justify-center ${
-                          isSubmenuActive(item.submenu) ? "text-[#1d3faa]" : ""
-                        }`}
-                      >
-                        {iconMap[item.label] || <BarChart2 size={16} />}
-                      </div>
-                      <span>{item.label}</span>
-                    </div>
-                    <div
-                      onClick={(e) => handleArrowClick(item, e)}
-                      className="flex items-center justify-center w-6 h-6 hover:bg-gray-200 rounded"
-                    >
-                      {openSubmenu === item.label ? (
-                        <ChevronDown size={16} />
-                      ) : (
-                        <ChevronRight size={16} />
-                      )}
-                    </div>
-                  </div>
+          {menuItems.map((item) => {
+            const isParentActive = item.hasSubmenu
+              ? item.submenu?.some((sub) =>
+                  sub.hasSubmenu
+                    ? sub.submenu?.some((nested) =>
+                        pathname.startsWith(nested.route)
+                      )
+                    : pathname.startsWith(sub.route)
+                )
+              : pathname.startsWith(item.route);
 
-                  {openSubmenu === item.label && item.submenu && (
-                    <div className=" mt-1 space-y-1">
-                      {item.submenu.map((subItem) => (
-                        <div key={subItem.label}>
-                          {subItem.hasSubmenu ? (
-                            // Nested submenu item (QR Survey, QR Offers)
-                            <>
-                              <div
-                                onClick={() => handleNestedMenuClick(subItem)}
-                                className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition text-sm
-                                  ${
-                                    isNestedSubmenuActive(subItem.submenu)
-                                      ? "bg-white text-[#1d3faa] font-semibold"
-                                      : "hover:bg-[#5e5696]"
-                                  }`}
-                              >
-                                <div className="flex items-center gap-3">
+            return (
+              <div key={item.label}>
+                {item.hasSubmenu ? (
+                  <>
+                    {/* Parent Menu */}
+                    <div
+                      onClick={() => handleParentMenuClick(item)}
+                      className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition-all duration-200
+                        ${
+                          isParentActive
+                            ? "bg-white text-[#1d3faa] font-semibold shadow-sm"
+                            : "hover:bg-[#5e5696] hover:pl-3"
+                        }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`w-6 flex justify-center ${
+                            isParentActive ? "text-[#1d3faa]" : ""
+                          }`}
+                        >
+                          {iconMap[item.label] || <BarChart2 size={16} />}
+                        </div>
+                        <span className="font-medium">{item.label}</span>
+                      </div>
+                      <div
+                        onClick={(e) => handleArrowClick(item, e)}
+                        className="flex items-center justify-center w-6 h-6 hover:bg-gray-200 rounded transition-colors"
+                      >
+                        {openSubmenu === item.label ? (
+                          <ChevronDown size={16} />
+                        ) : (
+                          <ChevronRight size={16} />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* First Level Submenu */}
+                    {openSubmenu === item.label && item.submenu && (
+                      <div className="ml-6 mt-1 space-y-1 border-l-2 border-[#ffffff3d] pl-3">
+                        {item.submenu.map((subItem) => {
+                          const isNestedActive = subItem.hasSubmenu
+                            ? subItem.submenu?.some((nested) =>
+                                pathname.startsWith(nested.route)
+                              )
+                            : pathname.startsWith(subItem.route);
+
+                          return (
+                            <div key={subItem.label}>
+                              {subItem.hasSubmenu ? (
+                                <>
+                                  {/* Nested Parent (QR Offers, QR Survey) */}
+                                  <div
+                                    onClick={() =>
+                                      handleNestedMenuClick(subItem)
+                                    }
+                                    className={`flex items-center justify-between gap-3 p-2 rounded cursor-pointer transition-all duration-200 text-sm
+                                      ${
+                                        isNestedActive
+                                          ? "bg-white text-[#1d3faa] font-semibold shadow-sm"
+                                          : "hover:bg-[#5e5696] hover:pl-3"
+                                      }`}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div
+                                        className={`w-6 flex justify-center ${
+                                          isNestedActive ? "text-[#1d3faa]" : ""
+                                        }`}
+                                      >
+                                        {iconMap[subItem.label] || (
+                                          <Tag size={16} />
+                                        )}
+                                      </div>
+                                      <span className="font-medium">
+                                        {subItem.label}
+                                      </span>
+                                    </div>
+                                    <div
+                                      onClick={(e) =>
+                                        handleNestedArrowClick(subItem, e)
+                                      }
+                                      className="flex items-center justify-center w-6 h-6 hover:bg-gray-200 rounded transition-colors"
+                                    >
+                                      {openNestedSubmenu === subItem.label ? (
+                                        <ChevronDown size={16} />
+                                      ) : (
+                                        <ChevronRight size={16} />
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Grandchildren */}
+                                  {openNestedSubmenu === subItem.label &&
+                                    subItem.submenu && (
+                                      <div className="ml-6 mt-1 space-y-1 border-l-2 border-[#ffffff3d] pl-3">
+                                        {subItem.submenu.map((nested) => (
+                                          <Link
+                                            key={nested.label}
+                                            to={nested.route}
+                                            className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-all duration-200 text-sm
+                                            ${
+                                              pathname.startsWith(nested.route)
+                                                ? "bg-white text-[#1d3faa] font-semibold shadow-sm"
+                                                : "hover:bg-[#5e5696] hover:pl-3"
+                                            }`}
+                                          >
+                                            <div
+                                              className={`w-6 flex justify-center ${
+                                                pathname.startsWith(
+                                                  nested.route
+                                                )
+                                                  ? "text-[#1d3faa]"
+                                                  : ""
+                                              }`}
+                                            >
+                                              {iconMap[nested.label] || (
+                                                <FileText size={16} />
+                                              )}
+                                            </div>
+                                            <span>{nested.label}</span>
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    )}
+                                </>
+                              ) : (
+                                <Link
+                                  to={subItem.route}
+                                  className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-all duration-200 text-sm
+                                    ${
+                                      pathname.startsWith(subItem.route)
+                                        ? "bg-white text-[#1d3faa] font-semibold shadow-sm"
+                                        : "hover:bg-[#5e5696] hover:pl-3"
+                                    }`}
+                                >
                                   <div
                                     className={`w-6 flex justify-center ${
-                                      isNestedSubmenuActive(subItem.submenu)
+                                      pathname.startsWith(subItem.route)
                                         ? "text-[#1d3faa]"
                                         : ""
                                     }`}
                                   >
                                     {iconMap[subItem.label] || (
-                                      <BarChart2 size={16} />
+                                      <FileText size={16} />
                                     )}
                                   </div>
                                   <span>{subItem.label}</span>
-                                </div>
-                                <div
-                                  onClick={(e) =>
-                                    handleNestedArrowClick(subItem, e)
-                                  }
-                                  className="flex items-center justify-center w-6 h-6 hover:bg-gray-200 rounded"
-                                >
-                                  {openNestedSubmenu === subItem.label ? (
-                                    <ChevronDown size={16} />
-                                  ) : (
-                                    <ChevronRight size={16} />
-                                  )}
-                                </div>
-                              </div>
-
-                              {openNestedSubmenu === subItem.label &&
-                                subItem.submenu && (
-                                  <div className=" mt-1 space-y-1">
-                                    {subItem.submenu.map((nestedSubItem) => (
-                                      <Link
-                                        to={nestedSubItem.route}
-                                        key={nestedSubItem.label}
-                                        className={`flex items-center gap-3 p-2 rounded cursor-pointer transition text-sm
-                                        ${
-                                          pathname === nestedSubItem.route
-                                            ? "bg-white text-[#1d3faa] font-semibold"
-                                            : "hover:bg-[#5e5696]"
-                                        }`}
-                                      >
-                                        <div
-                                          className={`w-6 flex justify-center ${
-                                            pathname === nestedSubItem.route
-                                              ? "text-[#1d3faa]"
-                                              : ""
-                                          }`}
-                                        >
-                                          {iconMap[nestedSubItem.label] || (
-                                            <BarChart2 size={16} />
-                                          )}
-                                        </div>
-                                        <span>{nestedSubItem.label}</span>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                )}
-                            </>
-                          ) : (
-                            // Regular submenu item
-                            <Link
-                              to={subItem.route}
-                              className={`flex items-center gap-3 p-2 rounded cursor-pointer transition text-sm
-                                ${
-                                  pathname === subItem.route
-                                    ? "bg-white text-[#1d3faa] font-semibold"
-                                    : "hover:bg-[#5e5696]"
-                                }`}
-                            >
-                              <div
-                                className={`w-6 flex justify-center ${
-                                  pathname === subItem.route
-                                    ? "text-[#1d3faa]"
-                                    : ""
-                                }`}
-                              >
-                                {iconMap[subItem.label] || (
-                                  <BarChart2 size={16} />
-                                )}
-                              </div>
-                              <span>{subItem.label}</span>
-                            </Link>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  to={item.route}
-                  className={`flex items-center gap-3 p-2 rounded cursor-pointer transition 
-                    ${
-                      pathname === item.route
-                        ? "bg-white text-[#1d3faa] font-semibold"
-                        : "hover:bg-[#5e5696]"
-                    }`}
-                >
-                  <div
-                    className={`w-6 flex justify-center ${
-                      pathname === item.route ? "text-[#1d3faa]" : ""
-                    }`}
+                                </Link>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={item.route}
+                    className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-all duration-200
+                      ${
+                        pathname.startsWith(item.route)
+                          ? "bg-white text-[#1d3faa] font-semibold shadow-sm"
+                          : "hover:bg-[#5e5696] hover:pl-3"
+                      }`}
                   >
-                    {iconMap[item.label] || <BarChart2 size={16} />}
-                  </div>
-                  <span>{item.label}</span>
-                </Link>
-              )}
-            </div>
-          ))}
+                    <div
+                      className={`w-6 flex justify-center ${
+                        pathname.startsWith(item.route) ? "text-[#1d3faa]" : ""
+                      }`}
+                    >
+                      {iconMap[item.label] || <BarChart2 size={16} />}
+                    </div>
+                    <span className="font-medium">{item.label}</span>
+                  </Link>
+                )}
+              </div>
+            );
+          })}
         </div>
       </nav>
 
-      <div className="absolute w-[95%] left-0 mt-[-42px] ml-[6px] bottom-[5px]">
+      {/* Logout */}
+      <div className="absolute bottom-4 left-2 right-2">
         <hr className="border-[#ffffff3d] mb-3" />
-
         <div
           onClick={handleLogout}
-          className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer bg-white"
+          className="flex items-center gap-3 p-2 bg-white text-[#1d3faa] rounded cursor-pointer hover:shadow-sm font-medium transition-all"
         >
-          <div className="w-6 flex justify-center">
-            <LogOut size={16} className="text-[#1d3faa]" />
-          </div>
-          <span className="font-medium">Logout</span>
+          <LogOut size={16} />
+          <span>Logout</span>
         </div>
       </div>
     </>

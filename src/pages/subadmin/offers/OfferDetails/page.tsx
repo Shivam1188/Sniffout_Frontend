@@ -286,14 +286,14 @@ const OfferDetails: React.FC = () => {
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              to={`/subadmin/offers/${offer.id}/analytics`}
+              to={`/subadmin/qr-codes/offers/${offer.id}/analytics`}
               className="cursor-pointer text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
             >
               <BarChart3 size={16} />
               Analytics
             </Link>
             <Link
-              to={`/subadmin/offers/edit/${offer.id}`}
+              to={`/subadmin/qr-codes/offers/edit/${offer.id}`}
               className="cursor-pointer text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
             >
               <Edit size={16} />

@@ -470,10 +470,9 @@ const Home = () => {
                   controls
                   autoPlay
                   className="w-full h-full"
-                  poster="/video-poster.jpg" // Add a poster image if available
+                  poster="/video-poster.jpg" // You can add a poster image if available
                 >
-                  <source src="/demo-video.mp4" type="video/mp4" />
-                  <source src="/demo-video.webm" type="video/webm" />
+                  <source src="/Welcome.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

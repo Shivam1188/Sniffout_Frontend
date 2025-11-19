@@ -518,7 +518,7 @@ const OfferDetails: React.FC = () => {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <Link
-                  to={`/subadmin/offers/${offer.id}/analytics`}
+                  to={`/subadmin/qr-codes/offers/${offer.id}/analytics`}
                   className="cursor-pointer p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-3"
                 >
                   <BarChart3 className="text-blue-600" size={20} />

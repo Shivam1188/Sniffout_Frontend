@@ -173,28 +173,62 @@ const PublicQRRedemptionPage = () => {
                   />
                 </svg>
               </div>
+
+              {/* Restaurant Name Badge */}
+              {offerDetails?.offer?.restaurant_name && (
+                <div className="inline-block bg-white/20 px-4 py-2 rounded-full mb-3">
+                  <p className="text-sm font-semibold text-white">
+                    {offerDetails.offer.restaurant_name}
+                  </p>
+                </div>
+              )}
+
               <h1 className="text-2xl font-bold mb-2">
-                {offerDetails?.title || "Special Offer"}
+                {offerDetails?.offer?.title || "Special Offer"}
               </h1>
-              <p className="text-blue-100 opacity-90">
-                {offerDetails?.description}
-              </p>
+
+              {/* Enhanced Description with Restaurant Context */}
+              <div className="space-y-2">
+                <p className="text-blue-100 opacity-90">
+                  {offerDetails?.offer?.description}
+                </p>
+                {offerDetails?.offer?.restaurant_name && (
+                  <p className="text-blue-200 text-sm italic">
+                    Exclusive offer from {offerDetails.offer.restaurant_name}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="p-6 bg-white">
-            <div className="flex items-center justify-between mb-4">
-              <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                {offerDetails?.discount_value}
-              </span>
-              <div className="text-right">
-                <div className="text-xs text-gray-500 uppercase font-semibold tracking-wide">
-                  Valid until
-                </div>
-                <div className="text-sm font-semibold text-gray-700">
-                  {new Date(offerDetails?.valid_until).toLocaleDateString()}
+            {/* Discount Display and Restaurant Info */}
+            <div className="space-y-4 mb-4">
+              <div className="flex items-center justify-between">
+                <span className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                  {offerDetails?.offer?.discount_display || "Special Offer"}
+                </span>
+                <div className="text-right">
+                  <div className="text-xs text-gray-500 uppercase font-semibold tracking-wide">
+                    Valid until
+                  </div>
+                  <div className="text-sm font-semibold text-gray-700">
+                    {new Date(
+                      offerDetails?.offer?.valid_until
+                    ).toLocaleDateString()}
+                  </div>
                 </div>
               </div>
+
+              {/* Additional Offer Details */}
+              {offerDetails?.offer?.minimum_order_value && (
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-600">
+                    <span className="font-semibold">Minimum Order:</span> $
+                    {offerDetails.offer.minimum_order_value}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Progress Steps */}
@@ -286,6 +320,11 @@ const PublicQRRedemptionPage = () => {
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
                     Claim Your Offer
+                    {offerDetails?.offer?.restaurant_name && (
+                      <span className="block text-lg text-blue-600 mt-1">
+                        at {offerDetails.offer.restaurant_name}
+                      </span>
+                    )}
                   </h2>
                   <p className="text-gray-600">
                     Enter your details to receive your redemption code
@@ -559,6 +598,11 @@ const PublicQRRedemptionPage = () => {
 
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
                   Offer Redeemed Successfully!
+                  {offerDetails?.offer?.restaurant_name && (
+                    <span className="block text-xl text-blue-600 mt-2">
+                      at {offerDetails.offer.restaurant_name}
+                    </span>
+                  )}
                 </h2>
                 <p className="text-gray-600 mb-8">
                   Your redemption code is ready to use
@@ -621,7 +665,8 @@ const PublicQRRedemptionPage = () => {
                   </h4>
                   <ol className="list-decimal list-inside space-y-3 text-sm text-gray-600">
                     <li className="pl-2">
-                      Show this code to the staff member at the counter
+                      Show this code to the staff member at{" "}
+                      {offerDetails?.offer?.restaurant_name || "the restaurant"}
                     </li>
                     <li className="pl-2">
                       The staff will validate your code in their system

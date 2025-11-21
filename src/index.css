@@ -142,3 +142,30 @@ input#attachment {
 .list-table td {
   min-width: 200px;
 }
+.sidebar-height {
+  height: 697px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #ba6a72 transparent;
+}
+
+/* Chrome, Edge, Safari */
+.sidebar-height::-webkit-scrollbar {
+  width: 4px; /* thinner scrollbar */
+}
+
+.sidebar-height::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-height::-webkit-scrollbar-thumb {
+  background-color: #ba6a72; /* your color */
+  border-radius: 10px;
+}
+
+.sidebar-height::-webkit-scrollbar-thumb:hover {
+  background-color: #a85b63; /* slightly darker on hover */
+}

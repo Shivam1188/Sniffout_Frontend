@@ -325,7 +325,7 @@ const Sidebar = () => {
   return (
     <>
       <nav className="space-y-1 mb-8 overflow-y-auto h-screen scrollbar-hide pr-2">
-        <div className="space-y-2 text-white">
+        <div className="space-y-2 text-white sidebar-height">
           {menuItems.map((item) => {
             const isParentActive = item.hasSubmenu
               ? item.submenu?.some((sub) =>
@@ -518,7 +518,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className="absolute bottom-4 left-2 right-2">
+      <div className="absolute bottom-3 left-2 right-2">
         <hr className="border-[#ffffff3d] mb-3" />
         <div
           onClick={handleLogout}

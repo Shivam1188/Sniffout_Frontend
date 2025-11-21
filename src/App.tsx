@@ -82,6 +82,8 @@ import AdminTicket from "./pages/admin/tickets/page.tsx";
 import NotificationsPage from "./pages/subadmin/view-all-notifications/page.tsx";
 import TicketDetailsPage from "./pages/subadmin/tickets/ticketDetails/page.tsx";
 import RedemptionView from "./pages/subadmin/offers/RedemptionHistory/view/page.tsx";
+import ViewAllCallerDetails from "./pages/subadmin/voicebot/view-all-caller-details/page.tsx";
+import WelcomeMessage from "./pages/subadmin/welcome-message/page.tsx";
 
 const AppRouter = () => {
   return (
@@ -524,12 +526,31 @@ const AppRouter = () => {
               <ProtectedRoute allowedRole="subdir" element={<EditMenu />} />
             }
           />
+
+          <Route
+            path="/subadmin/welcome-message"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<WelcomeMessage />}
+              />
+            }
+          />
           <Route
             path="/subadmin/voice-bot"
             element={
               <ProtectedRoute
                 allowedRole="subdir"
                 element={<VoiceBotDashboard />}
+              />
+            }
+          />
+          <Route
+            path="/subadmin/voicebot/view-all-caller-details"
+            element={
+              <ProtectedRoute
+                allowedRole="subdir"
+                element={<ViewAllCallerDetails />}
               />
             }
           />

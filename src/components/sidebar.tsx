@@ -3,6 +3,7 @@ import {
   BarChart2,
   LogOut,
   Home,
+  LayoutDashboardIcon,
   Building2,
   ClipboardList,
   Settings,
@@ -65,7 +66,7 @@ const Sidebar = () => {
     : false;
 
   const iconMap: { [key: string]: React.ReactElement } = {
-    Dashboard: <Home size={16} />,
+    Dashboard: <LayoutDashboardIcon size={16} />,
     Home: <Home size={16} />,
     Business: <Building2 size={16} />,
     Plans: <ClipboardList size={16} />,
@@ -120,6 +121,7 @@ const Sidebar = () => {
         { label: "Menu", route: "/subadmin/menu" },
         { label: "Feedback", route: "/subadmin/feedback" },
         { label: "Update Profile", route: "/subadmin/update-profile" },
+        { label: "Welcome Message", route: "/subadmin/welcome-message" },
       ],
     },
     {

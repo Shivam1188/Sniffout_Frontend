@@ -157,17 +157,9 @@ const VoiceBotDashboard = () => {
 
       if (isDataLoaded) {
         const res = await api.post(`subadmin/send-fallback-sms/`, null);
-
-        if (
-          res.data.message === "No caller numbers found for this restaurant"
-        ) {
-          toasterInfo(res.data.message, 2000, "id");
-        } else if (res.data.sent_count > 0) {
-          toasterSuccess(
-            `SMS sent successfully to ${res.data.sent_count} recipients`,
-            2000,
-            "id"
-          );
+        console.log(res);
+        if (res.success) {
+          toasterSuccess(res.data.message, 2000, "id");
         } else {
           toasterError("Failed to send SMS", 2000, "id");
         }
@@ -341,9 +333,12 @@ const VoiceBotDashboard = () => {
                         </p>
                       ))}
                       {recentCallersPreview.length > 3 && (
-                        <p className="text-xs text-gray-500 mt-1">
+                        <Link
+                          to="/subadmin/voicebot/view-all-caller-details"
+                          className="text-xs text-blue-500 mt-1 underline"
+                        >
                           +{recentCallersPreview.length - 3} more
-                        </p>
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -354,28 +349,6 @@ const VoiceBotDashboard = () => {
                   onClose={() => setIsModalOpen(false)}
                   onSuccess={() => fetchData()} // Refresh data after scheduling
                 />
-
-                <div className="bg-gray-100 p-4 rounded text-sm mb-6">
-                  <strong className="text-gray-700">Preview SMS Message</strong>
-                  <p className="mt-2 text-gray-700">{previewMessage}</p>
-
-                  <div className="flex justify-end mt-4">
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      disabled={isDisabled}
-                      className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#e55a2c] transition-colors mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Schedule Event
-                    </button>
-                    <button
-                      onClick={handleSMS}
-                      disabled={savingsms || isDisabled}
-                      className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {savingsms ? "Sending..." : "SEND SMS"}
-                    </button>
-                  </div>
-                </div>
 
                 {/* Message Update Section */}
                 <div className="mb-6">
@@ -408,6 +381,28 @@ const VoiceBotDashboard = () => {
                       ? "Save Changes"
                       : "Create Message"}
                   </button>
+                </div>
+
+                <div className="bg-gray-100 p-4 rounded text-sm mb-6">
+                  <strong className="text-gray-700">Preview SMS Message</strong>
+                  <p className="mt-2 text-gray-700">{previewMessage}</p>
+
+                  <div className="flex justify-end mt-4">
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      disabled={isDisabled}
+                      className="cursor-pointer px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#e55a2c] transition-colors mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Schedule Event
+                    </button>
+                    <button
+                      onClick={handleSMS}
+                      disabled={savingsms || isDisabled}
+                      className="cursor-pointer px-4 py-2 bg-[#1d3faa] text-white rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {savingsms ? "Sending..." : "SEND SMS"}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

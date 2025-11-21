@@ -68,6 +68,7 @@ const AddPlan = () => {
                         <option value="starter">Starter</option>
                         <option value="pro">Pro</option>
                         <option value="enterprise">Enterprise</option>
+                        <option value="trial">Trial</option>
                       </select>
                     </div>
 

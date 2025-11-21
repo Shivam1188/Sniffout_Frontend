@@ -19,6 +19,7 @@ import {
   User,
   Mail,
   Phone,
+  MessageCircle,
 } from "lucide-react";
 import { apiService } from "../../../services/api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
@@ -46,6 +47,7 @@ interface CustomerInfo {
   customer_name: string;
   customer_email: string;
   customer_phone: string;
+  sms_consent: boolean;
 }
 
 const PublicSurveyPage: React.FC = () => {
@@ -65,6 +67,7 @@ const PublicSurveyPage: React.FC = () => {
     customer_name: "",
     customer_email: "",
     customer_phone: "",
+    sms_consent: false,
   });
   const [sessionId] = useState(() => {
     // Generate a unique session ID
@@ -107,7 +110,7 @@ const PublicSurveyPage: React.FC = () => {
 
   const handleCustomerInfoChange = (
     field: keyof CustomerInfo,
-    value: string
+    value: string | boolean
   ): void => {
     setCustomerInfo((prev) => ({
       ...prev,
@@ -135,6 +138,23 @@ const PublicSurveyPage: React.FC = () => {
 
     if (!customerInfo.customer_phone.trim()) {
       toasterError("Please enter your phone number", 2000, "id");
+      return false;
+    }
+
+    // Phone number validation (basic - at least 10 digits)
+    const phoneDigits = customerInfo.customer_phone.replace(/\D/g, "");
+    if (phoneDigits.length < 10) {
+      toasterError("Please enter a valid phone number", 2000, "id");
+      return false;
+    }
+
+    // SMS consent validation - must be checked to proceed
+    if (!customerInfo.sms_consent) {
+      toasterError(
+        "Please agree to receive SMS messages to continue",
+        2000,
+        "id"
+      );
       return false;
     }
 
@@ -254,6 +274,7 @@ const PublicSurveyPage: React.FC = () => {
         customer_name: customerInfo.customer_name,
         customer_email: customerInfo.customer_email,
         customer_phone: customerInfo.customer_phone,
+        sms_consent: customerInfo.sms_consent,
         session_id: sessionId,
         responses: Object.entries(responses).map(([questionId, answer]) => {
           const question = questions.find((q) => q.id === parseInt(questionId));
@@ -775,12 +796,46 @@ const PublicSurveyPage: React.FC = () => {
             />
           </div>
 
-          {/* Privacy Notice */}
+          {/* SMS Consent Checkbox */}
           <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-            <p className="text-sm text-blue-700">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={customerInfo.sms_consent}
+                onChange={(e) =>
+                  handleCustomerInfoChange("sms_consent", e.target.checked)
+                }
+                className="w-5 h-5 text-blue-600 focus:ring-blue-500 rounded mt-1 flex-shrink-0"
+                required
+              />
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1"></div>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  By checking this box, you consent to receive SMS messages from{" "}
+                  <span className="font-semibold text-orange-600">
+                    {restaurant?.name || "the restaurant"}
+                  </span>{" "}
+                  powered by{" "}
+                  <a
+                    href="https://www.sniffout.ai/"
+                    className="font-semibold text-orange-600"
+                  >
+                    SniffOut.ai
+                  </a>
+                  , including restaurant info, order updates, reservation
+                  confirmations, and special offers. You can reply STOP at any
+                  time to UNSUBSCRIBE.
+                </p>
+              </div>
+            </label>
+          </div>
+
+          {/* Privacy Notice */}
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+            <p className="text-sm text-gray-600">
               🔒 Your information is secure and will only be used to improve our
               services. We value your privacy and will never share your details
-              with third parties.
+              with third parties without your consent.
             </p>
           </div>
         </div>
@@ -789,11 +844,22 @@ const PublicSurveyPage: React.FC = () => {
         <div className="text-center mt-8">
           <button
             onClick={handleStartSurvey}
-            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg mx-auto"
+            disabled={!customerInfo.sms_consent}
+            className={`flex items-center gap-3 px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 mx-auto ${
+              customerInfo.sms_consent
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 hover:shadow-lg"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
             <Check size={20} />
             Start Survey
           </button>
+
+          {!customerInfo.sms_consent && (
+            <p className="text-sm text-red-500 mt-2">
+              Please agree to receive SMS messages to start the survey
+            </p>
+          )}
         </div>
       </div>
     </div>

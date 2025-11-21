@@ -1,10 +1,4 @@
-// import React from "react";
-
-// export default function ViewAllCallerDetails() {
-//   return <div></div>;
-// }
-
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Phone, Calendar, RefreshCw, Search, Download } from "lucide-react";
 import api from "../../../../lib/Api";
 import { toasterError } from "../../../../components/Toaster";

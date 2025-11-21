@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../../lib/Api";
-import {
-  toasterError,
-  toasterSuccess,
-  toasterInfo,
-} from "../../../components/Toaster";
+import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import LoadingSpinner from "../../../components/Loader";
 import EventModal from "../../../components/EventModal";
 import { getDecryptedItem } from "../../../utils/storageHelper";

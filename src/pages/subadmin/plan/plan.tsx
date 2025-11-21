@@ -16,7 +16,10 @@ import {
   Sparkles,
   Shield,
   Rocket,
+  Eye,
 } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PlansDetails = () => {
   const [plans, setPlans] = useState([]);
@@ -26,7 +29,6 @@ const PlansDetails = () => {
   >("monthly");
   const [userDetails, setUserDetails] = useState<any>({});
   const [activatingTrial, setActivatingTrial] = useState(false);
-  const [message, setMessage] = useState({ type: "", text: "" });
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
 
   const fetchData = async () => {
@@ -41,7 +43,7 @@ const PlansDetails = () => {
       setUserDetails(userDetailsResponse.data);
     } catch (error) {
       console.error("Error fetching data", error);
-      setMessage({ type: "error", text: "Failed to load data" });
+      toast.error("Failed to load plans data");
     } finally {
       setLoading(false);
     }
@@ -57,32 +59,49 @@ const PlansDetails = () => {
 
   // Check if user has this plan active
   const isPlanActive = (plan: any) => {
-    return (
-      userDetails.subscription?.plan_name === plan.plan_name &&
-      userDetails.subscription?.is_active
+    return plan.is_active;
+  };
+
+  // Check if user has any active paid plan (excludes trial)
+  const hasActivePaidPlan = () => {
+    return plans.some(
+      (plan: any) =>
+        plan.is_active && !plan.plan_name.toLowerCase().includes("trial")
+    );
+  };
+
+  // Check if user has any active plan (including trial)
+  const hasAnyActivePlan = () => {
+    return plans.some((plan: any) => plan.is_active);
+  };
+
+  // Check if user has active trial plan
+  const hasActiveTrialPlan = () => {
+    return plans.some(
+      (plan: any) =>
+        plan.is_active && plan.plan_name.toLowerCase().includes("trial")
     );
   };
 
   // Check if user can activate trial (no active paid subscription and hasn't used trial before)
   const canActivateTrial = () => {
-    return !userDetails.subscription?.is_active && !userDetails.has_used_trial;
+    // If user already has an active paid plan, cannot activate trial
+    if (hasActivePaidPlan()) {
+      return false;
+    }
+
+    // If user has active trial plan, cannot activate another trial
+    if (hasActiveTrialPlan()) {
+      return false;
+    }
+
+    // Check if user has used trial before (you might need to adjust this based on your API)
+    return !userDetails.has_used_trial;
   };
 
   // Check if user has already used trial
   const hasUsedTrial = () => {
-    return (
-      userDetails.has_used_trial ||
-      (userDetails.subscription?.plan_name === "trial" &&
-        !userDetails.subscription?.is_active)
-    );
-  };
-
-  // Check if user has active paid subscription
-  const hasActivePaidSubscription = () => {
-    return (
-      userDetails.subscription?.is_active &&
-      userDetails.subscription?.plan_name !== "trial"
-    );
+    return userDetails.has_used_trial;
   };
 
   const getPlanGradient = (planName: string) => {
@@ -106,7 +125,10 @@ const PlansDetails = () => {
   };
 
   const calculateSavings = (plan: any) => {
-    if (selectedDuration === "yearly") {
+    if (
+      selectedDuration === "yearly" &&
+      !plan.plan_name.toLowerCase().includes("trial")
+    ) {
       const monthlyPlan = plans.find(
         (p: any) => p.plan_name === plan.plan_name && p.duration === "monthly"
       );
@@ -121,70 +143,135 @@ const PlansDetails = () => {
   };
 
   const handleActivateTrial = async () => {
-    if (hasActivePaidSubscription()) {
-      setMessage({
-        type: "error",
-        text: "You already have an active paid subscription. Cannot activate trial plan.",
-      });
+    if (hasActivePaidPlan()) {
+      toast.error(
+        "You already have an active paid subscription. Cannot activate trial plan."
+      );
+      return;
+    }
+
+    if (hasActiveTrialPlan()) {
+      toast.error(
+        "You already have an active trial plan. Please upgrade to a paid plan."
+      );
       return;
     }
 
     setActivatingTrial(true);
-    setMessage({ type: "", text: "" });
 
     try {
       const response = await api.post("superadmin/trial-plan/activate/", {});
 
       if (response.data.success) {
-        setMessage({
-          type: "success",
-          text: "🎉 Trial plan activated successfully! You now have 25 free calls to explore our platform.",
-        });
-        await fetchData();
+        toast.success(
+          "Trial plan activated successfully! You now have 25 free calls."
+        );
+        await fetchData(); // Refresh data to update the UI
       } else {
-        setMessage({
-          type: "error",
-          text: response.data.message || "Failed to activate trial plan.",
-        });
+        // Handle API response with success: false but with a message
+        const errorMessage =
+          response.data.message || "Failed to activate trial plan.";
+
+        if (
+          response.data.message?.includes("already activated") ||
+          response.data.message?.includes("already used")
+        ) {
+          toast.warning(response.data.message);
+
+          // If trial details are provided, show additional info
+          if (response.data.trial_details) {
+            toast.info(
+              `You have ${response.data.trial_details.calls_remaining} calls remaining in your trial.`
+            );
+          }
+
+          // Refresh data to sync with server state
+          await fetchData();
+        } else {
+          toast.error(errorMessage);
+        }
       }
     } catch (error: any) {
       console.error("Error activating trial:", error);
-      setMessage({
-        type: "error",
-        text:
-          error.response?.data?.message ||
-          "Failed to activate trial plan. Please try again.",
-      });
+
+      // Handle different error scenarios
+      if (error.response?.data) {
+        const apiError = error.response.data;
+
+        if (apiError.message) {
+          if (
+            apiError.message.includes("already activated") ||
+            apiError.message.includes("Trial plan already activated")
+          ) {
+            toast.warning(apiError.message);
+
+            // If trial details are provided in the error response
+            if (apiError.trial_details) {
+              toast.info(
+                `You have ${apiError.trial_details.calls_remaining} calls remaining in your trial.`
+              );
+            }
+
+            // Refresh data to sync with server state
+            await fetchData();
+          } else {
+            toast.error(apiError.message);
+          }
+        } else {
+          toast.error("Failed to activate trial plan. Please try again.");
+        }
+      } else {
+        toast.error(
+          "Failed to activate trial plan. Please check your connection and try again."
+        );
+      }
     } finally {
       setActivatingTrial(false);
     }
   };
 
   const getTrialButtonText = (plan: any) => {
-    if (isPlanActive(plan)) return "Trial Active 🎯";
-    if (hasUsedTrial()) return "Trial Used ✅";
-    return "Start Free Trial 🚀";
+    if (isPlanActive(plan)) return "Trial Active";
+    if (hasUsedTrial()) return "Trial Used";
+    if (hasActivePaidPlan()) return "Plan Active - Trial Not Needed";
+    if (hasActiveTrialPlan()) return "Trial Already Active";
+    return "Start Free Trial";
   };
 
   const getHoverMessage = (plan: any) => {
-    if (hasActivePaidSubscription()) {
+    const isTrialPlan = plan.plan_name.toLowerCase().includes("trial");
+
+    if (hasActivePaidPlan()) {
       if (isPlanActive(plan)) {
-        return "✨ This is your current active plan. You're all set! Manage your subscription in account settings.";
+        return "This is your current active plan. Click 'View Details' to manage your subscription.";
       }
-      return "📋 You already have an active Pro subscription. To switch plans, please cancel your current subscription first from your account settings.";
+      if (isTrialPlan) {
+        return "You already have an active paid subscription. The trial plan is not needed as you're already enjoying our premium features.";
+      }
+      return "You already have an active paid subscription. To switch plans, please cancel your current subscription first.";
     }
 
-    if (plan.plan_name.toLowerCase().includes("trial")) {
+    if (hasActiveTrialPlan()) {
+      if (isPlanActive(plan)) {
+        return "You are currently using the trial plan. Upgrade to continue after your trial ends.";
+      }
+      if (isTrialPlan) {
+        return "You already have an active trial plan. Please upgrade to a paid plan to continue using our services.";
+      }
+      return "You have an active trial plan. Upgrade to a paid plan for full features.";
+    }
+
+    if (isTrialPlan) {
       if (hasUsedTrial()) {
-        return "🎯 You've already experienced our free trial. Ready to unlock full features with a paid plan?";
+        return "You have already used your free trial. Please choose a paid plan to continue.";
       }
       if (isPlanActive(plan)) {
-        return "🌟 You're currently enjoying your free trial! Upgrade anytime to continue uninterrupted service.";
+        return "You are currently using the trial plan. Upgrade to continue after your trial ends.";
       }
     }
 
     if (isPlanActive(plan)) {
-      return "✅ This is your current active plan. Everything is running smoothly!";
+      return "This is your current active plan. Click 'View Details' to manage your subscription.";
     }
 
     return null;
@@ -192,12 +279,15 @@ const PlansDetails = () => {
 
   const getButtonText = (plan: any) => {
     if (isPlanActive(plan)) {
-      return "Current Plan ✅";
+      return "View Details";
     }
-    if (hasActivePaidSubscription()) {
-      return "Upgrade Plan 🚀";
+    if (hasActivePaidPlan()) {
+      return "Upgrade Plan";
     }
-    return "Get Started 🎯";
+    if (hasActiveTrialPlan()) {
+      return "Upgrade Now";
+    }
+    return "Get Started";
   };
 
   const getPlanBenefits = (planName: string) => {
@@ -215,6 +305,12 @@ const PlansDetails = () => {
     return "Comprehensive solution for your business";
   };
 
+  // Find the active plan
+  const activePlan = plans.find((plan: any) => plan.is_active);
+  const trialPlan = plans.find((plan: any) =>
+    plan.plan_name.toLowerCase().includes("trial")
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8">
       {/* Animated Background */}
@@ -225,58 +321,28 @@ const PlansDetails = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Success/Error Message */}
-        {message.text && (
-          <div
-            className={`fixed top-5 right-5 px-6 py-4 rounded-2xl shadow-2xl z-50 animate-bounce border ${
-              message.type === "success"
-                ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white border-green-600"
-                : "bg-gradient-to-r from-red-500 to-orange-600 text-white border-red-600"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              {message.type === "success" ? (
-                <Check className="w-5 h-5" />
-              ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              )}
-              <span className="font-semibold">{message.text}</span>
-            </div>
-          </div>
-        )}
-
         {/* Header Section */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200 shadow-sm mb-6">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-sm font-medium text-gray-700">
-              Flexible Plans for Every Business Size
+              {activePlan ? "Your Active Plan" : "Choose Your Perfect Plan"}
             </span>
           </div>
           <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-4">
-            Choose Your Growth Path
+            {activePlan ? "Your Current Plan" : "Pricing Plans"}
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Scale your business with our flexible pricing.{" "}
-            {canActivateTrial() && "Start with a free trial and"} upgrade when
-            you're ready to grow.
+            {activePlan
+              ? `You're currently on the ${capitalizeFirstLetter(
+                  activePlan.plan_name
+                )} plan. Manage your subscription or explore other options.`
+              : "Scale your business with our flexible pricing. Start with a free trial and upgrade when you're ready."}
           </p>
         </div>
 
-        {/* Current Plan Banner */}
-        {userDetails.subscription?.is_active && (
+        {/* Active Plan Summary Banner */}
+        {activePlan && (
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-2xl shadow-green-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -285,50 +351,34 @@ const PlansDetails = () => {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">
-                    {userDetails.subscription.plan_name === "trial"
-                      ? "✨ Free Trial Active"
-                      : "🎯 Current Active Plan"}
+                    Active Plan: {capitalizeFirstLetter(activePlan.plan_name)}
                   </h3>
                   <p className="text-white/80">
-                    You're on the{" "}
-                    <span className="font-semibold capitalize">
-                      {userDetails.subscription.plan_name}
-                    </span>{" "}
-                    plan
-                    {userDetails.subscription.expiry_date && (
+                    ${activePlan.price}/{activePlan.duration} •{" "}
+                    {activePlan.call_limit.toLocaleString()} calls
+                    {activePlan.trial_calls_remaining > 0 && (
                       <span>
                         {" "}
-                        • Expires in{" "}
-                        <span className="font-bold">
-                          {userDetails.subscription.days_remaining}
-                        </span>{" "}
-                        days
+                        • {activePlan.trial_calls_remaining} trial calls
+                        remaining
                       </span>
                     )}
-                    {userDetails.subscription.plan_name === "trial" &&
-                      userDetails.subscription.calls_remaining && (
-                        <span>
-                          {" "}
-                          •{" "}
-                          <span className="font-bold">
-                            {userDetails.subscription.calls_remaining}
-                          </span>{" "}
-                          calls remaining
-                        </span>
-                      )}
                   </p>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold">Active 🎉</div>
-                <div className="text-white/80">Enjoy your benefits!</div>
-              </div>
+              <Link
+                to={`/subadmin/plan/plandetails/${activePlan.id}`}
+                className="bg-white text-green-600 hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 transform hover:scale-105"
+              >
+                <Eye className="w-4 h-4" />
+                View Details
+              </Link>
             </div>
           </div>
         )}
 
-        {/* Trial Available Banner */}
-        {canActivateTrial() && (
+        {/* Trial Available Banner - Only show if no active plan and can activate trial */}
+        {!hasAnyActivePlan() && canActivateTrial() && trialPlan && (
           <div className="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-3xl p-6 text-white shadow-2xl shadow-blue-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -337,11 +387,11 @@ const PlansDetails = () => {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold">
-                    Start with a Free Trial! 🚀
+                    Start with a Free Trial!
                   </h3>
                   <p className="text-white/80">
                     Get 25 free calls to experience our platform. No credit card
-                    required. Perfect for testing before you commit.
+                    required.
                   </p>
                 </div>
               </div>
@@ -355,8 +405,36 @@ const PlansDetails = () => {
                 ) : (
                   <Rocket className="w-4 h-4" />
                 )}
-                {activatingTrial ? "Activating..." : "Start Free Trial 🎯"}
+                {activatingTrial ? "Activating..." : "Start Free Trial"}
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* Active Trial Banner - Show when trial is active */}
+        {hasActiveTrialPlan() && (
+          <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-3xl p-6 text-white shadow-2xl shadow-purple-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Free Trial Active!</h3>
+                  <p className="text-white/80">
+                    You have {activePlan?.trial_calls_remaining || 25} free
+                    calls remaining. Upgrade to a paid plan to continue
+                    uninterrupted service.
+                  </p>
+                </div>
+              </div>
+              <Link
+                to={`/subadmin/plan/plandetails/${activePlan?.id}`}
+                className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 transform hover:scale-105"
+              >
+                <Eye className="w-4 h-4" />
+                View Details
+              </Link>
             </div>
           </div>
         )}
@@ -415,6 +493,8 @@ const PlansDetails = () => {
               const canActivateThisTrial = isTrialPlan && canActivateTrial();
               const hoverMessage = getHoverMessage(plan);
               const planBenefits = getPlanBenefits(plan.plan_name);
+              const hasActivePaid = hasActivePaidPlan();
+              const hasActiveTrial = hasActiveTrialPlan();
 
               return (
                 <div
@@ -430,7 +510,7 @@ const PlansDetails = () => {
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
                       <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-green-500/25 flex items-center gap-2 animate-pulse">
                         <BadgeCheck className="w-4 h-4 fill-current" />
-                        CURRENTLY ACTIVE 🎯
+                        CURRENTLY ACTIVE
                       </div>
                     </div>
                   )}
@@ -440,20 +520,44 @@ const PlansDetails = () => {
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
                       <div className="bg-gradient-to-r from-gray-500 to-gray-700 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-gray-500/25 flex items-center gap-2">
                         <Check className="w-4 h-4" />
-                        TRIAL USED ✅
+                        TRIAL USED
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Paid Plan Active - Trial Not Needed Badge */}
+                  {isTrialPlan && hasActivePaid && !isActive && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                      <div className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-blue-500/25 flex items-center gap-2">
+                        <Check className="w-4 h-4" />
+                        PLAN ACTIVE - TRIAL NOT NEEDED
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Active Trial - Upgrade Recommended Badge */}
+                  {isTrialPlan && hasActiveTrial && !isActive && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                      <div className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-purple-500/25 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        UPGRADE RECOMMENDED
                       </div>
                     </div>
                   )}
 
                   {/* Popular Badge */}
-                  {isPopular && !isActive && !isTrialUsed && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-orange-500/25 flex items-center gap-2 animate-bounce">
-                        <Star className="w-4 h-4 fill-current" />
-                        MOST POPULAR 🔥
+                  {isPopular &&
+                    !isActive &&
+                    !isTrialUsed &&
+                    !(isTrialPlan && hasActivePaid) &&
+                    !(isTrialPlan && hasActiveTrial) && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-orange-500/25 flex items-center gap-2">
+                          <Star className="w-4 h-4 fill-current" />
+                          MOST POPULAR
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   <div
                     className={`relative bg-white rounded-3xl shadow-2xl border-2 overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 ${
@@ -461,10 +565,20 @@ const PlansDetails = () => {
                         ? "border-green-500 ring-4 ring-green-500/20"
                         : isTrialUsed
                         ? "border-gray-300 ring-2 ring-gray-300/20"
+                        : isTrialPlan && hasActivePaid
+                        ? "border-blue-300 ring-2 ring-blue-300/20"
+                        : isTrialPlan && hasActiveTrial
+                        ? "border-purple-300 ring-2 ring-purple-300/20"
                         : isPopular
                         ? "border-orange-500 ring-2 ring-orange-500/20"
                         : "border-gray-100"
-                    } ${isTrialUsed ? "opacity-80" : ""}`}
+                    } ${
+                      isTrialUsed ||
+                      (isTrialPlan && hasActivePaid) ||
+                      (isTrialPlan && hasActiveTrial)
+                        ? "opacity-90"
+                        : ""
+                    }`}
                   >
                     {/* Header Gradient */}
                     <div
@@ -481,7 +595,7 @@ const PlansDetails = () => {
                           <div className="flex flex-col items-end gap-1">
                             {savings && (
                               <span className="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-3 py-1 rounded-full transform group-hover:scale-105 transition-transform">
-                                💰 Save {savings.percentage}%
+                                Save {savings.percentage}%
                               </span>
                             )}
                             {isTrialPlan && !isActive && hasUsedTrial() && (
@@ -507,11 +621,33 @@ const PlansDetails = () => {
                           </span>
                         </div>
                         {isTrialPlan && (
-                          <p className="text-white/80 text-sm mt-2">
-                            {hasUsedTrial() && !isActive
-                              ? "You've already used your trial"
-                              : "Perfect for getting started 🎯"}
-                          </p>
+                          <div className="space-y-2">
+                            <p className="text-white/80 text-sm mt-2">
+                              {hasActivePaid && !isActive
+                                ? "You have an active subscription"
+                                : hasActiveTrial && !isActive
+                                ? "Active trial - upgrade recommended"
+                                : hasUsedTrial() && !isActive
+                                ? "You've already used your trial"
+                                : "Perfect for getting started"}
+                            </p>
+                            {hasActivePaid && !isActive && (
+                              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span className="text-xs font-medium text-white/90 flex items-center gap-1">
+                                  <Check className="w-3 h-3" />
+                                  Premium plan active - trial not needed
+                                </span>
+                              </div>
+                            )}
+                            {hasActiveTrial && !isActive && (
+                              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
+                                <span className="text-xs font-medium text-white/90 flex items-center gap-1">
+                                  <Sparkles className="w-3 h-3" />
+                                  Upgrade to continue after trial
+                                </span>
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -522,7 +658,7 @@ const PlansDetails = () => {
                         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4 mb-6 transform hover:scale-105 transition-transform">
                           <div className="flex items-center justify-between">
                             <span className="text-green-800 font-semibold">
-                              🎉 Yearly Savings
+                              Yearly Savings
                             </span>
                             <span className="text-green-800 font-bold text-lg">
                               Save ${savings.savings}
@@ -576,7 +712,9 @@ const PlansDetails = () => {
                         className={`rounded-2xl p-4 mb-6 transform hover:scale-105 transition-transform ${
                           isActive
                             ? "bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200"
-                            : isTrialUsed
+                            : isTrialUsed ||
+                              (isTrialPlan && hasActivePaid) ||
+                              (isTrialPlan && hasActiveTrial)
                             ? "bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200"
                             : "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200"
                         }`}
@@ -587,7 +725,9 @@ const PlansDetails = () => {
                               className={`text-2xl font-bold ${
                                 isActive
                                   ? "text-green-900"
-                                  : isTrialUsed
+                                  : isTrialUsed ||
+                                    (isTrialPlan && hasActivePaid) ||
+                                    (isTrialPlan && hasActiveTrial)
                                   ? "text-gray-900"
                                   : "text-gray-900"
                               }`}
@@ -598,7 +738,9 @@ const PlansDetails = () => {
                               className={`text-sm flex items-center justify-center gap-1 ${
                                 isActive
                                   ? "text-green-700"
-                                  : isTrialUsed
+                                  : isTrialUsed ||
+                                    (isTrialPlan && hasActivePaid) ||
+                                    (isTrialPlan && hasActiveTrial)
                                   ? "text-gray-600"
                                   : "text-gray-600"
                               }`}
@@ -612,7 +754,9 @@ const PlansDetails = () => {
                               className={`text-2xl font-bold capitalize ${
                                 isActive
                                   ? "text-green-900"
-                                  : isTrialUsed
+                                  : isTrialUsed ||
+                                    (isTrialPlan && hasActivePaid) ||
+                                    (isTrialPlan && hasActiveTrial)
                                   ? "text-gray-900"
                                   : "text-gray-900"
                               }`}
@@ -623,7 +767,9 @@ const PlansDetails = () => {
                               className={`text-sm flex items-center justify-center gap-1 ${
                                 isActive
                                   ? "text-green-700"
-                                  : isTrialUsed
+                                  : isTrialUsed ||
+                                    (isTrialPlan && hasActivePaid) ||
+                                    (isTrialPlan && hasActiveTrial)
                                   ? "text-gray-600"
                                   : "text-gray-600"
                               }`}
@@ -641,9 +787,7 @@ const PlansDetails = () => {
                           <div className="bg-gray-900 text-white text-sm px-4 py-3 rounded-2xl shadow-3xl max-w-xs text-center border border-gray-700 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-1">
                               <Info className="w-4 h-4 text-blue-400" />
-                              <span className="font-semibold">
-                                Heads Up! 👋
-                              </span>
+                              <span className="font-semibold">Note</span>
                             </div>
                             <p className="leading-relaxed">{hoverMessage}</p>
                           </div>
@@ -654,18 +798,28 @@ const PlansDetails = () => {
                       {/* Action Button */}
                       <div className="text-center relative">
                         {isActive ? (
-                          <div className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 cursor-default shadow-lg">
-                            <BadgeCheck className="w-5 h-5" />
-                            Current Plan 🎯
-                          </div>
+                          <Link
+                            to={`/subadmin/plan/plandetails/${plan.id}`}
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-green-500/40 transform hover:scale-105"
+                          >
+                            <Eye className="w-5 h-5" />
+                            View Details
+                          </Link>
                         ) : isTrialPlan ? (
                           <button
                             onClick={handleActivateTrial}
-                            disabled={activatingTrial || !canActivateThisTrial}
-                            className={`w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 transform hover:scale-105 ${
-                              !canActivateThisTrial
-                                ? "bg-gradient-to-r from-gray-400 to-gray-500 text-white cursor-not-allowed shadow-lg"
-                                : "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-lg hover:shadow-blue-500/40"
+                            disabled={
+                              activatingTrial ||
+                              !canActivateThisTrial ||
+                              hasActivePaid ||
+                              hasActiveTrial
+                            }
+                            className={`w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 transform ${
+                              !canActivateThisTrial ||
+                              hasActivePaid ||
+                              hasActiveTrial
+                                ? "bg-gradient-to-r from-gray-300 to-gray-400 text-gray-600 cursor-not-allowed shadow-lg"
+                                : "bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white shadow-lg hover:shadow-blue-500/40 hover:scale-105"
                             }`}
                           >
                             {activatingTrial ? (
@@ -674,7 +828,7 @@ const PlansDetails = () => {
                               <Rocket className="w-4 h-4" />
                             )}
                             {activatingTrial
-                              ? "Activating... ⚡"
+                              ? "Activating..."
                               : getTrialButtonText(plan)}
                           </button>
                         ) : (
@@ -744,55 +898,6 @@ const PlansDetails = () => {
             </div>
           </div>
         )}
-
-        {/* FAQ Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8 mb-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Frequently Asked Questions 🤔
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-blue-600" />
-                Can I start with a free trial?
-              </h3>
-              <p className="text-gray-600 text-sm">
-                Yes! Every new user gets 25 free calls to test our platform with
-                no credit card required.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <Rocket className="w-5 h-5 text-green-600" />
-                What happens after trial?
-              </h3>
-              <p className="text-gray-600 text-sm">
-                After using your 25 free calls, you can choose any paid plan to
-                continue with full features.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <Shield className="w-5 h-5 text-purple-600" />
-                Can I change plans later?
-              </h3>
-              <p className="text-gray-600 text-sm">
-                Yes, you can upgrade or downgrade your plan at any time with
-                pro-rated billing.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-2xl border border-orange-100">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <BadgeCheck className="w-5 h-5 text-orange-600" />
-                What payment methods do you accept?
-              </h3>
-              <p className="text-gray-600 text-sm">
-                We accept all major credit cards, PayPal, and bank transfers for
-                your convenience.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Custom Animations */}

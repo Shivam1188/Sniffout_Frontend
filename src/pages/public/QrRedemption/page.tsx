@@ -14,6 +14,7 @@ const PublicQRRedemptionPage = () => {
     customer_name: "",
     customer_mobile: "",
     customer_email: "",
+    sms_consent: false,
   });
 
   const [otpData, setOtpData] = useState({
@@ -46,10 +47,10 @@ const PublicQRRedemptionPage = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -60,10 +61,53 @@ const PublicQRRedemptionPage = () => {
     }));
   };
 
+  const validateFormData = (): boolean => {
+    if (!formData.customer_name.trim()) {
+      setError("Please enter your full name");
+      return false;
+    }
+
+    if (!formData.customer_mobile.trim()) {
+      setError("Please enter your mobile number");
+      return false;
+    }
+
+    // Basic phone validation
+    const phoneDigits = formData.customer_mobile.replace(/\D/g, "");
+    if (phoneDigits.length < 10) {
+      setError("Please enter a valid phone number");
+      return false;
+    }
+
+    if (!formData.customer_email.trim()) {
+      setError("Please enter your email address");
+      return false;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.customer_email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    if (!formData.sms_consent) {
+      setError("Please agree to receive SMS messages to redeem the offer");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleRedeem = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+
+    if (!validateFormData()) {
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -440,12 +484,60 @@ const PublicQRRedemptionPage = () => {
                         </div>
                       </div>
                     </div>
+
+                    {/* SMS Consent Checkbox */}
+                    <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="sms_consent"
+                          checked={formData.sms_consent}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 text-blue-600 focus:ring-blue-500 rounded mt-0.5 flex-shrink-0"
+                          required
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            By checking this box, you consent to receive SMS
+                            messages from{" "}
+                            <span className="font-semibold text-orange-600">
+                              {offerDetails?.offer?.restaurant_name ||
+                                "the restaurant"}
+                            </span>{" "}
+                            powered by{" "}
+                            <a
+                              href="https://www.sniffout.ai/"
+                              className="font-semibold text-orange-600"
+                            >
+                              SniffOut.ai
+                            </a>
+                            , including restaurant info, order updates,
+                            reservation confirmations, and special offers. You
+                            can reply STOP at any time to UNSUBSCRIBE.
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+
+                    {/* Privacy Notice */}
+                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                      <p className="text-sm text-gray-600">
+                        🔒 Your information is secure and will only be used to
+                        process your offer redemption. We value your privacy and
+                        will never share your details with third parties without
+                        your consent.
+                      </p>
+                    </div>
                   </div>
 
                   <button
                     type="submit"
-                    disabled={loading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-lg"
+                    disabled={loading || !formData.sms_consent}
+                    className={`w-full py-4 px-6 rounded-xl shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold text-lg ${
+                      formData.sms_consent
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-700 text-white hover:shadow-xl"
+                        : "bg-gray-300 text-gray-500"
+                    }`}
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
@@ -474,6 +566,12 @@ const PublicQRRedemptionPage = () => {
                       "Redeem Offer"
                     )}
                   </button>
+
+                  {!formData.sms_consent && (
+                    <p className="text-sm text-red-500 text-center">
+                      Please agree to receive SMS messages to redeem the offer
+                    </p>
+                  )}
                 </form>
               </div>
             )}

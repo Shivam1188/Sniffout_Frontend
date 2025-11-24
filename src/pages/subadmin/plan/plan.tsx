@@ -21,13 +21,32 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Define the Plan interface
+interface Plan {
+  id: string;
+  plan_name: string;
+  price: string;
+  duration: string;
+  call_limit: number;
+  trial_calls_remaining: number;
+  is_active: boolean;
+  is_popular: boolean;
+  description: string;
+  // Add other properties that your plan objects have
+}
+
+interface UserDetails {
+  has_used_trial?: boolean;
+  // Add other user properties as needed
+}
+
 const PlansDetails = () => {
-  const [plans, setPlans] = useState([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState<
     "monthly" | "yearly"
   >("monthly");
-  const [userDetails, setUserDetails] = useState<any>({});
+  const [userDetails, setUserDetails] = useState<UserDetails>({});
   const [activatingTrial, setActivatingTrial] = useState(false);
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
 
@@ -53,32 +72,32 @@ const PlansDetails = () => {
     fetchData();
   }, []);
 
-  const filteredPlans = plans.filter((plan: any) => {
+  const filteredPlans = plans.filter((plan: Plan) => {
     return plan.duration.toLowerCase() === selectedDuration;
   });
 
   // Check if user has this plan active
-  const isPlanActive = (plan: any) => {
+  const isPlanActive = (plan: Plan) => {
     return plan.is_active;
   };
 
   // Check if user has any active paid plan (excludes trial)
   const hasActivePaidPlan = () => {
     return plans.some(
-      (plan: any) =>
+      (plan: Plan) =>
         plan.is_active && !plan.plan_name.toLowerCase().includes("trial")
     );
   };
 
   // Check if user has any active plan (including trial)
   const hasAnyActivePlan = () => {
-    return plans.some((plan: any) => plan.is_active);
+    return plans.some((plan: Plan) => plan.is_active);
   };
 
   // Check if user has active trial plan
   const hasActiveTrialPlan = () => {
     return plans.some(
-      (plan: any) =>
+      (plan: Plan) =>
         plan.is_active && plan.plan_name.toLowerCase().includes("trial")
     );
   };
@@ -101,7 +120,7 @@ const PlansDetails = () => {
 
   // Check if user has already used trial
   const hasUsedTrial = () => {
-    return userDetails.has_used_trial;
+    return userDetails.has_used_trial || false;
   };
 
   const getPlanGradient = (planName: string) => {
@@ -124,13 +143,13 @@ const PlansDetails = () => {
     return <Zap className="w-6 h-6" />;
   };
 
-  const calculateSavings = (plan: any) => {
+  const calculateSavings = (plan: Plan) => {
     if (
       selectedDuration === "yearly" &&
       !plan.plan_name.toLowerCase().includes("trial")
     ) {
       const monthlyPlan = plans.find(
-        (p: any) => p.plan_name === plan.plan_name && p.duration === "monthly"
+        (p: Plan) => p.plan_name === plan.plan_name && p.duration === "monthly"
       );
       if (monthlyPlan) {
         const yearlyCost = parseFloat(monthlyPlan.price) * 12;
@@ -230,7 +249,7 @@ const PlansDetails = () => {
     }
   };
 
-  const getTrialButtonText = (plan: any) => {
+  const getTrialButtonText = (plan: Plan) => {
     if (isPlanActive(plan)) return "Trial Active";
     if (hasUsedTrial()) return "Trial Used";
     if (hasActivePaidPlan()) return "Plan Active - Trial Not Needed";
@@ -238,7 +257,7 @@ const PlansDetails = () => {
     return "Start Free Trial";
   };
 
-  const getHoverMessage = (plan: any) => {
+  const getHoverMessage = (plan: Plan) => {
     const isTrialPlan = plan.plan_name.toLowerCase().includes("trial");
 
     if (hasActivePaidPlan()) {
@@ -277,7 +296,7 @@ const PlansDetails = () => {
     return null;
   };
 
-  const getButtonText = (plan: any) => {
+  const getButtonText = (plan: Plan) => {
     if (isPlanActive(plan)) {
       return "View Details";
     }
@@ -306,8 +325,8 @@ const PlansDetails = () => {
   };
 
   // Find the active plan
-  const activePlan = plans.find((plan: any) => plan.is_active);
-  const trialPlan = plans.find((plan: any) =>
+  const activePlan = plans.find((plan: Plan) => plan.is_active);
+  const trialPlan = plans.find((plan: Plan) =>
     plan.plan_name.toLowerCase().includes("trial")
   );
 
@@ -481,7 +500,7 @@ const PlansDetails = () => {
           </div>
         ) : filteredPlans.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-            {filteredPlans.map((plan: any, index) => {
+            {filteredPlans.map((plan: Plan, index) => {
               const gradient = getPlanGradient(plan.plan_name);
               const savings = calculateSavings(plan);
               const isPopular = plan.is_popular;
@@ -563,7 +582,9 @@ const PlansDetails = () => {
                     className={`relative bg-white rounded-3xl shadow-2xl border-2 overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 ${
                       isActive
                         ? "border-green-500 ring-4 ring-green-500/20"
-                        : isTrialUsed
+                        : isTrialUsed ||
+                          (isTrialPlan && hasActivePaid) ||
+                          (isTrialPlan && hasActiveTrial)
                         ? "border-gray-300 ring-2 ring-gray-300/20"
                         : isTrialPlan && hasActivePaid
                         ? "border-blue-300 ring-2 ring-blue-300/20"
@@ -732,7 +753,7 @@ const PlansDetails = () => {
                                   : "text-gray-900"
                               }`}
                             >
-                              {plan.call_limit?.toLocaleString()}
+                              {plan.call_limit.toLocaleString()}
                             </div>
                             <div
                               className={`text-sm flex items-center justify-center gap-1 ${

@@ -201,7 +201,7 @@ export default function PlansDet() {
 
   const gradient = getPlanGradient(plans.plan_name || "");
   const isCurrentPlan = userPlan.plan_name === plans.plan_name;
-
+  console.log(userPlan, "=====usserplan====");
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8">
       {/* Background Decorations */}
@@ -532,7 +532,7 @@ export default function PlansDet() {
                 </div>
 
                 {/* Action Button */}
-                {!userPlan.has_active_plan && (
+                {!userPlan.has_active_plan && plans.plan_name !== "trial" && (
                   <button
                     onClick={handleBuyPlan}
                     className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transform hover:scale-105 flex items-center justify-center gap-3"

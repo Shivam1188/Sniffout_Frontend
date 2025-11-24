@@ -19,7 +19,6 @@ import {
   User,
   Mail,
   Phone,
-  MessageCircle,
 } from "lucide-react";
 import { apiService } from "../../../services/api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
@@ -271,10 +270,11 @@ const PublicSurveyPage: React.FC = () => {
       setSubmitting(true);
 
       const submissionData = {
+        restaurant_id: restaurant.id,
         customer_name: customerInfo.customer_name,
         customer_email: customerInfo.customer_email,
         customer_phone: customerInfo.customer_phone,
-        sms_consent: customerInfo.sms_consent,
+        // sms_consent: customerInfo.sms_consent,
         session_id: sessionId,
         responses: Object.entries(responses).map(([questionId, answer]) => {
           const question = questions.find((q) => q.id === parseInt(questionId));

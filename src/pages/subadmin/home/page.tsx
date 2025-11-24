@@ -182,7 +182,7 @@ const Home = () => {
 
   // Close notifications when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = () => {
       if (showNotifications) {
         setShowNotifications(false);
       }

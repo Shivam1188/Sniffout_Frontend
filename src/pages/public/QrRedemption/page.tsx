@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { toasterError } from "../../../components/Toaster";
 
 const PublicQRRedemptionPage = () => {
   const { uniqueCode } = useParams();
@@ -14,6 +15,7 @@ const PublicQRRedemptionPage = () => {
     customer_name: "",
     customer_mobile: "",
     customer_email: "",
+    restaurant_id: "",
     sms_consent: false,
   });
 
@@ -37,6 +39,12 @@ const PublicQRRedemptionPage = () => {
         `https://api.sniffout.io/api/subadmin/public/offer/${uniqueCode}/`
       );
       setOfferDetails(response.data);
+
+      // Set restaurant_id in formData when offer details are loaded
+      setFormData((prev) => ({
+        ...prev,
+        restaurant_id: response.data.offer?.restaurant || "",
+      }));
       setError("");
     } catch (err: any) {
       setError("Failed to load offer details. Please try again.");
@@ -127,6 +135,7 @@ const PublicQRRedemptionPage = () => {
         err.response?.data?.error ||
         "Failed to initiate redemption. Please try again.";
       setError(errorMessage);
+      toasterError(errorMessage, 2000, "id");
     } finally {
       setLoading(false);
     }
@@ -151,6 +160,7 @@ const PublicQRRedemptionPage = () => {
       const errorMessage =
         err.response?.data?.error || "Failed to verify OTP. Please try again.";
       setError(errorMessage);
+      toasterError(errorMessage, 2000, "id");
 
       if (err.response?.data?.attempts_remaining) {
         setError(
@@ -167,9 +177,15 @@ const PublicQRRedemptionPage = () => {
     setError("");
 
     try {
+      // Remove sms_consent from the form data
+      const { sms_consent, ...formDataWithoutConsent }: any = formData;
+      console.log(sms_consent);
       const response = await axios.post(
         `https://api.sniffout.io/api/subadmin/public/offer/${uniqueCode}/redeem/`,
-        formData
+        {
+          ...formDataWithoutConsent,
+          restaurant_id: offerDetails?.offer?.restaurant,
+        }
       );
 
       if (response.data.success) {
@@ -179,11 +195,11 @@ const PublicQRRedemptionPage = () => {
       const errorMessage =
         err.response?.data?.error || "Failed to resend OTP. Please try again.";
       setError(errorMessage);
+      toasterError(errorMessage, 2000, "id");
     } finally {
       setLoading(false);
     }
   };
-
   if (loading && !offerDetails) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">

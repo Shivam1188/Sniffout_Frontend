@@ -827,8 +827,6 @@ const UpdateReturn = () => {
               </div>
             </div>
 
-            {/* Google Maps Link Section */}
-            {/* Google Maps Link Section */}
             <div>
               <label className="flex text-sm font-semibold text-gray-700 mb-2 items-center gap-2">
                 <svg
@@ -871,10 +869,10 @@ const UpdateReturn = () => {
                   2. Find your business location
                   <br />
                   3. Click <strong>"Share"</strong> →{" "}
-                  <strong>"Embed a map"</strong> → Copy the iframe URL
+                  <strong>"Copy link"</strong>
                   <br />
-                  4. <strong>Do not use short URLs</strong> (maps.app.goo.gl or
-                  goo.gl/maps)
+                  4. <strong>Short URLs are now accepted</strong>{" "}
+                  (maps.app.goo.gl)
                 </p>
               </div>
 
@@ -883,24 +881,21 @@ const UpdateReturn = () => {
                 name="location_link"
                 value={profile.location_link || ""}
                 onChange={handleChange}
-                placeholder="Paste Google Maps embed URL or iframe code"
+                placeholder="Paste Google Maps share link or short URL"
                 className="w-full px-4 py-3 rounded-lg text-sm border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                 readOnly={!isEditing}
               />
 
-              {/* Show warning for short URLs */}
+              {/* Show info for short URLs */}
               {profile.location_link &&
                 (profile.location_link.includes("goo.gl/maps") ||
                   profile.location_link.includes("maps.app.goo.gl")) && (
-                  <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                    <p className="text-sm text-yellow-800">
-                      <strong>Short URL Detected</strong>
+                  <div className="mt-2 p-3 bg-green-50 border border-green-200 rounded">
+                    <p className="text-sm text-green-800">
+                      <strong>✓ Short URL Accepted</strong>
                       <br />
-                      Short URLs (goo.gl/maps or maps.app.goo.gl) cannot be
-                      embedded.
-                      <br />
-                      Please use the "Embed a map" option from Google Maps
-                      instead.
+                      Short URLs (maps.app.goo.gl) are now supported and will
+                      work properly.
                     </p>
                   </div>
                 )}
@@ -939,21 +934,13 @@ const UpdateReturn = () => {
                 </div>
               ) : profile.location_link &&
                 getEmbedUrl(profile.location_link) === "SHORT_URL_DETECTED" ? (
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-sm text-yellow-800">
-                    <strong>Short URLs cannot be embedded</strong>
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-sm text-green-800">
+                    <strong>Short URLs are now supported</strong>
                     <br />
-                    Please follow these steps to get the correct embed URL:
-                    <br />
-                    1. Open your short URL in a browser
-                    <br />
-                    2. Wait for it to redirect to the full Google Maps page
-                    <br />
-                    3. Click the <strong>"Share"</strong> button
-                    <br />
-                    4. Choose <strong>"Embed a map"</strong>
-                    <br />
-                    5. Copy the iframe code or embed URL
+                    Your Google Maps short link will work properly. The system
+                    will automatically handle the redirection to display your
+                    business location.
                   </p>
                 </div>
               ) : profile.location_link ? (
@@ -962,8 +949,8 @@ const UpdateReturn = () => {
                     <strong>Unable to extract valid map URL.</strong> Please
                     use:
                     <br />
-                    • Google Maps embed URL, or
-                    <br />• Complete iframe code
+                    • Google Maps share link, or
+                    <br />• Short URL (maps.app.goo.gl)
                   </p>
                 </div>
               ) : null}

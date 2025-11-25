@@ -83,10 +83,15 @@ function Subscribe() {
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-[100px]">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <div>
+          <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Subscribers
             </h1>
+            <p className="text-sm text-white/80 mt-1 max-w-2xl">
+              Manage your newsletter subscribers and customer contacts. View
+              subscriber details, track subscription status, and export
+              subscriber lists for marketing campaigns.
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
             <ExportButtonAdvanced
@@ -112,7 +117,7 @@ function Subscribe() {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg

@@ -185,7 +185,7 @@ function WelcomeMessages() {
                   </div>
                 </div>
               ) : messages.length > 0 ? (
-                messages.map((message: any, index: number) => (
+                messages.map((message: any) => (
                   <div
                     key={message.id}
                     className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6 hover:shadow-lg transition-all duration-300"

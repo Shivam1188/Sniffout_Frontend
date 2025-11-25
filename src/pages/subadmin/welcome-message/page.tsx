@@ -128,24 +128,41 @@ function WelcomeMessages() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full">
+      <main className="flex-1 p-4 sm:p-6 mx-auto overflow-hidden w-full max-w-6xl">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
-            Welcome Messages
-          </h1>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-[#4d519e] gap-4 p-6 rounded-2xl mb-8">
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white text-center lg:text-left mb-2">
+              Welcome Messages
+            </h1>
+            <p className="text-sm text-white/90 text-center lg:text-left leading-relaxed">
+              Manage welcome messages displayed to customers. You can only have
+              one active welcome message at a time.
+              {messages.length > 0
+                ? " Edit your existing message or update it as needed."
+                : " Create a new message to greet your customers."}
+            </p>
+          </div>
         </div>
 
         {/* Content Box */}
-        <div className="text-gray-800 font-sans rounded">
-          <div className="mx-auto bg-white p-4 sm:p-6 lg:p-8 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa]">
-                Welcome Messages List
-              </h1>
+        <div className="bg-white rounded-2xl shadow-xl border-t-4 border-[#fe6a3c] overflow-hidden">
+          <div className="p-6 sm:p-8">
+            {/* Header with Button */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  Welcome Messages List
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {messages.length > 0
+                    ? "Your current welcome message is displayed below."
+                    : "No welcome message set up yet."}
+                </p>
+              </div>
               <button
                 onClick={openCreateModal}
-                className="flex items-center gap-2 text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 text-white px-6 py-3 rounded-full shadow-lg bg-[#fe6a3c] hover:bg-[#fd8f61] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-semibold min-w-[140px] justify-center"
                 disabled={messages.length > 0}
                 title={
                   messages.length > 0
@@ -153,55 +170,98 @@ function WelcomeMessages() {
                     : "Add new welcome message"
                 }
               >
-                <PlusIcon size={18} />
+                <PlusIcon size={20} />
                 {messages.length > 0 ? "Message Exists" : "Add Message"}
               </button>
             </div>
 
             {/* Messages List */}
-            <div className="space-y-4">
+            <div className="space-y-6">
               {loading ? (
-                <div className="flex justify-center py-10">
-                  <LoadingSpinner />
+                <div className="flex justify-center py-12">
+                  <div className="text-center">
+                    <LoadingSpinner />
+                    <p className="text-gray-600 mt-3">Loading messages...</p>
+                  </div>
                 </div>
               ) : messages.length > 0 ? (
                 messages.map((message: any, index: number) => (
                   <div
                     key={message.id}
-                    className={`p-4 rounded-lg border ${
-                      index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                    } border-gray-200 hover:shadow-md transition-shadow`}
+                    className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6 hover:shadow-lg transition-all duration-300"
                   >
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1">
-                        <p className="text-gray-800 whitespace-pre-wrap">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-sm font-medium text-green-700">
+                            Active Message
+                          </span>
+                        </div>
+                        <p className="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap bg-white/50 p-4 rounded-lg border">
                           {message.message}
                         </p>
                         {message.created_at && (
-                          <p className="text-xs text-gray-500 mt-2">
-                            Created:{" "}
-                            {new Date(message.created_at).toLocaleDateString()}
-                          </p>
+                          <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
+                            <span>
+                              Created:{" "}
+                              {new Date(message.created_at).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                            {message.updated_at &&
+                              message.updated_at !== message.created_at && (
+                                <span>
+                                  Updated:{" "}
+                                  {new Date(
+                                    message.updated_at
+                                  ).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  })}
+                                </span>
+                              )}
+                          </div>
                         )}
                       </div>
-                      <div className="flex items-center space-x-3 ml-4">
+                      <div className="flex items-center gap-2 sm:flex-col sm:gap-3">
                         <button
                           onClick={() => openEditModal(message)}
-                          className="text-blue-600 hover:text-blue-800 cursor-pointer p-1"
+                          className="flex items-center gap-2 bg-white text-blue-600 hover:text-blue-800 hover:bg-blue-50 cursor-pointer px-4 py-2 rounded-lg border border-blue-200 transition-all duration-200 font-medium min-w-[100px] justify-center"
                           title="Edit message"
                         >
                           <Edit2Icon size={18} />
+                          Edit
                         </button>
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-10 text-gray-500 bg-gray-50 rounded-lg">
-                  <p className="text-lg">No welcome messages found.</p>
-                  <p className="text-sm mt-2">
-                    Click "Add Message" to create your first welcome message.
+                <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <PlusIcon size={24} className="text-gray-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                    No Welcome Messages
+                  </h3>
+                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                    Create your first welcome message to greet customers when
+                    they visit your restaurant.
                   </p>
+                  <button
+                    onClick={openCreateModal}
+                    className="flex items-center gap-2 text-white px-6 py-3 rounded-full shadow-lg bg-[#fe6a3c] hover:bg-[#fd8f61] transition-all duration-200 font-semibold mx-auto"
+                  >
+                    <PlusIcon size={20} />
+                    Create First Message
+                  </button>
                 </div>
               )}
             </div>
@@ -212,40 +272,59 @@ function WelcomeMessages() {
       {/* Create Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/50 z-50 p-4">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Create Welcome Message
-            </h2>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">
+                Create Welcome Message
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                This message will be displayed to customers when they visit your
+                restaurant.
+              </p>
+            </div>
             <form onSubmit={handleCreate}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] focus:border-transparent"
-                  placeholder="Enter your welcome message here..."
-                />
+              <div className="p-6">
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={5}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] focus:border-transparent transition-all duration-200 resize-none"
+                    placeholder="Enter a warm welcome message for your customers..."
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    This message creates the first impression for your
+                    customers.
+                  </p>
+                </div>
               </div>
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-6 py-2.5 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 transition-all duration-200 font-medium"
                   disabled={formLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#fd8f61] disabled:opacity-50"
+                  className="px-6 py-2.5 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fd8f61] disabled:opacity-50 transition-all duration-200 font-medium flex items-center gap-2"
                   disabled={formLoading}
                 >
-                  {formLoading ? "Creating..." : "Create Message"}
+                  {formLoading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Creating...
+                    </>
+                  ) : (
+                    "Create Message"
+                  )}
                 </button>
               </div>
             </form>
@@ -256,40 +335,54 @@ function WelcomeMessages() {
       {/* Edit Modal */}
       {showEditModal && selectedMessage && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-black/50 z-50 p-4">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Edit Welcome Message
-            </h2>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-auto">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">
+                Edit Welcome Message
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Update your welcome message for customers.
+              </p>
+            </div>
             <form onSubmit={handleEdit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] focus:border-transparent"
-                  placeholder="Enter your welcome message here..."
-                />
+              <div className="p-6">
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={5}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] focus:border-transparent transition-all duration-200 resize-none"
+                    placeholder="Enter a warm welcome message for your customers..."
+                  />
+                </div>
               </div>
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-6 py-2.5 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 transition-all duration-200 font-medium"
                   disabled={formLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#fe6a3c] text-white rounded-md hover:bg-[#fd8f61] disabled:opacity-50"
+                  className="cursor-pointer px-6 py-2.5 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fd8f61] disabled:opacity-50 transition-all duration-200 font-medium flex items-center gap-2"
                   disabled={formLoading}
                 >
-                  {formLoading ? "Updating..." : "Update Message"}
+                  {formLoading ? (
+                    <>
+                      <div className="cursor-pointer w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Updating...
+                    </>
+                  ) : (
+                    "Update Message"
+                  )}
                 </button>
               </div>
             </form>

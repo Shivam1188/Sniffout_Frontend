@@ -156,38 +156,46 @@ const ManageLinks = () => {
             <h1 className="text-xl font-bold text-white sm:text-2xl">
               Manage Business List
             </h1>
+            <p className="text-sm text-white/80 mt-1 max-w-2xl">
+              Manage and update your business links including ordering,
+              reservations, catering requests, and special events forms. Click
+              Edit to modify your links or add new URLs to enhance customer
+              experience.
+            </p>
           </div>
-          <div className="flex gap-2 sm:flex-row flex-col sm:mt-0 mt-4">
-            {!isEditing && records.length > 0 && (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="cursor-pointer bg-green-500 text-white px-5 py-2 rounded-md shadow-md font-bold"
+          <div className="mt-6">
+            <div className="flex gap-2 sm:flex-row flex-col sm:mt-0 mt-4">
+              {!isEditing && records.length > 0 && (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="cursor-pointer bg-green-500 text-white px-5 py-2 rounded-md shadow-md font-bold"
+                >
+                  Edit
+                </button>
+              )}
+              {isEditing && (
+                <>
+                  <button
+                    onClick={handleSave}
+                    className="cursor-pointer bg-[#2441a8] text-white px-5 py-2 rounded-md shadow-md"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="cursor-pointer bg-gray-400 text-white px-5 py-2 rounded-md shadow-md"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )}
+              <Link
+                to={"/subadmin/dashboard"}
+                className="px-5 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-md shadow-md text-center sm:text-left"
               >
-                Edit
-              </button>
-            )}
-            {isEditing && (
-              <>
-                <button
-                  onClick={handleSave}
-                  className="cursor-pointer bg-[#2441a8] text-white px-5 py-2 rounded-md shadow-md"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="cursor-pointer bg-gray-400 text-white px-5 py-2 rounded-md shadow-md"
-                >
-                  Cancel
-                </button>
-              </>
-            )}
-            <Link
-              to={"/subadmin/dashboard"}
-              className="px-5 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-md shadow-md text-center sm:text-left"
-            >
-              Back To Dashboard
-            </Link>
+                Back To Dashboard
+              </Link>
+            </div>
           </div>
           {/* Overlay for mobile */}
           <label

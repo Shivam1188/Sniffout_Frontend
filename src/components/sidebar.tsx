@@ -56,7 +56,7 @@ const Sidebar = () => {
   const [openNestedSubmenu, setOpenNestedSubmenu] = useState<string | null>(
     null
   );
-
+  console.log(planName, "---planname");
   const isPlanExpired = planExpiry
     ? new Date() > new Date(planExpiry as string)
     : true;

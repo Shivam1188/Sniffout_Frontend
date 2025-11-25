@@ -284,10 +284,17 @@ const SubAdminTickets = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden  w-[100px]">
         {/* Header */}
-        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0 ">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
-            Support Tickets
-          </h1>
+        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
+          <div className="flex-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">
+              Support Tickets
+            </h1>
+            <p className="text-sm text-white/80 mt-2 max-w-2xl">
+              Manage and resolve customer support inquiries efficiently. Track
+              ticket status, respond to customer queries, and ensure timely
+              resolution of all support requests.
+            </p>
+          </div>
           <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
@@ -295,34 +302,34 @@ const SubAdminTickets = () => {
             >
               Back to Dashboard
             </Link>
-            {/* Overlay for mobile */}
-            <label
-              htmlFor="sidebar-toggle"
-              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
-            ></label>
-
-            {/* Toggle Button (Arrow) */}
-            <label
-              htmlFor="sidebar-toggle"
-              className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
-            >
-              {/* Arrow Icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                />
-              </svg>
-            </label>
           </div>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
+
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
         </div>
 
         {/* Main Content */}

@@ -344,9 +344,16 @@ const Home = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Header Section */}
       <div className="flex md:flex-row align-items-center md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
-        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-          Home
-        </h1>
+        <div className="flex flex-col">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+            Home
+          </h1>
+          <p className="text-white/80 text-sm mt-1 max-w-2xl">
+            Welcome to your dashboard. Here you can manage your notifications,
+            view recent activities, and access all the important features in one
+            place.
+          </p>
+        </div>
         <div className="relative">
           <button
             onClick={(e) => {

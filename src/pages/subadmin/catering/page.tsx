@@ -79,7 +79,16 @@ flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full"
       >
         {/* Header */}
         <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Catering</h1>
+          <div className="flex-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">
+              Catering
+            </h1>
+            <p className="text-sm text-white/80 mt-2 max-w-2xl">
+              Manage and track all catering service requests from customers.
+              View request details, update status, and coordinate catering
+              orders for events and special occasions.
+            </p>
+          </div>
           <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
@@ -91,7 +100,7 @@ flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full"
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white  p-1 rounded  shadow-md md:hidden cursor-pointer"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -114,9 +123,11 @@ flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full"
         {/* Table */}
         <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] table-space">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
-              Catering Requests
-            </h1>
+            <div className="flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left">
+                Catering Requests
+              </h1>
+            </div>
             <Link
               to={"/subadmin/catering/add-catering"}
               className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center min-w-[230px]"

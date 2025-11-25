@@ -360,9 +360,16 @@ const SubAdminTickets = () => {
         {/* Main Content */}
         <div className="mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border-t-8 border-[#fe6a3c] table-space">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
-              Support Tickets
-            </h1>
+            <div className="flex-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left">
+                Support Tickets
+              </h1>
+              <p className="text-sm text-gray-600 mt-2 max-w-2xl text-center md:text-left">
+                Manage and resolve customer support inquiries efficiently. Track
+                ticket status, respond to customer queries, and ensure timely
+                resolution of all support requests.
+              </p>
+            </div>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-200">

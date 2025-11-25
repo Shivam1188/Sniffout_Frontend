@@ -84,11 +84,17 @@ const Managelinks = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
-        <div className="flex flex-col md:flex-row md:items-center pb-8 justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
+        <div className="flex flex-col md:flex-row md:items-center pb-4 justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
           <div>
             <h1 className="text-2xl font-bold text-white">
               Add Business Links
             </h1>
+            <p className="text-sm text-white/80 mt-1 max-w-2xl">
+              Enter your business URLs below to create a centralized hub for
+              customers. Include ordering, reservation, catering, and special
+              events links to make it easy for customers to connect with your
+              services.
+            </p>
           </div>
           <div className="flex-shrink-0">
             <Link

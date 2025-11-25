@@ -164,15 +164,17 @@ function Feedback() {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
 
+    // Add full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <span key={i} className="text-yellow-500 text-lg">
+        <span key={`full-${i}`} className="text-yellow-500 text-lg">
           ★
         </span>
       );
     }
 
-    if (hasHalfStar) {
+    // Add half star if needed
+    if (hasHalfStar && fullStars < 5) {
       stars.push(
         <span key="half" className="text-yellow-500 text-lg">
           ★
@@ -180,7 +182,9 @@ function Feedback() {
       );
     }
 
-    const emptyStars = 5 - stars.length;
+    // Add empty stars
+    const totalStars = stars.length;
+    const emptyStars = 5 - totalStars;
     for (let i = 0; i < emptyStars; i++) {
       stars.push(
         <span key={`empty-${i}`} className="text-gray-300 text-lg">
@@ -191,16 +195,20 @@ function Feedback() {
 
     return stars;
   };
-
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
-          <div>
+          <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Feedback Management
             </h1>
+            <p className="text-sm text-white/80 mt-1 max-w-2xl">
+              Manage customer feedback questions and view restaurant ratings.
+              Create custom feedback forms and monitor customer satisfaction
+              through detailed rating analytics.
+            </p>
           </div>
           <div className="flex-shrink-0">
             <Link

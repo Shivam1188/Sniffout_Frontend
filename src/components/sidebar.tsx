@@ -56,14 +56,22 @@ const Sidebar = () => {
   const [openNestedSubmenu, setOpenNestedSubmenu] = useState<string | null>(
     null
   );
-  console.log(planName, "---planname");
-  const isPlanExpired = planExpiry
-    ? new Date() > new Date(planExpiry as string)
-    : true;
-  const isPlanExpiringToday = planExpiry
-    ? new Date().toDateString() ===
-      new Date(planExpiry as string).toDateString()
-    : false;
+
+  // Check if user has no plan (planName is null or undefined)
+  const hasNoPlan =
+    !planName || planName === "null" || planName === "undefined";
+
+  // Check if plan is expired (only if user has a plan)
+  const isPlanExpired =
+    !hasNoPlan && planExpiry
+      ? new Date() > new Date(planExpiry as string)
+      : false;
+
+  const isPlanExpiringToday =
+    !hasNoPlan && planExpiry
+      ? new Date().toDateString() ===
+        new Date(planExpiry as string).toDateString()
+      : false;
 
   const iconMap: { [key: string]: React.ReactElement } = {
     Dashboard: <LayoutDashboardIcon size={16} />,
@@ -185,30 +193,47 @@ const Sidebar = () => {
   const getFilteredMenu = () => {
     if (role === "admin") return adminMenu;
 
-    const hasPlanData =
-      getDecryptedItem("plan_name") || getDecryptedItem("plan_expiry_date");
-    if (!hasPlanData) return subdirMenu;
-
-    return subdirMenu.filter((item) => {
-      if (isPlanExpired && !isPlanExpiringToday) {
+    // If user has no plan at all, show basic menu without pro features
+    if (hasNoPlan) {
+      return subdirMenu.filter((item) => {
         const restrictedItems = [
           "Reservation",
           "Set No of Tables",
           "Create Tables ",
-          "Subscribe",
           "Upselling Offers",
           "QR Codes",
           "Bulk SMS Campaign",
         ];
         return !restrictedItems.includes(item.label);
-      }
-      if (planName === "pro" || isPlanExpiringToday) return true;
+      });
+    }
 
+    // User has a plan, check if it's expired
+    if (isPlanExpired && !isPlanExpiringToday) {
+      return subdirMenu.filter((item) => {
+        const restrictedItems = [
+          "Reservation",
+          "Set No of Tables",
+          "Create Tables ",
+          "Upselling Offers",
+          "QR Codes",
+          "Bulk SMS Campaign",
+        ];
+        return !restrictedItems.includes(item.label);
+      });
+    }
+
+    // User has pro plan or plan is expiring today
+    if (planName === "pro" || isPlanExpiringToday) {
+      return subdirMenu;
+    }
+
+    // User has basic plan (not pro)
+    return subdirMenu.filter((item) => {
       const restrictedItems = [
         "Reservation",
         "Set No of Tables",
         "Create Tables ",
-        "Subscribe",
         "Upselling Offers",
         "QR Codes",
         "Bulk SMS Campaign",

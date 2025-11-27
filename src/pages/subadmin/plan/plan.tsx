@@ -331,7 +331,7 @@ const PlansDetails = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8">
+    <div className="min-h-screen  py-3">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-32 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -339,40 +339,74 @@ const PlansDetails = () => {
         <div className="absolute top-40 left-1/2 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200 shadow-sm mb-6">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-700">
-              {activePlan ? "Your Active Plan" : "Choose Your Perfect Plan"}
-            </span>
-          </div>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-4">
-            {activePlan ? "Your Current Plan" : "Pricing Plans"}
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            {activePlan
-              ? `You're currently on the ${capitalizeFirstLetter(
-                  activePlan.plan_name
-                )} plan. Manage your subscription or explore other options.`
-              : "Scale your business with our flexible pricing. Start with a free trial and upgrade when you're ready."}
-          </p>
-        </div>
+      <div className="
+  mb-5 flex flex-col sm:flex-row justify-between items-center 
+  bg-[#57559a] px-[23px] py-[7px] rounded-[25px] 
+  text-center gap-[13px] sm:text-left sm:gap-0
+">
+  {/* LEFT CONTENT */}
+  <div className="relative w-full">
+    <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-200 bg-clip-text text-transparent mb-1">
+      {activePlan ? "Your Current Plan" : "Pricing Plans"}
+    </h1>
+
+    <p className="text-sm text-white/90 max-w-xl mx-auto sm:mx-0">
+      {activePlan
+        ? `You're currently on the ${capitalizeFirstLetter(
+            activePlan.plan_name
+          )} plan. Manage your subscription or explore other options.`
+        : "Scale your business with our flexible pricing. Start with a free trial and upgrade when you're ready."}
+    </p>
+
+    {/* Mobile Toggle Button (Hamburger Menu) */}
+    <label
+      htmlFor="sidebar-toggle"
+      className="absolute top-2 right-2 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-6 h-6 text-gray-700"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h16.5" />
+      </svg>
+    </label>
+  </div>
+
+  {/* RIGHT SMALL BUTTON */}
+  <div className="
+    inline-flex items-center gap-2 bg-white text-gray-700 
+    px-4 py-2 rounded-full border border-gray-200 shadow-sm 
+    hover:shadow-md transition-all duration-200
+  ">
+    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+    <span className="text-sm font-medium">
+      {activePlan ? "Your Active Plan" : "Choose Your Perfect Plan"}
+    </span>
+  </div>
+</div>
+
 
         {/* Active Plan Summary Banner */}
         {activePlan && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-2xl shadow-green-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
+          <div className="p-5 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ">
+            <div className="flex items-center justify-between gap-4">
+              {/* Left Section */}
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                  <BadgeCheck className="w-6 h-6" />
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center shadow-sm">
+                  <BadgeCheck className="w-6 h-6 text-green-600" />
                 </div>
+
                 <div>
-                  <h3 className="text-xl font-bold">
+                  <h3 className="text-lg font-semibold text-gray-900">
                     Active Plan: {capitalizeFirstLetter(activePlan.plan_name)}
                   </h3>
-                  <p className="text-white/80">
+                  <p className="text-sm text-gray-600">
                     ${activePlan.price}/{activePlan.duration} •{" "}
                     {activePlan.call_limit.toLocaleString()} calls
                     {activePlan.trial_calls_remaining > 0 && (
@@ -385,9 +419,13 @@ const PlansDetails = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Right Button */}
               <Link
                 to={`/subadmin/plan/plandetails/${activePlan.id}`}
-                className="bg-white text-green-600 hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 transform hover:scale-105"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 
+                 rounded-lg font-medium hover:bg-gray-200 transition-all shadow-sm hover:shadow 
+                 text-sm"
               >
                 <Eye className="w-4 h-4" />
                 View Details
@@ -432,24 +470,32 @@ const PlansDetails = () => {
 
         {/* Active Trial Banner - Show when trial is active */}
         {hasActiveTrialPlan() && (
-          <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-3xl p-6 text-white shadow-2xl shadow-purple-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
+          <div className="p-5 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 mt-3 mb-5">
+            <div className="flex items-center justify-between gap-4">
+              {/* Left Section */}
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                  <Sparkles className="w-6 h-6" />
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center shadow-sm">
+                  <Sparkles className="w-6 h-6 text-purple-600" />
                 </div>
+
                 <div>
-                  <h3 className="text-xl font-bold">Free Trial Active!</h3>
-                  <p className="text-white/80">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Free Trial Active!
+                  </h3>
+                  <p className="text-sm text-gray-600">
                     You have {activePlan?.trial_calls_remaining || 25} free
                     calls remaining. Upgrade to a paid plan to continue
                     uninterrupted service.
                   </p>
                 </div>
               </div>
+
+              {/* Right Button */}
               <Link
                 to={`/subadmin/plan/plandetails/${activePlan?.id}`}
-                className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2 transform hover:scale-105"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 
+                 rounded-lg font-medium hover:bg-gray-200 transition-all shadow-sm hover:shadow 
+                 text-sm"
               >
                 <Eye className="w-4 h-4" />
                 View Details
@@ -459,32 +505,33 @@ const PlansDetails = () => {
         )}
 
         {/* Duration Toggle */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center my-6">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-2 border border-gray-200 shadow-lg">
             <div className="flex gap-2">
               <button
                 onClick={() => setSelectedDuration("monthly")}
-                className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center gap-1 ${
                   selectedDuration === "monthly"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25 transform scale-105"
+                    ? "bg-gradient-to-r from-[#50529d] to-[#c0696d] text-white shadow-lg  transform scale-105"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 transform hover:scale-105"
                 }`}
               >
-                <Calendar className="w-5 h-5" />
-                <span>Monthly</span>
-                <span className="text-sm opacity-80">Flexible</span>
+                <Calendar className="w-4 h-4" />
+                <span className="text-sm">Monthly</span>
+                <span className="text-xs opacity-80">Flexible</span>
               </button>
+
               <button
                 onClick={() => setSelectedDuration("yearly")}
-                className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center gap-1 ${
                   selectedDuration === "yearly"
-                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25 transform scale-105"
+                    ? "bg-gradient-to-r from-[#50529d] to-[#c0696d] text-white shadow-lg  transform scale-105"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 transform hover:scale-105"
                 }`}
               >
-                <Shield className="w-5 h-5" />
-                <span>Yearly</span>
-                <span className="text-sm opacity-80">Save 20%</span>
+                <Shield className="w-4 h-4" />
+                <span className="text-sm">Yearly</span>
+                <span className="text-xs opacity-80">Save 20%</span>
               </button>
             </div>
           </div>
@@ -527,7 +574,7 @@ const PlansDetails = () => {
                   {/* Active Plan Badge */}
                   {isActive && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                      <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-green-500/25 flex items-center gap-2 animate-pulse">
+                      <div className="bg-gradient-to-r from-[#81393a] to-red-600 text-white px-6 py-2 rounded-full font-semibold text-sm shadow-2xl shadow-green-500/25 flex items-center gap-2 animate-pulse">
                         <BadgeCheck className="w-4 h-4 fill-current" />
                         CURRENTLY ACTIVE
                       </div>
@@ -579,9 +626,9 @@ const PlansDetails = () => {
                     )}
 
                   <div
-                    className={`relative bg-white rounded-3xl shadow-2xl border-2 overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 ${
+                    className={`relative bg-white rounded-3xl shadow-2xl border-2 overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 h-full border border-transparent ${
                       isActive
-                        ? "border-green-500 ring-4 ring-green-500/20"
+                        ? " "
                         : isTrialUsed ||
                           (isTrialPlan && hasActivePaid) ||
                           (isTrialPlan && hasActiveTrial)
@@ -602,9 +649,7 @@ const PlansDetails = () => {
                     }`}
                   >
                     {/* Header Gradient */}
-                    <div
-                      className={`bg-gradient-to-r ${gradient} p-8 text-white relative overflow-hidden`}
-                    >
+                    <div className="py-3 px-5 text-white relative overflow-hidden rounded-lg shadow-md bg-[linear-gradient(135deg,#877fc1,#d18b85)]">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16 animate-pulse"></div>
                       <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12 animate-pulse"></div>
 
@@ -650,7 +695,7 @@ const PlansDetails = () => {
                                 ? "Active trial - upgrade recommended"
                                 : hasUsedTrial() && !isActive
                                 ? "You've already used your trial"
-                                : "Perfect for getting started"}
+                                : ""}
                             </p>
                             {hasActivePaid && !isActive && (
                               <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
@@ -673,7 +718,7 @@ const PlansDetails = () => {
                       </div>
                     </div>
 
-                    <div className="p-8">
+                    <div className="px-4 py-2">
                       {/* Savings Banner */}
                       {savings && (
                         <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4 mb-6 transform hover:scale-105 transition-transform">
@@ -689,8 +734,8 @@ const PlansDetails = () => {
                       )}
 
                       {/* Features */}
-                      <div className="space-y-4 mb-8">
-                        <h4 className="font-semibold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                      <div className="space-y-4 mb-4 min-h-[350px]">
+                        <h4 className="font-semibold text-gray-900 text-lg mb-2 flex items-center gap-2">
                           <Check className="w-5 h-5 text-green-500" />
                           What's included:
                         </h4>
@@ -703,7 +748,7 @@ const PlansDetails = () => {
                           .map((feature: string, idx: number) => (
                             <div
                               key={idx}
-                              className="flex items-center gap-3 group/feature transform hover:translate-x-2 transition-transform"
+                              className="flex items-center gap-3 group/feature transform hover:translate-x-2 transition-transform mb-2"
                             >
                               <div
                                 className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 group-hover/feature:scale-110 transition-transform ${
@@ -718,7 +763,7 @@ const PlansDetails = () => {
                                   }`}
                                 />
                               </div>
-                              <span className="text-gray-700 group-hover/feature:text-gray-900 transition-colors">
+                              <span className="text-gray-700 text-sm group-hover/feature:text-gray-900 transition-colors">
                                 {feature
                                   .trim()
                                   .replace(/✅/g, "")
@@ -740,62 +785,43 @@ const PlansDetails = () => {
                             : "bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200"
                         }`}
                       >
-                        <div className="grid grid-cols-2 gap-4 text-center">
+                        <div className="grid grid-cols-2 gap-1 text-center">
+                          {/* Call Limit */}
                           <div>
                             <div
-                              className={`text-2xl font-bold ${
-                                isActive
-                                  ? "text-green-900"
-                                  : isTrialUsed ||
-                                    (isTrialPlan && hasActivePaid) ||
-                                    (isTrialPlan && hasActiveTrial)
-                                  ? "text-gray-900"
-                                  : "text-gray-900"
+                              className={`text-sm font-semibold leading-none ${
+                                isActive ? "text-green-700" : "text-gray-900"
                               }`}
                             >
                               {plan.call_limit.toLocaleString()}
                             </div>
+
                             <div
-                              className={`text-sm flex items-center justify-center gap-1 ${
-                                isActive
-                                  ? "text-green-700"
-                                  : isTrialUsed ||
-                                    (isTrialPlan && hasActivePaid) ||
-                                    (isTrialPlan && hasActiveTrial)
-                                  ? "text-gray-600"
-                                  : "text-gray-600"
+                              className={`text-[10px] flex items-center justify-center gap-0.5 ${
+                                isActive ? "text-green-600" : "text-gray-500"
                               }`}
                             >
-                              <Phone className="w-4 h-4" />
+                              <Phone className="w-3 h-3 opacity-80" />
                               Call Limit
                             </div>
                           </div>
+
+                          {/* Billing Duration */}
                           <div>
                             <div
-                              className={`text-2xl font-bold capitalize ${
-                                isActive
-                                  ? "text-green-900"
-                                  : isTrialUsed ||
-                                    (isTrialPlan && hasActivePaid) ||
-                                    (isTrialPlan && hasActiveTrial)
-                                  ? "text-gray-900"
-                                  : "text-gray-900"
+                              className={`text-sm font-semibold capitalize leading-none ${
+                                isActive ? "text-green-700" : "text-gray-900"
                               }`}
                             >
                               {plan.duration}
                             </div>
+
                             <div
-                              className={`text-sm flex items-center justify-center gap-1 ${
-                                isActive
-                                  ? "text-green-700"
-                                  : isTrialUsed ||
-                                    (isTrialPlan && hasActivePaid) ||
-                                    (isTrialPlan && hasActiveTrial)
-                                  ? "text-gray-600"
-                                  : "text-gray-600"
+                              className={`text-[10px] flex items-center justify-center gap-0.5 ${
+                                isActive ? "text-green-600" : "text-gray-500"
                               }`}
                             >
-                              <Calendar className="w-4 h-4" />
+                              <Calendar className="w-3 h-3 opacity-80" />
                               Billing
                             </div>
                           </div>
@@ -821,7 +847,7 @@ const PlansDetails = () => {
                         {isActive ? (
                           <Link
                             to={`/subadmin/plan/plandetails/${plan.id}`}
-                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-green-500/40 transform hover:scale-105"
+                            className="w-full bg-gradient-to-r from-[#b76973] to-[#a9667a] hover:[#a9667a] hover:to-[#c9a1a1] text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg  transform hover:scale-105"
                           >
                             <Eye className="w-5 h-5" />
                             View Details

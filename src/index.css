@@ -74,6 +74,15 @@ input[type="time"] {
 }
 
 @media only screen and (max-width: 1024px) {
+  .mob-block {
+    display: block;
+  }
+  .mob-block > div {
+    justify-content: center;
+  }
+  .table-sec tr th {
+    min-width: 241px;
+  }
   .grid-colun-mob {
     flex-direction: column;
     gap: 20px;
@@ -136,9 +145,7 @@ input#attachment {
 .mob-view-btn {
   display: none;
 }
-.Upselling td {
-  min-width: 155px;
-}
+
 .list-table td {
   min-width: 200px;
 }

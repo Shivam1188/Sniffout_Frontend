@@ -128,7 +128,7 @@ const ViewAllCallerDetails = () => {
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7 mob-block">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center">
               <Phone className="w-6 h-6 text-[#4d519e]" />
@@ -142,7 +142,7 @@ const ViewAllCallerDetails = () => {
               </p>
             </div>
           </div>
-          <div className="flex justify-end gap-4 mt-5">
+          <div className="flex flex-col lg:flex-row justify-end gap-4 mt-5 text-center lg:text-left">
             <Link
               to={"/subadmin/voice-bot"}
               className="w-full md:w-auto px-4 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
@@ -210,7 +210,7 @@ const ViewAllCallerDetails = () => {
 
           {/* Table */}
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full table-sec">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="py-4 px-6 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">

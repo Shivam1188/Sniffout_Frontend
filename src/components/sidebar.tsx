@@ -317,37 +317,6 @@ const Sidebar = () => {
     }
   }, [pathname, menuItems]);
 
-  const handleLogout = async () => {
-    try {
-      const refreshToken = getDecryptedItem<string>("refreshToken");
-      if (!refreshToken) {
-        navigate("/auth/login");
-        return;
-      }
-      const response = await api.post("auth/logout/", {
-        refresh: refreshToken,
-      });
-      if (response?.data?.success) {
-        toasterSuccess(response?.data?.message, 2000, "id");
-        const keys = [
-          "refreshToken",
-          "token",
-          "role",
-          "id",
-          "email",
-          "subadmin_id",
-          "plan_expiry_date",
-          "plan_name",
-          "office_number",
-        ];
-        keys.forEach(removeEncryptedItem);
-        navigate("/auth/login");
-      }
-    } catch (error) {
-      console.error("Error logging out", error);
-      navigate("/auth/login");
-    }
-  };
 
   return (
     <>
@@ -543,18 +512,7 @@ const Sidebar = () => {
           })}
         </div>
       </nav>
-
-      {/* Logout */}
-      <div className="absolute bottom-3 left-2 right-2">
-        <hr className="border-[#ffffff3d] mb-3" />
-        <div
-          onClick={handleLogout}
-          className="flex items-center gap-3 p-2 bg-white text-[#1d3faa] rounded cursor-pointer hover:shadow-sm font-medium transition-all"
-        >
-          <LogOut size={16} />
-          <span>Logout</span>
-        </div>
-      </div>
+      {/* Logout */}{" "}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { getDecryptedItem } from "../../../../utils/storageHelper";
 export default function EditUpsell() {
   const navigate = useNavigate();
   const { id } = useParams(); // get upsell id from URL
-  const userId = getDecryptedItem<string>("id");
+  const userId = getDecryptedItem<string>("subadmin_id");
   const [formData, setFormData] = useState({
     subadmin: userId,
     offer_on_product: "",

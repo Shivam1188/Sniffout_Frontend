@@ -154,7 +154,10 @@ export default function BusinessHoursList() {
                         <td className="py-3 px-4">
                           {item.closed_all_day
                             ? "Closed All Day"
-                            : `${item.opening_time} - ${item.closing_time}`}
+                            : `${item.opening_time.slice(
+                                0,
+                                5
+                              )} - ${item.closing_time.slice(0, 5)}`}
                         </td>
                         <td className="py-3 px-4 text-end space-x-4 ">
                           <button

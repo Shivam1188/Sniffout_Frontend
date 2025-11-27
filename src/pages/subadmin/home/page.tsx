@@ -428,7 +428,12 @@ const Home = () => {
                       className={`p-4 border-b border-gray-100 hover:bg-[#4d519e]/5 cursor-pointer transition-all duration-300 group ${
                         !notification.is_read ? "bg-blue-50/50" : ""
                       }`}
-                      onClick={() => markAsRead(notification.id)}
+                      onClick={() => {
+                        markAsRead(notification.id);
+                        router(
+                          `/subadmin/support-tickets/${notification.ticket_id}`
+                        );
+                      }}
                     >
                       <div className="flex items-start gap-3">
                         <div className="flex flex-col items-center">

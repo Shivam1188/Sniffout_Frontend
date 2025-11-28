@@ -111,7 +111,7 @@ const SurveyAnalytics: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full lg:max-w-3xl xl:max-w-full sm:w-full fff">
+      <main className="flex-1 p-4 sm:p-6 mx-auto overflow-hidden w-full lg:max-w-3xl xl:max-w-full sm:w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
@@ -132,7 +132,7 @@ const SurveyAnalytics: React.FC = () => {
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa] mb-4 md:mb-0">
                 Analytics Dashboard
               </h1>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 ">
                 <select
                   value={timeRange}
                   onChange={(e) => setTimeRange(Number(e.target.value))}

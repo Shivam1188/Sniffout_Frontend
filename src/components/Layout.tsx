@@ -60,7 +60,7 @@ const Layout = () => {
           />
           <p className="font-semibold text-gray-800 text-lg">SniffOut AI</p>
         </div>
-        <div className="fixed bottom-0 z-[999] w-[238px] left-[8px]">
+        <div className="fixed bottom-0 z-[999] w-[238px] left-[8px] mob-show">
           <hr className="border-[#ffffff3d] mb-3" />
           <div
             onClick={handleLogout}
@@ -73,7 +73,16 @@ const Layout = () => {
         {/* Sidebar Menu */}
         <Sidebar />
       </aside>
-
+      <div className="fixed bottom-0 z-[999] w-[238px] left-[8px] mob-hide">
+        <hr className="border-[#ffffff3d] mb-3" />
+        <div
+          onClick={handleLogout}
+          className="flex items-center gap-3 p-2 bg-white text-[#1d3faa] rounded cursor-pointer hover:shadow-sm font-medium transition-all"
+        >
+          <LogOut size={16} />
+          <span>Logout</span>
+        </div>
+      </div>
       {/* Main Content */}
       <main className="flex-1 all-title w-0">
         <Outlet />

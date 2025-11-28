@@ -23,8 +23,8 @@ export default function PlanHistorydetail() {
   };
 
   return (
-    <div className="min-h-screen sm:p-20 p-5 flex justify-center items-center bg-gray-50">
-      <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full max-w-4xl">
+    <div className="min-h-screen p-6  bg-gray-50">
+      <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full ">
         <div className="flex items-center justify-between">
           <button
             onClick={handleBack}
@@ -33,7 +33,7 @@ export default function PlanHistorydetail() {
             <ChevronLeft size={18} className="mr-2" />
             Back
           </button>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">
+          <h2 className="text-2xl sm:text-2xl font-semibold text-gray-800">
             All Invoices
           </h2>
         </div>

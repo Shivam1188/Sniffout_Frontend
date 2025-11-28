@@ -91,14 +91,30 @@ const RecentlyCalls = () => {
   const { start, end } = getCurrentPageInfo();
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <button
-        onClick={() => navigate(-1)}
-        className="cursor-pointer mb-4 text-sm text-[#1d3faa] hover:underline"
-      >
-        ← Back
-      </button>
-
+    <div className="p-8  mx-auto">
+      <div className="flex justify-end">
+        <button
+          onClick={() => navigate(-1)}
+          className="
+    inline-flex items-center gap-2
+    text-sm sm:text-base
+    font-medium
+    text-[#1d3faa]
+    px-3 py-1.5
+    border border-[#1d3faa]/30
+    rounded-lg
+    bg-white
+    hover:bg-[#1d3faa]
+    hover:text-white
+    hover:border-[#1d3faa]
+    transition-all duration-300
+    shadow-sm hover:shadow-md
+  "
+        >
+          <span className="text-lg">←</span>
+          Back
+        </button>
+      </div>
       <h1 className="text-2xl font-bold mb-6 text-center">Recent Calls</h1>
 
       {loading ? (

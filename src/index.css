@@ -116,6 +116,13 @@ th {
   .all-title {
     width: 100%;
   }
+  .mob-hide {
+    display: none;
+  }
+  .mob-show {
+    display: block !important;
+  }
+
   .form-filed {
     padding: 19px 10px;
   }
@@ -175,4 +182,7 @@ input#attachment {
 
 .sidebar-height::-webkit-scrollbar-thumb:hover {
   background-color: #a85b63; /* slightly darker on hover */
+}
+.mob-show {
+  display: none;
 }

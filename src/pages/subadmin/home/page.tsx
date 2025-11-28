@@ -343,7 +343,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Header Section */}
-      <div className="flex md:flex-row align-items-center md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
+      <div className="flex md:flex-row align-items-center items-center justify-between bg-[#4d519e] gap-3 py-2 px-4  mb-4 rounded-2xl">
         <div className="flex flex-col">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
             Home
@@ -476,11 +476,30 @@ const Home = () => {
             </div>
           )}
         </div>
+        <label
+          htmlFor="sidebar-toggle"
+          className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+            />
+          </svg>
+        </label>
       </div>
 
       {/* Enhanced Video Section */}
       <div className="mb-12">
-        <div className="bg-gradient-to-br from-white via-purple-50/30 to-blue-50/50 rounded-3xl shadow-2xl p-8 border border-purple-100/50 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-white via-purple-50/30 to-blue-50/50 rounded-3xl shadow-2xl p-5 border border-purple-100/50 relative overflow-hidden">
           {/* Background Decorations */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#4d519e]/10 to-transparent rounded-full -translate-y-32 translate-x-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-[#fe6a3c]/10 to-transparent rounded-full translate-y-24 -translate-x-24"></div>
@@ -490,11 +509,21 @@ const Home = () => {
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-8 gap-6">
               <div className="flex-1">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#4d519e] to-[#3a3f8c] rounded-2xl flex items-center justify-center shadow-2xl mr-4">
-                    <Play className="w-6 h-6 text-white" />
+                  <div
+                    className="
+  w-10 h-10 
+  sm:w-12 sm:h-12 
+  md:w-14 md:h-14 
+  bg-gradient-to-br from-[#4d519e] to-[#3a3f8c] 
+  rounded-2xl flex items-center justify-center 
+  shadow-2xl mr-4
+"
+                  >
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                   </div>
+
                   <div>
-                    <h2 className="text-3xl font-black text-gray-900">
+                    <h2 className="text-2xl font-black text-gray-900">
                       See Our Platform in Action
                     </h2>
                     <div className="w-24 h-1.5 bg-gradient-to-r from-[#4d519e] to-[#fe6a3c] rounded-full mt-3"></div>
@@ -628,7 +657,7 @@ const Home = () => {
                       </div>
 
                       {/* CTA Button */}
-                      <button className="mt-6 bg-white/20 hover:bg-white/30 text-white rounded-2xl px-8 py-3 font-bold transition-all duration-300 hover:scale-105 backdrop-blur-sm border border-white/10 hover:border-white/20">
+                      <button className="my-6 bg-white/20 hover:bg-white/30 text-white rounded-2xl px-8 py-3 font-bold transition-all duration-300 hover:scale-105 backdrop-blur-sm border border-white/10 hover:border-white/20">
                         Click to Play
                       </button>
                     </div>
@@ -641,12 +670,13 @@ const Home = () => {
             </div>
 
             {/* Enhanced Features Grid */}
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-100 hover:shadow-2xl transition-all duration-500 group hover:scale-105">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Card 1 */}
+              <div className="rounded-3xl p-8 border bg-gradient-to-br from-blue-50/70 to-indigo-50/70 border-blue-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-blue-300/50">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-black text-gray-900 text-xl mb-4">
+                <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">
                   Easy Setup
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -655,11 +685,12 @@ const Home = () => {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 border border-green-100 hover:shadow-2xl transition-all duration-500 group hover:scale-105">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+              {/* Card 2 */}
+              <div className="rounded-3xl p-8 border bg-gradient-to-br from-green-50/70 to-emerald-50/70 border-green-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-green-300/50">
                   <Zap className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-black text-gray-900 text-xl mb-4">
+                <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">
                   Time Saving
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -668,11 +699,12 @@ const Home = () => {
                 </p>
               </div>
 
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-3xl p-8 border border-orange-100 hover:shadow-2xl transition-all duration-500 group hover:scale-105">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+              {/* Card 3 */}
+              <div className="rounded-3xl p-8 border bg-gradient-to-br from-orange-50/70 to-red-50/70 border-orange-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-orange-300/50">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-black text-gray-900 text-xl mb-4">
+                <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">
                   Customer Focused
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
@@ -683,16 +715,25 @@ const Home = () => {
             </div>
 
             {/* Enhanced Call to Action */}
-            <div className="mt-12 bg-gradient-to-r from-[#4d519e] to-[#3a3f8c] rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden border border-white/10">
+            <div className="mt-8 bg-gradient-to-r from-[#4d519e] to-[#3a3f8c] rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden border border-white/10">
               <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-24 translate-x-24"></div>
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-16 -translate-x-16"></div>
 
               <div className="relative z-10">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
                   <div className="text-center lg:text-left">
-                    <h3 className="text-3xl font-black mb-4">
+                    <h3
+                      className="
+    text-2xl
+    sm:text-3xl
+    md:text-4xl
+    font-black
+    mb-4
+  "
+                    >
                       Ready to Get Started?
                     </h3>
+
                     <p className="text-blue-100 text-lg font-medium max-w-2xl">
                       Join thousands of restaurants already transforming their
                       operations with our powerful platform.

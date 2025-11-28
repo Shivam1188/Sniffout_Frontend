@@ -87,7 +87,7 @@ function MenuData() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full">
+      <main className="flex-1 p-4 sm:p-6 mx-auto overflow-hidden w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
           <div className="flex-1">

@@ -7,7 +7,7 @@ const RestaurantsDashboard = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4  mb-3 relative rounded-2xl">
           <div>
             <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
             <p className="text-sm text-white">

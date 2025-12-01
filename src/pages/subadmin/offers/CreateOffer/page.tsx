@@ -359,9 +359,9 @@ const CreateOffer: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 mx-auto w-full ">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6 ">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4 ">
+        <div className="flex flex-col lg:flex-row lg:items-center min-h-[100px] lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4 ">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Tag className="text-white" size={24} />
@@ -376,7 +376,7 @@ const CreateOffer: React.FC = () => {
             </div>
             <label
               htmlFor="sidebar-toggle"
-              className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -435,7 +435,7 @@ const CreateOffer: React.FC = () => {
                       key={step.number}
                       className={`flex items-center gap-3 p-3 rounded-xl border-l-4 transition-all duration-300 ${
                         status === "completed"
-                          ? "bg-green-50 border-[#c06a6e] shadow-sm"
+                          ? "bg-[#f1ebec] border-[#c06a6e] shadow-sm"
                           : status === "active"
                           ? "bg-blue-50 border-blue-500 shadow-sm"
                           : "bg-gray-50 border-gray-200"
@@ -469,7 +469,7 @@ const CreateOffer: React.FC = () => {
                       {status === "completed" && (
                         <Check
                           size={16}
-                          className="text-green-500 flex-shrink-0"
+                          className="text-[#c06a6e] flex-shrink-0"
                         />
                       )}
                     </div>

@@ -111,9 +111,9 @@ const SurveyAnalytics: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 mx-auto overflow-hidden w-full lg:max-w-3xl xl:max-w-full sm:w-full">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6 ">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Survey Analytics
           </h1>

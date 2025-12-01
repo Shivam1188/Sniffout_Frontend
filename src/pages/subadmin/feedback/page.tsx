@@ -199,7 +199,7 @@ function Feedback() {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Feedback Management
@@ -213,9 +213,9 @@ function Feedback() {
           <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 block text-center md:inline-block md:text-left"
             >
-              Back To Dashboard
+              Back To Dashboard dddd
             </Link>
           </div>
           {/* Overlay for mobile */}
@@ -227,7 +227,7 @@ function Feedback() {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            className="absolute top-3 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg

@@ -64,7 +64,7 @@ export default function AddTableCounting() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       No of Tables
                     </label>
                     <input
@@ -72,7 +72,7 @@ export default function AddTableCounting() {
                       name="number_of_tables"
                       value={formData.number_of_tables}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] "
                       placeholder="Enter number of tables"
                       required
                     />

@@ -24,20 +24,47 @@ export default function PlanHistorydetail() {
 
   return (
     <div className="min-h-screen p-6  bg-gray-50">
-      <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full ">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={handleBack}
-            className="cursor-pointer flex items-center text-[#fe6a3c] font-medium hover:text-[#fe6a3c]/80 transition duration-200"
+      <div className="flex items-center justify-between  flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
+        <h2 className="text-2xl sm:text-2xl font-semibold text-white">
+          All Invoices
+        </h2>
+        <button
+          onClick={handleBack}
+          className="cursor-pointer bg-[#db6b5c] text-white py-1 px-4 rounded-[10px] min-w-[100px] text-[18px] flex items-center"
+        >
+          <ChevronLeft size={18} className="mr-2" />
+          Back
+        </button>
+        {/* Overlay for mobile */}
+        <label
+          htmlFor="sidebar-toggle"
+          className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+        ></label>
+
+        {/* Toggle Button (Arrow) */}
+        <label
+          htmlFor="sidebar-toggle"
+          className="absolute top-10 right-10 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+        >
+          {/* Arrow Icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className="size-6"
           >
-            <ChevronLeft size={18} className="mr-2" />
-            Back
-          </button>
-          <h2 className="text-2xl sm:text-2xl font-semibold text-gray-800">
-            All Invoices
-          </h2>
-        </div>
-        <p className="cursor-pointer text-sm text-gray-500">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+            />
+          </svg>
+        </label>
+      </div>
+      <div className="h-[731px] overflow-y-scroll bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-8 border border-gray-100 w-full ">
+        <p className="cursor-pointer text-lg text-gray-500">
           View the complete list of your billing history.
         </p>
 

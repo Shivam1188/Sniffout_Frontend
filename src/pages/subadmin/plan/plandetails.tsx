@@ -213,7 +213,7 @@ export default function PlansDet() {
 
       <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="   mb-5 flex flex-col sm:flex-row justify-between items-center    bg-[#57559a] px-[23px] py-[7px] rounded-[25px]    text-center gap-[13px] sm:text-left sm:gap-0">
+        <div className="mb-5 flex flex-col min-h-[100px] sm:flex-row justify-between items-center bg-[#57559a] px-[23px] py-[7px] rounded-[25px]    text-center gap-[13px] sm:text-left sm:gap-0">
           <div className="flex items-center gap-4 mb-6 lg:mb-0">
             <Link
               to="/subadmin/plan"
@@ -231,7 +231,7 @@ export default function PlansDet() {
             </div>
             <label
               htmlFor="sidebar-toggle"
-              className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -269,7 +269,7 @@ export default function PlansDet() {
 
         {isEnterprisePlan ? (
           // Enhanced Enterprise Plan Form
-          <div className="max-w-4xl mx-auto">
+          <div className="">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
               {/* Header */}
               <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-white">

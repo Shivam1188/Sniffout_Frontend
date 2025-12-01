@@ -331,7 +331,7 @@ const PlansDetails = () => {
   );
 
   return (
-    <div className="min-h-screen  py-3">
+    <div className="min-h-screen  py-5">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-32 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -345,12 +345,12 @@ const PlansDetails = () => {
           className="
   mb-5 flex flex-col sm:flex-row justify-between items-center 
   bg-[#57559a] px-[23px] py-[7px] rounded-[25px] 
-  text-center gap-[13px] sm:text-left sm:gap-0 fff
+  text-center gap-[13px] sm:text-left sm:gap-0 min-h-[100px]
 "
         >
           {/* LEFT CONTENT */}
           <div className="relative w-full">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-200 bg-clip-text text-transparent mb-1">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-200 bg-clip-text text-transparent">
               {activePlan ? "Your Current Plan" : "Pricing Plans"}
             </h1>
 

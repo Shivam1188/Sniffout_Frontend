@@ -458,7 +458,7 @@ const Restaurants = () => {
 
               <label
                 htmlFor="sidebar-toggle"
-                className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+                className="bg-[#0000008f] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

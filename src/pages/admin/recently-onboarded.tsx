@@ -103,7 +103,7 @@ const RecentlyOnboardedPage = () => {
   const { start, end } = getCurrentRange();
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
+    <div className="p-8 mx-auto">
       <button
         onClick={() => navigate(-1)}
         className="cursor-pointer mb-4 text-sm text-[#1d3faa] hover:underline"

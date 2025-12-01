@@ -272,7 +272,7 @@ const OfferDetails: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-4">
           <div className="flex items-center gap-3 justify-between sm:justify-start">
             <div className="p-2 bg-white/10 rounded-lg">
               <Tag className="text-white" size={24} />
@@ -285,7 +285,7 @@ const OfferDetails: React.FC = () => {
             </div>
             <label
               htmlFor="sidebar-toggle"
-              className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

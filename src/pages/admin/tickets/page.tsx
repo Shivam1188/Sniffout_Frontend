@@ -343,14 +343,14 @@ const SubAdminTickets = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
-        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0 ">
+        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0 ">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
             Support Tickets
           </h1>
           <div className="flex-shrink-0">
             <Link
               to={"/admin/dashboard"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              className="w-full block text-center md:inline-block md:text-left  md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
               Back to Dashboard
             </Link>
@@ -918,7 +918,7 @@ const TicketDetailsModal = ({
 
         <div className="p-6 space-y-6">
           {/* Ticket Info - Updated with Edit Button for Status */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg ">
             {/* Status Field with Edit Button */}
             <div className="relative">
               <p className="text-sm text-gray-500 mb-2">Status</p>

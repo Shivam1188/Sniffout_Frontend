@@ -84,7 +84,7 @@ export default function ResetPassword() {
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700  mb-1">
                 Email
               </label>
               <input
@@ -93,11 +93,11 @@ export default function ResetPassword() {
                 value={formData.email}
                 onChange={handleChange}
                 readOnly
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]  "
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700  mb-1">
                 New Password
               </label>
               <input
@@ -105,7 +105,7 @@ export default function ResetPassword() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                 placeholder="Enter new password"
               />
               {errors.password && (
@@ -114,7 +114,7 @@ export default function ResetPassword() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-sm font-medium text-gray-700  mb-1">
                 Confirm Password
               </label>
               <input
@@ -122,7 +122,7 @@ export default function ResetPassword() {
                 name="confirm_password"
                 value={formData.confirm_password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                 placeholder="Re-enter new password"
               />
               {errors.confirm_password && (

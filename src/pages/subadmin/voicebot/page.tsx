@@ -181,14 +181,14 @@ const VoiceBotDashboard = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
-        <div className="relative flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">
+        <div className="relative flex min-h-[100px] flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-6 bg-[#2542a8] px-4 sm:px-6 py-4 rounded-xl shadow">
           <h1 className="text-2xl sm:text-2xl font-bold text-white">
             Bulk SMS Campaign{" "}
           </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <Link
               to={"/subadmin/dashboard"}
-              className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-sm font-medium w-full sm:w-auto sm:mt-0 mt-4"
+              className="w-full md:w-auto text-center px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
             >
               Back To Dashboard
             </Link>

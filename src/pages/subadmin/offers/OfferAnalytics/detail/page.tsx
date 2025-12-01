@@ -215,14 +215,14 @@ const OfferAnalyticsDetail: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4 h-[100px]">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <BarChart3 className="text-white" size={24} />
             </div>
             <label
               htmlFor="sidebar-toggle"
-              className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +248,7 @@ const OfferAnalyticsDetail: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 ">
             <Link
               to="/subadmin/offers/list"
               className="cursor-pointer text-center px-6 py-3 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-200"
@@ -270,7 +270,7 @@ const OfferAnalyticsDetail: React.FC = () => {
                   <p className="text-gray-500 text-sm font-medium">
                     Total Scans
                   </p>
-                  <p className="text-4xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_scans}
                   </p>
                 </div>
@@ -290,7 +290,7 @@ const OfferAnalyticsDetail: React.FC = () => {
                   <p className="text-gray-500 text-sm font-medium">
                     Redemption Initiated
                   </p>
-                  <p className="text-4xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_redemption_initiated}
                   </p>
                 </div>
@@ -310,7 +310,7 @@ const OfferAnalyticsDetail: React.FC = () => {
                   <p className="text-gray-500 text-sm font-medium">
                     OTP Verified
                   </p>
-                  <p className="text-4xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_otp_verified}
                   </p>
                 </div>
@@ -330,7 +330,7 @@ const OfferAnalyticsDetail: React.FC = () => {
                   <p className="text-gray-500 text-sm font-medium">
                     Total Redeemed
                   </p>
-                  <p className="text-4xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_redeemed}
                   </p>
                 </div>
@@ -346,7 +346,7 @@ const OfferAnalyticsDetail: React.FC = () => {
 
           {/* Conversion Rates */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 ">
               Conversion Rates
             </h3>
 

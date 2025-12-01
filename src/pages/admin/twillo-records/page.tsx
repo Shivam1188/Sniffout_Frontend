@@ -78,10 +78,10 @@ function SubadminList() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-1 sm:p-10">
+      <main className="flex-1 p-1 sm:p-6">
         {/* Header */}
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4 rounded mb-7">
+          <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4  mb-4 rounded-2xl">
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
               Subadmin List - Twilio Records
             </h1>

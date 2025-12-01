@@ -341,11 +341,11 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 py-6 px-4 sm:px-6 lg:px-6 relative overflow-hidden">
       {/* Header Section */}
-      <div className="flex md:flex-row align-items-center items-center justify-between bg-[#4d519e] gap-3 py-2 px-4  mb-4 rounded-2xl">
+      <div className="flex md:flex-row align-items-center items-center justify-between bg-[#4d519e] gap-3 py-2 px-4  mb-4 rounded-2xl min-h-[100px]">
         <div className="flex flex-col">
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+          <h1 className="text-xl sm:text-xl md:text-2xl font-bold text-white">
             Home
           </h1>
           <p className="text-white/80 text-sm mt-1 max-w-2xl">
@@ -478,7 +478,7 @@ const Home = () => {
         </div>
         <label
           htmlFor="sidebar-toggle"
-          className="bg-[#fe6a3c] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
+          className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -725,8 +725,8 @@ const Home = () => {
                     <h3
                       className="
     text-2xl
-    sm:text-3xl
-    md:text-4xl
+    sm:text-2xl
+    md:text-2xl
     font-black
     mb-4
   "

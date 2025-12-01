@@ -284,7 +284,7 @@ const SubAdminTickets = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden  w-[100px]">
         {/* Header */}
-        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
+        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Support Tickets
@@ -298,7 +298,7 @@ const SubAdminTickets = () => {
           <div className="flex-shrink-0">
             <Link
               to={"/subadmin/dashboard"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+              className="w-full block text-center md:inline-block md:text-left md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
             >
               Back to Dashboard
             </Link>
@@ -311,8 +311,8 @@ const SubAdminTickets = () => {
 
           {/* Toggle Button (Arrow) */}
           <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            htmlFor="sidebar-toggle dddd"
+            className="absolute top-4 right-4 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -341,7 +341,7 @@ const SubAdminTickets = () => {
             <div className="relative group inline-block">
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center min-w-[230px]"
+                className="cursor-pointer w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300 text-center md:text-left min-w-[230px] block md:inline-block"
               >
                 <Plus className="w-5 h-5 inline mr-2" />
                 New Ticket
@@ -762,51 +762,57 @@ const TicketDetailsModal = ({
         </div>
 
         <div className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
-            <div>
-              <p className="text-sm text-gray-500">Status</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-white rounded-2xl shadow-md border border-gray-100">
+            {/* Status */}
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-gray-500">Status</p>
               <span
-                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
-                  ticket.status === "pending"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.status === "in_progress"
-                    ? "bg-purple-100 text-purple-800"
-                    : ticket.status === "resolved"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-                }`}
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold capitalize transition-all duration-200
+        ${
+          ticket.status === "pending"
+            ? "bg-yellow-50 text-yellow-700 ring-1 ring-yellow-200"
+            : ticket.status === "in_progress"
+            ? "bg-purple-50 text-purple-700 ring-1 ring-purple-200"
+            : ticket.status === "resolved"
+            ? "bg-green-50 text-green-700 ring-1 ring-green-200"
+            : "bg-gray-50 text-gray-700 ring-1 ring-gray-200"
+        }`}
               >
                 {ticket.status.replace("_", " ")}
               </span>
             </div>
 
-            <div>
-              <p className="text-sm text-gray-500">Priority</p>
+            {/* Priority */}
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-gray-500">Priority</p>
               <span
-                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
-                  ticket.priority === "low"
-                    ? "bg-green-100 text-green-800"
-                    : ticket.priority === "medium"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : ticket.priority === "high"
-                    ? "bg-orange-100 text-orange-800"
-                    : "bg-red-100 text-red-800"
-                }`}
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold capitalize transition-all duration-200
+        ${
+          ticket.priority === "low"
+            ? "bg-green-50 text-green-700 ring-1 ring-green-200"
+            : ticket.priority === "medium"
+            ? "bg-yellow-50 text-yellow-700 ring-1 ring-yellow-200"
+            : ticket.priority === "high"
+            ? "bg-orange-50 text-orange-700 ring-1 ring-orange-200"
+            : "bg-red-50 text-red-700 ring-1 ring-red-200"
+        }`}
               >
                 {ticket.priority}
               </span>
             </div>
 
-            <div>
-              <p className="text-sm text-gray-500">Created</p>
-              <p className="text-sm font-medium text-gray-900">
+            {/* Created */}
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-gray-500">Created</p>
+              <p className="text-sm font-semibold text-gray-900">
                 {formatDate(ticket.created_at)}
               </p>
             </div>
 
-            <div>
-              <p className="text-sm text-gray-500">Last Updated</p>
-              <p className="text-sm font-medium text-gray-900">
+            {/* Last Updated */}
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-gray-500">Last Updated</p>
+              <p className="text-sm font-semibold text-gray-900">
                 {formatDate(ticket.updated_at)}
               </p>
             </div>
@@ -1061,14 +1067,14 @@ const CreateTicketModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
+              className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50 font-medium"
             >
               {loading ? "Creating..." : "Create Ticket"}
             </button>

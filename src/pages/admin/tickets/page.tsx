@@ -343,17 +343,28 @@ const SubAdminTickets = () => {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
         {/* Header */}
-        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0 ">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
-            Support Tickets
-          </h1>
-          <div className="flex-shrink-0">
-            <Link
-              to={"/admin/dashboard"}
-              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
-            >
-              Back to Dashboard
-            </Link>
+        {/* Header */}
+        <div className="bg-[#4d519e] p-6 rounded-xl mb-7">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            {/* LEFT: Heading + Description */}
+            <div className="space-y-2 max-w-3xl">
+              <h1 className="text-2xl font-bold text-white">Support Tickets</h1>
+              <p className="text-sm text-gray-200 leading-relaxed">
+                Manage and resolve customer support inquiries efficiently. Track
+                ticket status, respond to customer queries, and ensure timely
+                resolution of all support requests.
+              </p>
+            </div>
+
+            {/* RIGHT: Button */}
+            <div className="flex-shrink-0">
+              <Link
+                to="/admin/dashboard"
+                className="px-6 py-3 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-lg transition-all duration-300"
+              >
+                Back to Dashboard
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -364,11 +375,6 @@ const SubAdminTickets = () => {
               <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left">
                 Support Tickets
               </h1>
-              <p className="text-sm text-gray-600 mt-2 max-w-2xl text-center md:text-left">
-                Manage and resolve customer support inquiries efficiently. Track
-                ticket status, respond to customer queries, and ensure timely
-                resolution of all support requests.
-              </p>
             </div>
           </div>
 

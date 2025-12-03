@@ -16,6 +16,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import LoadingSpinner from "../../components/Loader";
+import { Bell } from "lucide-react";
+
+interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  description?: string;
+  is_read: boolean;
+  created_at: string;
+  type: string;
+}
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -32,6 +43,11 @@ const AdminDashboard = () => {
 
   const [loading, setLoading] = useState(false);
   const [subscribersLoading, setSubscribersLoading] = useState(false);
+
+  // Notification state
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const displayed = recentlyRes.slice(0, 4);
 
@@ -170,6 +186,85 @@ const AdminDashboard = () => {
     }
   };
 
+  // Fetch notifications
+  const fetchUnreadCount = async () => {
+    try {
+      const response = await api.get("superadmin/new-subadmins/");
+      if (response.success && Array.isArray(response.data)) {
+        const unreadNotifications = response.data.filter(
+          (notification: any) => !notification.is_read
+        );
+        setUnreadCount(unreadNotifications.length);
+      } else {
+        setUnreadCount(0);
+      }
+    } catch (error) {
+      console.error("Error fetching unread count:", error);
+      setUnreadCount(0);
+    }
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await api.get("superadmin/new-subadmins/");
+      if (response.success && Array.isArray(response.data)) {
+        setNotifications(response.data);
+      } else {
+        setNotifications([]);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setNotifications([]);
+    }
+  };
+
+  const markAsRead = async (notificationId: number) => {
+    try {
+      await api.post(
+        `superadmin/notifications/mark-read/${notificationId}/`,
+        {}
+      );
+      fetchUnreadCount();
+      fetchNotifications();
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
+
+  const markAllAsRead = async () => {
+    try {
+      await api.post("superadmin/mark-all-read/", {});
+      fetchUnreadCount();
+      fetchNotifications();
+    } catch (error) {
+      console.error("Error marking all as read:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnreadCount();
+    const interval = setInterval(fetchUnreadCount, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (showNotifications) {
+      fetchNotifications();
+    }
+  }, [showNotifications]);
+
+  // Close notifications when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (showNotifications) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [showNotifications]);
+
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-7 overflow-hidden">
@@ -181,27 +276,140 @@ const AdminDashboard = () => {
             </p>
           </div>
 
-          {/* Toggle Button (Arrow) */}
-          <label
-            htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
-          >
-            {/* Arrow Icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              className="size-6"
+          {/* Notification Bell */}
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              {unreadCount > 0 && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse z-10"></div>
+              )}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowNotifications(!showNotifications);
+                }}
+                className="relative p-2 bg-gradient-to-r from-[#1d3faa] to-[#4d519e] text-white rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Notification Dropdown */}
+              {showNotifications && (
+                <div className="absolute right-0 top-12 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-96 overflow-y-auto">
+                  <div className="p-4 border-b border-gray-200">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        Notifications
+                      </h3>
+                      {unreadCount > 0 && (
+                        <button
+                          onClick={markAllAsRead}
+                          className="text-sm text-[#1d3faa] hover:text-[#4d519e] font-medium"
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifications.length > 0 ? (
+                      notifications.map((notification: any, index: any) => (
+                        <div
+                          key={index}
+                          className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${
+                            !notification.is_read ? "bg-blue-50" : ""
+                          }`}
+                          onClick={() => {
+                            if (!notification.is_read) {
+                              markAsRead(notification.id);
+                            }
+                            navigate("/admin/view-all-notifications");
+                          }}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 bg-[#1d3faa] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                              {notification.user_details?.first_name
+                                ?.charAt(0)
+                                .toUpperCase() ||
+                                notification.user_details?.email
+                                  ?.charAt(0)
+                                  .toUpperCase() ||
+                                "N"}
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-gray-800">
+                                New Subadmin Registration
+                              </p>
+                              <p className="text-xs text-gray-600 mt-1">
+                                {notification.user_details?.first_name}{" "}
+                                {notification.user_details?.last_name} (
+                                {notification.user_details?.email})
+                              </p>
+                              <p className="text-xs text-gray-400 mt-1">
+                                {notification.created_at
+                                  ? new Date(
+                                      notification.created_at
+                                    ).toLocaleDateString()
+                                  : ""}
+                              </p>
+                            </div>
+                            {!notification.is_read && (
+                              <div className="w-2 h-2 bg-[#1d3faa] rounded-full"></div>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-8 text-center text-gray-500">
+                        <Bell className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                        <p>No notifications yet</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {notifications.length > 0 && (
+                    <div className="p-3 border-t border-gray-200">
+                      <button
+                        onClick={() =>
+                          navigate("/admin/view-all-notifications")
+                        }
+                        className="w-full text-center text-sm text-[#1d3faa] hover:text-[#4d519e] font-medium"
+                      >
+                        View All Notifications
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-              />
-            </svg>
-          </label>
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
+          </div>
         </div>
 
         <DashboardCards />

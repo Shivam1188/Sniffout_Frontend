@@ -79,6 +79,7 @@ import PublicQRRedemptionPage from "./pages/public/QrRedemption/page.tsx";
 import PubliceSurveyPage from "./pages/public/servey/page.tsx";
 import Tickets from "./pages/subadmin/tickets/page.tsx";
 import AdminTicket from "./pages/admin/tickets/page.tsx";
+import AdminNotificationsPage from "./pages/admin/view-all-notifications/page.tsx";
 import NotificationsPage from "./pages/subadmin/view-all-notifications/page.tsx";
 import TicketDetailsPage from "./pages/subadmin/tickets/ticketDetails/page.tsx";
 import RedemptionView from "./pages/subadmin/offers/RedemptionHistory/view/page.tsx";
@@ -123,7 +124,16 @@ const AppRouter = () => {
             element={
               <ProtectedRoute allowedRole="admin" element={<AdminTicket />} />
             }
-          />{" "}
+          />
+          <Route
+            path="/admin/view-all-notifications"
+            element={
+              <ProtectedRoute
+                allowedRole="admin"
+                element={<AdminNotificationsPage />}
+              />
+            }
+          />
           <Route
             path="/admin/dashboard"
             element={

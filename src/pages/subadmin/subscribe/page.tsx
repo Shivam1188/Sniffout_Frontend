@@ -80,9 +80,9 @@ function Subscribe() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-[100px]">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-[100px]">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded mb-7 relative space-y-3 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center sm:gap-0 gap-3 justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Subscribers
@@ -193,7 +193,7 @@ function Subscribe() {
                         ) : (
                           <div className="flex items-center gap-2">
                             <span
-                              className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              className={`px-4 py-1 rounded-full text-xs font-semibold ${
                                 subscriber.is_active
                                   ? "bg-green-100 text-green-700"
                                   : "bg-red-100 text-red-700"

@@ -290,7 +290,7 @@ const OffersList: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20">
       {/* Header */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#1d3faa] to-[#2d4fba] gap-4 p-4 rounded-2xl shadow-lg mb-6 relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#1d3faa] to-[#2d4fba] gap-4 p-4 rounded-2xl shadow-lg mb-6 relative overflow-hidden min-h-[100px]">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div

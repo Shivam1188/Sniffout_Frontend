@@ -314,9 +314,9 @@ const Redemptions: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <main className="flex-1 p-3 sm:p-4 mx-auto w-full">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#3a3e8c] to-[#2c2f6b] gap-3 p-4 rounded-xl shadow-sm mb-4">
+        <div className="flex flex-col lg:flex-row min-h-[100px] lg:items-center lg:justify-between bg-gradient-to-r from-[#3a3e8c] to-[#2c2f6b] gap-3 p-4 rounded-xl shadow-sm mb-4">
           <div className="flex items-center gap-2">
             <div className="p-1.5 bg-white/10 rounded-lg">
               <Users className="text-white" size={20} />
@@ -346,11 +346,12 @@ const Redemptions: React.FC = () => {
             )}
             <Link
               to="/subadmin/offers/list"
-              className="cursor-pointer text-center px-4 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-medium rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-all duration-200 text-sm"
+              className="cursor-pointer text-center px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-200 text-base"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={18} />
               Back to Dashboard
             </Link>
+
             {/* Overlay for mobile */}
             <label
               htmlFor="sidebar-toggle"
@@ -360,7 +361,7 @@ const Redemptions: React.FC = () => {
             {/* Toggle Button (Arrow) */}
             <label
               htmlFor="sidebar-toggle"
-              className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+              className="absolute top-10 right-10 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
             >
               {/* Arrow Icon */}
               <svg

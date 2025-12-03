@@ -483,12 +483,18 @@ const UpdateReturn = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
+      <main className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
         {/* Header with Back Button */}
-        <div className="flex items-center mb-6">
+        <div className="flex  min-h-[100px] justify-between flex-col md:flex-row md:items-center sm:gap-0 gap-3  bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
+          <div className="">
+            <h2 className="text-xl font-bold text-white sm:text-2xl">
+              Update-profile
+            </h2>
+          </div>
+
           <button
             onClick={handleBackClick}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors duration-200 cursor-pointer"
+            className="flex items-center gap-2 text-white   transition-colors duration-200 cursor-pointer w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90  font-semibold rounded-full shadow-md "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

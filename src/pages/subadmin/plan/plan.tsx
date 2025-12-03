@@ -331,7 +331,7 @@ const PlansDetails = () => {
   );
 
   return (
-    <div className="min-h-screen  py-3">
+    <div className="min-h-screen  py-5">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-32 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -341,56 +341,67 @@ const PlansDetails = () => {
 
       <div className="mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
-      <div className="
+        <div
+          className="
   mb-5 flex flex-col sm:flex-row justify-between items-center 
   bg-[#57559a] px-[23px] py-[7px] rounded-[25px] 
-  text-center gap-[13px] sm:text-left sm:gap-0
-">
-  {/* LEFT CONTENT */}
-  <div className="relative w-full">
-    <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-200 bg-clip-text text-transparent mb-1">
-      {activePlan ? "Your Current Plan" : "Pricing Plans"}
-    </h1>
+  text-center gap-[13px] sm:text-left sm:gap-0 min-h-[100px]
+"
+        >
+          {/* LEFT CONTENT */}
+          <div className="relative w-full">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-200 bg-clip-text text-transparent">
+              {activePlan ? "Your Current Plan" : "Pricing Plans"}
+            </h1>
 
-    <p className="text-sm text-white/90 max-w-xl mx-auto sm:mx-0">
-      {activePlan
-        ? `You're currently on the ${capitalizeFirstLetter(
-            activePlan.plan_name
-          )} plan. Manage your subscription or explore other options.`
-        : "Scale your business with our flexible pricing. Start with a free trial and upgrade when you're ready."}
-    </p>
+            <p className="text-sm text-white/90 max-w-xl mx-auto sm:mx-0 mt-2 sm:mt-0">
+              {activePlan
+                ? `You're currently on the ${capitalizeFirstLetter(
+                    activePlan.plan_name
+                  )} plan. Manage your subscription or explore other options.`
+                : "Scale your business with our flexible pricing. Start with a free trial and upgrade when you're ready."}
+            </p>
 
-    {/* Mobile Toggle Button (Hamburger Menu) */}
-    <label
-      htmlFor="sidebar-toggle"
-      className="absolute top-2 right-2 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1.5"
-        stroke="currentColor"
-        className="w-6 h-6 text-gray-700"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h16.5" />
-      </svg>
-    </label>
-  </div>
+            {/* Mobile Toggle Button (Hamburger Menu) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-2 right-2 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 text-gray-700"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h16.5"
+                />
+              </svg>
+            </label>
+          </div>
 
-  {/* RIGHT SMALL BUTTON */}
-  <div className="
-    inline-flex items-center gap-2 bg-white text-gray-700 
-    px-4 py-2 rounded-full border border-gray-200 shadow-sm 
-    hover:shadow-md transition-all duration-200
-  ">
-    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-    <span className="text-sm font-medium">
-      {activePlan ? "Your Active Plan" : "Choose Your Perfect Plan"}
-    </span>
-  </div>
-</div>
+          {/* RIGHT SMALL BUTTON */}
+          <div
+            className="
+    inline-flex items-center gap-2 
+    bg-white/90 backdrop-blur-sm text-gray-800 
+    px-5 py-2.5 rounded-full border border-gray-300 
+    shadow-[0_2px_8px_rgba(0,0,0,0.06)] 
+    hover:shadow-[0_4px_14px_rgba(0,0,0,0.10)] 
+    hover:bg-white transition-all duration-300 cursor-pointer min-w-[170px]
+  "
+          >
+            <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_6px_rgba(34,197,94,0.8)]"></div>
 
+            <span className="text-sm font-semibold tracking-wide">
+              {activePlan ? "Your Active Plan" : "Choose Your Perfect Plan"}
+            </span>
+          </div>
+        </div>
 
         {/* Active Plan Summary Banner */}
         {activePlan && (
@@ -734,7 +745,7 @@ const PlansDetails = () => {
                       )}
 
                       {/* Features */}
-                      <div className="space-y-4 mb-4 min-h-[350px]">
+                      <div className="space-y-4 mb-4 min-h-auto sm:min-h-[350px]">
                         <h4 className="font-semibold text-gray-900 text-lg mb-2 flex items-center gap-2">
                           <Check className="w-5 h-5 text-green-500" />
                           What's included:

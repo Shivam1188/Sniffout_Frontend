@@ -128,11 +128,11 @@ function WelcomeMessages() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 mx-auto overflow-hidden w-full max-w-6xl">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6  ">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-[#4d519e] gap-4 p-6 rounded-2xl mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-[#4d519e] gap-4 p-4 rounded-2xl mb-4 min-h-[100px]">
           <div className="flex-1">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white text-center lg:text-left mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white text-center lg:text-left">
               Welcome Messages
             </h1>
             <p className="text-sm text-white/90 text-center lg:text-left leading-relaxed">
@@ -142,6 +142,27 @@ function WelcomeMessages() {
                 ? " Edit your existing message or update it as needed."
                 : " Create a new message to greet your customers."}
             </p>
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-8 right-8 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
         </div>
 

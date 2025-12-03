@@ -51,25 +51,25 @@ export default function AddCatering() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
+    <div className=" flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-3 sm:p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100 text-center md:text-left ">
-            <div>
-              <Link
-                to="/subadmin/catering"
-                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
-              >
-                ← Back To Catering
-              </Link>
-            </div>
+        <div className="flex flex-col  mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100  text-center md:text-left  ">
+          <div className="flex justify-end">
+            <Link
+              to="/subadmin/catering"
+              className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+            >
+              ← Back To Catering
+            </Link>
           </div>
-          <div className="min-h-screen flex items-center justify-center px-2 sm:px-6 lg:px-8 animate-fadeIn">
+        </div>
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-3 sm:p-6 rounded-xl shadow-md border border-gray-200">
+          <div className=" flex items-center justify-center px-2 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-              <div className="bg-white dark:bg-gray-900  rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+              <div className="bg-white  rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02] h-[600px] overflow-y-scroll">
                 <h2
                   className="text-2xl
- font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown "
+ font-extrabold text-gray-800  text-center mb-8 animate-slideInDown "
                 >
                   Add Catering
                 </h2>
@@ -77,7 +77,7 @@ export default function AddCatering() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Customer Name */}
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1 dark:text-white ">
+                    <label className="block text-sm font-medium text-black mb-1 ">
                       Customer Name
                     </label>
                     <input
@@ -86,14 +86,14 @@ export default function AddCatering() {
                       value={formData.customer_name}
                       onChange={handleChange}
                       required
-                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]  "
                       placeholder="Enter customer name"
                     />
                   </div>
 
                   {/* Company */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1">
                       Company
                     </label>
                     <input
@@ -101,14 +101,14 @@ export default function AddCatering() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="w-full text-black  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]  "
                       placeholder="Enter company name"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1">
                       Email
                     </label>
                     <input
@@ -117,14 +117,14 @@ export default function AddCatering() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                       placeholder="Enter email address"
                     />
                   </div>
 
                   {/* Phone Number */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium mb-1 ">
                       Phone Number
                     </label>
                     <input
@@ -133,14 +133,14 @@ export default function AddCatering() {
                       value={formData.phone_number}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                       placeholder="+1234567890"
                     />
                   </div>
 
                   {/* Number of Guests */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium mb-1 ">
                       Number of Guests
                     </label>
                     <input
@@ -149,14 +149,14 @@ export default function AddCatering() {
                       value={formData.number_of_guests}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full  px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                       placeholder="Enter number of guests"
                     />
                   </div>
 
                   {/* Event Date */}
                   <div>
-                    <label className="text-black  block text-sm font-medium mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium mb-1 ">
                       Event Date
                     </label>
                     <input
@@ -166,13 +166,13 @@ export default function AddCatering() {
                       onChange={handleChange}
                       required
                       min={new Date().toISOString().split("T")[0]} // disables past dates
-                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                     />
                   </div>
 
                   {/* Event Time */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1 ">
                       Event Time
                     </label>
                     <input
@@ -181,13 +181,13 @@ export default function AddCatering() {
                       value={formData.event_time}
                       onChange={handleChange}
                       required
-                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                     />
                   </div>
 
                   {/* Special Instructions */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1  ">
                       Special Instructions
                     </label>
                     <textarea
@@ -195,13 +195,13 @@ export default function AddCatering() {
                       value={formData.special_instructions}
                       onChange={handleChange}
                       rows={3}
-                      className="text-black  w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                       placeholder="Any instructions (e.g., vegan options, outdoor setup)"
                     />
                   </div>
 
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1 ">
                       Restaurant Notes
                     </label>
                     <textarea
@@ -209,14 +209,14 @@ export default function AddCatering() {
                       value={formData.restaurant_notes}
                       onChange={handleChange}
                       rows={3}
-                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black w-full px-4 py-3  border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]  "
                       placeholder="Any Notes"
                     />
                   </div>
 
                   {/* Estimated Budget */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white ">
+                    <label className="text-black  block text-sm font-medium  mb-1 ">
                       Estimated Budget
                     </label>
                     <input
@@ -227,21 +227,21 @@ export default function AddCatering() {
                       value={formData.estimated_budget}
                       onChange={handleChange}
                       required
-                      className="text-black  w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white "
+                      className="text-black  w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c]  "
                       placeholder="Enter budget (e.g., 3500.00)"
                     />
                   </div>
 
                   {/* Status */}
                   <div>
-                    <label className="text-black  block text-sm font-medium  mb-1 dark:text-white">
+                    <label className="text-black  block text-sm font-medium  mb-1 ">
                       Status
                     </label>
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
-                      className="text-black  cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] dark:text-white"
+                      className="text-black  cursor-pointer w-full px-4 py-3 border  border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fe6a3c] "
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>

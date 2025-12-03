@@ -5,8 +5,35 @@ import api from "../../../lib/Api";
 import { toasterError, toasterSuccess } from "../../../components/Toaster";
 import LoadingSpinner from "../../../components/Loader";
 
+interface UserDetails {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  last_login: string | null;
+  restaurant_name: string;
+  profile_image: string | null;
+}
+
+interface SubadminItem {
+  id: number;
+  is_read: boolean;
+  created_at: string;
+  user_details: UserDetails;
+}
+
+interface Notification {
+  id: number;
+  is_read: boolean;
+  created_at: string;
+  title: string;
+  message: string;
+  type: string;
+  user_details: UserDetails;
+}
+
 const AdminNotificationsPage = () => {
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -45,7 +72,22 @@ const AdminNotificationsPage = () => {
           notificationsData = [];
         }
 
-        setNotifications(notificationsData);
+        // Transform subadmin data to notification format
+        const transformedNotifications = notificationsData.map(
+          (item: SubadminItem) => ({
+            id: item.id,
+            is_read: item.is_read,
+            created_at: item.created_at,
+            title: `New Subadmin: ${item.user_details.first_name} ${item.user_details.last_name}`,
+            message: `Email: ${item.user_details.email}, Restaurant: ${
+              item.user_details.restaurant_name || "N/A"
+            }`,
+            type: "new_subadmin",
+            user_details: item.user_details, // Keep for additional info if needed
+          })
+        );
+
+        setNotifications(transformedNotifications);
       } else {
         console.error("API response not successful:", response);
         setNotifications([]);
@@ -118,7 +160,7 @@ const AdminNotificationsPage = () => {
     }
   };
 
-  const handleNotificationClick = (notification: any) => {
+  const handleNotificationClick = (notification: Notification) => {
     markAsRead(notification.id);
 
     // Navigate based on notification type
@@ -130,7 +172,7 @@ const AdminNotificationsPage = () => {
     }
   };
 
-  const groupNotificationsByDate = (notifications: any[]) => {
+  const groupNotificationsByDate = (notifications: Notification[]) => {
     // Ensure notifications is an array
     if (!Array.isArray(notifications)) {
       console.error(
@@ -140,7 +182,7 @@ const AdminNotificationsPage = () => {
       return {};
     }
 
-    const groups: { [key: string]: any[] } = {};
+    const groups: { [key: string]: Notification[] } = {};
 
     notifications.forEach((notification) => {
       const date = new Date(notification.created_at).toLocaleDateString(
@@ -239,7 +281,7 @@ const AdminNotificationsPage = () => {
                         {date}
                       </h3>
                     </div>
-                    {dayNotifications.map((notification) => (
+                    {dayNotifications.map((notification: Notification) => (
                       <div
                         key={notification.id}
                         className={`p-6 hover:bg-gray-50 cursor-pointer transition-colors ${

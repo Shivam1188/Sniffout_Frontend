@@ -72,7 +72,7 @@ export default function Restaurantscharts() {
               onClick={() => handlePeriodChange(label)}
               className={`cursor-pointer px-4 py-2 text-sm font-medium rounded-full transition ${
                 label.toLowerCase() === period
-                  ? "bg-pink-500 text-white shadow"
+                  ? "bg-[#3d4ba2] text-white shadow"
                   : "text-gray-600 hover:bg-gray-100 border border-gray-300"
               }`}
             >

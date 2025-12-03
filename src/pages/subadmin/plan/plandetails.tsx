@@ -213,7 +213,7 @@ export default function PlansDet() {
 
       <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
+        <div className="mb-5 flex flex-col min-h-[100px] sm:flex-row justify-between items-center bg-[#57559a] px-[23px] py-[7px] rounded-[25px]    text-center gap-[13px] sm:text-left sm:gap-0">
           <div className="flex items-center gap-4 mb-6 lg:mb-0">
             <Link
               to="/subadmin/plan"
@@ -222,13 +222,32 @@ export default function PlansDet() {
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </Link>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent text-white">
                 Plan Details
               </h1>
-              <p className="text-gray-600 mt-2 text-lg">
+              <p className="text-white text-lg">
                 Complete overview and features of your selected plan
               </p>
             </div>
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
 
           {isCurrentPlan && (
@@ -250,7 +269,7 @@ export default function PlansDet() {
 
         {isEnterprisePlan ? (
           // Enhanced Enterprise Plan Form
-          <div className="max-w-4xl mx-auto">
+          <div className="">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
               {/* Header */}
               <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-8 text-white">
@@ -444,7 +463,7 @@ export default function PlansDet() {
               )}
 
               {/* Plan Features Card */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8">
+              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8 mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 mb-8">
                   Plan Features
                 </h2>
@@ -477,7 +496,7 @@ export default function PlansDet() {
                 {/* Plan Header */}
                 <div className="text-center mb-8">
                   <div
-                    className={`w-20 h-20 bg-gradient-to-r ${gradient} rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg`}
+                    className={`w-10 h-10 bg-gradient-to-r ${gradient} rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg`}
                   >
                     {getPlanIcon(plans.plan_name)}
                   </div>

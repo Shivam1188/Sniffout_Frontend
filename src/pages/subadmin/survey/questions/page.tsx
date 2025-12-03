@@ -127,8 +127,8 @@ const SurveyQuestions: React.FC = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       {/* CHANGED */}
-      <main className="flex-1 p-0 w-full">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+      <main className="flex-1 p-6 w-full">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Survey Questions
           </h1>

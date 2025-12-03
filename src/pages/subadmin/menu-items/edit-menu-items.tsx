@@ -107,7 +107,7 @@ export default function EditMenuItems() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Menu
                     </label>
                     <select
@@ -115,7 +115,7 @@ export default function EditMenuItems() {
                       value={formData.menu}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg  dark:text-white"
                     >
                       <option value="">Select Menu</option>
                       {menuList.map((menu) => (
@@ -127,7 +127,7 @@ export default function EditMenuItems() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Name
                     </label>
                     <input
@@ -136,13 +136,13 @@ export default function EditMenuItems() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg "
                       placeholder="Enter item name"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Description
                     </label>
                     <textarea
@@ -150,13 +150,13 @@ export default function EditMenuItems() {
                       value={formData.description}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg "
                       placeholder="Enter item description"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Price
                     </label>
                     <input
@@ -167,7 +167,7 @@ export default function EditMenuItems() {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300  rounded-lg "
                       placeholder="Enter price"
                     />
                   </div>
@@ -186,7 +186,7 @@ export default function EditMenuItems() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Display Order
                     </label>
                     <input
@@ -195,7 +195,7 @@ export default function EditMenuItems() {
                       value={formData.display_order}
                       onChange={handleChange}
                       min="1"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg "
                     />
                   </div>
 

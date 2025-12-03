@@ -32,20 +32,38 @@ const EnterPriseRequests = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full plan-sidebar">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center md:items-center text-center md:text-left mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">
-                Enterprise Requests
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                List of all enterprise plan inquiries
-              </p>
-            </div>
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full plan-sidebar">
+        <div className="flex sm:gap-0 gap-5 flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative min-h-[100px] ">
+          <div>
+            <h2 className="text-2xl font-bold text-white">
+              Enterprise Requests
+            </h2>
+            <p className="text-sm text-white mt-1">
+              List of all enterprise plan inquiries
+            </p>
           </div>
-
-          <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
+        </div>
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-2 rounded-xl shadow-md border border-gray-200">
+          <div className="overflow-x-auto rounded-lg  responsive-table">
             <table className="min-w-full text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">

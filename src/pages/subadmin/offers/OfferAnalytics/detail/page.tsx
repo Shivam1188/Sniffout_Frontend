@@ -215,11 +215,30 @@ const OfferAnalyticsDetail: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4 h-[100px]">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <BarChart3 className="text-white" size={24} />
             </div>
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-white">
                 {displayAnalytics.offer_title}
@@ -229,7 +248,7 @@ const OfferAnalyticsDetail: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 ">
             <Link
               to="/subadmin/offers/list"
               className="cursor-pointer text-center px-6 py-3 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-200"
@@ -241,22 +260,22 @@ const OfferAnalyticsDetail: React.FC = () => {
         </div>
 
         {/* Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
           {/* Main Metrics */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Total Scans */}
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold">
+                  <p className="text-gray-500 text-sm font-medium">
                     Total Scans
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_scans}
                   </p>
                 </div>
-                <div className="p-3 bg-blue-500 rounded-full">
-                  <Scan className="text-white" size={24} />
+                <div className="p-3 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
+                  <Scan className="text-white" size={26} />
                 </div>
               </div>
               <div className="mt-2 text-sm text-gray-500">
@@ -265,18 +284,18 @@ const OfferAnalyticsDetail: React.FC = () => {
             </div>
 
             {/* Redemption Initiated */}
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold">
+                  <p className="text-gray-500 text-sm font-medium">
                     Redemption Initiated
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_redemption_initiated}
                   </p>
                 </div>
-                <div className="p-3 bg-yellow-500 rounded-full">
-                  <Smartphone className="text-white" size={24} />
+                <div className="p-3 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 shadow-md">
+                  <Smartphone className="text-white" size={26} />
                 </div>
               </div>
               <div className="mt-2 text-sm text-gray-500">
@@ -285,18 +304,18 @@ const OfferAnalyticsDetail: React.FC = () => {
             </div>
 
             {/* OTP Verified */}
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold">
+                  <p className="text-gray-500 text-sm font-medium">
                     OTP Verified
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_otp_verified}
                   </p>
                 </div>
-                <div className="p-3 bg-green-500 rounded-full">
-                  <CheckCircle className="text-white" size={24} />
+                <div className="p-3 rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow-md">
+                  <CheckCircle className="text-white" size={26} />
                 </div>
               </div>
               <div className="mt-2 text-sm text-gray-500">
@@ -305,18 +324,18 @@ const OfferAnalyticsDetail: React.FC = () => {
             </div>
 
             {/* Total Redeemed */}
-            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold">
+                  <p className="text-gray-500 text-sm font-medium">
                     Total Redeemed
                   </p>
-                  <p className="text-3xl font-bold text-gray-900">
+                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {displayAnalytics.total_redeemed}
                   </p>
                 </div>
-                <div className="p-3 bg-purple-500 rounded-full">
-                  <Users className="text-white" size={24} />
+                <div className="p-3 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 shadow-md">
+                  <Users className="text-white" size={26} />
                 </div>
               </div>
               <div className="mt-2 text-sm text-gray-500">
@@ -326,21 +345,23 @@ const OfferAnalyticsDetail: React.FC = () => {
           </div>
 
           {/* Conversion Rates */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 ">
               Conversion Rates
             </h3>
-            <div className="space-y-4">
+
+            <div className="space-y-5">
+              {/* OTP to Redeemed */}
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm text-gray-600">OTP to Redeemed</span>
-                  <span className="text-lg font-bold text-green-600">
+                  <span className="text-xl font-semibold text-green-600">
                     {displayAnalytics.conversion_rate}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                    className="bg-green-500 h-2 transition-all duration-700"
                     style={{
                       width: `${Math.min(
                         displayAnalytics.conversion_rate,
@@ -355,18 +376,19 @@ const OfferAnalyticsDetail: React.FC = () => {
                 </p>
               </div>
 
+              {/* Scan to Redemption */}
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-sm text-gray-600">
                     Scan to Redemption
                   </span>
-                  <span className="text-lg font-bold text-blue-600">
+                  <span className="text-xl font-semibold text-blue-600">
                     {displayAnalytics.scan_to_redemption_rate}%
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                    className="bg-blue-500 h-2 transition-all duration-700"
                     style={{
                       width: `${Math.min(
                         displayAnalytics.scan_to_redemption_rate,
@@ -384,26 +406,38 @@ const OfferAnalyticsDetail: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
           {/* Redemptions by Status */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-5">
               Redemptions by Status
             </h3>
-            <div className="space-y-3">
+
+            <div className="space-y-4">
               {Object.entries(displayAnalytics.redemptions_by_status).map(
-                ([status, count]) => (
+                ([status, count], index) => (
                   <div
                     key={status}
-                    className="flex items-center justify-between"
+                    className={`flex items-center justify-between pb-3 ${
+                      index !==
+                      Object.entries(displayAnalytics.redemptions_by_status)
+                        .length -
+                        1
+                        ? "border-b border-gray-100"
+                        : ""
+                    }`}
                   >
-                    <span className="capitalize text-sm text-gray-600">
+                    <span className="capitalize text-sm font-medium text-gray-600">
                       {status.replace("_", " ")}
                     </span>
+
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold">{count as number}</span>
+                      <span className="font-semibold text-gray-800">
+                        {count}
+                      </span>
+
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold shadow-sm ${getStatusColor(
                           status
                         )}`}
                       >
@@ -417,15 +451,17 @@ const OfferAnalyticsDetail: React.FC = () => {
           </div>
 
           {/* Offer Validity */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-5">
               Offer Validity
             </h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
+
+            <div className="space-y-4">
+              {/* Active / Inactive */}
+              <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                 <span className="text-sm text-gray-600">Status</span>
                 <span
-                  className={`flex items-center gap-1 ${
+                  className={`flex items-center gap-1 text-sm font-semibold ${
                     displayAnalytics.offer_validity.is_active
                       ? "text-green-600"
                       : "text-red-600"
@@ -444,23 +480,29 @@ const OfferAnalyticsDetail: React.FC = () => {
                   )}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+
+              {/* Valid From */}
+              <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                 <span className="text-sm text-gray-600">Valid From</span>
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium text-gray-800">
                   {formatDateTime(displayAnalytics.offer_validity.valid_from)}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+
+              {/* Valid Until */}
+              <div className="flex items-center justify-between pb-3 border-b border-gray-100">
                 <span className="text-sm text-gray-600">Valid Until</span>
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium text-gray-800">
                   {formatDateTime(displayAnalytics.offer_validity.valid_until)}
                 </span>
               </div>
+
+              {/* Remaining Redemptions */}
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">
                   Remaining Redemptions
                 </span>
-                <span className="text-lg font-bold text-blue-600">
+                <span className="text-xl font-bold text-blue-600">
                   {displayAnalytics.remaining_redemptions}
                 </span>
               </div>
@@ -468,28 +510,34 @@ const OfferAnalyticsDetail: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
           {/* Peak Hours */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Clock size={18} />
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
+              <Clock size={18} className="text-blue-600" />
               Peak Redemption Hours
             </h3>
-            <div className="space-y-3">
+
+            <div className="space-y-4">
               {displayAnalytics.peak_hours.length > 0 ? (
                 displayAnalytics.peak_hours.map((hour, index) => (
                   <div
                     key={hour.hour}
-                    className="flex items-center justify-between"
+                    className={`flex items-center justify-between pb-3 ${
+                      index !== displayAnalytics.peak_hours.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-600 rounded-full text-xs font-bold">
+                      <div className="w-7 h-7 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full text-xs font-bold shadow-sm">
                         {index + 1}
                       </div>
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-medium text-gray-800">
                         {formatHour(hour.hour)}
                       </span>
                     </div>
+
                     <span className="text-sm text-gray-600">
                       {hour.count} redemptions
                     </span>
@@ -504,21 +552,27 @@ const OfferAnalyticsDetail: React.FC = () => {
           </div>
 
           {/* Redemptions by Day */}
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Calendar size={18} />
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-5 flex items-center gap-2">
+              <Calendar size={18} className="text-purple-600" />
               Redemptions by Day
             </h3>
-            <div className="space-y-3">
+
+            <div className="space-y-4">
               {displayAnalytics.redemptions_by_day.length > 0 ? (
-                displayAnalytics.redemptions_by_day.map((day) => (
+                displayAnalytics.redemptions_by_day.map((day, index) => (
                   <div
                     key={day.date}
-                    className="flex items-center justify-between"
+                    className={`flex items-center justify-between pb-3 ${
+                      index !== displayAnalytics.redemptions_by_day.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    }`}
                   >
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-medium text-gray-800">
                       {formatDate(day.date)}
                     </span>
+
                     <span className="text-sm text-gray-600">
                       {day.count} redemptions
                     </span>

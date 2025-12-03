@@ -92,7 +92,7 @@ export default function AddMenuItems() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Menu
                     </label>
                     <select
@@ -112,7 +112,7 @@ export default function AddMenuItems() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Name
                     </label>
                     <input
@@ -121,13 +121,13 @@ export default function AddMenuItems() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 "
                       placeholder="Enter item name"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Description
                     </label>
                     <textarea
@@ -135,13 +135,13 @@ export default function AddMenuItems() {
                       value={formData.description}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 "
                       placeholder="Enter item description"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Price
                     </label>
                     <input
@@ -152,7 +152,7 @@ export default function AddMenuItems() {
                       value={formData.price}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 "
                       placeholder="Enter price"
                     />
                   </div>
@@ -165,13 +165,13 @@ export default function AddMenuItems() {
                       onChange={handleChange}
                       className="h-5 w-5 text-[#fe6a3c] border-gray-300 rounded"
                     />
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="text-sm font-medium text-gray-700 ">
                       Available
                     </label>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700  mb-1">
                       Display Order
                     </label>
                     <input
@@ -180,7 +180,7 @@ export default function AddMenuItems() {
                       value={formData.display_order}
                       onChange={handleChange}
                       min="1"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg  "
                     />
                   </div>
 

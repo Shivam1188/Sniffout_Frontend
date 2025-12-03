@@ -92,8 +92,8 @@ const App = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-7">
-        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded mb-[28px] relative">
+      <div className="flex-1 p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] rounded-2xl py-2 px-4  mb-4 relative min-h-[100px]">
           <div>
             <h1 className="text-xl font-bold text-white sm:text-2xl">
               Dashboard

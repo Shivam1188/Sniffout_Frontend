@@ -65,9 +65,9 @@ const StaffRedemption: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6 ">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
             Valid Redemption Code
           </h1>
@@ -87,7 +87,7 @@ const StaffRedemption: React.FC = () => {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top-10 right-10 z-50 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg
@@ -110,7 +110,7 @@ const StaffRedemption: React.FC = () => {
         {/* Content Box */}
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-4 sm:p-6 lg:p-8 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
-            <div className="max-w-4xl mx-auto">
+            <div className="">
               {/* Code Validation Section */}
               <div className="mb-8">
                 <h2 className="text-xl font-bold text-[#1d3faa] mb-4">

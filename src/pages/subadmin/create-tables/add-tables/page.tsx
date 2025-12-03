@@ -74,14 +74,14 @@ export default function AddTables() {
           </div>
           <div className="min-h-screen flex items-center justify-center px-2 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
-              <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-800 dark:text-white text-center mb-8 animate-slideInDown">
+              <div className="bg-white  rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
+                <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-800  text-center mb-8 animate-slideInDown">
                   Add Tables
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Table Number
                     </label>
 
@@ -90,7 +90,7 @@ export default function AddTables() {
                       name="table_number"
                       value={formData.table_number}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
                       placeholder="Enter table (e.g., Table 1)"
                       pattern="Table [1-9][0-9]*"
                       title="Please enter in format: Table 1, Table 2, etc."
@@ -100,14 +100,14 @@ export default function AddTables() {
 
                   {/* Is Available */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 ">
                       Is Available
                     </label>
                     <select
                       name="is_available"
                       value={formData.is_available}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] dark:bg-gray-800 dark:text-white"
+                      className="w-full px-4 py-3 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] "
                       required
                     >
                       <option value="true">True</option>

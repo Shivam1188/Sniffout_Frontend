@@ -410,7 +410,7 @@ const EditOffer: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800 font-sans">
       <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Tag className="text-white" size={24} />
@@ -451,7 +451,7 @@ const EditOffer: React.FC = () => {
               <div className="mb-6">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500 ease-out"
+                    className="bg-[#c06a6e] h-2 rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${(completedSteps.length / 4) * 100}%` }}
                   ></div>
                 </div>
@@ -465,7 +465,7 @@ const EditOffer: React.FC = () => {
                       key={step.number}
                       className={`flex items-center gap-3 p-3 rounded-xl border-l-4 transition-all duration-300 ${
                         status === "completed"
-                          ? "bg-green-50 border-green-500 shadow-sm"
+                          ? "bg-green-50 border-[#b36975] shadow-sm"
                           : status === "active"
                           ? "bg-blue-50 border-blue-500 shadow-sm"
                           : "bg-gray-50 border-gray-200"
@@ -476,7 +476,7 @@ const EditOffer: React.FC = () => {
                         <span
                           className={`text-sm font-medium block ${
                             status === "completed"
-                              ? "text-green-800"
+                              ? "text-[#b36975]"
                               : status === "active"
                               ? "text-blue-800"
                               : "text-gray-600"

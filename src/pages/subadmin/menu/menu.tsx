@@ -87,9 +87,9 @@ function MenuData() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-4 mx-auto overflow-hidden w-full">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-8 ">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded mb-7">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
           <div className="flex-1">
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
               Menu
@@ -117,7 +117,7 @@ function MenuData() {
               </h1>
               <Link
                 to="/subadmin/add-menu"
-                className="text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                className="text-sm text-white px-5 py-2 rounded-full shadow-md bg-[#fe6a3c] hover:bg-[#fd8f61] font-semibold"
               >
                 Add Menu
               </Link>

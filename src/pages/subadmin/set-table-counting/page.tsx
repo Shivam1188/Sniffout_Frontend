@@ -56,7 +56,7 @@ const SetTableCounting = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
         <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-3 sm:p-6 rounded-xl shadow-md border border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-0 mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
             <div>

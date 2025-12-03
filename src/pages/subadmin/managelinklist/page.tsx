@@ -150,8 +150,8 @@ const ManageLinks = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-8">
-        <div className="flex flex-col  justify-between  md:flex-wrap lg:flex-row md:gap-5 bg-[#4d519e] p-4 rounded mb-[28px] relative gap-4 md:gap-0">
+      <div className="flex-1 p-6">
+        <div className="flex flex-col min-h-[100px] justify-between  md:flex-wrap lg:flex-row md:gap-5 bg-[#4d519e] p-4 rounded-2xl mb-4 relative gap-4 md:gap-0">
           <div>
             <h1 className="text-xl font-bold text-white sm:text-2xl">
               Manage Business List
@@ -206,7 +206,7 @@ const ManageLinks = () => {
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            className="absolute top-3 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
           >
             {/* Arrow Icon */}
             <svg

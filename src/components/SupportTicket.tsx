@@ -99,7 +99,7 @@ const SupportTickets = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
         <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-5 rounded-xl shadow-sm">
@@ -350,14 +350,14 @@ const SupportTickets = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="cursor-pointer px-4 py-2 bg-gray-100 rounded-lg"
+                  className="cursor-pointer px-4 py-2 bg-gray-100 rounded-lg shadow hover:bg-gray-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50"
+                  className="cursor-pointer px-4 py-2 bg-[#4d519e] text-white rounded-lg disabled:opacity-50"
                 >
                   {loading ? "Creating..." : "Create Ticket"}
                 </button>

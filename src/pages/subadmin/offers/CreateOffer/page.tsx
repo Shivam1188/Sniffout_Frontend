@@ -315,7 +315,7 @@ const CreateOffer: React.FC = () => {
   }) => {
     if (status === "completed") {
       return (
-        <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+        <div className="w-6 h-6 bg-[#ce6a65] text-white rounded-full flex items-center justify-center text-sm font-bold">
           <Check size={14} />
         </div>
       );
@@ -359,9 +359,9 @@ const CreateOffer: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50 text-gray-800 font-sans">
-      <main className="flex-1 p-4 sm:p-6 mx-auto w-full ">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6 ">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center min-h-[100px] lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-2 rounded-2xl shadow-lg mb-4 ">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/10 rounded-lg">
               <Tag className="text-white" size={24} />
@@ -374,18 +374,38 @@ const CreateOffer: React.FC = () => {
                 Design attractive offers to boost your sales
               </p>
             </div>
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
+
           <Link
             to="/subadmin/offers/list"
-            className="w-full lg:w-auto text-center px-6 py-3 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-200 hover:scale-105"
+            className="w-full lg:w-auto text-center px-3 py-2 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-200 hover:scale-105"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
             Back to Offers
           </Link>
         </div>
 
         {/* Content Box */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
@@ -401,7 +421,7 @@ const CreateOffer: React.FC = () => {
               <div className="mb-6">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500 ease-out"
+                    className="bg-[#464f9f] h-2 rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${(completedSteps.length / 4) * 100}%` }}
                   ></div>
                 </div>
@@ -415,7 +435,7 @@ const CreateOffer: React.FC = () => {
                       key={step.number}
                       className={`flex items-center gap-3 p-3 rounded-xl border-l-4 transition-all duration-300 ${
                         status === "completed"
-                          ? "bg-green-50 border-green-500 shadow-sm"
+                          ? "bg-[#f1ebec] border-[#c06a6e] shadow-sm"
                           : status === "active"
                           ? "bg-blue-50 border-blue-500 shadow-sm"
                           : "bg-gray-50 border-gray-200"
@@ -426,7 +446,7 @@ const CreateOffer: React.FC = () => {
                         <span
                           className={`text-sm font-medium block ${
                             status === "completed"
-                              ? "text-green-800"
+                              ? "text-[#c06a6e]"
                               : status === "active"
                               ? "text-blue-800"
                               : "text-gray-600"
@@ -437,7 +457,7 @@ const CreateOffer: React.FC = () => {
                         <span
                           className={`text-xs ${
                             status === "completed"
-                              ? "text-green-600"
+                              ? "text-[#c06a6e]"
                               : status === "active"
                               ? "text-blue-600"
                               : "text-gray-500"
@@ -449,7 +469,7 @@ const CreateOffer: React.FC = () => {
                       {status === "completed" && (
                         <Check
                           size={16}
-                          className="text-green-500 flex-shrink-0"
+                          className="text-[#c06a6e] flex-shrink-0"
                         />
                       )}
                     </div>

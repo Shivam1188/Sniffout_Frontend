@@ -442,8 +442,26 @@ export default function GetDetails() {
               )}
             </div>
           </div>
-
-          <div className="flex gap-3">
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-10 right-10 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
+          <div className="flex gap-3 justify-center md:justify-start">
             <Link
               to={"/admin/dashboard"}
               className="px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-colors text-sm"

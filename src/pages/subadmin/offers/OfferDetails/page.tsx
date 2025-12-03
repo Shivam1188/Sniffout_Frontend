@@ -272,8 +272,8 @@ const OfferDetails: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-4 sm:p-6 mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-8">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between bg-gradient-to-r from-[#4d519e] to-[#3a3e8c] gap-4 p-6 rounded-2xl shadow-lg mb-4">
+          <div className="flex items-center gap-3 justify-between sm:justify-start">
             <div className="p-2 bg-white/10 rounded-lg">
               <Tag className="text-white" size={24} />
             </div>
@@ -283,25 +283,55 @@ const OfferDetails: React.FC = () => {
               </h1>
               <p className="text-blue-100 text-sm mt-1">{offer.title}</p>
             </div>
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               to={`/subadmin/qr-codes/offers/${offer.id}/analytics`}
-              className="cursor-pointer text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2"
+              className="cursor-pointer text-center px-5 py-2.5 
+               bg-blue-50 text-blue-700 border border-blue-200 
+               rounded-xl hover:bg-blue-100 hover:border-blue-300 
+               flex items-center justify-center gap-2 transition-all"
             >
               <BarChart3 size={16} />
               Analytics
             </Link>
+
             <Link
               to={`/subadmin/qr-codes/offers/edit/${offer.id}`}
-              className="cursor-pointer text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
+              className="cursor-pointer text-center px-5 py-2.5 
+               bg-green-50 text-green-700 border border-green-200 
+               rounded-xl hover:bg-green-100 hover:border-green-300 
+               flex items-center justify-center gap-2 transition-all"
             >
               <Edit size={16} />
               Edit Offer
             </Link>
+
             <Link
               to="/subadmin/offers/list"
-              className="cursor-pointer text-center px-4 py-2 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fd8f61] flex items-center justify-center gap-2"
+              className="cursor-pointer text-center px-5 py-2.5 
+               bg-orange-50 text-orange-700 border border-orange-200 
+               rounded-xl hover:bg-orange-100 hover:border-orange-300 
+               flex items-center justify-center gap-2 transition-all"
             >
               <ArrowLeft size={16} />
               Back to Offers
@@ -350,8 +380,8 @@ const OfferDetails: React.FC = () => {
                     disabled={actionLoading}
                     className={`cursor-pointer px-4 py-2 rounded-lg flex items-center gap-2 ${
                       offer.is_active
-                        ? "bg-yellow-600 hover:bg-yellow-700 text-white"
-                        : "bg-green-600 hover:bg-green-700 text-white"
+                        ? "bg-[#ce6b65] hover:bg-[#f0928e] text-white"
+                        : "bg-[#51529c] hover:bg-[#7c7ddf] text-white"
                     } disabled:opacity-50`}
                   >
                     <RefreshCw size={16} />
@@ -361,7 +391,7 @@ const OfferDetails: React.FC = () => {
                   <button
                     onClick={handleDuplicate}
                     disabled={actionLoading}
-                    className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                    className=" hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
                   >
                     <Copy size={16} />
                     Duplicate

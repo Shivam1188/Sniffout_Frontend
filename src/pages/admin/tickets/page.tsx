@@ -341,12 +341,31 @@ const SubAdminTickets = () => {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
         {/* Header */}
-        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0 ">
+        <div className="flex sm:gap-0 gap-5 flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative min-h-[100px] ">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
-            Support Tickets
+            Support Ticketsii
           </h1>
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-4 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
           <div className="flex-shrink-0">
             <Link
               to={"/admin/dashboard"}
@@ -370,120 +389,23 @@ const SubAdminTickets = () => {
                 resolution of all support requests.
               </p>
             </div>
-          </div>
-
-          <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-200">
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-              {/* Left side - Filter controls */}
-              <div className="flex flex-col sm:flex-row gap-4 flex-1">
-                {/* Filter Button */}
-                <button
-                  onClick={() => setShowFilterModal(true)}
-                  className={`cursor-pointer flex items-center gap-2 px-6 py-3 border-2 rounded-xl transition-all duration-200 ${
-                    isFilterActive
-                      ? "bg-blue-500 text-white border-blue-500 shadow-lg shadow-blue-200"
-                      : "bg-white text-gray-700 border-gray-300 hover:border-blue-300 hover:shadow-md"
-                  }`}
-                >
-                  <Filter className="w-5 h-5" />
-                  <span className="font-semibold">Filters</span>
-                  {isFilterActive && (
-                    <span className="bg-white text-blue-600 text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                      !
-                    </span>
-                  )}
-                </button>
-
-                {/* Active Filters Display */}
-                {isFilterActive && (
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-sm font-medium text-gray-600">
-                      Active filters:
-                    </span>
-                    <div className="flex gap-2 flex-wrap">
-                      {filters.status && (
-                        <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full text-sm font-medium border border-blue-200">
-                          Status: {filters.status.replace("_", " ")}
-                          <button
-                            onClick={() =>
-                              setFilters((prev) => ({ ...prev, status: "" }))
-                            }
-                            className="cursor-pointer text-blue-600 hover:text-blue-800 ml-1"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      )}
-                      {filters.priority && (
-                        <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 px-3 py-1.5 rounded-full text-sm font-medium border border-green-200">
-                          Priority: {filters.priority}
-                          <button
-                            onClick={() =>
-                              setFilters((prev) => ({ ...prev, priority: "" }))
-                            }
-                            className="text-green-600 hover:text-green-800 ml-1"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      )}
-                      {filters.search && (
-                        <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-800 px-3 py-1.5 rounded-full text-sm font-medium border border-purple-200">
-                          Search: {filters.search}
-                          <button
-                            onClick={() =>
-                              setFilters((prev) => ({ ...prev, search: "" }))
-                            }
-                            className="text-purple-600 hover:text-purple-800 ml-1"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Right side - Clear All button */}
+            {/* Filter Button */}
+            <button
+              onClick={() => setShowFilterModal(true)}
+              className={`cursor-pointer flex items-center gap-2 px-2 py-2 border-1 shadow-md rounded-xl transition-all duration-200 w-full md:w-auto ${
+                isFilterActive
+                  ? "bg-blue-500 text-white border-blue-500 shadow-lg shadow-blue-200"
+                  : "bg-white text-gray-700 border-gray-300 hover:border-[#4d519e] hover:shadow-md"
+              }`}
+            >
+              <Filter className="w-5 h-5" />
+              <span className="font-semibold">Filters</span>
               {isFilterActive && (
-                <button
-                  onClick={clearFilters}
-                  className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-200 shadow-lg shadow-red-200 font-semibold whitespace-nowrap"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                  Clear All
-                </button>
+                <span className="bg-white text-blue-600 text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                  !
+                </span>
               )}
-            </div>
-
-            {/* Filter Summary */}
-            {isFilterActive && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">
-                    Showing {tickets.length} of {count} tickets
-                    {filters.search && ` matching "${filters.search}"`}
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Filter className="w-4 h-4" />
-                    <span>Filters applied</span>
-                  </div>
-                </div>
-              </div>
-            )}
+            </button>
           </div>
 
           {/* Tickets Table */}
@@ -770,7 +692,7 @@ const FilterModal = ({
         </div>
 
         <div className="p-6 space-y-6">
-          <div>
+          <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Status
             </label>
@@ -787,7 +709,7 @@ const FilterModal = ({
             </select>
           </div>
 
-          <div>
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Priority
             </label>
@@ -804,16 +726,16 @@ const FilterModal = ({
             </select>
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-0">
             <button
               onClick={onClear}
-              className=" flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+              className=" flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer font-semibold"
             >
               Clear All
             </button>
             <button
               onClick={onApply}
-              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors cursor-pointer"
+              className="flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors cursor-pointer font-semibold"
             >
               Apply Filters
             </button>
@@ -918,25 +840,31 @@ const TicketDetailsModal = ({
 
         <div className="p-6 space-y-6">
           {/* Ticket Info - Updated with Edit Button for Status */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg ">
-            {/* Status Field with Edit Button */}
-            <div className="relative">
-              <p className="text-sm text-gray-500 mb-2">Status</p>
-              <div className="flex items-center gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            {/* Status Field */}
+            <div className="relative bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-sm text-gray-600 mb-2">Status</p>
+
+              <div className="flex items-center  md:justify-start gap-2">
                 <span
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium capitalize border ${getStatusBadge(
-                    displayTicket.status
-                  )}`}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium capitalize border ${
+                    displayTicket.status === "resolved"
+                      ? "bg-[#2944a8]/10 text-[#2944a8] border-[#2944a8]/30"
+                      : displayTicket.status === "in_progress"
+                      ? "bg-[#d56a60]/10 text-[#d56a60] border-[#d56a60]/30"
+                      : "bg-gray-100 text-gray-600 border-gray-200"
+                  }`}
                 >
                   {getStatusDisplay(displayTicket.status)}
                 </span>
+
                 <button
                   onClick={() => setShowStatusDropdown(!showStatusDropdown)}
                   disabled={updatingStatus}
                   className={`p-1.5 rounded-lg border transition-colors ${
                     updatingStatus
                       ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-700 border-gray-300 cursor-pointer"
+                      : "bg-white text-[#2944a8] hover:bg-[#2944a8]/10 border-[#2944a8]/40 cursor-pointer"
                   }`}
                   title="Change Status"
                 >
@@ -944,7 +872,7 @@ const TicketDetailsModal = ({
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
                   ) : (
                     <svg
-                      className="w-4 h-4"
+                      className="w-2 h-2"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -953,13 +881,7 @@ const TicketDetailsModal = ({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0..."
                       />
                     </svg>
                   )}
@@ -968,40 +890,40 @@ const TicketDetailsModal = ({
 
               {/* Status Dropdown */}
               {showStatusDropdown && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                <div className="absolute top-full left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                   <div className="p-2 space-y-1">
                     {[
                       {
                         value: "pending",
                         label: "Pending",
-                        color: "bg-yellow-100 text-yellow-800",
+                        color: "bg-gray-100 text-gray-600",
                       },
                       {
                         value: "in_progress",
                         label: "In Progress",
-                        color: "bg-purple-100 text-purple-800",
+                        color: "bg-[#d56a60]/10 text-[#d56a60]",
                       },
                       {
                         value: "resolved",
                         label: "Resolved",
-                        color: "bg-green-100 text-green-800",
+                        color: "bg-[#2944a8]/10 text-[#2944a8]",
                       },
                     ].map((statusOption) => (
                       <button
                         key={statusOption.value}
                         onClick={() => handleStatusChange(statusOption.value)}
                         disabled={updatingStatus}
-                        className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium capitalize transition-colors ${
-                          statusOption.color
-                        } ${
-                          displayTicket.status === statusOption.value
-                            ? "ring-2 ring-offset-1 ring-blue-300"
-                            : "hover:opacity-90"
-                        } ${
-                          updatingStatus
-                            ? "opacity-50 cursor-not-allowed"
-                            : "cursor-pointer"
-                        }`}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium capitalize transition-colors
+                border ${
+                  displayTicket.status === statusOption.value
+                    ? " ring-[#2944a8]/50 border-[#2944a8]"
+                    : "hover:opacity-90 border-transparent"
+                }
+                ${
+                  updatingStatus
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                } ${statusOption.color}`}
                       >
                         {statusOption.label}
                       </button>
@@ -1012,17 +934,17 @@ const TicketDetailsModal = ({
             </div>
 
             {/* Priority Field */}
-            <div>
-              <p className="text-sm text-gray-500">Priority</p>
+            <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-sm text-gray-600 mb-1">Priority</p>
               <span
-                className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
+                className={`inline-flex px-3 py-1.5 rounded-full text-sm font-medium capitalize ${
                   displayTicket.priority === "low"
-                    ? "bg-green-100 text-green-800 border border-green-200"
+                    ? "bg-[#2944a8]/10 text-[#2944a8] border border-[#2944a8]/30"
                     : displayTicket.priority === "medium"
-                    ? "bg-yellow-100 text-yellow-800 border border-yellow-200"
+                    ? "bg-[#d56a60]/10 text-[#d56a60] border border-[#d56a60]/30"
                     : displayTicket.priority === "high"
-                    ? "bg-orange-100 text-orange-800 border border-orange-200"
-                    : "bg-red-100 text-red-800 border border-red-200"
+                    ? "bg-[#2944a8] text-white border border-[#2944a8]"
+                    : "bg-[#d56a60] text-white border border-[#d56a60]"
                 }`}
               >
                 {displayTicket.priority}
@@ -1030,47 +952,54 @@ const TicketDetailsModal = ({
             </div>
 
             {/* Created Date */}
-            <div>
-              <p className="text-sm text-gray-500">Created</p>
-              <p className="text-sm font-medium text-gray-900">
+            <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-sm text-gray-600">Created</p>
+              <p className="text-sm font-medium text-[#2944a8]">
                 {formatDate(displayTicket.created_at)}
               </p>
             </div>
 
             {/* Last Updated Date */}
-            <div>
-              <p className="text-sm text-gray-500">Last Updated</p>
-              <p className="text-sm font-medium text-gray-900">
+            <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <p className="text-sm text-gray-600">Last Updated</p>
+              <p className="text-sm font-medium text-[#2944a8]">
                 {formatDate(displayTicket.updated_at)}
               </p>
             </div>
           </div>
 
           {/* Original Message */}
-          <div className="border rounded-lg p-4">
+          <div className="bg-white border border-[#2944a8]/20 rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
+              {/* Avatar */}
+              <div className="w-10 h-10 bg-[#2944a8]/10 rounded-full flex items-center justify-center text-[#2944a8] font-semibold text-sm uppercase">
                 {displayTicket.subadmin_name?.charAt(0) || "U"}
               </div>
+
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="font-semibold">
+                {/* Name & Time */}
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-semibold text-[#2944a8]">
                     {displayTicket.subadmin_name}
                   </span>
                   <span className="text-xs text-gray-500">
                     {formatDate(displayTicket.created_at)}
                   </span>
                 </div>
-                <p className="text-gray-700 whitespace-pre-wrap">
+
+                {/* Message */}
+                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
                   {displayTicket.message}
                 </p>
+
+                {/* Attachment */}
                 {displayTicket.attachment && (
                   <div className="mt-2">
                     <a
                       href={displayTicket.attachment}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm cursor-pointer"
+                      className="inline-flex items-center gap-1.5 text-[#d56a60] hover:text-[#2944a8] text-sm font-medium underline-offset-2 hover:underline cursor-pointer"
                     >
                       <Paperclip className="w-4 h-4" />
                       View Attachment
@@ -1142,7 +1071,7 @@ const TicketDetailsModal = ({
           )}
 
           {/* Reply Form */}
-          <form onSubmit={onReply} className="border-t pt-6">
+          <form onSubmit={onReply} className="border-t pt-6 border-gray-200">
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Your Reply *
@@ -1173,14 +1102,23 @@ const TicketDetailsModal = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="
+    flex-1 px-5 py-3 rounded-lg font-semibold
+    bg-[#2944a8] text-white
+    border border-[#2944a8]
+    hover:bg-[#1f3687] 
+    active:scale-95 
+    transition-all
+    shadow-sm hover:shadow-md
+  "
               >
                 Close
               </button>
+
               <button
                 type="submit"
                 disabled={replying || !replyMessage.trim()}
-                className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
               >
                 {replying ? "Sending..." : "Send Reply"}
               </button>

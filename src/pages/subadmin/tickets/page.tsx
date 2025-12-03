@@ -338,6 +338,7 @@ const SubAdminTickets = () => {
             <h1 className="text-xl sm:text-2xl font-bold text-[#1d3faa] text-center md:text-left w-full">
               Support Tickets
             </h1>
+
             <div className="relative group inline-block">
               <button
                 onClick={() => setShowCreateModal(true)}

@@ -53,7 +53,7 @@ export default function BusinessHoursList() {
 
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
         <div className="flex flex-col md:flex-row md:items-center justify-between min-h-[100px] bg-[#4d519e] gap-4 sm:gap-0 p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <div className="flex flex-col">
             <h1 className="text-xl sm:text-2xl font-bold text-white">

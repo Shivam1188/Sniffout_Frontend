@@ -75,7 +75,7 @@ function Catering() {
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div
         className="
-flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full"
+flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full"
       >
         {/* Header */}
         <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">

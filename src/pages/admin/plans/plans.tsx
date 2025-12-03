@@ -111,7 +111,7 @@ const Plans = () => {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="cursor-pointer px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition"
+                className="cursor-pointer px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition shadow-lg"
               >
                 Cancel
               </button>
@@ -151,7 +151,7 @@ const Plans = () => {
               </h2>
             </div>
             <div className="mb-6">
-              <label htmlFor="callLimit" className="text-gray-800">
+              <label htmlFor="callLimit" className="text-gray-800 font-bold">
                 New Call Limit
               </label>
               <input
@@ -165,7 +165,7 @@ const Plans = () => {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowEditModal(false)}
-                className="cursor-pointer px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition"
+                className="cursor-pointer px-4 py-2 text-sm font-medium bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition shadow-lg"
               >
                 Cancel
               </button>
@@ -181,34 +181,33 @@ const Plans = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full plan-sidebar">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center md:items-center text-center md:text-left mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">Plans</h2>
-              <p className="text-sm text-gray-500 mt-1">Manage all Plans</p>
-            </div>
-            <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
-              <Link
-                to="/admin/plans/add-plans"
-                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
-              >
-                + Add Plans
-              </Link>
-            </div>
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full plan-sidebar">
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] rounded-2xl py-2 px-4  mb-4 relative min-h-[100px]">
+          <div>
+            <h2 className="text-2xl font-bold text-white">Plans</h2>
+            <p className="text-sm text-white mt-1">Manage all Plans</p>
           </div>
-
+          <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
+            <Link
+              to="/admin/plans/add-plans"
+              className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+            >
+              + Add Plans
+            </Link>
+          </div>
+        </div>
+        <div className="table-sec">
           <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
             <table className="min-w-full text-sm text-gray-700">
               <thead>
                 <tr className="bg-[#f3f4f6] text-xs uppercase text-gray-600 text-left">
-                  <th className="p-4">Plan Name</th>
-                  <th className="p-4">Description</th>
-                  <th className="p-4">Price</th>
-                  <th className="p-4">Duration</th>
-                  <th className="p-4">Call Limit</th>
-                  <th className="p-4">Created At</th>
-                  <th className="p-4">Action</th>
+                  <th className="p-4 font-bold">Plan Name</th>
+                  <th className="p-4 font-bold">Description</th>
+                  <th className="p-4 font-bold">Price</th>
+                  <th className="p-4 font-bold">Duration</th>
+                  <th className="p-4 font-bold">Call Limit</th>
+                  <th className="p-4 font-bold">Created At</th>
+                  <th className="p-4 font-bold">Action</th>
                 </tr>
               </thead>
               <tbody>

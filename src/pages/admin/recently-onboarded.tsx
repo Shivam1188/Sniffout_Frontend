@@ -156,7 +156,7 @@ const RecentlyOnboardedPage = () => {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
+                      <div className="w-6 h-6 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
                         {item.email ? item.email.charAt(0).toUpperCase() : "U"}
                       </div>
                     )}

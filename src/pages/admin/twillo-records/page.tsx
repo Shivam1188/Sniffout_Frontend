@@ -80,22 +80,40 @@ function SubadminList() {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="flex-1 p-1 sm:p-6">
         {/* Header */}
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] gap-5 p-4  mb-4 rounded-2xl">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
-              Subadmin List - Twilio Records
-            </h1>
-            <Link
-              to={"/admin/dashboard"}
-              className="px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] rounded-2xl py-2 px-4  mb-4 relative min-h-[100px]">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+            Subadmin List - Twilio Records
+          </h1>
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-2 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
             >
-              Back To Dashboard
-            </Link>
-          </div>
-
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
+          <Link
+            to={"/admin/dashboard"}
+            className="px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
+          >
+            Back To Dashboard
+          </Link>
+        </div>
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
           {/* Table */}
-          <div className="bg-white p-6 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">
-            <table className="min-w-full table-auto text-sm text-gray-700">
+          <div className="bg-white p-6 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c] table-responsive w-full overflow-x-auto">
+            <table className="min-w-full table-auto text-sm text-gray-700 table-responsive">
               <thead>
                 <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
                   <th className="py-3 px-4 text-left">SR NO.</th>

@@ -227,7 +227,7 @@ const Restaurants = () => {
       {/* Filter Modal */}
       {showFilterModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white/90 backdrop-blur-md w-full max-w-2xl mx-4 rounded-2xl shadow-2xl p-6 border-gray-200">
+          <div className="bg-white backdrop-blur-md w-full max-w-2xl mx-4 rounded-2xl shadow-2xl p-6 border-gray-200">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold text-gray-800">
                 Filter Businesses
@@ -273,7 +273,7 @@ const Restaurants = () => {
                       type="checkbox"
                       checked={selectedFilters.includes(filter.id)}
                       onChange={() => handleCheckboxChange(filter.id)}
-                      className="cursor-pointer w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                      className="cursor-pointer w-4 h-4 text-blue-600 rounded shadow-none focus:shadow-none ring-0 focus:ring-0 focus:ring-offset-0 outline-none focus:outline-none"
                     />
                     <span className="text-sm text-gray-700">
                       {filter.label}
@@ -299,7 +299,7 @@ const Restaurants = () => {
                       onChange={(e) =>
                         handleFilterChange("businessName", e.target.value)
                       }
-                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg "
                       placeholder="Enter business name"
                     />
                   </div>
@@ -316,7 +316,7 @@ const Restaurants = () => {
                       onChange={(e) =>
                         handleFilterChange("phoneNumber", e.target.value)
                       }
-                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -332,7 +332,7 @@ const Restaurants = () => {
                       onChange={(e) =>
                         handleFilterChange("planType", e.target.value)
                       }
-                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                      className="cursor-pointer w-full p-2 border border-gray-300 rounded-lg "
                     >
                       <option value="">Select Plan Type</option>
                       <option value="pro">Pro</option>
@@ -353,7 +353,7 @@ const Restaurants = () => {
                       onChange={(e) =>
                         handleFilterChange("contactName", e.target.value)
                       }
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                      className="w-full p-2 border border-gray-300 rounded-lg "
                       placeholder="Enter contact name"
                     />
                   </div>
@@ -370,7 +370,7 @@ const Restaurants = () => {
                       onChange={(e) =>
                         handleFilterChange("email", e.target.value)
                       }
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                      className="w-full p-2 border border-gray-300 rounded-lg "
                       placeholder="Enter email"
                     />
                   </div>
@@ -394,7 +394,7 @@ const Restaurants = () => {
               <button
                 onClick={applyFilters}
                 disabled={selectedFilters.length === 0}
-                className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer px-4 py-2 bg-[#4d519e] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Apply Filters
               </button>
@@ -403,90 +403,87 @@ const Restaurants = () => {
         </div>
       )}
 
-      <div className="flex-1 p-6 sm:p-8 mx-auto overflow-hidden w-full">
-        <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 bg-white p-5 rounded-xl shadow-sm">
+      <div className="flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full">
+        <div className="flex flex-col md:flex-row md:items-center justify-between bg-[#4d519e] rounded-2xl py-2 px-4  mb-4 relative min-h-[100px]">
+          <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-[#1d3faa]">
-                Business List
-              </h2>
-              <p className="text-sm text-gray-500">
+              <h2 className="text-2xl font-bold text-white">Business List</h2>
+              <p className="text-sm text-white w-[260px] md:w-auto">
                 Manage all registered businesses in the system
               </p>
             </div>
-
-            <div className="flex items-center gap-3">
-              {/* Filter Button */}
-              <button
-                onClick={() => setShowFilterModal(true)}
-                className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg border transition ${
-                  isFilterActive
-                    ? "bg-blue-100 text-blue-700 border-blue-300"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                }`}
+            <label
+              htmlFor="sidebar-toggle"
+              className="bg-[#fff] text-black p-2 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-                  />
-                </svg>
-                Filter
-                {isFilterActive && (
-                  <span className="cursor-pointer bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {selectedFilters.length}
-                  </span>
-                )}
-              </button>
-
-              {/* Clear Filters Button - Only show when filters are active */}
-              {isFilterActive && (
-                <button
-                  onClick={clearFilters}
-                  className="cursor-pointer px-3 py-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
-                >
-                  Clear
-                </button>
-              )}
-
-              <label
-                htmlFor="sidebar-toggle"
-                className="bg-[#0000008f] text-white p-2 rounded shadow-md md:hidden cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                  />
-                </svg>
-              </label>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
+          <div className="flex items-center gap-3">
+            {/* Filter Button */}
+            <button
+              onClick={() => setShowFilterModal(true)}
+              className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg border transition w-full mt-[4px] md:mt-0 ${
+                isFilterActive
+                  ? "bg-blue-100 text-blue-700 border-blue-300"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                />
+              </svg>
+              Filter
+              {isFilterActive && (
+                <span className="cursor-pointer bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {selectedFilters.length}
+                </span>
+              )}
+            </button>
 
+            {/* Clear Filters Button - Only show when filters are active */}
+            {isFilterActive && (
+              <button
+                onClick={clearFilters}
+                className="cursor-pointer px-3 py-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md">
           <div className="overflow-x-auto rounded-lg bg-white shadow-sm">
             <table className="min-w-full text-base text-gray-700 responsive-tab">
               <thead>
                 <tr className="bg-[#f3f4f6] text-base uppercase text-gray-600">
-                  <th className="py-4">Business Name</th>
-                  <th className="py-4">Owner/Contact</th>
-                  <th className="py-4">Contact Info</th>
-                  <th className="py-4">Phone Number</th>
-                  <th className="py-4">Plan Type</th>
+                  <th className="py-4 text-start">Business Name</th>
+                  <th className="py-4 text-start">Owner/Contact</th>
+                  <th className="py-4 text-start">Contact Info</th>
+                  <th className="py-4 text-start">Phone Number</th>
+                  <th className="py-4 text-start">Plan Type</th>
                 </tr>
               </thead>
               <tbody>
@@ -516,11 +513,11 @@ const Restaurants = () => {
                               className="w-10 h-10 rounded-full border object-cover"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
+                            <div className="w-6 h-6 rounded-full bg-[#fe6a3c] flex items-center justify-center text-white font-semibold">
                               {r.email?.charAt(0).toUpperCase() || "U"}
                             </div>
                           )}
-                          <span className="font-semibold text-xs sm:text-sm md:text-base">
+                          <span className="font-semibold text-sm">
                             {r.restaurant_name || "NOT UPDATED YET"}
                           </span>
                         </div>
@@ -541,7 +538,7 @@ const Restaurants = () => {
                         <span>{r.phone_number || "N/A"}</span>
                         <button
                           onClick={() => handleEdit(r)}
-                          className="cursor-pointer px-2 py-1.5 text-xs bg-[#fe6a3c] text-white rounded hover:bg-[#fe6a3c]/90 transition"
+                          className="cursor-pointer px-2 py-1.5 text-xs bg-[#fe6a3c] text-white rounded hover:bg-[#fe6a3c]/90 transition font-bold"
                         >
                           Edit
                         </button>
@@ -592,7 +589,7 @@ const Restaurants = () => {
                       type="number"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full p-3 mt-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400"
+                      className="w-full p-3 mt-2 border border-gray-300 rounded-lg shadow-sm "
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -601,13 +598,13 @@ const Restaurants = () => {
                     <button
                       type="button"
                       onClick={() => setShowEditModal(false)}
-                      className="cursor-pointer px-4 py-2 bg-gray-100 rounded-lg"
+                      className="cursor-pointer px-4 py-2 bg-gray-100 rounded-lg shadow hover:bg-gray-300 font-semibold"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg"
+                      className="cursor-pointer px-4 py-2 bg-[#4d519e] text-white rounded-lg font-semibold"
                     >
                       Save Changes
                     </button>

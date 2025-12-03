@@ -32,28 +32,46 @@ const AddPlan = () => {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-3 sm:p-6">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <div>
-              <Link
-                to="/admin/plans"
-                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+        <div className="flex bg-[#4d519e] items-center rounded-2xl py-2 px-4  mb-4 relative min-h-[100px] justify-start md:justify-end  ">
+          <div>
+            <Link
+              to="/admin/plans"
+              className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+            >
+              ← Back To Plans
+            </Link>
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-8 right-5 z-40 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
               >
-                ← Back To Plans
-              </Link>
-            </div>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
-
-          <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white responsive-table">
+        </div>
+        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl ">
+          <div className="overflow-x-auto rounded-lgborder-gray-200  responsive-table">
             <main className="flex-1 p-3 sm:p-6 flex items-center justify-center">
-              <div className="relative p-4 rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
+              <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
                 <div className="bg-white rounded-2xl p-4 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
-                  <h2 className="text-3xl font-bold text-gray-800 text-center mb-8 animate-slideInDown">
+                  <h2 className="text-2xl font-bold text-gray-800 text-center mb-8 animate-slideInDown">
                     ADD PLAN
                   </h2>
                   <form className="space-y-6" onSubmit={handleSubmit}>
                     {/* Plan Name */}
-                    <div>
+                    <div className="mb-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Plan Name
                       </label>
@@ -61,7 +79,7 @@ const AddPlan = () => {
                         name="plan_name"
                         value={form.plan_name}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c] cursor-pointer"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fe6a3c] cursor-pointer"
                         required
                       >
                         <option value="">Select a plan</option>
@@ -73,7 +91,7 @@ const AddPlan = () => {
                     </div>
 
                     {/* Description */}
-                    <div>
+                    <div className="mb-0">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Description
                       </label>
@@ -82,13 +100,13 @@ const AddPlan = () => {
                         value={form.description}
                         onChange={handleChange}
                         placeholder="Enter description"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fe6a3c]"
                         required
                       />
                     </div>
 
                     {/* Price */}
-                    <div>
+                    <div className="mb-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Price
                       </label>
@@ -98,13 +116,13 @@ const AddPlan = () => {
                         value={form.price}
                         onChange={handleChange}
                         placeholder="Enter price"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fe6a3c]"
                         required
                       />
                     </div>
 
                     {/* Duration */}
-                    <div>
+                    <div className="mb-2">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Duration
                       </label>
@@ -112,7 +130,7 @@ const AddPlan = () => {
                         name="duration"
                         value={form.duration}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fe6a3c]"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#fe6a3c]"
                       >
                         <option value="monthly">Monthly</option>
                         <option value="yearly">Yearly</option>

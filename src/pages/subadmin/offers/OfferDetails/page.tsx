@@ -391,7 +391,7 @@ const OfferDetails: React.FC = () => {
                   <button
                     onClick={handleDuplicate}
                     disabled={actionLoading}
-                    className="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                    className=" hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
                   >
                     <Copy size={16} />
                     Duplicate

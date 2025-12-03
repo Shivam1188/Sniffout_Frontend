@@ -171,7 +171,7 @@ const Plans = () => {
               </button>
               <button
                 onClick={handleEditCallLimit}
-                className="cursor-pointer px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700 shadow transition"
+                className="cursor-pointer px-4 py-2 text-sm font-semibold text-white bg-[#4d519e] hover:bg-[#898de0] shadow transition rounded-lg"
               >
                 Save Changes
               </button>

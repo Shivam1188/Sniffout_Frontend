@@ -123,15 +123,15 @@ const PlansDetails = () => {
     return userDetails.has_used_trial || false;
   };
 
-  const getPlanGradient = (planName: string) => {
-    const name = planName.toLowerCase();
-    if (name.includes("starter")) return "from-blue-500 to-cyan-500";
-    if (name.includes("pro")) return "from-purple-500 to-pink-500";
-    if (name.includes("premium")) return "from-orange-500 to-red-500";
-    if (name.includes("enterprise")) return "from-green-500 to-emerald-500";
-    if (name.includes("trial")) return "from-gray-500 to-blue-400";
-    return "from-gray-500 to-gray-700";
-  };
+  // const getPlanGradient = (planName: string) => {
+  //   const name = planName.toLowerCase();
+  //   if (name.includes("starter")) return "from-blue-500 to-cyan-500";
+  //   if (name.includes("pro")) return "from-purple-500 to-pink-500";
+  //   if (name.includes("premium")) return "from-orange-500 to-red-500";
+  //   if (name.includes("enterprise")) return "from-green-500 to-emerald-500";
+  //   if (name.includes("trial")) return "from-gray-500 to-blue-400";
+  //   return "from-gray-500 to-gray-700";
+  // };
 
   const getPlanIcon = (planName: string) => {
     const name = planName.toLowerCase();
@@ -559,7 +559,7 @@ const PlansDetails = () => {
         ) : filteredPlans.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
             {filteredPlans.map((plan: Plan, index) => {
-              const gradient = getPlanGradient(plan.plan_name);
+              // const gradient = getPlanGradient(plan.plan_name);
               const savings = calculateSavings(plan);
               const isPopular = plan.is_popular;
               const isActive = isPlanActive(plan);
@@ -637,7 +637,7 @@ const PlansDetails = () => {
                     )}
 
                   <div
-                    className={`relative bg-white rounded-3xl shadow-2xl border-2 overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 h-full border border-transparent ${
+                    className={`relative bg-white rounded-3xl shadow-2xl  overflow-hidden transition-all duration-500 hover:shadow-3xl hover:-translate-y-3 h-full border border-transparent ${
                       isActive
                         ? " "
                         : isTrialUsed ||

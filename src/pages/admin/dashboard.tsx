@@ -18,16 +18,6 @@ import {
 import LoadingSpinner from "../../components/Loader";
 import { Bell } from "lucide-react";
 
-interface Notification {
-  id: number;
-  title: string;
-  message: string;
-  description?: string;
-  is_read: boolean;
-  created_at: string;
-  type: string;
-}
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [recentlyRes, setRecentlyRes] = useState([]);

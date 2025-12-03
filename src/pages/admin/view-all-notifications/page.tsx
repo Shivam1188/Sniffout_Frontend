@@ -281,7 +281,7 @@ const AdminNotificationsPage = () => {
                         {date}
                       </h3>
                     </div>
-                    {dayNotifications.map((notification: Notification) => (
+                    {dayNotifications.map((notification: any) => (
                       <div
                         key={notification.id}
                         className={`p-6 hover:bg-gray-50 cursor-pointer transition-colors ${

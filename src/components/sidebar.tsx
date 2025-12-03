@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   BarChart2,
-  LogOut,
   Home,
   LayoutDashboardIcon,
   Building2,
@@ -26,10 +25,9 @@ import {
   PieChart,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import api from "../lib/Api";
-import { getDecryptedItem, removeEncryptedItem } from "../utils/storageHelper";
-import { toasterSuccess } from "./Toaster";
+
 import "../assets/css/custom.css";
+import { getDecryptedItem } from "../utils/storageHelper";
 
 interface SubMenuItem {
   label: string;
@@ -316,7 +314,6 @@ const Sidebar = () => {
       }
     }
   }, [pathname, menuItems]);
-
 
   return (
     <>

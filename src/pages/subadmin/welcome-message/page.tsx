@@ -219,11 +219,11 @@ function WelcomeMessages() {
                             Active Message
                           </span>
                         </div>
-                        <p className="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap bg-white/50 p-4 rounded-lg border">
+                        <p className="text-gray-800 text-base leading-relaxed whitespace-pre-wrap bg-white/50 p-4 rounded-lg border">
                           {message.message}
                         </p>
                         {message.created_at && (
-                          <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
+                          <div className="flex items-center gap-4 mt-4 text-sm text-gray-600 justify-between">
                             <span>
                               Created:{" "}
                               {new Date(message.created_at).toLocaleDateString(

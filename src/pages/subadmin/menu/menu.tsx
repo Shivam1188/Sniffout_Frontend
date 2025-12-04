@@ -87,7 +87,7 @@ function MenuData() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
-      <main className="w-full px-4 sm:px-6 lg:px-8 py-8 ">
+      <main className="w-full px-4 sm:px-6  p-6 ">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
           <div className="flex-1">

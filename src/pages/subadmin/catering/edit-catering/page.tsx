@@ -98,7 +98,7 @@ export default function EditCatering() {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
-        <div className="flex flex-col md:flex-row  mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100 justify-end">
+        <div className="flex justify-start mb-8 md:justify-end md:flex-row items-center bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl  min-h-[100px]">
           <div>
             <Link
               to="/subadmin/catering"
@@ -106,17 +106,47 @@ export default function EditCatering() {
             >
               ← Back To Catering
             </Link>
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
+
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-13 right-10 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
           </div>
         </div>
         <div className="">
           <div className=" flex justify-center px-4 sm:px-6 lg:px-8 animate-fadeIn ">
-            <div className="relative p-[2px] rounded-2xl  animate-borderMove w-full max-w-xl">
+            <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
               <div
-                className=" bg-white rounded-2xl p-5 sm:p-12 w-full 
-  transform transition-all duration-500 hover:scale-[1.02]
-  h-[600px] overflow-y-scroll 
-  shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px]
-  scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300"
+                className="
+    bg-white rounded-2xl p-5 sm:p-12 w-full 
+    h-[600px] overflow-y-scroll 
+    shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+    hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)]
+    transform transition-all duration-500 hover:scale-[1.02]
+    scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-300
+  "
               >
                 <h2 className="text-xl sm:text-2xl font-bold text-black text-center mb-8">
                   Edit Catering

@@ -392,7 +392,7 @@ const PlansDetails = () => {
     px-5 py-2.5 rounded-full border border-gray-300 
     shadow-[0_2px_8px_rgba(0,0,0,0.06)] 
     hover:shadow-[0_4px_14px_rgba(0,0,0,0.10)] 
-    hover:bg-white transition-all duration-300 cursor-pointer min-w-[170px]
+    hover:bg-white transition-all duration-300 cursor-pointer min-w-[230px]
   "
           >
             <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_6px_rgba(34,197,94,0.8)]"></div>
@@ -447,9 +447,9 @@ const PlansDetails = () => {
 
         {/* Trial Available Banner - Only show if no active plan and can activate trial */}
         {!hasAnyActivePlan() && canActivateTrial() && trialPlan && (
-          <div className="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-3xl p-6 text-white shadow-2xl shadow-blue-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+          <div className="bg-[#b76972] rounded-3xl p-6 text-white shadow-2xl shadow-blue-500/25 mb-8 transform hover:scale-[1.02] transition-all duration-300">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-7 md:gap-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-7 md:gap-4 text-center md:text-left  ">
                 <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
                   <Sparkles className="w-6 h-6" />
                 </div>
@@ -466,7 +466,7 @@ const PlansDetails = () => {
               <button
                 onClick={handleActivateTrial}
                 disabled={activatingTrial}
-                className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transform hover:scale-105"
+                className="bg-white text-[#b76972] hover:bg-gray-100 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transform hover:scale-105"
               >
                 {activatingTrial ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

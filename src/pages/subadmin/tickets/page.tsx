@@ -820,30 +820,35 @@ const TicketDetailsModal = ({
           </div>
 
           {/* Original Message */}
-          <div className="border rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold text-sm shadow-inner">
                 {ticket.subadmin_name?.charAt(0) || "U"}
               </div>
+
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="font-semibold">{ticket.subadmin_name}</span>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="font-semibold text-gray-900 text-sm">
+                    {ticket.subadmin_name}
+                  </span>
                   <span className="text-xs text-gray-500">
                     {formatDate(ticket.created_at)}
                   </span>
                 </div>
-                <p className="text-gray-700 whitespace-pre-wrap">
+
+                <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
                   {ticket.message}
                 </p>
+
                 {ticket.attachment && (
-                  <div className="mt-2">
+                  <div className="mt-3">
                     <a
                       href={ticket.attachment}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm"
+                      className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium group"
                     >
-                      <Paperclip className="w-4 h-4" />
+                      <Paperclip className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200" />
                       View Attachment
                     </a>
                   </div>
@@ -943,14 +948,19 @@ const TicketDetailsModal = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="cursor-pointer flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium 
+             bg-white shadow-sm
+             hover:bg-gray-100 hover:border-gray-400 hover:shadow-md
+             active:scale-[0.98]
+             transition-all duration-300 ease-in-out"
                 >
                   Close
                 </button>
+
                 <button
                   type="submit"
                   disabled={replying || !replyMessage.trim()}
-                  className="cursor-pointer flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
+                  className="cursor-pointer font-semibold flex-1 px-4 py-3 bg-[#fe6a3c] text-white rounded-lg hover:bg-[#fe6a3c]/90 transition-colors disabled:opacity-50"
                 >
                   {replying ? "Sending..." : "Send Reply"}
                 </button>

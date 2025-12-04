@@ -191,17 +191,41 @@ const NotificationsPage = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
           </Link>
+          {/* Overlay for mobile */}
+          <label
+            htmlFor="sidebar-toggle"
+            className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+          ></label>
 
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Bell className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-white mt-6">
-                  Notifications
-                </h1>
-                <p className="text-gray-600">
+                <h1 className="text-lg font-bold text-white ">Notifications</h1>
+                <p className="text-white">
                   {unreadCount > 0
                     ? `${unreadCount} unread notification${
                         unreadCount !== 1 ? "s" : ""

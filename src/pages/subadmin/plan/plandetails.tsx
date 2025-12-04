@@ -411,7 +411,7 @@ export default function PlansDet() {
               {/* Current Subscription Card */}
               {userPlan.plan_name && (
                 <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-gray-200 p-8">
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6 ">
                     <h2 className="text-2xl font-bold text-gray-900">
                       Current Subscription
                     </h2>

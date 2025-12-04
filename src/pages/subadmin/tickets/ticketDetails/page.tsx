@@ -161,20 +161,46 @@ const TicketDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="   mb-5 flex flex-col sm:flex-row justify-between items-center    bg-[#57559a] px-[23px] py-[7px] rounded-[25px]    text-center gap-[13px] sm:text-left sm:gap-0 min-h-[100px]   ">
             <Link
               to="/subadmin/view-all-notifications"
-              className="inline-flex items-center text-sm text-blue-600 hover:text-blue-700"
+              className="inline-flex items-center text-white font-semibold text-lg"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Tickets
             </Link>
+            {/* Overlay for mobile */}
+            <label
+              htmlFor="sidebar-toggle"
+              className=" bg-[#0000008f] z-30 md:hidden hidden peer-checked:block"
+            ></label>
 
+            {/* Toggle Button (Arrow) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-10 right-10 z-50 bg-white p-1 rounded  shadow-md md:hidden cursor-pointer"
+            >
+              {/* Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+                />
+              </svg>
+            </label>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Ticket ID:</span>
+              <span className="text-sm text-white font-medium">Ticket ID:</span>
               <span className="font-mono text-sm font-semibold bg-gray-100 px-2 py-1 rounded">
                 {ticket.ticket_number}
               </span>

@@ -228,7 +228,7 @@ const Restaurants = () => {
       {showFilterModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <div className="bg-white backdrop-blur-md w-full max-w-2xl mx-4 rounded-2xl shadow-2xl p-6 border-gray-200">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6 ">
               <h2 className="text-lg font-semibold text-gray-800">
                 Filter Businesses
               </h2>

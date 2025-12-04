@@ -181,12 +181,12 @@ const NotificationsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 ">
         {/* Header */}
-        <div className="mb-8">
+        <div className="flex  min-h-[100px] justify-between flex-col md:flex-row md:items-center sm:gap-0 gap-3  bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <Link
             to="/subadmin/dashboard"
-            className="inline-flex items-center text-sm text-blue-600 hover:text-blue-700 mb-4"
+            className="inline-flex items-center  text-white mb-4 font-medium text-xl"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
@@ -198,7 +198,7 @@ const NotificationsPage = () => {
                 <Bell className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-lg font-bold text-white mt-6">
                   Notifications
                 </h1>
                 <p className="text-gray-600">
@@ -298,7 +298,7 @@ const NotificationsPage = () => {
 
                               {(notification.related_ticket ||
                                 notification.ticket_id) && (
-                                <span className="text-sm text-blue-600 font-medium">
+                                <span className="text-sm text-blue-600 font-medium hover:underline underline-offset-4 cursor-pointer transition">
                                   View Ticket →
                                 </span>
                               )}

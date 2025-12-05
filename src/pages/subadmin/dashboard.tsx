@@ -98,7 +98,7 @@ const App = () => {
             <h1 className="text-xl font-bold text-white sm:text-2xl">
               Dashboard
             </h1>
-            <p className="text-sm text-white">
+            <p className="text-sm text-white w-[250px] md:w-full">
               Overview of platform statistics and performance
             </p>
           </div>

@@ -39,7 +39,7 @@ const ExportButtonAdvanced: React.FC<ExportButtonAdvancedProps> = ({
   const variantStyles = {
     primary: "bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400",
     secondary: "bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400",
-    success: "bg-green-600 hover:bg-green-700 disabled:bg-green-400",
+    success: "bg-[#695a94] hover:bg-[#85618a] disabled:bg-[#85618a]",
     warning: "bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400",
   };
 

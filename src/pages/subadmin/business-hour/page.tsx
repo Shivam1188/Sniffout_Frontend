@@ -115,7 +115,7 @@ export default function BusinessHoursList() {
                   onClick={() =>
                     navigate("/subadmin/business-hour/add-business-hour")
                   }
-                  className="cursor-pointer text-sm text-white sm:px-5 font-medium lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#fe6a3c] hover:bg-[#fd8f61]"
+                  className="cursor-pointer text-sm text-white sm:px-5 font-medium lg-px-5 md:px-2 px-3 py-2 rounded-full shadow-md transition-all bg-[#4d519e] hover:bg-[#8287e7]"
                 >
                   <Plus size={16} className="inline mr-2" /> Add Business Hours
                 </button>

@@ -40,18 +40,38 @@ export default function AddFeedback() {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
-        <div className="table-sec bg-gradient-to-br from-[#f3f4f6] to-white p-6 rounded-xl shadow-md border border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <div>
-              <Link
-                to="/subadmin/feedback"
-                className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+        <div className="mb-8 flex sm:flex-row    justify-start sm:justify-end    items-center bg-[#57559a] px-[23px] py-[7px]    rounded-[25px] text-center gap-[13px]    sm:text-left sm:gap-0 min-h-[100px]">
+          <div>
+            <Link
+              to="/subadmin/feedback"
+              className="px-4 py-2 bg-[#fe6a3c] text-white rounded-full hover:bg-[#e75d2c] transition font-medium"
+            >
+              ← Back To Questions
+            </Link>
+            {/* Mobile Toggle Button (Hamburger Menu) */}
+            <label
+              htmlFor="sidebar-toggle"
+              className="absolute top-13 right-11 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 text-gray-700"
               >
-                ← Back To Questions
-              </Link>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 5.25h16.5M3.75 9.75h16.5M3.75 14.25h16.5"
+                />
+              </svg>
+            </label>
           </div>
-          <div className="min-h-screen flex items-center justify-center px-0 sm:px-6 lg:px-8 animate-fadeIn">
+        </div>
+        <div className="table-sec">
+          <div className=" flex items-center justify-center px-0 sm:px-6 lg:px-8 animate-fadeIn">
             <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#fe6a3c] via-[#1d3faa] to-[#fe6a3c] animate-borderMove w-full max-w-xl">
               <div className="bg-white  rounded-2xl p-5 sm:p-12 w-full transform transition-all duration-500 hover:scale-[1.02]">
                 <h2 className="text-xl sm:text-3xl font-extrabold text-gray-800  text-center mb-8 animate-slideInDown">

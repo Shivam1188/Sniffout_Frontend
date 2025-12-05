@@ -360,10 +360,10 @@ const Home = () => {
               e.stopPropagation();
               setShowNotifications(!showNotifications);
             }}
-            className="relative p-3 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
+            className="relative p-2 bg-white rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-[#4d519e]/30 group backdrop-blur-sm"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 rounded-2xl"></div>
-            <Bell className="w-6 h-6 text-[#4d519e] group-hover:text-[#3a3f8c] transition-colors relative z-10" />
+            <Bell className="w-5 h-5 text-[#4d519e] group-hover:text-[#3a3f8c] transition-colors relative z-10" />
 
             {/* Enhanced Notification Indicators */}
             {unreadCount > 0 && (
@@ -513,7 +513,7 @@ const Home = () => {
                     className="
   w-10 h-10 
   sm:w-12 sm:h-12 
-  md:w-14 md:h-14 
+  md:w-12 md:h-12
   bg-gradient-to-br from-[#4d519e] to-[#3a3f8c] 
   rounded-2xl flex items-center justify-center 
   shadow-2xl mr-4
@@ -617,7 +617,7 @@ const Home = () => {
                     <div className="absolute inset-0 bg-[#fe6a3c] rounded-full blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -translate-y-4"></div>
 
                     {/* Play Button */}
-                    <div className="w-28 h-28 mt-10 bg-gradient-to-br from-[#fe6a3c] to-[#e55a2c] rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:shadow-3xl transition-all duration-500 relative border-4 border-white/10 group-hover:border-white/20">
+                    <div className="w-20 h-20 mt-10 bg-gradient-to-br from-[#fe6a3c] to-[#e55a2c] rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:shadow-3xl transition-all duration-500 relative border-4 border-white/10 group-hover:border-white/20">
                       <div className="absolute inset-0 bg-white/20 rounded-full animate-ping"></div>
                       <div className="absolute inset-4 bg-white/10 rounded-full animate-pulse"></div>
                       <Play className="w-10 h-10 text-white ml-1 transform group-hover:scale-110 transition-transform duration-300" />
@@ -626,7 +626,7 @@ const Home = () => {
                     {/* Content */}
                     <div className="space-y-4">
                       <div>
-                        <p className="text-white text-3xl font-black mb-2">
+                        <p className="text-white text-2xl font-black mb-2">
                           Watch Demo Video
                         </p>
                         <p className="text-gray-300 text-lg font-medium">
@@ -635,7 +635,7 @@ const Home = () => {
                       </div>
 
                       {/* Enhanced Video Info */}
-                      <div className="flex items-center justify-center gap-6 mt-6">
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-6">
                         <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/10 hover:bg-white/20 transition-all duration-300">
                           <Clock className="w-5 h-5 text-gray-300" />
                           <span className="text-gray-300 text-sm font-medium">
@@ -673,7 +673,7 @@ const Home = () => {
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Card 1 */}
               <div className="rounded-3xl p-8 border bg-gradient-to-br from-blue-50/70 to-indigo-50/70 border-blue-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-blue-300/50">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-blue-300/50">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">
@@ -687,7 +687,7 @@ const Home = () => {
 
               {/* Card 2 */}
               <div className="rounded-3xl p-8 border bg-gradient-to-br from-green-50/70 to-emerald-50/70 border-green-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-green-300/50">
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-green-300/50">
                   <Zap className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">
@@ -701,7 +701,7 @@ const Home = () => {
 
               {/* Card 3 */}
               <div className="rounded-3xl p-8 border bg-gradient-to-br from-orange-50/70 to-red-50/70 border-orange-100 shadow-sm hover:shadow-xl transition-all duration-500 group hover:-translate-y-2 backdrop-blur-sm">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-orange-300/50">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-orange-300/50">
                   <Users className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-extrabold text-gray-900 text-xl mb-4 tracking-tight">

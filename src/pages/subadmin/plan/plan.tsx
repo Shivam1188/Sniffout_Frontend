@@ -365,7 +365,7 @@ const PlansDetails = () => {
             {/* Mobile Toggle Button (Hamburger Menu) */}
             <label
               htmlFor="sidebar-toggle"
-              className="absolute top-2 right-2 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+              className="absolute top-1 right-2 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

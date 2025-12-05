@@ -114,7 +114,7 @@ export default function AddBusinessHour() {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800 font-sans">
       <div className="flex-1 p-6">
-        <div className="flex flex-col md:flex-row md:items-center pb-4 justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative gap-4 md:gap-0 min-h-[100px]">
+        <div className="flex flex-col md:flex-row md:items-center pb-4 justify-between bg-[#4d519e] p-4 rounded-2xl mb-5 relative gap-4 md:gap-0 min-h-[100px]">
           <div className="flex-1">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
               Add Business Hour
@@ -127,7 +127,7 @@ export default function AddBusinessHour() {
           </div>
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top-3 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

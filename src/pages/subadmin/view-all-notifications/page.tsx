@@ -186,7 +186,7 @@ const NotificationsPage = () => {
         <div className="flex  min-h-[100px] justify-between flex-col md:flex-row md:items-center sm:gap-0 gap-3  bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
           <Link
             to="/subadmin/dashboard"
-            className="inline-flex items-center  text-white mb-4 font-medium text-xl"
+            className="inline-flex items-center  text-white git add .font-medium text-xl"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard

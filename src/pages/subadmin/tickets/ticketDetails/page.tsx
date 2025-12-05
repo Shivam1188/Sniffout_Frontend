@@ -360,7 +360,7 @@ const TicketDetailsPage = () => {
                           {reply.user_name?.charAt(0) || "U"}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-3">
+                          <div className="flex items-center gap-2 mb-3 flex-col md:flex-row">
                             <span className="font-semibold text-gray-900">
                               {reply.user_name}
                             </span>

@@ -330,7 +330,7 @@ const Managelinks = () => {
           <div className="flex flex-col md:flex-row justify-end gap-3 pt-4">
             <button
               onClick={handleSave}
-              className="cursor-pointer bg-[#2441a8] text-white px-6 py-2 rounded-md font-semibold shadow-md w-full md:w-auto"
+              className="cursor-pointer bg-[#2441a8] text-white px-6 py-3 rounded-full  font-semibold shadow-md w-full md:w-auto"
             >
               Save All Changes
             </button>

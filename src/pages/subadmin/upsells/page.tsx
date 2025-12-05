@@ -82,7 +82,7 @@ flex-1 p-6 sm:p-6 mx-auto overflow-hidden w-full"
           {/* Toggle Button (Arrow) */}
           <label
             htmlFor="sidebar-toggle"
-            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer "
           >
             {/* Arrow Icon */}
             <svg

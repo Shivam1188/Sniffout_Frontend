@@ -12,11 +12,37 @@ interface RestaurantRating {
   overall_average_rating: number;
 }
 
+interface IndividualRating {
+  question: string;
+  rating: number;
+}
+
+interface LowRatingFeedback {
+  id: number;
+  session_id: string;
+  phone_number: string;
+  average_rating: number;
+  individual_ratings: IndividualRating[];
+  sms_sent: boolean;
+  sms_type: string;
+  date: string;
+  time: string;
+  datetime: string;
+}
+
+interface LowRatingData {
+  success: boolean;
+  restaurant: string;
+  total_low_ratings: number;
+  threshold: string;
+  feedbacks: LowRatingFeedback[];
+}
+
 function Feedback() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"questions" | "ratings">(
-    "questions"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "questions" | "ratings" | "lowRatings"
+  >("questions");
 
   // Feedback Questions States
   const [feedbackList, setFeedbackList] = useState<any[]>([]);
@@ -32,6 +58,12 @@ function Feedback() {
   const [previous, setPrevious] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+
+  // Low Ratings States
+  const [lowRatingData, setLowRatingData] = useState<LowRatingData | null>(
+    null
+  );
+  const [lowRatingsLoading, setLowRatingsLoading] = useState(true);
 
   // Fetch Feedback Questions
   useEffect(() => {
@@ -97,6 +129,31 @@ function Feedback() {
 
     if (activeTab === "ratings") {
       fetchRatings();
+    }
+  }, [activeTab]);
+
+  // Fetch Low Ratings
+  useEffect(() => {
+    const fetchLowRatings = async () => {
+      try {
+        setLowRatingsLoading(true);
+        const res = await api.get("subadmin/low-rating-feedbacks/");
+
+        if (res.data && typeof res.data === "object") {
+          setLowRatingData(res.data);
+        } else {
+          setLowRatingData(null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch low rating feedbacks", err);
+        setLowRatingData(null);
+      } finally {
+        setLowRatingsLoading(false);
+      }
+    };
+
+    if (activeTab === "lowRatings") {
+      fetchLowRatings();
     }
   }, [activeTab]);
 
@@ -271,6 +328,16 @@ function Feedback() {
                 }`}
               >
                 Rating List
+              </button>
+              <button
+                onClick={() => setActiveTab("lowRatings")}
+                className={`cursor-pointer px-6 py-3 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "lowRatings"
+                    ? "border-[#fe6a3c] text-[#fe6a3c]"
+                    : "border-transparent text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                Low Ratings
               </button>
             </div>
 
@@ -508,6 +575,135 @@ function Feedback() {
                     </div>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Low Ratings Tab Content */}
+            {activeTab === "lowRatings" && (
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1d3faa]">
+                    Low Ratings Feedback
+                  </h1>
+                </div>
+
+                {lowRatingData && (
+                  <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h2 className="text-lg font-semibold text-[#1d3faa] mb-2">
+                      {lowRatingData.restaurant}
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Total Low Ratings:{" "}
+                      <span className="font-medium">
+                        {lowRatingData.total_low_ratings}
+                      </span>
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Threshold:{" "}
+                      <span className="font-medium">
+                        {lowRatingData.threshold}
+                      </span>
+                    </p>
+                  </div>
+                )}
+
+                {/* Low Ratings Table */}
+                <div className="overflow-x-auto rounded-xl border border-gray-100">
+                  <table className="min-w-[1000px] w-full table-auto text-sm text-gray-700">
+                    <thead>
+                      <tr className="bg-[#f3f4f6] text-[#1d3faa] uppercase text-xs">
+                        <th className="py-3 px-4 text-left">Session ID</th>
+                        <th className="py-3 px-4 text-left">Phone Number</th>
+                        <th className="py-3 px-4 text-left">Average Rating</th>
+                        <th className="py-3 px-4 text-left">
+                          Individual Ratings
+                        </th>
+                        <th className="py-3 px-4 text-left">SMS Sent</th>
+                        <th className="py-3 px-4 text-left">SMS Type</th>
+                        <th className="py-3 px-4 text-left">Date & Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {lowRatingsLoading ? (
+                        <tr>
+                          <td colSpan={7} className="py-10 text-center">
+                            <LoadingSpinner />
+                          </td>
+                        </tr>
+                      ) : lowRatingData &&
+                        lowRatingData.feedbacks.length > 0 ? (
+                        lowRatingData.feedbacks.map(
+                          (feedback: LowRatingFeedback, index: number) => (
+                            <tr
+                              key={feedback.id}
+                              className={`hover:bg-[#f0f4ff] ${
+                                index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                              }`}
+                            >
+                              <td className="py-3 px-4 font-medium">
+                                {feedback.session_id}
+                              </td>
+                              <td className="py-3 px-4">
+                                {feedback.phone_number}
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex items-center">
+                                  {renderStars(feedback.average_rating)}
+                                  <span className="ml-2 text-sm text-gray-600">
+                                    ({feedback.average_rating.toFixed(1)})
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="space-y-1">
+                                  {feedback.individual_ratings.map(
+                                    (rating, idx) => (
+                                      <div key={idx} className="text-xs">
+                                        <span className="font-medium">
+                                          {rating.question}:
+                                        </span>{" "}
+                                        {rating.rating}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </td>
+                              <td className="py-3 px-4">
+                                <span
+                                  className={`px-2 py-1 rounded-full text-xs ${
+                                    feedback.sms_sent
+                                      ? "bg-green-100 text-green-800"
+                                      : "bg-red-100 text-red-800"
+                                  }`}
+                                >
+                                  {feedback.sms_sent ? "Yes" : "No"}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4">{feedback.sms_type}</td>
+                              <td className="py-3 px-4">
+                                <div>
+                                  <div className="text-sm">{feedback.date}</div>
+                                  <div className="text-xs text-gray-500">
+                                    {feedback.time}
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        )
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={7}
+                            className="text-center py-6 text-gray-500"
+                          >
+                            No low rating feedbacks available.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>

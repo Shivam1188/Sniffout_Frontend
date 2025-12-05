@@ -80,7 +80,7 @@ const AdminNotificationsPage = () => {
             created_at: item.created_at,
             title: `New Subadmin: ${item.user_details.first_name} ${item.user_details.last_name}`,
             message: `Email: ${item.user_details.email}, Restaurant: ${
-              item.user_details.restaurant_name || "N/A"
+              item.user_details.restaurant_name || "Not Updated Yet !"
             }`,
             type: "new_subadmin",
             user_details: item.user_details, // Keep for additional info if needed
@@ -325,12 +325,6 @@ const AdminNotificationsPage = () => {
                                   minute: "2-digit",
                                 })}
                               </span>
-
-                              {notification.type === "new_subadmin" && (
-                                <span className="text-sm text-blue-600 font-medium">
-                                  View Details →
-                                </span>
-                              )}
                             </div>
                           </div>
                         </div>

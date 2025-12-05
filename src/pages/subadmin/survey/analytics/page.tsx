@@ -113,18 +113,47 @@ const SurveyAnalytics: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
       <main className="w-full px-4 sm:px-6 lg:px-8 py-6 ">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-[#4d519e] gap-4 sm:gap-5 p-4 rounded-2xl mb-4 min-h-[100px]">
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white text-center md:text-left">
-            Survey Analytics
-          </h1>
-          <Link
-            to={"/subadmin/dashboard"}
-            className="w-full md:w-auto text-center px-4 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md"
-          >
-            Back To Dashboard
-          </Link>
-        </div>
 
+        <div className="flex flex-col sm:gap-0 gap-3 md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative space-y-3 md:space-y-0">
+          <div className="flex-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">
+              Survey Analytics
+            </h1>
+            <p className="text-sm text-white/80 mt-2 max-w-2xl">
+              Analyze survey responses, visualize key metrics, and gain
+              actionable insights to improve engagement and decision-making
+            </p>
+          </div>
+          <div className="flex-shrink-0">
+            <Link
+              to={"/subadmin/dashboard"}
+              className="w-full md:w-auto px-5 py-2.5 bg-[#fe6a3c] hover:bg-[#fe6a3c]/90 text-white font-semibold rounded-full shadow-md transition-all duration-300"
+            >
+              Back to Dashboard
+            </Link>
+          </div>
+          {/* Toggle Button (Arrow) */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="absolute top-5 right-5 z-40 bg-white p-1 rounded shadow-md md:hidden cursor-pointer"
+          >
+            {/* Arrow Icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+              />
+            </svg>
+          </label>
+        </div>
         {/* Content Box */}
         <div className="text-gray-800 font-sans rounded">
           <div className="mx-auto bg-white p-4 sm:p-6 lg:p-10 rounded-2xl shadow-2xl border-t-8 border-[#fe6a3c]">

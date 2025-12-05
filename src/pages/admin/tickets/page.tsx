@@ -345,7 +345,7 @@ const SubAdminTickets = () => {
         {/* Header */}
         <div className="flex sm:gap-0 gap-5 flex-col md:flex-row md:items-center justify-between bg-[#4d519e] p-4 rounded-2xl mb-4 relative min-h-[100px] ">
           <h1 className="text-xl sm:text-2xl font-bold text-white">
-            Support Ticketsii
+            Support Tickets
           </h1>
           <label
             htmlFor="sidebar-toggle"
